@@ -160,12 +160,27 @@ void metodo05 ( void )
   */
 void metodo06 ( void )
 {
- // identificar
-    printf ( "\n%s\n", "\n\tMetodo0116" );
- // encerrar
-    printf ( "\n%s\n", "Apertar ENTER para continuar." );
-    getchar( );
+ // Identificar
+   printf("\n%s\n", "\n\tMetodo0116");
+   char palavra[MAX]; 
 
+   printf("\nDigite uma Palavra: ");
+   scanf("%s", palavra);
+
+   int tamanho = strlen(palavra);
+
+   for (int i = tamanho - 1; i >= 0; i--) 
+   {  
+      if (palavra[i] > '0' && palavra [i] <= '9' && palavra [i] % 2 == 0) 
+      {  
+         printf("\nPosicao %d: [%c]", i, palavra[i]);
+      }
+   }
+   getchar();
+
+// Encerrar
+   printf("\n%s\n", "Apertar ENTER para continuar.");
+   getchar();
 } // fim metodo06 ( )
 
 /**
@@ -173,11 +188,38 @@ void metodo06 ( void )
   */
 void metodo07 ( void )
 {
- // identificar
-    printf ( "\n%s\n", "\n\tMetodo0117" );
- // encerrar
-    printf ( "\n%s\n", "Apertar ENTER para continuar." );
-    getchar( );
+// Identificar
+   printf("\n%s\n", "\n\tMetodo0117");
+   int a = 0, b = 0, n = 0;
+   int cont = 0, x = 0;
+   
+   printf("\nDigite o valor de a: ");
+   scanf("%d", &a);
+   printf("\nDigite o valor de b: ");
+   scanf("%d", &b);
+
+   printf("\nDigite a quantidade de valores a serem testados: ");
+   scanf("%d", &n);
+
+   printf("\nAgora, insira os %d valores: ", n);
+   for (int i = 0; i < n; i++) {
+       printf("Valor %d: ", i + 1);
+       scanf("%d", &x);
+
+       if (x >= a && x <= b && x % 3 == 0) {
+           printf("\nO valor %d esta no intervalo [%d, %d] e multiplo de 3\n", x, a, b);
+           cont++;
+       }
+   }
+   
+   if (cont == 0) 
+   {
+      printf("\nNenhum multiplo de 3 encontrado no intervalo");
+   }
+   
+// Encerrar
+   printf("\n\n%s\n", "Apertar ENTER para continuar.");
+   getchar();
 
 } // fim metodo07 ( )
 
@@ -186,11 +228,39 @@ void metodo07 ( void )
   */
 void metodo08 ( void )
 {
- // identificar
-    printf ( "\n%s\n", "\n\tMetodo0118" );
- // encerrar
-    printf ( "\n%s\n", "Apertar ENTER para continuar." );
-    getchar( );
+ // Identificar
+    printf("\n%s\n", "\n\tMetodo0118");
+   int a = 0, b = 0, n = 0;
+   int cont = 0, x = 0;
+ 
+   printf("\nDigite o valor de a: ");
+   scanf("%d", &a);
+   printf("\nDigite o valor de b: ");
+   scanf("%d", &b);
+
+   printf("\nDigite a quantidade de valores a serem testados: ");
+   scanf("%d", &n);
+
+   printf("\nAgora, insira os %d valores: ", n);
+   for (int i = 0; i < n; i++) {
+       printf("Valor %d: ", i + 1);
+       scanf("%d", &x);
+
+       if (x >= a && x <= b && x % 4 == 0 && x % 3 != 0) {
+           printf("\nO valor %d esta no intervalo [%d, %d] e multiplo de 3\n", x, a, b);
+           cont++;
+       }
+   }
+   
+   if (cont == 0) 
+   {
+      printf("\nNenhum multiplo de 4 que nao forem tambem multiplo de 3");
+   }
+   
+ 
+// Encerrar
+   printf("\n\n%s\n", "Apertar ENTER para continuar.");
+   getchar();
 
 } // fim metodo08 ( )
 
@@ -199,11 +269,11 @@ void metodo08 ( void )
   */
 void metodo09 ( void )
 {
- // identificar
-    printf ( "\n%s\n", "\n\tMetodo0119" );
- // encerrar
-    printf ( "\n%s\n", "Apertar ENTER para continuar." );
-    getchar( );
+ // Identificar
+   printf("\n%s\n", "\n\tMetodo0119");
+// Encerrar
+   printf("\n\n%s\n", "Apertar ENTER para continuar.");
+   getchar();
 
 } // fim metodo09 ( )
 
