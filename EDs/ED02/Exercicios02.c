@@ -428,7 +428,7 @@ void metodo12 ( void )
 menuOpcoes ( void ) 
 {
    printf ( "\n" );             // para saltar linha
-   printf ( "%s\n", "Exercicio01 - v.0.0 - 11/02/2025"       );
+   printf ( "%s\n", "Exercicio01 - v.0.0 - 13/02/2025"       );
    printf ( "%s\n", "Matricula: 842527 Nome: Gabriel Ferreira Pereira" );
 
 // mostrar opcoes

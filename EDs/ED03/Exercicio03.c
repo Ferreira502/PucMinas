@@ -271,6 +271,42 @@ void metodo09 ( void )
 {
  // Identificar
    printf("\n%s\n", "\n\tMetodo0119");
+   double a = 0.0, b = 0.0, x = 0.0;
+   int n  = 0, cont = 0, parte_inteira = 0.0;
+   
+
+   do {
+       printf("\nDigite o valor de a: ");
+       scanf("%lf", &a);
+       printf("Digite o valor de b: ");
+       scanf("%lf", &b);
+
+       if (a >= b) {
+           printf("\nErro: 'a' deve ser menor que 'b'");
+       }
+   } while (a >= b);
+
+   printf("\nDigite a quantidade de valores a serem testados (n): ");
+   scanf("%d", &n);
+
+   printf("\nInsira os %d valores:\n", n);
+   for (int i = 0; i < n; i++) {
+       printf("Valor %d: ", i + 1);
+       scanf("%lf", &x);
+
+       if (x > a && x < b) {
+           parte_inteira = (int)x;
+
+           if (parte_inteira % 2 == 0 && parte_inteira < 5) {
+               printf("\nValor %.2lf pertence ao intervalo e sua parte inteira (%d) e par e menor que 5\n", x, parte_inteira);
+               cont++;
+           }
+       }
+   }
+
+   if (cont == 0) {
+       printf("\nNenhum valor no intervalo atendeu aos criterios\n");
+   }
 // Encerrar
    printf("\n\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -280,15 +316,49 @@ void metodo09 ( void )
 /**
   * Metodo10.
   */
-void metodo10 ( void )
-{
- // identificar
-    printf ( "\n%s\n", "\n\tMetodo120" );
- // encerrar
-    printf ( "\n%s\n", "Apertar ENTER para continuar." );
-    getchar( );
+ void metodo10(void) {
+   // Identificar
+   printf("\n%s\n", "\n\tMetodo120");
 
-} // fim metodo10 ( )
+   double a = 0.0, b = 0.0, x = 0.0, parte_fracionaria = 0.0;
+   int n = 0, cont = 0;
+
+   do {
+      printf("\nDigite o valor de a: ");
+      scanf("%lf", &a);
+      printf("Digite o valor de b: ");
+      scanf("%lf", &b);
+
+       if (a >= b) {
+         printf("\nErro: 'a' deve ser menor que 'b'. Tente novamente.\n");
+       }
+   } while (a >= b);
+
+   printf("\nDigite a quantidade de valores a serem testados (n): ");
+   scanf("%d", &n);
+
+   printf("\nInsira os %d valores:\n", n);
+   for (int i = 0; i < n; i++) 
+   {
+      printf("Valor %d: ", i + 1);
+      scanf("%lf", &x);
+
+      parte_fracionaria = x - (int)x;
+
+       if (parte_fracionaria > a && parte_fracionaria < b) {
+           printf("\nO valor %.2lf tem parte fracionaria %.2lf dentro do intervalo ]%.2lf:%.2lf[\n", x, parte_fracionaria, a, b);
+           cont++;
+       }
+   }
+
+   if (cont == 0) {
+       printf("\nNenhum valor no intervalo atendeu aos critérios.\n");
+   }
+
+   // Encerrar
+   printf("\n%s\n", "Apertar ENTER para continuar.");
+   getchar();
+}// fim metodo 10 ( )
 
 /**
   * Metodo11.
@@ -296,31 +366,66 @@ void metodo10 ( void )
  void metodo11 ( void )
  {
   // identificar
-    printf ( "\n%s\n", "\n\tMetodo01E1" );
+   printf ( "\n%s\n", "\n\tMetodo01E1" );
+   char palavra[MAX], palavra_1[MAX];
+   int j = 0;
+
+   printf("\nDigite uma linha de texto: ");
+   fgets(palavra, MAX, stdin);
+   palavra[strcspn(palavra, "\n")] = '\0';
+
+   for (int i = 0; palavra[i] != '\0'; i++) 
+   {
+   if (!isalnum(palavra[i])) {
+      palavra_1[j++] = palavra[i];
+   }
+  }
+   palavra_1[j] = '\0';
+
+   printf("\nCaracteres nao alfanumericos encontrados: \"%s\"\n", palavra_1);
   // encerrar
-     printf ( "\n%s\n", "Apertar ENTER para continuar." );
-     getchar( );
+   printf ( "\n%s\n", "Apertar ENTER para continuar." );
+   getchar( );
  
  } // fim metodo11 ( )
 
  /**
   * Metodo12.
   */
-void metodo12 ( void )
-{
- // identificar
-    printf ( "\n%s\n", "\n\tMetodo01E2" );
- // encerrar
-    printf ( "\n%s\n", "Apertar ENTER para continuar." );
-    getchar( );
+ void metodo12(void)
+ {
+   // identificar
+     printf("\n%s\n", "\n\tMetodo01E2");
+     char cadeia[MAX];
+     int apenasSimbolos = 1;
+ 
+     printf("\nDigite uma sequencia de caracteres: ");
+     fgets(cadeia, MAX, stdin);
+     cadeia[strcspn(cadeia, "\n")] = '\0';
+ 
+     for (int i = 0; cadeia[i] != '\0'; i++) {
+         if (isalnum(cadeia[i])) { 
+             apenasSimbolos = 0;
+             break;
+         }
+     }
+ 
+     if (apenasSimbolos) {
+         printf("\nA sequencia contem apenas simbolos\n");
+     } else {
+         printf("\nA sequencia contem letras ou numeros\n");
+     }
+   // encerrar
+     printf("\n%s\n", "Apertar ENTER para continuar.");
+     getchar();
 
-} // fim metodo12 ( )
+ }// fim metodo12
 
 // identificar
 menuOpcoes ( void ) 
 {
    printf ( "\n" );             // para saltar linha
-   printf ( "%s\n", "Exercicio01 - v.0.0 - 11/02/2025"       );
+   printf ( "%s\n", "Exercicio01 - v.0.0 - 21/02/2025"       );
    printf ( "%s\n", "Matricula: 842527 Nome: Gabriel Ferreira Pereira" );
 
 // mostrar opcoes
