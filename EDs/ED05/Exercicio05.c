@@ -25,11 +25,9 @@
   * Metodo01.
   */
 
-void multiplos_de_3(int n)
+int multiplos_de_3(int n)
 {
    int num = 3;
-   printf("\nDigite a quantidade de numeros: ");
-   scanf("%d", &n);
 
    for (int i = 0; i <= n; i++)
    {
@@ -37,6 +35,7 @@ void multiplos_de_3(int n)
        num += 3;
    } 
     getchar();
+
 }
 
 void metodo01(void) 
@@ -44,6 +43,8 @@ void metodo01(void)
 // Identificar
    printf("\n%s\n", "\n\tMetodo0511");
    int x = 0;
+   printf("\nDigite a quantidade de numeros: ");
+   scanf("%d", &x);
    multiplos_de_3(x);
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
@@ -55,7 +56,7 @@ void metodo01(void)
   */
 void multiplos_de_3e5(int n)
 {
-     int num = 15;
+   int num = 15;
    printf("\nDigite a quantidade de numeros: ");
    scanf("%d", &n);
 
@@ -82,10 +83,19 @@ void metodo02 ( void )
   * Metodo03.
   */
 
-// multiplos_de_4_decr(int n)
-// {
-    
-// }
+void multiplos_de_4_decr(int n)
+{
+   int num = 0;
+   printf("\nDigite a quantidade de numeros: ");
+   scanf("%d", &n);
+
+   for (int i = n-1; i >= 0; i--)
+    {
+        num = (int)pow(4, i);
+        printf("\n%d", num);
+    }
+    getchar();
+}
 
 void metodo03 ( void )
 {
@@ -103,10 +113,26 @@ void metodo03 ( void )
   * Metodo04.
   */
 
+void multiplos_de_3_inverso(int n)
+{
+   int num = 3;
+   printf("\nDigite a quantidade de numeros: ");
+   scanf("%d", &n);
+
+   for (int i = 0; i <= n; i++)
+   {
+       printf("\n 1/%d", num);
+       num += 3;
+   } 
+    getchar();
+}
+
 void metodo04 ( void )
 {
  // Identificar
    printf("\n%s\n", "\n\tMetodo0514");
+   int x = 0;
+   multiplos_de_3_inverso(x);
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -116,10 +142,40 @@ void metodo04 ( void )
   * Metodo05.
   */
 
+void potencias_crescente(double x, int n)
+{
+    int num = 0, expoente = 2;
+    printf("Digite a Quantidade de numeros a ser gerado: ");
+    scanf("%d", &n); getchar();
+    printf("Digite um valor real para a base: ");
+    scanf("%lf", &x); getchar();
+
+    for (int i = 0; i <= n; i++ )
+    {
+        if ( i == 0)
+        {
+            printf("\n1");
+            i++;
+        }
+        else if(i != 0)
+        {
+            num = pow(x,expoente);
+            expoente = expoente + 2;
+            printf("\n1/%d", num);
+        }
+    }
+    getchar();
+}
+
 void metodo05 ( void )
 {
  // Identificar
    printf("\n%s\n", "\n\tMetodo0515");
+   double a = 0.0;
+   int b = 0;
+   potencias_crescente(a,b);
+
+  
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -129,23 +185,75 @@ void metodo05 ( void )
   * Metodo06.
   */
 
-void metodo06 ( void )
+void multiplos_de_3_diferente_de_4(int n)
 {
- // Identificar
+    int num = 0, i = 0;
+    n = n + 1;
+    
+    while (i <= n)
+    {
+        if (num % 4 != 0)
+        {
+            printf("\n%d", num);
+        }
+        
+        num += 3;
+        i++;
+    }
+    printf("\n");
+    getchar();
+}
+
+void metodo06(void)
+{
+   // Identificar
    printf("\n%s\n", "\n\tMetodo0516");
-// Encerrar
+   int x = 0;
+    
+   printf("\nDigite a quantidade de numeros a ser gerados: ");
+   scanf("%d", &x);
+
+   multiplos_de_3_diferente_de_4(x);
+
+   // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
-} // fim metodo06 ( )
+} // fim metodo06()
 
 /**
   * Metodo07.
   */
 
+void multiplos_de_4_diferente_de_5(int n)
+{
+    int num = 0, i = 0;
+    n = n + 1;
+    
+    while (i <= n)
+    {
+        if (num % 5 != 0)
+        {
+            printf("\n1/%d", num);
+        }
+        
+        num += 4;
+        i++;
+    }
+   printf("\n");
+   getchar();
+}
+
+
 void metodo07 ( void )
 {
 // Identificar
    printf("\n%s\n", "\n\tMetodo0517");
+   int x = 0;
+    
+   printf("\nDigite a quantidade de numeros a ser gerados: ");
+   scanf("%d", &x);
+
+   multiplos_de_4_diferente_de_5(x);
 // Encerrar
    printf("\n\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -155,25 +263,69 @@ void metodo07 ( void )
 /**
   * Metodo08.
   */
+int calcularSoma(int n) {
+   int soma = 0, valor = 5, incremento = 1;
 
-void metodo08 ( void )
-{
- // Identificar
-  printf("\n%s\n", "\n\tMetodo0518");
+   for (int i = 0; i < n; i++) {
+      soma += valor;
+      valor += incremento;
+      incremento++;
+   }
+
+   return soma;
+}
+
+void metodo08(void) {
+// Identificar
+   printf("\n%s\n", "\n\tMetodo08");
+   int n;
+
+   printf("Digite a quantidade de numeros a somar: ");
+   scanf("%d", &n);
+
+   if (n > 0) {
+      printf("Soma para n = %d: %d\n", n, calcularSoma(n));
+      getchar();
+   } else {
+      printf("O valor deve ser maior que zero\n");
+   }
+
 // Encerrar
    printf("\n\n%s\n", "Apertar ENTER para continuar.");
    getchar();
-
-} // fim metodo08 ( )
+} // fim metodo08
 
 /**
   * Metodo09.
   */
 
+  int calcularQuadrado(int n) {
+   int soma = 0, valor = 25, incremento = 12;
+
+   for (int i = 0; i < n; i++) {
+      soma += valor;
+      valor += incremento;
+      incremento++;
+   }
+
+   return soma;
+}
+
  void metodo09 ( void )
  {
  // Identificar
    printf("\n%s\n", "\n\tMetodo0519");
+   int n;
+
+   printf("Digite a quantidade de numeros a somar: ");
+   scanf("%d", &n);
+
+   if (n > 0) {
+      printf("Soma para n = %d: %d\n", n, calcularQuadrado(n));
+      getchar();
+   } else {
+      printf("O valor deve ser maior que zero\n");
+   }
 // Encerrar
    printf("\n\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -184,41 +336,113 @@ void metodo08 ( void )
   * Metodo10.
   */
 
- void metodo10(void) {
-   // Identificar
+double calcularSomaInversos(int n) {
+   double soma = 0.0;
+   int valor = 3;
+   
+   printf("\nValores: ");
+   
+   for (int i = 0; i < n; i++) {
+       printf("1/%d ", valor);
+       soma += 1.0 / valor;
+       valor += (i + 1);
+   }
+   
+   return soma;
+}
+
+void metodo10() 
+{
+// Identificar
    printf("\n%s\n", "\n\tMetodo520");
-   // Encerrar
+   int n = 0;
+
+   printf("Digite a quantidade de numeros a somar: ");
+   scanf("%d", &n);
+
+   if (n > 0) {
+      double soma = calcularSomaInversos(n);
+       printf("\nSoma dos inversos: %.3lf\n", soma);
+   } else {
+       printf("O valor deve ser maior que zero\n");
+   }
+
+// Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
- }// fim metodo 10 ( )
+} // fim metodo10 ( )
 
 /**
   * Metodo11.
   */
 
+double fatorial(int n) {
+   if (n == 0 || n == 1) {
+      return 1;
+   }
+   return n * fatorial(n - 1);
+}
+
  void metodo11 ( void )
  {
   // identificar
    printf ( "\n%s\n", "\n\tMetodo05E1" );
+   
+   int num;
+    
+   printf("Digite um numero para calcular o fatorial: ");
+   scanf("%d", &num);
+   
+   if (num < 0) {
+      printf("O fatorial nao esta definido para numeros negativos\n");
+      getchar();
+   } else {
+      printf("Fatorial de %d e %.2lf\n", num, fatorial(num));
+      getchar();
+   }
+
   // encerrar
    printf ( "\n%s\n", "Apertar ENTER para continuar." );
    getchar( );
  
  } // fim metodo11 ( )
 
- /**
+ 
+/**
   * Metodo12.
   */
+ double calcularF(int n) {
+   double resultado = 1.0;
+   int numerador = 2;
+   int denominador = 3;
 
- void metodo12(void)
- {
-   // identificar
-     printf("\n%s\n", "\n\tMetodo05E2");
-   // encerrar
-     printf("\n%s\n", "Apertar ENTER para continuar.");
-     getchar();
+   for (int i = 0; i < n; i++) {
+       resultado *= (1 + (double)numerador / fatorial((double)denominador));
+       numerador += 2;
+       denominador += 2;
+   }
+   
+   return resultado;
+}
 
- }// fim metodo12
+void metodo12(void) {
+// Identificar
+   printf("\n%s\n", "\n\tMetodo05E2");
+   int n;
+
+   printf("Digite a quantidade de termos (n): ");
+   scanf("%d", &n);
+
+   if (n <= 0) {
+       printf("O valor de n deve ser maior que zero.\n");
+   } else {
+       double resultado = calcularF(n);
+       printf("Resultado de f(%d) = %.6lf\n", n, resultado);
+   }
+// Encerrar
+   printf("\n%s\n", "Apertar ENTER para continuar.");
+   getchar();
+}
 
 // identificar
  void menuOpcoes ( void ) 
