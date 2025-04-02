@@ -351,7 +351,7 @@ double calcularSomaInversos(int n) {
    return soma;
 }
 
-void metodo10() 
+void metodo10(void) 
 {
 // Identificar
    printf("\n%s\n", "\n\tMetodo520");
@@ -383,7 +383,7 @@ double fatorial(int n) {
    return n * fatorial(n - 1);
 }
 
- void metodo11 ( void )
+ void metodo11 (void)
  {
   // identificar
    printf ( "\n%s\n", "\n\tMetodo05E1" );
