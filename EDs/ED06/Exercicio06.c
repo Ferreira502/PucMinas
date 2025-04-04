@@ -233,7 +233,7 @@ void metodo07(void) {
 
 void metodo08(void) {
 //Identificar
-    printf("\n%s\n", "\n\tMetodo0617");
+    printf("\n%s\n", "\n\tMetodo0618");
     char palavra[MAX];
     int count = 0;
     
@@ -285,6 +285,11 @@ void metodo08(void) {
                printf("Caractere %d: %c\n", count + 1, letra);
                getchar();
            }
+           else 
+           {
+            printf("Caracter nao e maior que C e menor que P\n");
+            getchar();
+           }
        }
         
        count++;
@@ -300,59 +305,109 @@ void metodo08(void) {
   * Metodo10.
   */
 
-int fibonacci(int x, int n) 
+int fibonacci(int x) 
 {
-    if ( x == n) return 0;
-    return fibonacci(x + 1);
+    if (x == 1 || x == 2) 
+    {
+        return 1;
+    }
+    return fibonacci(x - 1) + fibonacci(x - 2);
 }
 
-void metodo10( void ) 
+void metodo10(void) 
 {
 // Identificar
-   printf("\n%s\n", "\n\tMetodo620");
-   int x = 1, n = 0, y = 0;
+    printf("\n%s\n", "\n\tMetodo620");
+    int n = 0, count = 0, i = 1, y = 0;
 
-   printf("\nDigite a quantidade de valores: ");
-   scanf("%d",&n);
-    
-   for (int i = 0; i < n; i++) 
+    printf("\nDigite a quantidade de valores pares da sequencia de Fibonacci: ");
+    scanf("%d", &n);
+
+    printf("\nValores pares da sequencia de Fibonacci:\n");
+
+    while (count < n) 
     {
-       y = fibonacci(x, n);
-       if ( y % 2 == 0) 
-       {
-           printf("%d", y);
-       }
+        y = fibonacci(i);
+        if (y % 2 == 0) 
+        {
+            printf("%d ", y);
+            count++;
+        }
+        i++;
     }
-
+    getchar();    
 // Encerrar
-   printf("\n%s\n", "Apertar ENTER para continuar.");
-   getchar();
-} // fim metodo10 ( )
+    printf("\n\n%s\n", "Apertar ENTER para continuar.");
+    getchar();
+}// fim metodo 10 ()
 
 /**
   * Metodo11.
   */
- void metodo11 ( void )
- {
-  // identificar
-   printf ( "\n%s\n", "\n\tMetodo06E1" );
-  // encerrar
-   printf ( "\n%s\n", "Apertar ENTER para continuar." );
-   getchar( );
- 
- } // fim metodo11 ( )
+int f_a (int b, int exp, int n) 
+{
+    if (n <= 0) 
+    {
+        return 1;
+    }
+    printf("%d^%d = %d\n", b, exp, (int)pow(b, exp));
+    return f_a(b, exp + 2, n - 1);
+}
+
+void metodo11() {
+// Identificar
+    printf("\n%s\n", "\n\tMetodo06E1");
+    int base = 0, n = 0;
+
+    printf("\nDigite a base: ");
+    scanf("%d", &base);
+    printf("Digite a quantidade de termos: ");
+    scanf("%d", &n);
+
+    printf("\nPotencias calculadas:\n");
+    f_a(base, 1, n);
+    getchar();
+// Encerrar
+    printf("\n\n%s\n", "Apertar ENTER para continuar.");
+    getchar();
+}//
 
  
 /**
   * Metodo12.
   */
 
+double fatorial(int n) {
+   if (n == 0 || n == 1) {
+      return 1;
+   }
+   return n * fatorial(n - 1);
+}
+
+double f_b (int numerador, int denominador, int n)
+{
+    if (n <= 0) 
+    {
+        return 1;
+    }
+    printf("%d/%d! = %lf\n", numerador, denominador, ((double) numerador /  fatorial(denominador)));
+    return f_b(numerador + 2, denominador * 2, n - 1);
+}
+
 void metodo12( void ) {
 // Identificar
-   printf("\n%s\n", "\n\tMetodo06E2");
+    printf("\n%s\n", "\n\tMetodo06E2");
+    int numerador = 3, denominador = 2, n = 0;
+
+    printf("Digite a quantidade de termos: ");
+    scanf("%d", &n);
+
+    printf("\nFracao calculada:\n");
+    f_b(numerador, denominador, n);
+    getchar();
 // Encerrar
-   printf("\n%s\n", "Apertar ENTER para continuar.");
-   getchar();
+    printf("\n\n%s\n", "Apertar ENTER para continuar.");
+    getchar();
 }
 
 // identificar
