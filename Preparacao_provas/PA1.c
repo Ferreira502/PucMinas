@@ -16,6 +16,8 @@
 #include <string.h>
 #include <math.h>
 
+#define PI 3.14
+
 // -------------------------- definicao de classe
 
 /**
@@ -25,6 +27,29 @@ void method_01( void )
 {
 // Identificar
    printf("\n%s\n", "\n\tmethod_01");
+   int a = 0, b = 0;
+   double resultado = 0.0, resultado_novo = 0;
+
+   do
+   {
+     printf("\nDigite 0.0 para encerrar\n");
+     printf("\nDigite o valor do raio: ");
+     scanf("%d", &a);
+     printf("\nDigite o valor a ser dividido: ");
+     scanf("%d", &b);
+     if (a != 0 && b != 0)
+     {
+      resultado = 2 * PI * a;
+      resultado_novo = resultado / b;
+      printf("\nO comprimento (%d) da circunferencia de raio igual a (%d) e igual a = (%lf)\n", b , a , resultado_novo);
+      getchar();  
+     }
+     else {
+      printf("\nPrograma encerrado\n");
+      getchar();  
+     }
+   } while (a != 0 && b != 0);
+
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -34,14 +59,51 @@ void method_01( void )
   * method02.
   */
 
-void method_02 ( void )
-{
-// Identificar
-   printf("\n%s\n", "\n\tmethod_02");
-// Encerrar
-   printf("\n%s\n", "Apertar ENTER para continuar.");
-   getchar();
-} // fim method02 ( )
+  void verificarCadeia(char a, char b, char c)
+  {
+      bool x = (a < b && b < c);
+      if (x) 
+      {
+          printf("\nOs caracteres (%c) (%c) (%c) estao em ordem\n", a, b, c);
+      }
+      else
+      {
+         printf("\nOs caracteres (%c) (%c) (%c) nao estao em ordem\n", a, b, c);
+      }
+  }
+  
+  void method_02 ( void )
+  {
+  // Identificar
+     printf("\n%s\n", "\n\tmethod_02");
+     char a, b, c;
+     int n = 0, i = 0;
+      
+     printf("\nDigite a quantidade de testes: ");
+     scanf("%d", &n);
+     getchar();
+     
+     while (i < n) 
+     {
+         printf("\nDigite o primeiro caracter: ");
+         scanf("%c", &a);
+         getchar();
+         
+         printf("\nDigite o segundo caracter: ");
+         scanf("%c", &b);
+         getchar();
+  
+         printf("\nDigite o terceiro caracter: ");
+         scanf("%c", &c);
+         getchar();
+  
+         verificarCadeia(a,b,c);
+         i++;
+     }
+  // Encerrar
+     printf("\n%s\n", "Apertar ENTER para continuar.");
+     getchar();
+  } // fim method02 ( )  
 
 /**
   * method03.
@@ -51,6 +113,43 @@ void method_03 ( void )
 {
  // Identificar
    printf("\n%s\n", "\n\tmethod_03");
+   int a = 0, b = 0, n = 0, x = 0, metade = 0 , dobro = 0;
+
+   printf("\nDigite o limite inferior: ");
+   scanf("%d", &a);
+   printf("\nDigite o limite superior: ");
+   scanf("%d", &b);
+   printf("\nDigite a quantidade de numeros: ");
+   scanf("%d", &n);
+
+   for (int i = 0; i < n; i ++)
+   {
+      printf("\n%d:\t ", i + 1);
+      scanf("%d", &x);
+
+      if (x % 2 == 0)
+      {
+         metade = x / 2;
+         dobro = x * 2;
+         if (metade >= a && metade < b && dobro >= a && dobro < b)
+         {
+            printf("\nSeu dobro e sua metade esta contido no intervalo [%d:%d)\n", a, b);
+            getchar();
+         }
+         else 
+         {
+            printf("\nSeu dobro e sua metade nao esta contido no intervalo [%d:%d)\n", a, b);
+            getchar();
+         }
+         
+      }
+      else 
+      {
+         printf("\nO numero digitado nao e par\n");
+         getchar();
+      }
+      
+   }
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
