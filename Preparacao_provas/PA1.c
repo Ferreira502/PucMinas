@@ -23,6 +23,7 @@
 /**
   * method01.
   */
+
 void method_01( void ) 
 {
 // Identificar
@@ -141,7 +142,6 @@ void method_03 ( void )
             printf("\nSeu dobro e sua metade nao esta contido no intervalo [%d:%d)\n", a, b);
             getchar();
          }
-         
       }
       else 
       {
@@ -159,22 +159,90 @@ void method_03 ( void )
   * method04.
   */
 
-void method_04 ( void )
+int letraMaiuscula (char c)
 {
- // Identificar
-   printf("\n%s\n", "\n\tmethod_04");
-// Encerrar
-   printf("\n%s\n", "Apertar ENTER para continuar.");
-   getchar();
-} // fim method04 ( )
+   return (c >= 'A' && c <= 'Z');
+}
+
+int letraMinuscula (char c)
+{
+   return (c >= 'a' && c <= 'z');
+} 
+
+int digito (char c)
+{
+   return (c >= '0' && c <= '9');
+}
+
+int espaco (char c)
+{
+   return (c == ' ');
+}
+
+contarAlfanumerico(char cadeia [])
+{
+   int count = 0, i = 0;
+   int tamanho = strlen(cadeia);
+
+   for (i = tamanho - 1; i >= 0; i--)
+   {
+      if (letraMaiuscula(cadeia[i]) || letraMinuscula(cadeia[i]) || digito(cadeia[i]) || espaco(cadeia[i])) {
+         count++;
+         printf("%c ", cadeia[i]);
+     }
+   }
+   
+}
+
+void method_04 ( void )
+ {
+  // Identificar
+    printf("\n%s\n", "\n\tmethod_04");
+    char palavra [80];
+
+    printf("Digite uma sequencia de caracteres: ");
+    fgets(palavra, 80-1, stdin);
+
+    int total = contarAlfanumerico(palavra);
+    printf("\nTotal de simbolos alfanumericos e espaco: %d\n", total);
+ // Encerrar
+    printf("\n%s\n", "Apertar ENTER para continuar.");
+    getchar();
+ } // fim method04 ( )
 
 /**
   * method05.
   */
+
+int contarRecursivo(char cadeia[], int i) {
+  if (i < 0) {
+     return 0;
+   }
+
+  int countAtual = 0;
+
+  if (letraMaiuscula(cadeia[i]) || letraMinuscula(cadeia[i]) || digito(cadeia[i]) || espaco(cadeia[i])) {
+      printf("%c ", cadeia[i]);
+      countAtual = 1;
+  }
+
+  return countAtual + contarRecursivo(cadeia, i - 1);
+}
+
+
 void method_05 ( void )
 {
  // Identificar
    printf("\n%s\n", "\n\tmethod_5");
+   char palavra[80];
+
+   printf("Digite uma sequencia de caracteres: ");
+   fgets(palavra, 80-1, stdin);
+
+   int len = strlen(palavra);
+
+   int total = contarRecursivo(palavra, len - 1);
+   printf("\nTotal de simbolos alfanumericos e espaco: %d\n", total);
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
