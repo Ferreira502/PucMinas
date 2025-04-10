@@ -76,9 +76,108 @@ int f_05(int n) {
 
 // questao 06
 
+int bissexto(int ano) {
+    int resto4 = ano;
+    while (resto4 >= 4) {
+        resto4 = resto4 - 4;
+    }
+
+    int resto100 = ano;
+    while (resto100 >= 100) {
+        resto100 = resto100 - 100;
+    }
+
+    int resto400 = ano;
+    while (resto400 >= 400) {
+        resto400 = resto400 - 400;
+    }
+
+    if (resto4 == 0) {
+        if (resto100 == 0) {
+            if (resto400 == 0) {
+                return 1; // Bissexto
+            } else {
+                return 0;
+            }
+        } else {
+            return 1; // Bissexto
+        }
+    }
+    return 0;
+}
+
+void p_06(void) {
+    int anos[] = {1800, 2000, 2024};
+    for (int i = 0; i < 3; i++) {
+        int ano = anos[i];
+        if (bissexto(ano)) {
+            printf("%d e bissexto\n", ano);
+        } else {
+            printf("%d NAO e bissexto\n", ano);
+        }
+    }
+}
+
 // questao 07
 
+int soma_algarismos(int n) {
+    return (n / 10) + (n % 10);
+}
+
+void amigos(void) {
+    for (int x = 10; x <= 99; x++) {
+        for (int y = 10; y <= 99; y++) {
+            if (x != y) {
+                int sx = soma_algarismos(x);
+                int sy = soma_algarismos(y);
+
+                if (sx * sx == y && sy * sy == x) {
+                    printf("%d e %d sao quadrados amigos\n", x, y);
+                }
+            }
+        }
+    }
+}
+
 // questao 08
+
+char testar (char x[] , char y[])
+{
+    int tamanho1 = strlen(x) / 2;
+    int tamanho2 = strlen(y) / 2;
+    int count1 = 0, count2 = 0;
+
+    for (int i = 0; i < tamanho1; i++)
+    {
+        if (x[i] == 'g' || x[i] == 'j' || x[i] =='p' || x[i] == 'q' || x[i] == 'y')
+        {
+            count1++;
+        }
+    }
+    for (int j = 0; j < tamanho2; j++)
+    {
+        if (y[j] == 'g' || y[j] == 'j' || y[j] =='p' || y[j] == 'q' || y[j] == 'y')
+        {
+            count2++;
+        }
+    }
+    if (count1 > count2)
+    {
+        printf("\nA palavra bagagem tem mais descendentes");
+    }
+    else{
+        printf("\nA palavra papagaio tem mais descendentes");
+    }
+    
+}
+
+void p_08 ( void )
+{
+    char palavra1 [] = "bagagem";
+    char palavra2 [] = "papagaio";
+    testar(palavra1,palavra2);
+    
+}
 
 
 int main() {
@@ -102,10 +201,13 @@ int main() {
     printf("f_05(10) = %d\n", f_05(10));   // 252
 
     printf("\n\tP_06\n");
+    p_06();
 
     printf("\n\tP_07\n");
+    amigos();
 
     printf("\n\tP_08\n");
+    p_08();
     
     return 0;
 }
