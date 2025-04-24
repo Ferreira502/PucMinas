@@ -1,5 +1,5 @@
 /*
- Exemplo0600 - v0.0. - 14 / 03 / 2025
+ Exemplo0600 - v0.0. - 10 / 04 / 2025
  Author: Gabriel Ferreira Pereira
 */
 
@@ -18,7 +18,7 @@
    @param fileName - nome do arquivo 
    @param x - quantidade de valores 
  */ 
-void writeInts ( char fileName, int x ) 
+void writeInts ( chars fileName, int x ) 
 { 
  // definir dados 
     FILE* arquivo = fopen ( fileName, "wt" ); 
@@ -55,7 +55,7 @@ void method_01 ( )
    @param fileName - nome do arquivo 
    @param x - quantidade de valores 
  */ 
-void readInts ( char fileName ) 
+void readInts ( chars fileName ) 
 { 
  // definir dados 
     FILE* arquivo = fopen ( fileName, "rt" ); 
@@ -96,7 +96,7 @@ void method_02 ( )
    @param fileName - nome do arquivo 
    @param x - quantidade de valores 
  */ 
-void writeDoubles ( char fileName, int x ) 
+void writeDoubles ( chars fileName, int x ) 
 { 
  // definir dados 
     FILE* arquivo = fopen ( fileName, "wt" ); 
@@ -135,7 +135,7 @@ void method_03 ( )
    @param fileName - nome do arquivo 
    @param x - quantidade de valores 
  */ 
-void readDoubles ( char fileName ) 
+void readDoubles ( chars fileName ) 
 { 
  // definir dados 
     FILE* arquivo = fopen ( fileName, "rt" ); 
@@ -174,18 +174,18 @@ void method_04 ( )
  
  // encerrar 
     IO_pause ( "Apertar ENTER para continuar" ); 
-} // end method_04 ( ) 
+} // end method_04 ( )
 
 /** 
    writeText - Gravar em arquivo texto certa quantidade de valores. 
    @param fileName - nome do arquivo 
    @param x - quantidade de valores 
  */ 
-void writeText ( char fileName ) 
+void writeText ( chars fileName ) 
 { 
  // definir dados 
     FILE* arquivo = fopen ( fileName, "wt" ); 
-    char linha     = IO_new_chars ( STR_SIZE ); 
+    chars linha     = IO_new_chars ( STR_SIZE ); 
  
  // repetir ate' desejar parar 
     IO_println ( "Gravar linhas (para terminar, entrar com \"PARAR\"):\n" ); 
@@ -221,11 +221,11 @@ void method_05 ( )
    readText - Ler de arquivo texto certa quantidade de valores. 
    @param fileName - nome do arquivo 
  */ 
-void readText ( char fileName ) 
+void readText ( chars fileName ) 
 { 
  // definir dados 
     FILE* arquivo = fopen ( fileName, "rt" ); 
-    char linha     = IO_new_chars ( STR_SIZE ); 
+    chars linha     = IO_new_chars ( STR_SIZE ); 
  
  // tentar ler o primeiro 
     strcpy ( linha, IO_freadln ( arquivo ) ); 
@@ -256,19 +256,19 @@ void method_06 ( )
  
  // encerrar 
     IO_pause ( "Apertar ENTER para continuar" ); 
-} // end method_06 ( )
+} // end method_06 ( ) 
 
 /** 
    copyText - Copiar arquivo texto. 
    @param fileOut - nome do arquivo de saida     (destino) 
    @param fileIn    - nome do arquivo de entrada (origem ) 
  */ 
-void copyText ( char fileOut, char fileIn ) 
+void copyText ( chars fileOut, chars fileIn ) 
 { 
  // definir dados 
     FILE* saida      = fopen ( fileOut, "wt" ); 
     FILE* entrada  = fopen ( fileIn , "rt" ); 
-    char linha      = IO_new_chars ( STR_SIZE ); 
+    chars linha      = IO_new_chars ( STR_SIZE ); 
     int   contador  = 0; 
  
  // ler da origem 
@@ -312,17 +312,17 @@ void method_07 ( )
  // encerrar 
     IO_pause ( "Apertar ENTER para continuar" ); 
 } // end method_07 ( ) 
-
-/** 
+ 
+ /** 
    appendText - Gravar em arquivo texto certa quantidade de valores. 
    @param fileName - nome do arquivo 
    @param x - quantidade de valores 
  */ 
-void appendText ( char fileName ) 
+void appendText ( chars fileName ) 
 { 
  // definir dados 
     FILE* arquivo = fopen ( fileName, "at" ); 
-    char linha     = IO_new_chars ( STR_SIZE ); 
+    chars linha     = IO_new_chars ( STR_SIZE ); 
  
  // repetir ate' desejar parar 
     IO_println ( "Gravar linhas (para terminar, entrar com \"PARAR\"):\n" ); 
@@ -352,17 +352,17 @@ void method_08 ( )
  
  // encerrar 
     IO_pause ( "Apertar ENTER para continuar" ); 
-} // end method_08 ( ) 
+} // end method_08 ( )
 
 /** 
    readWords - Ler palavras de arquivo. 
    @param fileName - nome do arquivo 
  */ 
-void readWords ( char fileName ) 
+void readWords ( chars fileName ) 
 { 
  // definir dados 
     FILE* arquivo = fopen ( fileName, "rt" ); 
-    char linha     = IO_new_chars ( STR_SIZE ); 
+    chars linha     = IO_new_chars ( STR_SIZE ); 
  
  // tentar ler a primeira 
     strcpy ( linha, IO_fread ( arquivo ) ); 
@@ -393,7 +393,7 @@ void method_09 ( )
  
  // encerrar 
     IO_pause ( "Apertar ENTER para continuar" ); 
-} // end method_09 ( ) 
+} // end method_09 ( )
 
 /** 
    searchWord - Procurar palavra em arquivo. 
@@ -401,11 +401,11 @@ void method_09 ( )
    @param fileName - nome do arquivo 
    @param word       - palavra a procurar 
  */ 
-bool searchWord ( char fileName, char word ) 
+bool searchWord ( chars fileName, chars word ) 
 { 
  // definir dados 
     FILE* arquivo = fopen ( fileName, "rt" ); 
-    char linha     = IO_new_chars ( STR_SIZE ); 
+    chars linha     = IO_new_chars ( STR_SIZE ); 
  
  // tentar ler a primeira 
     strcpy ( linha, IO_fread ( arquivo ) ); 
@@ -438,4 +438,4 @@ void method_10 ( )
  
  // encerrar 
     IO_pause ( "Apertar ENTER para continuar" ); 
-} // end method_10 ( )
+} // end method_10 ( ) 
