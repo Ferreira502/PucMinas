@@ -1,5 +1,5 @@
 /*
- Exercicio07 - v0.0. - 10 / 04 / 2025
+ Exercicio07 - v0.0. - 22 / 04 / 2025
  Author: Gabriel Ferreira Pereira
 
  Para compilar em terminal (janela de comandos):
@@ -47,6 +47,8 @@ void metodo01( void )
     fprintf(arquivo, "%d\n", x);
     
   }
+
+  printf("\nValores guardados no arquivo MULTIPLOS_4");
   getchar();
   fclose(arquivo);
 // Encerrar
@@ -58,13 +60,19 @@ void metodo01( void )
   * Metodo02.
   */
 
-void metodo02(void)
+void metodo02( void )
 {
 // Identificar
   printf("\n%s\n", "\tMetodo0712");
-
+  FILE * arquivo = fopen( "MULTIPLOS_15_PARES.TXT", "w");
   int n;
   int count = 0;
+
+  if (arquivo == NULL) 
+  {
+    printf("Erro ao abrir o arquivo\n");
+    getchar();
+  }
 
   printf("Informe a quantidade de valores: ");
   scanf("%d", &n);
@@ -77,11 +85,13 @@ void metodo02(void)
       if (value % 15 == 0 && value % 2 == 0)
       {
         printf("%d ", value);
+        fprintf(arquivo, "%d\n", value);
         count++;
       }
       value -= 1;
   }
-
+  printf("\nValores guardados no arquivo MULTIPLOS_15_PARES");
+  close(arquivo);
   getchar();
 // Encerrar
   printf("\n\n%s\n", "Apertar ENTER para continuar.");
@@ -116,6 +126,7 @@ void metodo03 ( void )
     
   }
   
+  printf("\nValores guardados no arquivo MULTIPLOS_3");
   getchar();
   fclose(arquivo);
 // Encerrar
@@ -131,6 +142,29 @@ void metodo04 ( void )
 {
 // Identificar
   printf("\n%s\n", "\n\tMetodo0714");
+  FILE * arquivo = fopen( "DECRESCENTES.TXT", "w");
+  int n;
+
+  printf("Informe a quantidade de termos: ");
+  scanf("%d", &n);
+  getchar();
+
+  printf("\nSequencia gerada:\n");
+  for (int i = n - 1; i >= 0; i--)
+  {
+      int potencia = 1;
+      for (int j = 0; j < i; j++)
+      {
+          potencia *= 3;
+      }
+      printf("1/%d ", potencia);
+      fprintf(arquivo, "1/%d\n", potencia);
+  }
+  getchar();
+
+  printf("\nValores guardados no arquivo DECRESCENTES");
+  close(arquivo);
+  getchar();
 // Encerrar
   printf("\n%s\n", "Apertar ENTER para continuar.");
   getchar();
@@ -144,22 +178,22 @@ void metodo04 ( void )
   {
       if (n <= 0) 
       {
-          return 1;
+        return 1;
       }
   
       int potencia = (int)pow(b, exp);
-      printf("1/%d^%d = 1/%d\n", b, exp, potencia);                 // Exibe na tela
-      fprintf(arquivo, "1/%d^%d = 1/%d\n", b, exp, potencia);       // Grava no arquivo
+      printf("1/%d^%d = 1/%d\n", b, exp, potencia);          
+      fprintf(arquivo, "1/%d^%d = 1/%d\n", b, exp, potencia); 
   
       return f_a(b, exp + 2, n - 1, arquivo);
   }
   
-  void metodo05(void)
+  void metodo05( void )
   {
       // Identificar
       printf("\n%s\n", "\n\tMetodo0715");
       int base = 0, n = 0;
-      FILE *arquivo = fopen("POTENCIAS.TXT", "w");
+      FILE * arquivo = fopen("POTENCIAS.TXT", "w");
     
       if (arquivo == NULL) 
       {
@@ -169,8 +203,10 @@ void metodo04 ( void )
   
       printf("\nDigite a base: ");
       scanf("%d", &base);
+      getchar();
       printf("Digite a quantidade de termos: ");
       scanf("%d", &n);
+      getchar();
   
       printf("\nPotencias calculadas:\n");
       f_a(base, 1, n, arquivo);
@@ -186,10 +222,60 @@ void metodo04 ( void )
   * Metodo06.
   */
 
+  void f_b(int base, int total, FILE *arquivo)
+  {
+      double soma = 0.0;
+  
+      for (int i = 0; i < total; i++)
+      {
+          int expoente;
+          double termo;
+  
+          if (i == 0)
+          {
+              expoente = 0;
+              termo = 1.0;
+          }
+          else
+          {
+              expoente = 2 * i + 1;
+              termo = 1.0 / pow((double)base, expoente);
+          }
+  
+          soma += termo;
+  
+          fprintf(arquivo, "Termo %d: 1/%d^%d = %.10lf\n", i + 1, base, expoente, termo);
+      }
+  
+      fprintf(arquivo, "Soma dos %d termos: %.10lf\n", total, soma);
+  }
+
 void metodo06( void )
 {
 // Identificar
   printf("\n%s\n", "\n\tMetodo0716");
+  int base = 0, n = 0;
+  FILE * arquivo = fopen("POTENCIAS_SOMADOS.TXT", "w");
+    
+  if (arquivo == NULL) 
+    {
+      printf("Erro ao abrir o arquivo\n");
+      return;
+    }
+  
+  printf("\nDigite a base: ");
+  scanf("%d", &base);
+  getchar();
+  printf("Digite a quantidade de termos: ");
+  scanf("%d", &n);
+  getchar();
+  
+  printf("\nPotencias calculadas:\n");
+  f_b(base, n, arquivo);
+  
+  fclose(arquivo); 
+  
+  getchar();
 // Encerrar
   printf("\n%s\n", "Apertar ENTER para continuar.");
   getchar();
@@ -203,6 +289,42 @@ void metodo07( void )
 {
 // Identificar
   printf("\n%s\n", "\n\tMetodo0717");
+  FILE * arquivo = fopen("DECRESCENTE_SOMADOS.TXT", "w");
+  int n = 0, potencia = 1;;
+
+  if (arquivo == NULL)
+  {
+      printf("Erro ao abrir o arquivo\n");
+      return;
+  }
+
+  printf("Informe a quantidade de termos: ");
+  scanf("%d", &n);
+  getchar();
+
+  double soma = 0.0;
+
+  for (int i = n - 1; i >= 0; i--)
+  {
+      
+      for (int j = 0; j < i; j++)
+      {
+          potencia *= 3;
+      }
+
+      double inverso = 1.0 / potencia;
+      soma += inverso;
+
+      printf("1/%d = %.10lf\n", potencia, inverso);
+      fprintf(arquivo, "1/%d = %.10lf\n", potencia, inverso);
+  }
+
+  printf("\nSoma dos inversos: %.10lf\n", soma);
+  fprintf(arquivo, "\nSoma dos %d termos: %lf\n", n, soma);
+
+  fclose(arquivo);
+
+  printf("\nValores gravados no arquivo DECRESCENTE_SOMADOS\n");
 // Encerrar
   printf("\n%s\n", "Apertar ENTER para continuar.");
   getchar();
@@ -212,10 +334,46 @@ void metodo07( void )
   * Metodo08.
   */
 
+  int Par(int x) {
+    return (x % 2 == 0);
+}
+
 void metodo08( void ) 
 {
 //Identificar
   printf("\n%s\n", "\n\tMetodo0718");
+  FILE * arquivo = fopen("FIBONACCI.TXT", "w");
+  int n = 0, a = 0, b = 1, count = 0;
+
+  if (arquivo == NULL)
+  {
+      printf("Erro ao abrir o arquivo\n");
+      return;
+  }
+
+  
+  printf("Informe a quantidade de termos pares da sequencia de Fibonacci: ");
+  scanf("%d", &n);
+  getchar();
+
+  while (count < n)
+  {
+      int proximo = a + b;
+      a = b;
+      b = proximo;
+
+      if (Par(proximo))
+      {
+          printf("%d ", proximo);
+          fprintf(arquivo, "%d\n", proximo);
+          count++;
+      }
+  }
+
+  getchar();
+  fclose(arquivo);
+
+  printf("\n\nValores gravados no arquivo FIBONACCI\n");
 // Encerrar
   printf("\n%s\n", "Apertar ENTER para continuar.");
   getchar();
@@ -259,7 +417,7 @@ void metodo08( void )
    * Metodo10.
    */
  
- void metodo10(void) 
+ void metodo10( void ) 
  {
  // Identificar
      printf("\n%s\n", "\n\tMetodo720");
@@ -295,6 +453,31 @@ void metodo11( void )
 {
 // Identificar
   printf("\n%s\n", "\n\tMetodo07E1");
+  int valor = 0;
+  FILE * arquivo = fopen("DECRESCENTE_IMPARES.TXT", "w");
+
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo\n");
+        return;
+    }
+
+    printf("Digite um valor inteiro: ");
+    scanf("%d", &valor);
+    getchar();
+
+    printf("\nDivisores impares de %d em ordem decrescente: \n", valor);
+    getchar();
+
+    for (int i = valor; i >= 1; i--) {
+        if (valor % i == 0 && i % 2 != 0) {
+            printf("%d ", i);
+            fprintf(arquivo, "%d\n", i);
+        }
+    }
+
+    getchar();
+    fclose(arquivo);
+    printf("\nDivisores gravados no arquivo DECRESCENTE_IMPARES\n");
 // Encerrar
   printf("\n\n%s\n", "Apertar ENTER para continuar.");
   getchar();
@@ -305,10 +488,44 @@ void metodo11( void )
   * Metodo12.
   */
 
+int comecaComC(char *palavra) 
+{
+  return ((palavra[0] == 'c' || palavra[0] == 'C') && strlen(palavra) <= 12);
+}
+
 void metodo12( void ) 
 {
 // Identificar
   printf("\n%s\n", "\n\tMetodo07E2");
+  char palavra[100];
+  int contador = 0;
+
+  FILE *arquivo = fopen("PALAVRAS.TXT", "r");
+  if (arquivo == NULL) {
+      printf("Erro ao abrir o arquivo\n\n");
+      return;
+  }
+  
+  while (fscanf(arquivo, "%s", palavra) == 1) {
+      if (comecaComC(palavra)) {
+          contador++;
+      }
+  }
+
+  fclose(arquivo);
+
+  FILE *saida = fopen("RESULTADO07E2.TXT", "w");
+  if (saida == NULL) {
+      printf("Erro ao abrir o arquivo\n");
+      return;
+  }
+
+  fprintf(saida, "Quantidade de palavras que comecam com 'c' ou 'C' e tem ate 12 caracteres: %d\n", contador);
+  fclose(saida);
+  getchar();
+
+  printf("Resultado salvo em RESULTADO07E2\n");
+  getchar();
 // Encerrar
   printf("\n\n%s\n", "Apertar ENTER para continuar.");
   getchar();

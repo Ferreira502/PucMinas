@@ -1,5 +1,5 @@
 /*
- Exemplo0600 - v0.0. - 10 / 04 / 2025
+ Exemplo0600 - v0.0. - 22 / 04 / 2025
  Author: Gabriel Ferreira Pereira
 */
 
