@@ -99,6 +99,7 @@ void gravarParesPositivos(int n, int arranjo[], char* nomeArquivo)
            fprintf(arquivo, "%d\n", arranjo[i]);
        }
    }
+   getchar();
 
    fclose(arquivo);
 }
@@ -116,6 +117,7 @@ void metodo02 ( void )
    entrada = fopen(nomeEntrada, "r");
    if (entrada == NULL) {
        printf("Erro ao abrir arquivo de entrada\n");
+       getchar();
        return 1;
    }
 
@@ -127,6 +129,7 @@ void metodo02 ( void )
    gravarParesPositivos(n, arr, nomeSaida);
 
    printf("Dados gravados em '%s'\n", nomeSaida);
+   getchar();
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -145,6 +148,40 @@ void lerArquivo(int *n, int vetor[MAX], const char *nomeArquivo)
    fclose(arquivo);
 }
 
+void metodo03 ( void )
+{
+ // Identificar
+   printf("\n%s\n", "\n\tMetodo0813");
+   int inferior = 0, superior = 0, n = 0, vetor[MAX];
+   FILE *arquivo = fopen("DADOS.TXT", "w");
+
+    printf("Limite inferior: ");
+    scanf("%d", &inferior);
+    getchar();
+    printf("Limite superior: ");
+    scanf("%d", &superior);
+    getchar();
+    printf("Quantidade de numeros: ");
+    scanf("%d", &n);
+    getchar();
+
+    fprintf(arquivo, "%d\n", n);
+    for (int i = 0; i < n; i++) {
+        vetor[i] = gerarInt(inferior, superior);
+        fprintf(arquivo, "%d\n", vetor[i]);
+    }
+
+    getchar();
+    fclose(arquivo);
+// Encerrar
+   printf("\n%s\n", "Apertar ENTER para continuar.");
+   getchar();
+} // fim metodo03 ( )
+
+/**
+  * Metodo04.
+  */
+
 int acharMenorPar(int n, int vetor[MAX]) 
 {
     int menor = -1;
@@ -156,47 +193,20 @@ int acharMenorPar(int n, int vetor[MAX])
             }
         }
     }
+    getchar();
     return menor;
 }
-
-void metodo03 ( void )
-{
- // Identificar
-   printf("\n%s\n", "\n\tMetodo0813");
-   int inferior, superior, n, vetor[MAX];
-    FILE *arquivo = fopen("DADOS.TXT", "w");
-
-    printf("Limite inferior: ");
-    scanf("%d", &inferior);
-    printf("Limite superior: ");
-    scanf("%d", &superior);
-    printf("Quantidade de numeros: ");
-    scanf("%d", &n);
-
-    fprintf(arquivo, "%d\n", n);
-    for (int i = 0; i < n; i++) {
-        vetor[i] = gerarInt(inferior, superior);
-        fprintf(arquivo, "%d\n", vetor[i]);
-    }
-
-    fclose(arquivo);
-// Encerrar
-   printf("\n%s\n", "Apertar ENTER para continuar.");
-   getchar();
-} // fim metodo03 ( )
-
-/**
-  * Metodo04.
-  */
 
 void metodo04 ( void )
 {
  // Identificar
    printf("\n%s\n", "\n\tMetodo0814");
-   int n, vetor[MAX];
+   int n = 0, vetor[MAX];
    lerArquivo(&n, vetor, "DADOS.TXT");
    int menor = acharMenorPar(n, vetor);
    printf("Menor valor par: %d\n", menor);
+   getchar();
+
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -216,6 +226,7 @@ void metodo04 ( void )
           }
       }
   }
+  getchar();
   return maior;
 }
 
@@ -223,10 +234,11 @@ void metodo05 ( void )
 {
  // Identificar
   printf("\n%s\n", "\n\tMetodo0815");
-  int n, vetor[MAX];
+  int n = 0, vetor[MAX];
   lerArquivo(&n, vetor, "DADOS.TXT");
   int maior = acharMaiorImparDivisivelPorTres(n, vetor);
   printf("Maior impar multiplo de 3: %d\n", maior);
+
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -241,15 +253,17 @@ double acharMedia(int n, int vetor[MAX])
   if (n == 0) return 0;
   int soma = 0;
   for (int i = 0; i < n; i++) soma += vetor[i];
-  return (double)soma / n;
+  getchar();
+  return (double)soma / n; 
 }
 
 void metodo06( void )
 {
-   // Identificar
-   int n, vetor[MAX];
+// Identificar
+   printf("\n%s\n", "\n\tMetodo0816");
+   int n = 0, vetor[MAX];
    FILE *menorIgual, *maior;
-   double media;
+   double media = 0;
    lerArquivo(&n, vetor, "DADOS.TXT");
    media = acharMedia(n, vetor);
    menorIgual = fopen("MENORES.TXT", "w");
@@ -263,7 +277,7 @@ void metodo06( void )
    fclose(menorIgual);
    fclose(maior);
    printf("Media: %.2lf\n", media);
-   printf("\n%s\n", "\n\tMetodo0816");
+   
    // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -278,16 +292,20 @@ int estaOrdenadoDecrescente(int n, int vetor[MAX])
   for (int i = 0; i < n - 1; i++) {
       if (vetor[i] < vetor[i + 1]) return 0;
   }
+  getchar();
   return 1;
 }
 
-void metodo07(void) {
+void metodo07( void ) {
+//identificar
     printf("\n%s\n", "\n\tMetodo0817");
-    int n, vetor[MAX];
+    int n = 0, vetor[MAX];
     lerArquivo(&n, vetor, "DADOS.TXT");
     if (estaOrdenadoDecrescente(n, vetor)) printf("Ordenado decrescentemente.\n");
     else printf("Nao esta ordenado decrescentemente.\n");
-    // Encerrar
+    getchar();
+
+// Encerrar
     printf("\n%s\n", "Apertar ENTER para continuar.");
     getchar();
 }// fim metodo07()
@@ -298,21 +316,26 @@ void metodo07(void) {
 
 int acharValor(int valor, int inicio, int n, int vetor[MAX]) 
 {
-  for (int i = inicio; i < n; i++) {
-      if (vetor[i] == valor) return 1;
+  for (int i = inicio; i < n; i++) 
+  {
+     if (vetor[i] == valor) return 1;
   }
+  getchar();
   return 0;
 }
 
-void metodo08(void) {
+void metodo08( void ) {
 //Identificar
    printf("\n%s\n", "\n\tMetodo0818");
-   int n, vetor[MAX], valor;
+   int n = 0, vetor[MAX], valor = 0;
    lerArquivo(&n, vetor, "DADOS.TXT");
    printf("Valor a procurar: ");
    scanf("%d", &valor);
+   getchar();
+   
    if (acharValor(valor, 0, n, vetor)) printf("Valor encontrado.\n");
    else printf("Valor nao encontrado.\n");
+   getchar();
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -324,9 +347,11 @@ void metodo08(void) {
 
 int acharPosicao(int valor, int inicio, int n, int vetor[MAX]) 
 {
-  for (int i = inicio; i < n; i++) {
-      if (vetor[i] == valor) return i;
+  for (int i = inicio; i < n; i++) 
+  {
+    if (vetor[i] == valor) return i;
   }
+  getchar();
   return -1;
 }
 
@@ -334,13 +359,16 @@ void metodo09 ( void )
 {
 // Identificar
    printf("\n%s\n", "\n\tMetodo0819");
-   int n, vetor[MAX], valor;
+   int n = 0, vetor[MAX], valor = 0;
    lerArquivo(&n, vetor, "DADOS.TXT");
    printf("Valor a procurar: ");
    scanf("%d", &valor);
+   getchar();
+
    int pos = acharPosicao(valor, 0, n, vetor);
    if (pos >= 0) printf("Posicao: %d\n", pos);
    else printf("Valor nao encontrado.\n");
+   getchar();
 // encerrar
    printf("%s\n", "\nApertar ENTER para continuar\n");
    getchar( );
@@ -357,6 +385,7 @@ int acharQuantos(int valor, int inicio, int n, int vetor[MAX])
   for (int i = inicio; i < n; i++) {
       if (vetor[i] == valor) count++;
   }
+  getchar();
   return count;
 }
 
@@ -365,12 +394,15 @@ void metodo10(void)
 {
 // Identificar
     printf("\n%s\n", "\n\tMetodo820");
-    int n, vetor[MAX], valor;
+    int n = 0, vetor[MAX], valor = 0;
     lerArquivo(&n, vetor, "DADOS.TXT");
     printf("Valor a procurar: ");
     scanf("%d", &valor);
+    getchar();
+
     int vezes = acharQuantos(valor, 0, n, vetor);
     printf("Quantidade: %d\n", vezes);
+    getchar();
 // Encerrar
     printf("\n\n%s\n", "Apertar ENTER para continuar.");
     getchar();
@@ -388,22 +420,29 @@ int divisoresPares(int x, int arr[MAX])
           arr[qtd++] = i;
       }
   }
+  getchar();
   return qtd;
 }
 
 void metodo11() {
 // Identificar
     printf("\n%s\n", "\n\tMetodo08E1");
-    int x, qtd, arr[MAX];
+    int x = 0, qtd = 0, arr[MAX];
     FILE *f = fopen("DIVISORES.TXT", "w");
+
     printf("Digite um numero: ");
     scanf("%d", &x);
+    getchar();
+
     qtd = divisoresPares(x, arr);
-    for (int i = 0; i < qtd; i++) {
-        printf("%d ", arr[i]);
-        fprintf(f, "%d\n", arr[i]);
+    for (int i = 0; i < qtd; i++) 
+    {
+      printf("%d ", arr[i]);
+      fprintf(f, "%d\n", arr[i]);
     }
     printf("\n");
+    getchar();
+    
     fclose(f);
 // Encerrar
     printf("\n\n%s\n", "Apertar ENTER para continuar.");
@@ -428,13 +467,15 @@ void metodo12( void ) {
     char palavra[100];
     int count = 0;
 
-    while (fscanf(f, "%s", palavra) != EOF && count < 10) {
-        if (!comecaOuTerminaComE(palavra)) {
-            printf("%s\n", palavra);
-            count++;
+    while (fscanf(f, "%s", palavra) != EOF && count < 10) 
+    {
+        if (!comecaOuTerminaComE(palavra)) 
+        {
+          printf("%s\n", palavra);
+          count++;
         }
     }
-
+    getchar();
     fclose(f);
 // Encerrar
     printf("\n\n%s\n", "Apertar ENTER para continuar.");
