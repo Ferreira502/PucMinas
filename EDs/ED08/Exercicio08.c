@@ -21,6 +21,26 @@
 
 // -------------------------- definicao de classe
 
+int gerarInt(int inferior, int superior) {
+  return inferior + 1 + rand() % (superior - inferior - 1);
+}
+
+void gerarAleatoriosParaArquivo(int inferior, int superior, int n, char* nomeArquivo) {
+  FILE *arquivo = fopen(nomeArquivo, "w");
+  if (arquivo == NULL) {
+      printf("Erro ao abrir o arquivo para escrita.\n");
+      return;
+  }
+
+  fprintf(arquivo, "%d\n", n);
+  for (int i = 0; i < n; i++) {
+      int valor = gerarInt(inferior, superior);
+      fprintf(arquivo, "%d\n", valor);
+  }
+
+  fclose(arquivo);
+}
+
 /**
   * Metodo01.
   */
@@ -118,7 +138,6 @@ void metodo02 ( void )
    if (entrada == NULL) {
        printf("Erro ao abrir arquivo de entrada\n");
        getchar();
-       return 1;
    }
 
    while (fscanf(entrada, "%d", &arr[n]) != EOF && n < 100) {
@@ -390,7 +409,7 @@ int acharQuantos(int valor, int inicio, int n, int vetor[MAX])
 }
 
 
-void metodo10(void) 
+void metodo10( void ) 
 {
 // Identificar
     printf("\n%s\n", "\n\tMetodo820");
@@ -424,7 +443,7 @@ int divisoresPares(int x, int arr[MAX])
   return qtd;
 }
 
-void metodo11() {
+void metodo11( void ) {
 // Identificar
     printf("\n%s\n", "\n\tMetodo08E1");
     int x = 0, qtd = 0, arr[MAX];
