@@ -3,11 +3,11 @@
  Author: Gabriel Ferreira Pereira
 
  Para compilar em terminal (janela de comandos):
- Linux : gcc -o exercicio08 exercicio08.c
- Windows: gcc -o exercicio08 exercicio08.c
+ Linux : gcc -o exercicio09 exercicio09.c
+ Windows: gcc -o exercicio09 exercicio09.c
  Para executar em terminal (janela de comandos):
- Linux : ./exercicio08
- Windows: exercicio08
+ Linux : ./exercicio9
+ Windows: exercicio09
 */
 
 #include <stdio.h>
