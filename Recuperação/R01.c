@@ -273,7 +273,6 @@ int testar_simbolo_separador(char c)
        default:
            break;
    }
-   return resultado;
 }
 
 void metodo03 ( void )
@@ -315,11 +314,57 @@ void metodo03 ( void )
 /**
   * Metodo04.
   */
+
+int testar_tipo(char s[], int *maiusc, int *minusc, int *dig, int *op, int *sep) {
+    *maiusc = *minusc = *dig = *op = *sep = 0;
+    int total = 0;
+
+    for (int i = 0; s[i] != '\0'; i++) {
+        char c = s[i];
+        total++;
+
+        switch (1) {
+            case 1:
+                if (c >= 'A' && c <= 'Z') {
+                    (*maiusc)++;
+                } else if (c >= 'a' && c <= 'z') {
+                    (*minusc)++;
+                } else if (c >= '0' && c <= '9') {
+                    (*dig)++;
+                } else if (testar_simbolo_logico(c) || testar_simbolo_aritmetico(c) || testar_simbolo_relacional(c)) {
+                    (*op)++;
+                } else if (testar_simbolo_separador(c)) {
+                    (*sep)++;
+                }
+                break;
+        }
+    }
+
+    return total;
+}
+
 void metodo04 ( void )
 {
  // identificar
     printf ( "\n%s\n", "Metodo04" );
-    char palavra [MAX];
+    char palavra[100];
+    int maiusc = 0, minusc = 0, dig = 0, op = 0, sep = 0;
+
+    printf("Digite uma cadeia de caracteres: ");
+    fgets(palavra, sizeof(palavra), stdin);
+    getchar();
+    palavra[strcspn(palavra, "\n")] = '\0';
+
+    int total = testar_tipo(palavra, &maiusc, &minusc, &dig, &op, &sep);
+
+    printf("\nResultado:\n");
+    printf("\nMaiusculas : %d", maiusc);
+    printf("\nMinusculas : %d", minusc);
+    printf("\nDigitos    : %d", dig);
+    printf("\nOperadores : %d", op);
+    printf("\nSeparadores: %d", sep);
+    printf("\nTotal lidos: %d", total);
+    getchar();
  // encerrar
     printf ( "\n%s\n", "Apertar ENTER para continuar." );
     getchar( );
@@ -328,10 +373,66 @@ void metodo04 ( void )
 /**
   * Metodo05.
   */
+ double maiorDeTres(double a, double b, double c) {
+    double maior = a;
+    if (b > maior) {
+        maior = b;
+    }
+    if (c > maior) {
+        maior = c;
+    }
+    return maior;
+}
+
 void metodo05 ( void )
 {
  // identificar
     printf ( "\n%s\n", "Metodo05" );
+    int n = 0, i = 0;
+    double x = 0.0;
+    double soma1 = 0.0, soma2 = 0.0, soma3 = 0.0;
+    int cont1 = 0, cont2 = 0, cont3 = 0;
+    double media1 = 0.0, media2 = 0.0, media3 = 0.0;
+    
+    printf("Digite a quantidade de valores: ");
+    scanf("%d", &n);
+    getchar();
+
+    for (i = 0; i < n; i++) {
+        printf("Digite o valor %d: ", i + 1);
+        scanf("%lf", &x);
+        
+        if (x < -21.75) {
+            soma1 += x;
+            cont1++;
+        } else if (x <= 71.25) {
+            soma2 += x;
+            cont2++;
+        } else {
+            soma3 += x;
+            cont3++;
+        }
+    }
+
+    if (cont1 > 0) {
+        media1 = soma1 / cont1;
+    }
+    if (cont2 > 0) {
+        media2 = soma2 / cont2;
+    }
+    if (cont3 > 0) {
+        media3 = soma3 / cont3;
+    }
+
+    printf("\nMedia dos valores < -21.75: %.2lf\n", media1);
+    printf("Media dos valores entre -21.75 e 71.25: %.2lf\n", media2);
+    printf("Media dos valores > 71.25: %.2lf\n", media3);
+    getchar();
+
+    double maiorMedia = maiorDeTres(media1, media2, media3);
+    printf("Maior media: %.2lf\n", maiorMedia);
+    getchar();
+
  // encerrar
     printf ( "\n%s\n", "Apertar ENTER para continuar." );
     getchar( );
@@ -341,10 +442,43 @@ void metodo05 ( void )
 /**
   * Metodo06.
   */
+ int pertenceIntervalo(int a, int b, int x) {
+    return (x > a && x < b);
+}
+
+double soma_inverso_do_cubo(int x) {
+    if (x == 0) return 0.0;
+    return 1.0 / (x * x * x);
+}
+
 void metodo06 ( void )
 {
  // identificar
-    printf ( "\n%s\n", "Metodo06" );
+    printf ( "\n%s\n", "Metodo06" ); 
+    int a = 0, b = 0, x = 0;
+    double soma = 0.0;
+
+    printf("Digite o valor de a: ");
+    scanf("%d", &a);
+    printf("Digite o valor de b: ");
+    scanf("%d", &b);
+    getchar();
+
+    printf("\nDigite valores inteiros (fim com -1): ");
+
+    do {
+        scanf("%d", &x);
+
+        if (x != -1 && pertenceIntervalo(a, b, x)) {
+            if (x % 2 != 0 && x % 3 != 0 && x != 0) {
+                soma += soma_inverso_do_cubo(x);
+            }
+        }
+
+    } while (x != -1);
+
+    printf("Soma dos cubos dos inversos dos impares nao multiplos de 3 no intervalo: %lf\n", soma);
+    getchar();
  // encerrar
     printf ( "\n%s\n", "Apertar ENTER para continuar." );
     getchar( );
@@ -354,10 +488,52 @@ void metodo06 ( void )
 /**
   * Metodo07.
   */
+int noIntervalo(double a, double b, double valor) {
+    return (valor > a && valor < b);
+}
+
 void metodo07 ( void )
 {
  // identificar
     printf ( "\n%s\n", "Metodo07" );
+    double a = 0.0, b = 0.0, valor = 0.0;
+    int dentro = 0, foraAcima = 0, foraAbaixo = 0;
+    int totalFora = 0;
+
+    printf("\nDigite os valores de a e b (reais): ");
+    scanf("%lf %lf", &a, &b);
+    getchar();
+
+    printf("\nDigite valores reais (0.0 encerra): ");
+    do {
+        scanf("%lf", &valor);
+
+        if (valor != 0.0) {
+            if (noIntervalo(a, b, valor)) {
+                dentro++;
+            } else {
+                if (valor < a)
+                    foraAbaixo++;
+                else if (valor > b)
+                    foraAcima++;
+            }
+        }
+
+    } while (valor != 0.0);
+
+    totalFora = foraAcima + foraAbaixo;
+
+    double porcentagemAcima = 0.0, porcentagemAbaixo = 0.0;
+    if (totalFora > 0) {
+        porcentagemAcima = (foraAcima * 100.0) / totalFora;
+        porcentagemAbaixo = (foraAbaixo * 100.0) / totalFora;
+    }
+
+    // Resultados
+    printf("\nValores dentro do intervalo: %d", dentro);
+    printf("\nValores fora do intervalo: %d (acima: %d, abaixo: %d)", totalFora, foraAcima, foraAbaixo);
+    printf("\nPorcentagem acima: %.2lf%%", porcentagemAcima);
+    printf("\nPorcentagem abaixo: %.2lf%%", porcentagemAbaixo);
  // encerrar
     printf ( "\n%s\n", "Apertar ENTER para continuar." );
     getchar( );
@@ -367,10 +543,48 @@ void metodo07 ( void )
 /**
   * Metodo08.
   */
+ int crescente(double x, double y, double z) {
+    return (x < y && y < z);
+}
+
+int decrescente(double x, double y, double z) {
+    return (x > y && y > z);
+}
+
+double maior(double x, double y, double z) {
+    double m = x;
+    if (y > m) m = y;
+    if (z > m) m = z;
+    return m;
+}
+
+double menor(double x, double y, double z) {
+    double m = x;
+    if (y < m) m = y;
+    if (z < m) m = z;
+    return m;
+}
+
+
 void metodo08 ( void )
 {
  // identificar
     printf ( "\n%s\n", "Metodo08" );
+     double x = 0.0, y = 0.0, z = 0.0;
+
+    printf("\nDigite os valores de x, y e z: ");
+    scanf("%lf %lf %lf", &x, &y, &z);
+    getchar();
+
+    if (crescente(x, y, z)) {
+        printf("\nOs valores estao em ordem crescente");
+    } else if (decrescente(x, y, z)) {
+        printf("\nOs valores estao em ordem decrescente");
+    } else {
+        printf("\nOs valores nao estao em ordem");
+        printf("\nMaior valor: %.2lf\n", maior(x, y, z));
+        printf("\nMenor valor: %.2lf\n", menor(x, y, z));
+    }
  // encerrar
     printf ( "\n%s\n", "Apertar ENTER para continuar." );
     getchar( );
@@ -380,10 +594,46 @@ void metodo08 ( void )
 /**
   * Metodo09.
   */
+
+int sucessor(char x, char y) 
+{
+    return (y > x);
+}
+
+int crescenteChar(char x, char y, char z) 
+{
+    return (x < y && y < z);
+}
+
+int decrescenteChar(char x, char y, char z) 
+{
+    return (x > y && y > z);
+}
+
 void metodo09 ( void )
 {
  // identificar
     printf ( "\n%s\n", "Metodo09" );
+     char x, y, z;
+
+    printf("\nDigite tres caracteres (x, y, z): ");
+    scanf(" %c %c %c", &x, &y, &z);
+    getchar();
+
+    if (crescenteChar(x, y, z)) {
+        printf("\nOs caracteres estao em ordem alfabetica crescente");
+    } else if (decrescenteChar(x, y, z)) {
+        printf("\nOs caracteres estao em ordem alfabetica decrescente");
+    } else {
+        printf("\nOs caracteres nao estao em nenhuma ordem");
+    }
+
+    printf("\nx = '%c', y = '%c' e sucessor? ", x, y);
+    if (sucessor(x, y)) {
+        printf("SIM\n");
+    } else {
+        printf("NAO\n");
+    }
  // encerrar
     printf ( "\n%s\n", "Apertar ENTER para continuar." );
     getchar( );
@@ -393,10 +643,52 @@ void metodo09 ( void )
 /**
   * Metodo10.
   */
+int crescenteStr(char *x, char *y, char *z) 
+{
+    return (strcmp(x, y) < 0 && strcmp(y, z) < 0);
+}
+
+int decrescenteStr(char *x, char *y, char *z) 
+{
+    return (strcmp(x, y) > 0 && strcmp(y, z) > 0);
+}
+
+char* menorStr(char *x, char *y, char *z) 
+{
+    char *menor = x;
+    if (strcmp(y, menor) < 0) menor = y;
+    if (strcmp(z, menor) < 0) menor = z;
+    return menor;
+}
+
+char* maiorStr(char *x, char *y, char *z)
+{
+    char *maior = x;
+    if (strcmp(y, maior) > 0) maior = y;
+    if (strcmp(z, maior) > 0) maior = z;
+    return maior;
+}
+
+
 void metodo10 ( void )
 {
  // identificar
     printf ( "\n%s\n", "Metodo10" );
+    char x[50], y[50], z[50];
+
+    printf("Digite tres cadeias de caracteres: ");
+    scanf("%s %s %s", x, y, z);
+    getchar();
+
+    if (crescenteStr(x, y, z)) {
+        printf("\nAs cadeias estao em ordem alfabetica crescente");
+    } else if (decrescenteStr(x, y, z)) {
+        printf("\nAs cadeias estao em ordem alfabetica decrescente");
+    } else {
+        printf("\nAs cadeias nao estao em nenhuma ordem");
+        printf("\nMenor: %s", menorStr(x, y, z));
+        printf("\nMaior: %s", maiorStr(x, y, z));
+    }
  // encerrar
     printf ( "\n%s\n", "Apertar ENTER para continuar." );
     getchar( );

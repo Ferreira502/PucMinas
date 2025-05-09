@@ -1,5 +1,5 @@
 /*
- Exercicio07 - v0.0. - 29 / 04 / 2025
+ Exercicio08 - v0.0. - 29 / 04 / 2025
  Author: Gabriel Ferreira Pereira
 
  Para compilar em terminal (janela de comandos):
