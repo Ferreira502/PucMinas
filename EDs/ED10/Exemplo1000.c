@@ -154,24 +154,7 @@ int_Array IO_readintArray ( )
  
  // reservar espaco para armazenar 
     array.data = IO_new_ints ( array.length ); 
-  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
  // testar se ha' espaco 
     if ( array.data == NULL ) 
     { 
@@ -288,24 +271,7 @@ int freadArraySize ( chars fileName )
  // definir dados locais 
     int n = 0; 
     FILE* arquivo = fopen ( fileName, "rt" ); 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
  // testar a existencia  
     if ( arquivo ) 
     { 
@@ -355,17 +321,6 @@ int_Array fIO_readintArray ( chars fileName )
         { 
          // reservar espaco 
             array.data = IO_new_ints ( array.length ); 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
  
          // testar a existência 
             if ( array.data ) 
@@ -465,14 +420,6 @@ ref_int_Array copyIntArray ( int_Array array )
     return ( copy ); 
 } // end copyIntArray ( ) 
  
- 
- 
- 
- 
- 
- 
- 
- 
 /** 
    Method_05. 
  */ 
@@ -511,3 +458,553 @@ void method_05 ( )
  // encerrar 
     IO_pause ( "Apertar ENTER para continuar" ); 
 } // end method_05 ( )
+
+/** 
+   Definicao de tipo arranjo bidimensional com inteiros baseado em estrutura 
+ */ 
+typedef 
+ struct s_int_Matrix 
+ { 
+   int    rows      ; 
+   int    columns; 
+   ints* data   ; 
+   int     ix,  iy ; 
+ } 
+int_Matrix; 
+ 
+/** 
+   Definicao de referencia para arranjo bidimensional com inteiros baseado em estrutura 
+ */ 
+typedef int_Matrix* ref_int_Matrix; 
+ 
+/** 
+   new_int_Matrix    - Reservar espaco para arranjo bidimensional com inteiros 
+   @return referencia para arranjo com inteiros 
+   @param rows        - quantidade de dados 
+   @param columns - quantidade de dados 
+ */ 
+ref_int_Matrix new_int_Matrix ( int rows, int columns ) 
+{ 
+ // reserva de espaco 
+    ref_int_Matrix tmpMatrix = (ref_int_Matrix) malloc (sizeof(int_Matrix)); 
+ 
+ // estabelecer valores padroes 
+    if ( tmpMatrix != NULL ) 
+    { 
+       tmpMatrix->rows          = 0; 
+       tmpMatrix->columns   = 0; 
+       tmpMatrix->data           = NULL; 
+     // reservar espaco 
+       if ( rows>0 && columns>0 ) 
+       { 
+          tmpMatrix->rows        = rows; 
+          tmpMatrix->columns = columns; 
+          tmpMatrix->data         = malloc (rows * sizeof(ints)); 
+          if ( tmpMatrix->data ) 
+          { 
+             for ( tmpMatrix->ix=0; 
+                     tmpMatrix->ix<tmpMatrix->rows; 
+                     tmpMatrix->ix=tmpMatrix->ix+1 ) 
+             { 
+                tmpMatrix->data [ tmpMatrix->ix ] = (ints) malloc (columns * sizeof(int)); 
+             } // end for 
+          } // end if 
+       } // end if 
+       tmpMatrix->ix         = 0; 
+       tmpMatrix->iy         = 0; 
+   } // end if 
+   return ( tmpMatrix ); 
+} // end new_int_Matrix ( ) 
+ 
+/** 
+   free_int_Matrix        - Dispensar espaco para arranjo com inteiros 
+   @param tmpMatrix - referencia para grupo de valores inteiros 
+ */ 
+void free_int_Matrix ( ref_int_Matrix matrix ) 
+{ 
+ // testar se ha' dados 
+    if ( matrix != NULL ) 
+    { 
+       if ( matrix->data != NULL ) 
+       { 
+          for ( matrix->ix=0; 
+                  matrix->ix<matrix->rows; 
+                  matrix->ix=matrix->ix+1 ) 
+          { 
+                free ( matrix->data [ matrix->ix ] ); 
+          } // end for 
+          free ( matrix->data ); 
+       } // end if 
+       free ( matrix ); 
+    } // end if 
+} // end free_int_Matrix ( ) 
+ 
+/** 
+   printIntMatrix  - Mostrar matrix com valores inteiros. 
+   @param array - grupo de valores inteiros 
+ */ 
+void printIntMatrix ( ref_int_Matrix matrix ) 
+{ 
+ // testar a existencia 
+    if ( matrix != NULL && matrix->data != NULL ) 
+    { 
+     // mostrar valores na matriz 
+        for ( matrix->ix=0; matrix->ix<matrix->rows; matrix->ix=matrix->ix+1 ) 
+        { 
+             for ( matrix->iy=0; matrix->iy<matrix->columns; matrix->iy=matrix->iy+1 ) 
+             { 
+              // mostrar valor 
+                 printf ( "%3d\t", matrix->data [ matrix->ix ][ matrix->iy ] ); 
+             } // end for 
+             printf ( "\n" ); 
+        } // end for 
+    } // end if 
+ } // end printIntArray ( ) 
+ 
+/** 
+   Method_06. 
+ */ 
+void method_06 ( ) 
+{ 
+ // definir dado 
+    ref_int_Matrix matrix = new_int_Matrix ( 3, 3 ); 
+ 
+    if ( matrix != NULL && matrix->data != NULL ) 
+    { 
+       matrix->data [0][0] = 1;    matrix->data [0][1] = 2;    matrix->data [0][2] = 3; 
+       matrix->data [1][0] = 3;    matrix->data [1][1] = 4;    matrix->data [1][2] = 5; 
+       matrix->data [2][0] = 6;    matrix->data [2][1] = 7;    matrix->data [2][2] = 8; 
+    } // fim se 
+ 
+ // identificar 
+    IO_id ( "Method_06 - v0.0" ); 
+ 
+ // executar o metodo auxiliar 
+    printIntMatrix ( matrix ); 
+ 
+ // reciclar espaco 
+    free_int_Matrix ( matrix ); 
+ 
+ // encerrar 
+    IO_pause ( "Apertar ENTER para continuar" ); 
+} // end method_06 ( ) 
+
+/** 
+   IO_readintMatrix  - Ler arranjo bidimensional com valores inteiros. 
+   @return referencia para o grupo de valores inteiros 
+ */ 
+ref_int_Matrix IO_readintMatrix ( ) 
+{ 
+ // definir dados locais 
+    int   rows       = 0; 
+    int   columns = 0; 
+    chars text = IO_new_chars ( STR_SIZE ); 
+ 
+ // ler a quantidade de dados 
+    do 
+    {    rows       = IO_readint ( "\nrows        = "      );   } 
+    while ( rows       <= 0 ); 
+    do 
+    {    columns = IO_readint ( "\ncolumns = " );   } 
+    while ( columns <= 0 ); 
+ 
+ // reservar espaco para armazenar valores 
+    ref_int_Matrix matrix = new_int_Matrix ( rows, columns ); 
+ 
+ // testar se ha' espaco 
+    if ( matrix != NULL ) 
+    { 
+       if ( matrix->data == NULL ) 
+       { 
+        // nao ha' espaco 
+           matrix->rows        = 0; 
+           matrix->columns = 0; 
+           matrix->ix             = 0; 
+           matrix->iy             = 0; 
+       } 
+      else 
+      { 
+       // ler e guardar valores na matriz 
+          for ( matrix->ix=0; matrix->ix<matrix->rows; matrix->ix=matrix->ix+1 ) 
+          { 
+               for ( matrix->iy=0; matrix->iy<matrix->columns; matrix->iy=matrix->iy+1 ) 
+               { 
+                // ler e guardar valor 
+                   strcpy ( text, STR_EMPTY ); 
+                   matrix->data [ matrix->ix ][ matrix->iy ] 
+                   = IO_readint ( IO_concat ( 
+                                        IO_concat ( IO_concat ( text, IO_toString_d ( matrix->ix ) ), ", "  ), 
+                                        IO_concat ( IO_concat ( text, IO_toString_d ( matrix->iy ) ), " : " ) ) ); 
+               } // end for 
+               printf ( "\n" ); 
+          } // end for 
+       } // end if 
+  } // end if 
+ 
+ // retornar dados lidos 
+    return ( matrix ); 
+} // end IO_readintMatrix ( ) 
+ 
+ 
+/** 
+   Method_07. 
+ */ 
+void method_07 ( ) 
+{ 
+ // definir dados 
+    ref_int_Matrix matrix = NULL; 
+ 
+ // identificar 
+    IO_id ( "Method_07 - v0.0" ); 
+ 
+ // ler dados 
+    matrix = IO_readintMatrix ( ); 
+ 
+ // mostrar dados 
+    IO_printf      ( "\n" ); 
+    printIntMatrix ( matrix ); 
+ 
+ // reciclar espaco 
+    free_int_Matrix ( matrix ); 
+ 
+ // encerrar 
+    IO_pause ( "Apertar ENTER para continuar" ); 
+} // end method_07 ( ) 
+
+/** 
+   fprintIntMatrix       - Gravar arranjo bidimensional com valores inteiros. 
+   @param fileName - nome do arquivo 
+   @param matrix     - grupo de valores inteiros 
+ */ 
+void fprintIntMatrix ( chars fileName, ref_int_Matrix matrix ) 
+{ 
+ // definir dados locais 
+    FILE* arquivo = fopen ( fileName, "wt" ); 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ // testar se ha' dados 
+    if ( matrix == NULL ) 
+    { 
+       printf ( "\nERRO: Nao ha' dados." ); 
+    } 
+    else 
+    { 
+     // gravar quantidade de dados 
+        fprintf ( arquivo, "%d\n", matrix->rows       ); 
+        fprintf ( arquivo, "%d\n", matrix->columns ); 
+         
+        if ( matrix->data != NULL ) 
+        { 
+         // gravar valores no arquivo 
+            for ( matrix->ix=0; matrix->ix<matrix->rows; matrix->ix=matrix->ix+1 ) 
+            { 
+               for ( matrix->iy=0; matrix->iy<matrix->columns; matrix->iy=matrix->iy+1 ) 
+               { 
+                // gravar valor 
+                   fprintf ( arquivo, "%d\n", matrix->data [ matrix->ix ][ matrix->iy ] ); 
+               } // end for 
+            } // end for 
+        } // end if 
+     // fechar arquivo 
+        fclose ( arquivo ); 
+  } // end if 
+} // end fprintIntMatrix ( ) 
+ 
+/** 
+   Method_08. 
+ */ 
+void method_08 ( ) 
+{ 
+ // definir dados 
+    ref_int_Matrix matrix = NULL; 
+ 
+ // identificar 
+    IO_id ( "Method_08 - v0.0" ); 
+ 
+ // ler    dados 
+    matrix = IO_readintMatrix ( ); 
+ 
+ // gravar dados 
+    fprintIntMatrix( "MATRIX1.TXT", matrix ); 
+ 
+ // reciclar espaco 
+    free_int_Matrix ( matrix ); 
+ 
+ // encerrar 
+    IO_pause ( "Apertar ENTER para continuar" ); 
+} // end method_08 ( ) 
+
+/** 
+   freadintMatrix       - Ler arranjo bidimensional com valores inteiros. 
+   @return referencia para o grupo de valores inteiros 
+   @param fileName - nome do arquivo 
+ */ 
+ref_int_Matrix freadintMatrix ( chars fileName ) 
+{ 
+ // definir dados locais 
+    ref_int_Matrix matrix = NULL; 
+    int      rows       = 0; 
+    int      columns = 0; 
+    FILE* arquivo   = fopen ( fileName, "rt" ); 
+ // ler a quantidade de dados 
+    fscanf ( arquivo, "%d", &rows       ); 
+    fscanf ( arquivo, "%d", &columns ); 
+    if ( rows <= 0 || columns <= 0 ) 
+    { 
+       IO_printf ( "\nERRO: Valor invalido.\n" ); 
+    } 
+    else 
+    { 
+     // reservar espaco para armazenar 
+        matrix = new_int_Matrix ( rows, columns ); 
+     // testar se ha' espaco 
+        if ( matrix != NULL && matrix->data == NULL ) 
+        { 
+         // nao ha' espaco 
+            matrix->rows        = 0; 
+            matrix->columns = 0; 
+            matrix->ix             = 0; 
+            matrix->iy             = 0; 
+        } 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+        else 
+        { 
+         // testar a existência 
+            if ( matrix != NULL ) 
+            { 
+              // ler e guardar valores na matriz 
+                 matrix->ix = 0; 
+                 while ( ! feof ( arquivo ) && matrix->ix < matrix->rows ) 
+                 { 
+                     matrix->iy = 0; 
+                     while ( ! feof ( arquivo ) && matrix->iy < matrix->columns ) 
+                     { 
+                      // guardar valor 
+                         fscanf ( arquivo, "%d", &(matrix->data [ matrix->ix ][ matrix->iy ]) ); 
+                      // passar ao proximo 
+                         matrix->iy = matrix->iy+1; 
+                     } // end while 
+                  // passar ao proximo 
+                     matrix->ix = matrix->ix+1; 
+                 } // end while 
+                matrix->ix = 0; 
+                matrix->iy = 0; 
+           } // end if 
+        } // end if 
+     } // end if 
+ // retornar matriz lida 
+    return ( matrix ); 
+} // end freadintMatrix ( ) 
+ 
+/** 
+   Method_09. 
+ */ 
+void method_09 ( ) 
+{ 
+ // identificar 
+    IO_id ( "Method_09 - v0.0" ); 
+ 
+ // ler dados 
+    ref_int_Matrix matrix = freadintMatrix ( "MATRIX1.TXT" ); 
+ 
+ // mostrar dados 
+    IO_printf      ( "\n" ); 
+    printIntMatrix ( matrix ); 
+ 
+ // reciclar espaco 
+    free_int_Matrix ( matrix ); 
+ 
+ // encerrar 
+    IO_pause ( "Apertar ENTER para continuar" ); 
+} // end method_09 ( ) 
+
+/** 
+   copyIntMatrix - Copiar matriz com valores inteiros. 
+   @return referencia para o grupo de valores inteiros 
+ */ 
+ref_int_Matrix copyIntMatrix ( ref_int_Matrix matrix ) 
+{ 
+ // definir dados locais 
+    ref_int_Matrix copy = NULL; 
+ 
+    if ( matrix == NULL || matrix->data == NULL ) 
+    { 
+       IO_printf ( "\nERRO: Faltam dados.\n" ); 
+    } 
+    else 
+    { 
+       if ( matrix->rows <= 0 || matrix->columns <= 0 ) 
+       { 
+          IO_printf ( "\nERRO: Valor invalido.\n" ); 
+       } 
+       else 
+       { 
+        // reservar espaco 
+           copy = new_int_Matrix ( matrix->rows, matrix->columns ); 
+ 
+        // testar se ha' espaco e dados 
+           if ( copy == NULL || copy->data == NULL ) 
+           { 
+              printf ( "\nERRO: Falta espaco." ); 
+           } 
+           else 
+           { 
+            // copiar valores 
+               for ( copy->ix = 0; copy->ix < copy->rows; copy->ix = copy->ix + 1 ) 
+               { 
+                   for ( copy->iy = 0; copy->iy < copy->columns; copy->iy = copy->iy + 1 ) 
+                   { 
+                    // copiar valor 
+                       copy->data [ copy->ix ][ copy->iy ] 
+                       = matrix->data [ copy->ix ][ copy->iy ]; 
+                   } // end for 
+               } // end for 
+           } // end if 
+       } // end if 
+    } // end if 
+     
+ // retornar copia 
+    return ( copy ); 
+} // end copyIntMatrix ( ) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+/** 
+   Method_10. 
+ */ 
+void method_10 ( ) 
+{ 
+ // definir dados 
+    ref_int_Matrix matrix = NULL; 
+    ref_int_Matrix other   = NULL; 
+ 
+ // identificar 
+    IO_id ( "Method_10 - v0.0" ); 
+ 
+ // ler dados 
+    matrix = freadintMatrix ( "MATRIX1.TXT" ); 
+ 
+ // copiar dados 
+    other  = copyIntMatrix  ( matrix ); 
+ 
+ // mostrar dados 
+    IO_printf         ( "\nOriginal\n" ); 
+    printIntMatrix ( matrix ); 
+ 
+ // mostrar dados 
+    IO_printf         ( "\nCopia\n" ); 
+    printIntMatrix ( other  ); 
+ 
+ // reciclar espaco 
+    free_int_Matrix ( matrix ); 
+    free_int_Matrix ( other   ); 
+ 
+ // encerrar 
+    IO_pause ( "Apertar ENTER para continuar" ); 
+} // end method10 ( ) 
+ 
+ 
+/* 
+  Funcao principal. 
+  @return codigo de encerramento 
+*/ 
+int main ( void ) 
+{ 
+ // definir dado 
+    int opcao = 0; 
+ 
+ // identificar 
+    printf ( "%s\n", "Exemplo1000 - Programa = v0.0" ); 
+    printf ( "%s\n", "Autor: Gabriel Ferreira Pereira" ); 
+    printf ( "\n" ); // mudar de linha 
+
+ // acoes 
+ 
+ // repetir 
+    do 
+    { 
+     // para mostrar opcoes 
+        printf ( "\n%s\n", "Opcoes:"          ); 
+        printf ( "\n%s"   , "0 - Terminar"    ); 
+        printf ( "\n%s"   , "1 - Method_01" );
+        printf ( "\n%s"   , "2 - Method_02" );
+        printf ( "\n%s"   , "3 - Method_03" );
+        printf ( "\n%s"   , "4 - Method_04" );
+        printf ( "\n%s"   , "5 - Method_05" );
+        printf ( "\n%s"   , "6 - Method_06" );
+        printf ( "\n%s"   , "7 - Method_07" );
+        printf ( "\n%s"   , "8 - Method_08" );
+        printf ( "\n%s"   , "9 - Method_09" );
+        printf ( "\n%s"   , "10- Method_10" );   
+        printf ( "\n" ); 
+ 
+     // ler a opcao do teclado 
+        printf  ( "\n%s", "Opcao = " ); 
+        scanf  ( "%d", &opcao ); 
+        getchar( );  // para limpar a entrada de dados 
+ 
+     // para mostrar a opcao lida 
+        printf  ( "\n%s%d", "Opcao = ", opcao ); 
+ 
+    // escolher acao dependente da opcao 
+        switch ( opcao ) 
+        { 
+          case 0:  /* nao fazer nada */   break; 
+          case 1:     method_01 ( );      break;
+          case 2:     method_02 ( );      break;
+          case 3:     method_03 ( );      break;
+          case 4:     method_04 ( );      break;
+          case 5:     method_05 ( );      break;
+          case 6:     method_06 ( );      break;
+          case 7:     method_07 ( );      break;
+          case 8:     method_08 ( );      break;
+          case 9:     method_09 ( );      break;
+          case 10:     method_10 ( );      break; 
+          default: // comportamento padrao 
+                           printf ( "\nERRO: Opcao invalida.\n" ); 
+                           break; 
+        } // end switch 
+    } 
+    while ( opcao != 0 ); 
+ 
+ // encerrar 
+    printf    ( "\n\nApertar ENTER para terminar." ); 
+    getchar( );  // aguardar por ENTER 
+    return   ( 0 ); // voltar ao SO (sem erros) 
+} // end main ( ) 
