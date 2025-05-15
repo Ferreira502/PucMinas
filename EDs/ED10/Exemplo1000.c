@@ -1,6 +1,6 @@
 /* 
-   Exemplo1000 - v0.0. - __ / __ / _____ 
-   Author: ________________________ 
+   Exemplo1000 - v0.0. - 13 / 05 / 2025 
+   Author: Gabriel Ferreira Pereira
  
  */ 
 // dependencias 
@@ -681,17 +681,6 @@ void fprintIntMatrix ( chars fileName, ref_int_Matrix matrix )
  // definir dados locais 
     FILE* arquivo = fopen ( fileName, "wt" ); 
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
  // testar se ha' dados 
     if ( matrix == NULL ) 
     { 
@@ -776,28 +765,7 @@ ref_int_Matrix freadintMatrix ( chars fileName )
             matrix->ix             = 0; 
             matrix->iy             = 0; 
         } 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
         else 
         { 
          // testar a existência 
@@ -897,13 +865,6 @@ ref_int_Matrix copyIntMatrix ( ref_int_Matrix matrix )
  // retornar copia 
     return ( copy ); 
 } // end copyIntMatrix ( ) 
- 
- 
- 
- 
- 
- 
- 
  
 /** 
    Method_10. 
