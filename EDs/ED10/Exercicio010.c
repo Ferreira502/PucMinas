@@ -39,9 +39,11 @@ void metodo01( void )
 
     printf("\nInforme o valor inferior do intervalo: ");
     scanf("%d", &inferior);
+    getchar();
 
     printf("\nInforme o valor superior do intervalo: ");
     scanf("%d", &superior);
+    getchar();
 
     if (inferior > superior) {
         printf("\nLimite inferior maior que superior");
@@ -84,11 +86,97 @@ void metodo01( void )
 /**
   * Metodo02.
   */
+
+typedef struct descritor
+{
+    int  x;
+    int  tamanho;
+    int *referencia;
+} descritor;
+
+descritor readArrayFromFile(char nomeArquivo[])
+{
+    FILE *arquivo = fopen(nomeArquivo, "rt");
+    descritor arranjo;
+    arranjo.tamanho = 0;
+    arranjo.referencia = NULL;
+
+    if (arquivo != NULL)
+    {
+        fscanf(arquivo, "%d", &arranjo.tamanho);
+        arranjo.referencia = (int *) malloc(arranjo.tamanho * sizeof(int));
+
+        if (arranjo.referencia != NULL)
+        {
+            for (arranjo.x = 0; arranjo.x < arranjo.tamanho; arranjo.x++)
+            {
+                fscanf(arquivo, "%d", &arranjo.referencia[arranjo.x]);
+            }
+        }
+
+        fclose(arquivo);
+    }
+    else
+    {
+        printf("Erro ao abrir o arquivo!\n");
+    }
+
+    return arranjo;
+}
+
+int arraySearch(int valor, descritor arranjo)
+{
+    for (arranjo.x = 0; arranjo.x < arranjo.tamanho; arranjo.x++)
+    {
+        if (arranjo.referencia[arranjo.x] == valor)
+        {
+          return arranjo.x;
+        }
+    }
+    return -1;
+}
  
 void metodo02 ( void )
 {
 // Identificar
   printf("\n%s\n", "\n\tMetodo1012");
+  descritor arranjo;
+  char nomeArquivo[MAX];
+  int valor, posicao;
+
+ 
+  printf("Digite o nome do arquivo: ");
+  scanf("%s", nomeArquivo);
+  getchar();  
+  
+  arranjo = readArrayFromFile(nomeArquivo);
+
+  if (arranjo.referencia != NULL)
+  {
+      printf("\nValores no arranjo:\n");
+      for (arranjo.x = 0; arranjo.x < arranjo.tamanho; arranjo.x++)
+      {
+          printf("%d ", arranjo.referencia[arranjo.x]);
+      }
+
+      printf("\n\nDigite o valor a procurar: ");
+      scanf("%d", &valor);
+
+      posicao = arraySearch(valor, arranjo);
+
+      if (posicao >= 0)
+      {
+          printf("Valor %d encontrado na posicao %d.\n", valor, posicao);
+      }
+      else
+      {
+          printf("Valor %d NAO encontrado no arranjo.\n", valor);
+      }
+
+      free(arranjo.referencia);
+      arranjo.referencia = NULL;
+  }
+
 // Encerrar
   printf("\n%s\n", "Apertar ENTER para continuar.");
   getchar();
@@ -98,10 +186,59 @@ void metodo02 ( void )
   * Metodo03.
   */
 
+
+int arrayCompare(descritor a, descritor b)
+{
+  if (a.tamanho != b.tamanho)
+      return 0;
+
+  for (a.x = 0; a.x < a.tamanho; a.x++)
+  {
+      if (a.referencia[a.x] != b.referencia[a.x])
+          return 0;
+  }
+
+  return 1;
+}
+
 void metodo03 ( void )
 {
  // Identificar
    printf("\n%s\n", "\n\tMetodo1013");
+   descritor arranjo1, arranjo2;
+   char nomeArquivo1[MAX], nomeArquivo2[MAX];
+
+   printf("\n\tMetodo1013\n");
+
+    printf("Digite o nome do primeiro arquivo: ");
+    scanf("%s", nomeArquivo1);
+    arranjo1 = readArrayFromFile(nomeArquivo1);
+
+    printf("Digite o nome do segundo arquivo: ");
+    scanf("%s", nomeArquivo2);
+    arranjo2 = readArrayFromFile(nomeArquivo2);
+
+    printf("\nArranjo 1: ");
+    for (arranjo1.x = 0; arranjo1.x < arranjo1.tamanho; arranjo1.x++)
+    {
+        printf("%d ", arranjo1.referencia[arranjo1.x]);
+    }
+
+    printf("\nArranjo 2: ");
+    for (arranjo2.x = 0; arranjo2.x < arranjo2.tamanho; arranjo2.x++)
+    {
+        printf("%d ", arranjo2.referencia[arranjo2.x]);
+    }
+
+    if (arrayCompare(arranjo1, arranjo2))
+        printf("\nArranjos sao iguais");
+    else
+        printf("\nArranjos sao diferentes");
+
+    free(arranjo1.referencia);
+    free(arranjo2.referencia);
+    arranjo1.referencia = NULL;
+    arranjo2.referencia = NULL;
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -111,10 +248,69 @@ void metodo03 ( void )
   * Metodo04.
   */
 
+descritor arrayAdd(descritor a, int constante, descritor b) 
+{
+  descritor resultado;
+  resultado.tamanho = 0;
+  resultado.referencia = NULL;
+
+  if (a.tamanho == b.tamanho) {
+      resultado.tamanho = a.tamanho;
+      resultado.referencia = (int*) malloc(resultado.tamanho * sizeof(int));
+
+      if (resultado.referencia != NULL) {
+          for (a.x = 0; a.x < resultado.tamanho; a.x++) {
+              resultado.referencia[a.x] = a.referencia[a.x] + constante * b.referencia[a.x];
+          }
+      }
+  } else {
+      printf("Tamanhos incompativeis: %d != %d\n", a.tamanho, b.tamanho);
+      getchar();
+  }
+
+  return resultado;
+}
+
 void metodo04 ( void )
 {
  // Identificar
    printf("\n%s\n", "\n\tMetodo1014");
+   descritor arranjo1, arranjo2, resultado;
+   char nomeArquivo1[100], nomeArquivo2[100];
+   int constante = 0;
+
+    printf("\nDigite o nome do primeiro arquivo: ");
+    scanf("%s", nomeArquivo1);
+    arranjo1 = readArrayFromFile(nomeArquivo1);
+    getchar();
+
+    printf("\nDigite o nome do segundo arquivo: ");
+    scanf("%s", nomeArquivo2);
+    getchar();
+
+    arranjo2 = readArrayFromFile(nomeArquivo2);
+
+    printf("\nDigite a constante multiplicadora: ");
+    scanf("%d", &constante);
+    getchar();
+
+    resultado = arrayAdd(arranjo1, constante, arranjo2);
+
+    if (resultado.referencia != NULL) {
+        printf("\nResultado da soma: ");
+        for (resultado.x = 0; resultado.x < resultado.tamanho; resultado.x++) {
+            printf("%d ", resultado.referencia[resultado.x]);
+        }
+        printf("\n");
+
+        free(resultado.referencia);
+        resultado.referencia = NULL;
+    }
+
+    free(arranjo1.referencia);
+    free(arranjo2.referencia);
+    arranjo1.referencia = NULL;
+    arranjo2.referencia = NULL;
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -124,10 +320,48 @@ void metodo04 ( void )
   * Metodo05.
   */
 
+int isArrayDecrescent(descritor arranjo) 
+{
+    int resultado = 1;
+
+    for (arranjo.x = 1; arranjo.x < arranjo.tamanho; arranjo.x++) 
+    {
+        if (arranjo.referencia[arranjo.x - 1] < arranjo.referencia[arranjo.x]) 
+        {
+            resultado = 0;
+        }
+    }
+
+    return resultado;
+}
+
 void metodo05 ( void )
 {
 // Identificar
-   printf("\n%s\n", "\n\tMetodo1015");
+  printf("\n%s\n", "\n\tMetodo1015");
+  descritor arranjo;
+  char nomeArquivo[100];
+  int resultado = 0;
+
+  printf("Digite o nome do arquivo: ");
+  scanf("%s", nomeArquivo);
+  getchar();
+  
+  arranjo = readArrayFromFile(nomeArquivo);
+
+  if (arranjo.referencia != NULL) 
+  {
+      resultado = isArrayDecrescent(arranjo);
+
+      if (resultado) {
+          printf("\nO arranjo esta em ordem decrescente");
+      } else {
+          printf("\nO arranjo nao esta em ordem decrescente");
+      }
+
+      free(arranjo.referencia);
+      arranjo.referencia = NULL;
+  }
 // Encerrar
   printf("\n%s\n", "Apertar ENTER para continuar.");
   getchar();
