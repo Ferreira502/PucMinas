@@ -499,7 +499,7 @@ int matrixZero(descritorMatriz matriz)
 void metodo07( void ) {
 //identificar
   printf("\n%s\n", "\n\tMetodo1017");
-  char nomeArquivo[100];
+  char nomeArquivo[MAX];
   descritorMatriz matriz;
   int resposta = 0;
 
@@ -553,7 +553,7 @@ void metodo08( void )
 {
 //Identificar
   printf("\n%s\n", "\n\tMetodo1018");
-  char nomeArquivo1[100], nomeArquivo2[100];
+  char nomeArquivo1[MAX], nomeArquivo2[MAX];
   descritorMatriz matriz1, matriz2;
   int resultado = 0;
 
@@ -625,7 +625,7 @@ void metodo09 ( void )
 {
 // Identificar
   printf("\n%s\n", "\n\tMetodo1019");
-  char nome1[100], nome2[100];
+  char nome1[MAX], nome2[MAX];
   int constante = 0;
 
   printf("\nArquivo da primeira matriz: ");
@@ -667,10 +667,81 @@ void metodo09 ( void )
   * Metodo10.
   */
 
+descritorMatriz matrixProduct(descritorMatriz a, descritorMatriz b) 
+{
+  descritorMatriz resultado;
+  resultado.linhas = 0;
+  resultado.colunas = 0;
+  resultado.referencia = NULL;
+
+  if (a.colunas != b.linhas) 
+  {
+    printf("\nErro: Matrizes incompativeis para multiplicacao\n");
+    return resultado;
+  }
+
+  resultado.linhas = a.linhas;
+  resultado.colunas = b.colunas;
+  resultado.referencia = (int **) malloc(resultado.linhas * sizeof(int *));
+
+  for (int i = 0; i < resultado.linhas; i++) 
+  {
+    resultado.referencia[i] = (int *) malloc(resultado.colunas * sizeof(int));
+  }
+
+  for (int i = 0; i < resultado.linhas; i++) 
+  {
+    for (int j = 0; j < resultado.colunas; j++) 
+    {
+        resultado.referencia[i][j] = 0;
+    }
+  }
+
+  for (int i = 0; i < a.linhas; i++) 
+  {
+    for (int j = 0; j < b.colunas; j++) 
+    {
+        for (int k = 0; k < a.colunas; k++) 
+        {
+            resultado.referencia[i][j] += a.referencia[i][k] * b.referencia[k][j];
+        }
+    }
+  }
+
+  return resultado;
+}
+
 void metodo10( void ) 
 {
 // Identificar
   printf("\n%s\n", "\n\tMetodo1020");
+  
+  char nome1[MAX], nome2[MAX];
+  descritorMatriz m1, m2, produto;
+
+  printf("\nArquivo da primeira matriz: ");
+  scanf("%s", nome1);
+  getchar();
+
+  printf("\nArquivo da segunda matriz: ");
+  scanf("%s", nome2);
+  getchar();
+
+  m1 = readMatrixFromFile(nome1);
+  m2 = readMatrixFromFile(nome2);
+  produto = matrixProduct(m1, m2);
+
+  if (produto.referencia != NULL) {
+      printf("\nMatriz resultante:\n");
+      mostrarMatriz(produto);
+  } else {
+      printf("\nNao foi possivel calcular o produto");
+  }
+  getchar();
+
+  freeMatrix(m1);
+  freeMatrix(m2);
+  freeMatrix(produto);
 // Encerrar
   printf("\n\n%s\n", "Apertar ENTER para continuar.");
   getchar();
@@ -680,10 +751,71 @@ void metodo10( void )
   * Metodo11.
   */
 
+descritor sortArrayDown(descritor original) 
+{
+  descritor ordenado;
+  ordenado.tamanho = original.tamanho;
+  ordenado.referencia = (int *) malloc(ordenado.tamanho * sizeof(int));
+
+  if (ordenado.referencia == NULL) 
+  {
+    printf("\nErro: Memoria insuficiente");
+    ordenado.tamanho = 0;
+    return ordenado;
+  }
+
+  for (int i = 0; i < original.tamanho; i++) 
+  {
+    ordenado.referencia[i] = original.referencia[i];
+  }
+
+  for (int i = 0; i < ordenado.tamanho - 1; i++) 
+  {
+      for (int j = 0; j < ordenado.tamanho - 1 - i; j++) 
+      {
+        if (ordenado.referencia[j] < ordenado.referencia[j + 1]) 
+        {
+          int temp = ordenado.referencia[j];
+          ordenado.referencia[j] = ordenado.referencia[j + 1];
+          ordenado.referencia[j + 1] = temp;
+        }
+      }
+  }
+
+  return ordenado;
+}
+
+
 void metodo11( void ) 
 {
 // Identificar
   printf("\n%s\n", "\n\tMetodo10E1");
+  descritor arranjo;
+  descritor ordenado;
+  char nomeArquivo[MAX];
+
+  printf("Digite o nome do arquivo: ");
+  scanf("%s", nomeArquivo);
+
+  arranjo = readArrayFromFile(nomeArquivo);
+    
+  if (arranjo.referencia != NULL) 
+  {
+      ordenado = sortArrayDown(arranjo);
+
+      printf("\nArranjo ordenado em ordem decrescente:\n");
+      for (int i = 0; i < ordenado.tamanho; i++) 
+      {
+        printf("%d ", ordenado.referencia[i]);
+      }
+      printf("\n");
+
+      free(arranjo.referencia);
+      free(ordenado.referencia);
+  } else {
+      printf("\nErro ao ler o arranjo do arquivo");
+  }
+  getchar();
 // Encerrar
   printf("\n\n%s\n", "Apertar ENTER para continuar.");
   getchar();
@@ -694,9 +826,60 @@ void metodo11( void )
   * Metodo12.
   */
 
+bool identityMatrix(descritorMatriz matriz) 
+{
+  if (matriz.linhas != matriz.colunas) return false;
+
+  for (int i = 0; i < matriz.linhas; i++) 
+  {
+      for (int j = 0; j < matriz.colunas; j++) 
+      {
+          if ((i == j && matriz.referencia[i][j] != 1) ||
+              (i != j && matriz.referencia[i][j] != 0))   
+            {
+              return false;
+            }
+      }
+  }
+  return true;
+}
+
+
 void metodo12( void ) {
 // Identificar
   printf("\n%s\n", "\n\tMetodo10E2");
+  descritorMatriz matriz1, matriz2, produto;
+  char nome1[MAX], nome2[MAX];
+
+  printf("Digite o nome do primeiro arquivo: ");
+  scanf("%s", nome1);
+  getchar();
+
+  printf("Digite o nome do segundo arquivo: ");
+  scanf("%s", nome2);
+  getchar();  
+
+  matriz1 = readMatrixFromFile(nome1);
+  matriz2 = readMatrixFromFile(nome2);
+
+  if (matriz1.colunas == matriz2.linhas) {
+      produto = matrixProduct(matriz1, matriz2);
+
+      if (identityMatrix(produto)) {
+          printf("\nO produto das matrizes resulta em matriz identidade");
+      } else {
+          printf("\nO produto das matrizes nao resulta em matriz identidade");
+      }
+
+      freeMatrix(produto);
+  } else 
+  {
+      printf("\nTamanhos incompativeis para multiplicacao.");
+  }
+
+  getchar();
+  freeMatrix(matriz1);
+  freeMatrix(matriz2);
 // Encerrar
   printf("\n\n%s\n", "Apertar ENTER para continuar.");
   getchar();
@@ -706,7 +889,7 @@ void metodo12( void ) {
  void menuOpcoes ( void ) 
  {
    printf ( "\n" );             // para saltar linha
-   printf ( "%s\n", "Exercicio09 - v.0.0 - 13/05/2025"       );
+   printf ( "%s\n", "Exercicio10 - v.0.0 - 13/05/2025"       );
    printf ( "%s\n", "Matricula: 842527 Nome: Gabriel Ferreira Pereira" );
 
 // mostrar opcoes
