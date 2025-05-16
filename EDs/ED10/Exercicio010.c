@@ -374,7 +374,7 @@ void metodo05 ( void )
 typedef struct {
     int linhas;
     int colunas;
-    int **dados;
+    int **referencia;
 } descritorMatriz;
 
 descritorMatriz readMatrixFromFile(char nomeArquivo[]) {
@@ -383,21 +383,19 @@ descritorMatriz readMatrixFromFile(char nomeArquivo[]) {
 
     matriz.linhas = 0;
     matriz.colunas = 0;
-    matriz.dados = NULL;
+    matriz.referencia = NULL;
 
     if (arquivo != NULL) {
         fscanf(arquivo, "%d %d", &matriz.linhas, &matriz.colunas);
 
-        // Alocar linhas
-        matriz.dados = (int **) malloc(matriz.linhas * sizeof(int *));
+        matriz.referencia = (int **) malloc(matriz.linhas * sizeof(int *));
         for (int i = 0; i < matriz.linhas; i++) {
-            matriz.dados[i] = (int *) malloc(matriz.colunas * sizeof(int));
+            matriz.referencia[i] = (int *) malloc(matriz.colunas * sizeof(int));
         }
 
-        // Ler os dados
         for (int i = 0; i < matriz.linhas; i++) {
             for (int j = 0; j < matriz.colunas; j++) {
-                fscanf(arquivo, "%d", &matriz.dados[i][j]);
+                fscanf(arquivo, "%d", &matriz.referencia[i][j]);
             }
         }
 
@@ -409,11 +407,11 @@ descritorMatriz readMatrixFromFile(char nomeArquivo[]) {
     return matriz;
 }
 
-void liberarMatriz(descritorMatriz matriz) {
+void freeMatrix(descritorMatriz matriz) {
     for (int i = 0; i < matriz.linhas; i++) {
-        free(matriz.dados[i]);
+        free(matriz.referencia[i]);
     }
-    free(matriz.dados);
+    free(matriz.referencia);
 }
 
 descritorMatriz matrixTranspose(descritorMatriz matriz) {
@@ -421,27 +419,30 @@ descritorMatriz matrixTranspose(descritorMatriz matriz) {
     transposta.linhas = matriz.colunas;
     transposta.colunas = matriz.linhas;
 
-    transposta.dados = (int **) malloc(transposta.linhas * sizeof(int *));
+    transposta.referencia = (int **) malloc(transposta.linhas * sizeof(int *));
     for (int i = 0; i < transposta.linhas; i++) {
-        transposta.dados[i] = (int *) malloc(transposta.colunas * sizeof(int));
+        transposta.referencia[i] = (int *) malloc(transposta.colunas * sizeof(int));
     }
 
     for (int i = 0; i < matriz.linhas; i++) {
         for (int j = 0; j < matriz.colunas; j++) {
-            transposta.dados[j][i] = matriz.dados[i][j];
+            transposta.referencia[j][i] = matriz.referencia[i][j];
         }
     }
 
     return transposta;
 }
 
-void mostrarMatriz(descritorMatriz matriz) {
-    for (int i = 0; i < matriz.linhas; i++) {
-        for (int j = 0; j < matriz.colunas; j++) {
-            printf("%d ", matriz.dados[i][j]);
-        }
-        printf("\n");
-    }
+void mostrarMatriz(descritorMatriz matriz) 
+{
+  for (int i = 0; i < matriz.linhas; i++) 
+  {
+      for (int j = 0; j < matriz.colunas; j++) 
+      {
+        printf("%d ", matriz.referencia[i][j]);
+      }
+      printf("\n");
+  }
 }
 
 void metodo06( void )
@@ -464,8 +465,8 @@ void metodo06( void )
   printf("\nMatriz transposta: \n");
   mostrarMatriz(transposta);
 
-  liberarMatriz(matriz);
-  liberarMatriz(transposta);
+  freeMatrix(matriz);
+  freeMatrix(transposta);
 
 // Encerrar
   printf("\n%s\n", "Apertar ENTER para continuar.");
@@ -476,9 +477,48 @@ void metodo06( void )
   * Metodo07.
   */
 
+int matrixZero(descritorMatriz matriz) 
+{
+  int resultado = 1;
+
+  for (int i = 0; i < matriz.linhas; i++) 
+  {
+      for (int j = 0; j < matriz.colunas; j++) 
+      {
+          if (matriz.referencia[i][j] != 0) 
+          {
+              resultado = 0;
+          }
+      }
+  }
+
+  return resultado;
+}
+
+
 void metodo07( void ) {
 //identificar
   printf("\n%s\n", "\n\tMetodo1017");
+  char nomeArquivo[100];
+  descritorMatriz matriz;
+  int resposta = 0;
+
+  printf("Digite o nome do arquivo: ");
+  scanf("%s", nomeArquivo);
+  getchar();
+
+  matriz = readMatrixFromFile(nomeArquivo);
+
+  resposta = matrixZero(matriz);
+
+  if (resposta) {
+      printf("\nA matriz contem apenas zeros");
+  } else {
+      printf("\nA matriz nao contem apenas zeros");
+  }
+  getchar();
+
+  freeMatrix(matriz);
 // Encerrar
   printf("\n%s\n", "Apertar ENTER para continuar.");
   getchar();
@@ -488,9 +528,60 @@ void metodo07( void ) {
   * Metodo08.
   */
 
-void metodo08( void ) {
+int matrixCompare(descritorMatriz m1, descritorMatriz m2) 
+{
+  if (m1.linhas != m2.linhas || m1.colunas != m2.colunas) 
+  {
+      return 0;
+  }
+
+  for (int i = 0; i < m1.linhas; i++) 
+  {
+      for (int j = 0; j < m1.colunas; j++) 
+      {
+          if (m1.referencia[i][j] != m2.referencia[i][j]) 
+          {
+              return 0;
+          }
+      }
+  }
+
+  return 1;
+}
+
+void metodo08( void ) 
+{
 //Identificar
   printf("\n%s\n", "\n\tMetodo1018");
+  char nomeArquivo1[100], nomeArquivo2[100];
+  descritorMatriz matriz1, matriz2;
+  int resultado = 0;
+
+  printf("Digite o nome do primeiro arquivo: ");
+  scanf("%s", nomeArquivo1);
+  getchar();
+
+  printf("Digite o nome do segundo arquivo: ");
+  scanf("%s", nomeArquivo2);
+  getchar();
+
+  matriz1 = readMatrixFromFile(nomeArquivo1);
+  matriz2 = readMatrixFromFile(nomeArquivo2);
+
+  resultado = matrixCompare(matriz1, matriz2);
+
+  if (resultado) 
+  {
+      printf("\nAs matrizes sao iguais");
+  } else 
+  {
+      printf("\nAs matrizes sao diferentes");
+  }
+
+  getchar();
+  freeMatrix(matriz1);
+  freeMatrix(matriz2);
+
 // Encerrar
   printf("\n%s\n", "Apertar ENTER para continuar.");
   getchar();
@@ -500,10 +591,72 @@ void metodo08( void ) {
   * Metodo09.
   */
 
+descritorMatriz matrixAdd(descritorMatriz a, int constante, descritorMatriz b) 
+{
+  descritorMatriz resultado;
+  resultado.linhas = 0;
+  resultado.colunas = 0;
+  resultado.referencia = NULL;
+
+  if (a.linhas == b.linhas && a.colunas == b.colunas) 
+  {
+      resultado.linhas = a.linhas;
+      resultado.colunas = a.colunas;
+
+      resultado.referencia = (int **) malloc(resultado.linhas * sizeof(int *));
+      for (int i = 0; i < resultado.linhas; i++) 
+      {
+          resultado.referencia[i] = (int *) malloc(resultado.colunas * sizeof(int));
+      }
+
+      for (int i = 0; i < resultado.linhas; i++) 
+      {
+          for (int j = 0; j < resultado.colunas; j++) 
+          {
+              resultado.referencia[i][j] = a.referencia[i][j] + constante * b.referencia[i][j];
+          }
+      }
+  }
+
+  return resultado;
+}
+
 void metodo09 ( void )
 {
 // Identificar
   printf("\n%s\n", "\n\tMetodo1019");
+  char nome1[100], nome2[100];
+  int constante = 0;
+
+  printf("\nArquivo da primeira matriz: ");
+  scanf("%s", nome1);
+  getchar();
+
+  printf("\nArquivo da segunda matriz: ");
+  scanf("%s", nome2);
+  getchar();
+
+  printf("\nConstante para multiplicar a segunda matriz: ");
+  scanf("%d", &constante);
+  getchar();
+
+  descritorMatriz m1 = readMatrixFromFile(nome1);
+  descritorMatriz m2 = readMatrixFromFile(nome2);
+  descritorMatriz resultado = matrixAdd(m1, constante, m2);
+
+  if (resultado.referencia != NULL) 
+  {
+    printf("\nMatriz resultante:\n");
+    mostrarMatriz(resultado);
+  } else 
+  {
+    printf("\nErro: Matrizes com tamanhos incompativeis");
+  }
+  getchar();
+  freeMatrix(m1);
+  freeMatrix(m2);
+  freeMatrix(resultado);
+
 // encerrar
   printf("%s\n", "\nApertar ENTER para continuar\n");
   getchar( );
