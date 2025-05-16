@@ -276,7 +276,7 @@ void metodo04 ( void )
  // Identificar
    printf("\n%s\n", "\n\tMetodo1014");
    descritor arranjo1, arranjo2, resultado;
-   char nomeArquivo1[100], nomeArquivo2[100];
+   char nomeArquivo1[MAX], nomeArquivo2[MAX];
    int constante = 0;
 
     printf("\nDigite o nome do primeiro arquivo: ");
@@ -340,13 +340,13 @@ void metodo05 ( void )
 // Identificar
   printf("\n%s\n", "\n\tMetodo1015");
   descritor arranjo;
-  char nomeArquivo[100];
+  char nomeArquivo[MAX];
   int resultado = 0;
 
   printf("Digite o nome do arquivo: ");
   scanf("%s", nomeArquivo);
   getchar();
-  
+
   arranjo = readArrayFromFile(nomeArquivo);
 
   if (arranjo.referencia != NULL) 
@@ -371,10 +371,102 @@ void metodo05 ( void )
   * Metodo06.
   */
 
+typedef struct {
+    int linhas;
+    int colunas;
+    int **dados;
+} descritorMatriz;
+
+descritorMatriz readMatrixFromFile(char nomeArquivo[]) {
+    descritorMatriz matriz;
+    FILE *arquivo = fopen(nomeArquivo, "rt");
+
+    matriz.linhas = 0;
+    matriz.colunas = 0;
+    matriz.dados = NULL;
+
+    if (arquivo != NULL) {
+        fscanf(arquivo, "%d %d", &matriz.linhas, &matriz.colunas);
+
+        // Alocar linhas
+        matriz.dados = (int **) malloc(matriz.linhas * sizeof(int *));
+        for (int i = 0; i < matriz.linhas; i++) {
+            matriz.dados[i] = (int *) malloc(matriz.colunas * sizeof(int));
+        }
+
+        // Ler os dados
+        for (int i = 0; i < matriz.linhas; i++) {
+            for (int j = 0; j < matriz.colunas; j++) {
+                fscanf(arquivo, "%d", &matriz.dados[i][j]);
+            }
+        }
+
+        fclose(arquivo);
+    } else {
+        printf("Erro ao abrir o arquivo: %s\n", nomeArquivo);
+    }
+
+    return matriz;
+}
+
+void liberarMatriz(descritorMatriz matriz) {
+    for (int i = 0; i < matriz.linhas; i++) {
+        free(matriz.dados[i]);
+    }
+    free(matriz.dados);
+}
+
+descritorMatriz matrixTranspose(descritorMatriz matriz) {
+    descritorMatriz transposta;
+    transposta.linhas = matriz.colunas;
+    transposta.colunas = matriz.linhas;
+
+    transposta.dados = (int **) malloc(transposta.linhas * sizeof(int *));
+    for (int i = 0; i < transposta.linhas; i++) {
+        transposta.dados[i] = (int *) malloc(transposta.colunas * sizeof(int));
+    }
+
+    for (int i = 0; i < matriz.linhas; i++) {
+        for (int j = 0; j < matriz.colunas; j++) {
+            transposta.dados[j][i] = matriz.dados[i][j];
+        }
+    }
+
+    return transposta;
+}
+
+void mostrarMatriz(descritorMatriz matriz) {
+    for (int i = 0; i < matriz.linhas; i++) {
+        for (int j = 0; j < matriz.colunas; j++) {
+            printf("%d ", matriz.dados[i][j]);
+        }
+        printf("\n");
+    }
+}
+
 void metodo06( void )
 {
 // Identificar
   printf("\n%s\n", "\n\tMetodo1016");
+  char nomeArquivo[MAX];
+  descritorMatriz matriz, transposta;
+
+  printf("Digite o nome do arquivo: ");
+  scanf("%s", nomeArquivo);
+  getchar();
+
+  matriz = readMatrixFromFile(nomeArquivo);
+  transposta = matrixTranspose(matriz);
+
+  printf("\nMatriz original: \n");
+  mostrarMatriz(matriz);
+
+  printf("\nMatriz transposta: \n");
+  mostrarMatriz(transposta);
+
+  liberarMatriz(matriz);
+  liberarMatriz(transposta);
+
 // Encerrar
   printf("\n%s\n", "Apertar ENTER para continuar.");
   getchar();
