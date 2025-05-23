@@ -1,6 +1,6 @@
 /* 
-   Exemplo1100 - v0.0. - __ / __ / _____ 
-   Author: ________________________ 
+   Exemplo1100 - v0.0. - 23 / 05 / 2025 
+   Author: Gabriel Ferreira Pereira
  
  */ 
 // dependencias 

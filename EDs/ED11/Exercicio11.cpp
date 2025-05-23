@@ -12,28 +12,87 @@
 */
 
 #include <iostream>
+#include <limits>
+#include <string>
 #include <cstdlib>
+#include <ctime>
 #include <cmath>
 #include <string>
-
-using namespace std;
+#include "myarray.hpp" 
+ 
+using namespace std; 
 
 // -------------------------- definicao de metodos
 
 void metodo01() {
     cout << "\n\tMetodo01111\n";
+    int n = 0;
+    int inferior, superior;
+
+    cout << "Digite a quantidade de valores aleatorios: ";
+    cin >> n;
+
+    cout << "Digite o valor inferior do intervalo: ";
+    cin >> inferior;
+
+    cout << "Digite o valor superior do intervalo: ";
+    cin >> superior;
+
+    Array<int> arr;
+
+    arr.randomIntGenerate(n, inferior, superior);
+
+    cout << "Valores gerados:" << endl;
+    arr.print();
+
+    getchar();
+
+    arr.fprint("DADOS.TXT");
     cout << "Apertar ENTER para continuar." << endl;
     getchar();
 }
 
 void metodo02() {
     cout << "\n\tMetodo1112\n";
+    string nomeArquivo;
+    cout << "Digite o nome do arquivo com os dados: ";
+    cin >> nomeArquivo;
+
+    getchar();
+
+    Array<int> arr;
+    arr.fread(nomeArquivo);
+
+    cout << "\nDados lidos do arquivo:" << endl;
+    arr.print();
+    getchar();
+
+    int maior = arr.searchFirstOdd();
+
+    cout << "\nMaior valor impar encontrado: " << maior << endl;
     cout << "Apertar ENTER para continuar." << endl;
     getchar();
 }
 
 void metodo03() {
     cout << "\n\tMetodo1113\n";
+    string nomeArquivo;
+    cout << "Digite o nome do arquivo com os dados: ";
+    cin >> nomeArquivo;
+
+    Array<int> arr;
+    arr.fread(nomeArquivo);
+
+    cout << "\nDados lidos do arquivo:" << endl;
+    arr.print();
+
+    getchar();
+
+    int maior = arr.searchFirstOddx3();
+
+    getchar();
+
+    cout << "\nMaior valor impar multiplo de 3 encontrado: " << maior << endl;
     cout << "Apertar ENTER para continuar." << endl;
     getchar();
 }

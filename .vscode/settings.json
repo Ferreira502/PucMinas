@@ -5,6 +5,7 @@
         "stdio.h": "c",
         "random": "c",
         "iostream": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "string": "cpp"
     }
 }

@@ -267,6 +267,86 @@ class Array
        return ( value ); 
     } // end operator [ ]
 
+void randomIntGenerate(int n, int inferior, int superior)
+{
+    if (n <= 0 || inferior > superior)
+    {
+        cout << "\nERROR: Invalid parameters for random generation.\n" << endl;
+        return;
+    }
+
+    if (data != nullptr)
+    {
+        delete[] data;
+    }
+
+    length = n;
+    data = new T[length];
+
+    for (int i = 0; i < length; i++)
+    {
+        data[i] = inferior + rand() % (superior - inferior + 1);
+    }
+}
+
+T searchFirstOdd()
+{
+    T maior = optional;
+    bool encontrado = false;
+
+    for (int i = 0; i < length; i++)
+    {
+        if (data[i] % 2 != 0)
+        {
+            if (!encontrado)
+            {
+                maior = data[i];
+                encontrado = true;
+            }
+            else if (data[i] > maior)
+            {
+                maior = data[i];
+            }
+        }
+    }
+
+    if (!encontrado)
+    {
+        cout << "\nNao ha valores impares no arranjo" << endl;
+    }
+
+    return maior;
+}
+
+T searchFirstOddx3()
+{
+    T maior = optional;
+    bool encontrado = false;
+
+    for (int i = 0; i < length; i++)
+    {
+        if (data[i] % 2 != 0 && data[i] % 3 == 0)
+        {
+            if (!encontrado)
+            {
+                maior = data[i];
+                encontrado = true;
+            }
+            else if (data[i] > maior)
+            {
+                maior = data[i];
+            }
+        }
+    }
+
+    if (!encontrado)
+    {
+        cout << "\nNao ha valores impares multiplos de 3 no arranjo" << endl;
+    }
+
+    return maior;
+}
+
 }; 
  
 
