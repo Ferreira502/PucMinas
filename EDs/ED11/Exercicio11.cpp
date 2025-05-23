@@ -99,54 +99,247 @@ void metodo03() {
 
 void metodo04() {
     cout << "\n\tMetodo1114\n";
+    string nomeArquivo;
+    int inicio, fim;
+
+    cout << "Digite o nome do arquivo com os dados: ";
+    cin >> nomeArquivo;
+
+    Array<int> arr;
+    arr.fread(nomeArquivo);
+
+    cout << "\nDados lidos do arquivo:" << endl;
+    arr.print();
+
+    getchar();
+
+    cout << "Digite a posicao inicial: ";
+    cin >> inicio;
+    cout << "Digite a posicao final: ";
+    cin >> fim;
+
+    getchar();
+
+    int soma = arr.addInterval(inicio, fim);
+    getchar();
+
+    cout << "\nSoma dos elementos no intervalo [" << inicio << ", " << fim << "] = " << soma << endl;
     cout << "Apertar ENTER para continuar." << endl;
     getchar();
 }
 
 void metodo05() {
     cout << "\n\tMetodo1115\n";
+    string nomeArquivo;
+    int inicio, fim;
+
+    cout << "Digite o nome do arquivo com os dados: ";
+    cin >> nomeArquivo;
+
+    Array<int> arr;
+    arr.fread(nomeArquivo);
+
+    cout << "\nDados lidos do arquivo:" << endl;
+    arr.print();
+
+    getchar();
+
+    cout << "Digite a posicao inicial: ";
+    cin >> inicio;
+
+    cout << "Digite a posicao final: ";
+    cin >> fim;
+
+    getchar();
+    double media = arr.averageInterval(inicio, fim);
+    getchar();
+
+    cout << fixed;
+    cout.precision(2);
+    cout << "\nMedia dos elementos no intervalo [" << inicio << ", " << fim << "] = " << media << endl;
     cout << "Apertar ENTER para continuar." << endl;
     getchar();
 }
 
 void metodo06() {
     cout << "\n\tMetodo1116\n";
+    Array<int> arr;
+    arr.fread("DADOS.TXT");
+
+    cout << "\nDados lidos:" << endl;
+    arr.print();
+    getchar();
+
+    bool teste = arr.negatives();
+
+    if (teste)
+    {
+        cout << "\nTodos os valores sao positivos e maiores que 100" << endl;
+    }
+    else
+    {
+        cout << "\nNem todos os valores sao positivos e maiores que 100" << endl;
+    }
+    getchar();
     cout << "Apertar ENTER para continuar." << endl;
     getchar();
 }
 
 void metodo07() {
     cout << "\n\tMetodo1117\n";
+    Array<int> arr;
+    arr.fread("DADOS.TXT");
+
+    cout << "\nDados lidos:" << endl;
+    arr.print();
+    getchar();
+
+    bool teste = arr.isDecrescent();
+
+    if (teste)
+    {
+        cout << "\nOs valores estao em ordem decrescente" << endl;
+    }
+    else
+    {
+        cout << "\nOs valores NAO estao em ordem decrescente" << endl;
+    }
+    getchar();
+
     cout << "Apertar ENTER para continuar." << endl;
     getchar();
 }
 
 void metodo08() {
     cout << "\n\tMetodo1118\n";
+    Array<int> arr;
+    arr.fread("DADOS.TXT");
+
+    cout << "\nDados lidos:" << endl;
+    arr.print();
+
+    getchar();
+
+    int procurado, inicio, fim;
+    cout << "Valor a procurar: ";
+    cin >> procurado;
+
+    cout << "Posicao inicial: ";
+    cin >> inicio;
+
+    cout << "Posicao final: ";
+    cin >> fim;
+
+    getchar();
+
+    bool existe = arr.searchInterval(procurado, inicio, fim);
+
+    if (existe)
+    {
+        cout << "\nO valor " << procurado << " foi encontrado no intervalo [" << inicio << ", " << fim << "]." << endl;
+    }
+    else
+    {
+        cout << "\nO valor " << procurado << " NAO foi encontrado no intervalo [" << inicio << ", " << fim << "]." << endl;
+    }
+
+    getchar();
     cout << "Apertar ENTER para continuar." << endl;
     getchar();
 }
 
 void metodo09() {
     cout << "\n\tMetodo1119\n";
+    Array<int> arr;
+    arr.fread("DADOS.TXT");
+
+    cout << "\nArranjo original:" << endl;
+    arr.print();
+
+    int constante, inicio, fim;
+    cout << "Constante de escala: ";
+    cin >> constante;
+
+    cout << "Posicao inicial: ";
+    cin >> inicio;
+
+    cout << "Posicao final: ";
+    cin >> fim;
+    getchar();
+
+    Array<int> novo = arr.scalar(constante, inicio, fim);
+
+    cout << "\nArranjo escalado:" << endl;
+    novo.print();
+    getchar();
+
     cout << "Apertar ENTER para continuar." << endl;
     getchar();
 }
 
 void metodo10() {
     cout << "\n\tMetodo1120\n";
+    Array<int> arr;
+    arr.fread("DADOS.TXT");
+
+    cout << "\nArranjo original:" << endl;
+    arr.print();
+
+    arr.sortDown();
+
+    cout << "\nArranjo em ordem decrescente:" << endl;
+    arr.print();
+
+    getchar();
     cout << "Apertar ENTER para continuar." << endl;
     getchar();
 }
 
 void metodo11() {
     cout << "\n\tMetodo11E1\n";
+    int valores1[] = {1, 2, 3};
+    int valores2[] = {1, 2, 4};
+
+    Array<int> a1(3, valores1);
+    Array<int> a2(3, valores2);
+
+    cout << "\nArray 1:";
+    a1.print();
+
+    cout << "Array 2:";
+    a2.print();
+
+    if (a1 != a2)
+    {
+        cout << "\nOs arrays sao diferentes " << endl;
+    }
+    else
+    {
+        cout << "\nOs arrays sao iguais" << endl;
+    }
     cout << "Apertar ENTER para continuar." << endl;
     getchar();
 }
 
 void metodo12() {
     cout << "\n\tMetodo11E2\n";
+    int valores1[] = {10, 20, 30, 40};
+    int valores2[] = {1, 2, 3, 4};
+
+    Array<int> a1(4, valores1);
+    Array<int> a2(4, valores2);
+
+    cout << "\nArray 1:" << endl;
+    a1.print();
+    cout << "\nArray 2:" << endl;
+    a2.print();
+
+    Array<int> diferencas = a1 - a2;
+
+    getchar();
+    
+    cout << "\nDiferencas (a1 - a2):" << endl;
+    diferencas.print();
     cout << "Apertar ENTER para continuar." << endl;
     getchar();
 }

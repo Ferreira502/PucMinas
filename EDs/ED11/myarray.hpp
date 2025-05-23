@@ -347,7 +347,174 @@ T searchFirstOddx3()
     return maior;
 }
 
+T addInterval(int start, int end)
+{
+    T soma = 0;
+
+    if (start < 0 || end >= length || start > end)
+    {
+        cout << "\nERRO: Intervalo invalido" << endl;
+        return soma;
+    }
+
+    for (int i = start; i <= end; i++)
+    {
+        soma = soma + data[i];
+    }
+
+    return soma;
+}
+
+double averageInterval(int start, int end)
+{
+    double media = 0.0;
+
+    if (start < 0 || end >= length || start > end)
+    {
+        cout << "\nERRO: Intervalo invalido" << endl;
+        return media;
+    }
+
+    T soma = 0;
+    int quantidade = (end - start + 1);
+
+    for (int i = start; i <= end; i++)
+    {
+        soma += data[i];
+    }
+
+    media = static_cast<double>(soma) / quantidade;
+
+    return media;
+}
+
+bool negatives()
+{
+    bool resultado = true;
+
+    for (int i = 0; i < length; i++)
+    {
+        if (data[i] <= 100)
+        {
+            resultado = false;
+            break;
+        }
+    }
+
+    return resultado;
+}
+
+bool isDecrescent()
+{
+    bool resultado = true;
+
+    for (int i = 0; i < length - 1; i++)
+    {
+        resultado = resultado && (data[i] >= data[i + 1]);
+    }
+
+    return resultado;
+}
+
+bool searchInterval(T procurado, int inicio, int fim)
+{
+    bool resultado = false;
+
+    if (inicio >= 0 && fim < length && inicio <= fim)
+    {
+        for (int i = inicio; i <= fim; i++)
+        {
+            resultado = resultado || (data[i] == procurado);
+        }
+    }
+    else
+    {
+        cout << "\nERRO: Intervalo invalido" << endl;
+    }
+
+    return resultado;
+}
+
+Array<T> scalar(T constante, int inicio, int fim)
+{
+    Array<T> resultado(length, 0);
+
+    if (inicio >= 0 && fim < length && inicio <= fim)
+    {
+        for (int i = 0; i < length; i++)
+        {
+            if (i >= inicio && i <= fim)
+            {
+                resultado.set(i, data[i] * constante);
+            }
+            else
+            {
+                resultado.set(i, data[i]);
+            }
+        }
+    }
+    else
+    {
+        cout << "\nERRO: Intervalo invalido" << endl;
+    }
+
+    return resultado;
+}
+
+void sortDown()
+{
+    for (int i = 0; i < length - 1; i++)
+    {
+        for (int j = 0; j < length - i - 1; j++)
+        {
+            if (data[j] < data[j + 1])
+            {
+                T temp = data[j];
+                data[j] = data[j + 1];
+                data[j + 1] = temp;
+            }
+        }
+    }
+}
+
+bool operator!= (const Array<T>& other)
+{
+    if (length != other.length)
+    {
+        return true;
+    }
+
+    for (int i = 0; i < length; i++)
+    {
+        if (data[i] != other.data[i])
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+Array<T> operator- (const Array<T>& other)
+{
+    Array<T> result(length, 0);
+
+    if (length != other.length)
+    {
+        cout << "\nERROR: Arrays have different lengths.\n" << endl;
+    }
+    else
+    {
+        for (int i = 0; i < length; i++)
+        {
+            result.set(i, data[i] - other.data[i]);
+        }
+    }
+
+    return result;
+}
+
 }; 
- 
+
 
 #endif 
