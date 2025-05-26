@@ -57,6 +57,7 @@ int main ( void )
 
     for (int i = 0; i < n; i++) {
         if (scanf("%s", linha) != 1) {
+
             return 1;
         }
 
