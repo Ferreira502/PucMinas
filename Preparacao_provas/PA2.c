@@ -30,45 +30,48 @@ typedef struct {
 } Ponto;
 
 
-void method_01( void ) 
+void method_01(void) 
 {
 // Identificar
-   printf("\n%s\n", "\n\tmethod_01");
-   FILE *entrada = fopen("DADOS_1.txt", "r");
-   FILE *saida = fopen("SAIDA_1.txt", "w");
+    printf("\n%s\n", "\n\tmethod_01");
 
-   if (entrada == NULL || saida == NULL) {
-       printf("Erro ao abrir arquivo.\n");
-       return;
-   }
+    FILE *entrada = fopen("DADOS_1.txt", "r");
+    FILE *saida = fopen("SAIDA_1.txt", "w");
 
-   Ponto atual, anterior;
-   int primeiro = 1;
-   while (fscanf(entrada, "%d %d", &atual.x, &atual.y) == 2)
-       {
-   
-       if (atual.x == 0 && atual.y == 0)
-           break;
+    if (entrada == NULL || saida == NULL) {
+        printf("\nErro ao abrir arquivo");
+        return;
+    }
 
-       if (primeiro) {
-           anterior = atual;
-           primeiro = 0;
-       } else {
-           double distancia = sqrt(pow((double)(atual.x - anterior.x), 2.0) +
-                                    pow((double)(atual.y - anterior.y), 2.0));
-           fprintf(saida, "%.4lf\n", distancia);
-           anterior = atual;
-           printf("\nDados guardados no arquivo");
-           getchar();
-       }
-   }
+    Ponto atual, anterior;
+    int primeiro = 1;
 
-   fclose(entrada);
-   fclose(saida);
+    while (fscanf(entrada, "%d %d", &atual.x, &atual.y) == 2 &&
+           !(atual.x == 0 && atual.y == 0)) 
+    {
+        if (primeiro) {
+            anterior = atual;
+            primeiro = 0;
+        } else {
+            double distancia = sqrt(
+                pow((double)(atual.x - anterior.x), 2.0) +
+                pow((double)(atual.y - anterior.y), 2.0));
+            fprintf(saida, "%.4lf\n", distancia);
+            anterior = atual;
+
+            printf("\nDados guardados no arquivo");
+            getchar();
+        }
+    }
+
+    fclose(entrada);
+    fclose(saida);
+
 // Encerrar
-   printf("\n%s\n", "Apertar ENTER para continuar.");
-   getchar();
-} // fim method01 ( )
+    printf("\n%s\n", "Apertar ENTER para continuar.");
+    getchar();
+}
+
 
 /**
   * method02.
@@ -112,7 +115,7 @@ void method_02 ( void )
       
     if (saida == NULL) 
     {
-        printf("Erro ao abrir o arquivo SAIDA_1.TXT\n");
+        printf("\nErro ao abrir o arquivo SAIDA_1.TXT");
     } 
 
     
@@ -173,7 +176,8 @@ void method_03 ( void )
    double distancias[MAX];
    int total = 0;
 
-   while (fscanf(arquivo, "%lf", &distancias[total]) == 1 && total < MAX) {
+   while (fscanf(arquivo, "%lf", &distancias[total]) == 1 && total < MAX) 
+   {
        total++;
    }
 
@@ -181,7 +185,6 @@ void method_03 ( void )
 
    if (total < 3) {
        printf("\nNao ha distancias suficientes para calcular a media sem extremos");
-       return;
    }
 
    double media = mediaSemExtremos(distancias, total);

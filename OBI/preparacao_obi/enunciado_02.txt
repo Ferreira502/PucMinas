@@ -1,0 +1,82 @@
+Pontifícia Universidade Católica de Minas Gerais
+Instituto de Ciências Exatas e Informática
+Algoritmos e Estruturas de Dados I
+
+
+Atividade Prática: Preparação para Avaliação 02
+
+
+Enunciado
+Um programa em linguagem C para
+lidar com uma matriz de inteiros:
+- ler as dimensões de uma matriz de inteiros;
+- ler e armazenar os dados de uma matriz  com
+  as dimensões dadas.
+O programa deverá informar por um valor lógico 
+se a soma dos valores no  triângulo superior é 
+maior que a soma daqueles no triângulo inferior.
+
+
+Requisitos
+1.) Entradas e saídas só poderão ser feitas
+    mediante uso de redirecionamentos 
+    (já indicados no Makefile)
+
+
+Entradas
+
+As entradas de dados serão conforme o modelo abaixo.
+Primeiro as quantidades de linhas e colunas.
+Depois os elementos de cada linha da matriz.
+
+Exemplo 1:
+5
+5
+ 1  2  3  4  5
+ 1  7  8  9 10
+ 2  5  9 14 15
+ 3  6 10 12 20
+ 4  7 11 13 25
+
+Saídas
+As saídas de resultados deverão ser apresentadas
+conforme o formato indicado abaixo:
+- primeiro as dimensões da matriz
+- o valor de cada elemento (ocupando 2 caracteres)
+  e separado de outro por um espaço em branco.
+
+Exemplo 1:
+5
+5
+ 1  2  3  4  5
+ 1  7  8  9 10
+ 2  5  9 14 15
+ 3  6 10 12 20
+ 4  8 11 13 25
+1
+
+Exemplo 2:
+
+Entradas
+5 5
+ 1  2  3  4  5
+ 2  7  8  9 10
+ 3  8 13 14 15
+ 4  9 14 19 20
+ 5 10 15 20 25
+
+Saídas
+5 5
+ 1  2  3  4  5
+ 2  7  8  9 10
+ 3  8 13 14 15
+ 4  9 14 19 20
+ 5 10 15 20 25
+0
+
+
+Condições
+1.) Usar apenas dados válidos.
+2.) O maior tamanho esperado para a matriz será 10x10.
+3.) A matriz deverá ser quadrada.
+4.) Em caso de erro, mostrar apenas o valor (-1).
