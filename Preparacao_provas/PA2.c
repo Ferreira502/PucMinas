@@ -187,9 +187,9 @@ void method_03 ( void )
    double media = mediaSemExtremos(distancias, total);
    
    if (media == -1.0) {
-       printf("\nNao foi possivel calcular a media (valores iguais?)");
+       printf("\nNao foi possivel calcular a media");
    } else {
-       printf("\nMedia das distancias (sem maior e menor): %.4lf", media);
+       printf("\nMedia das distancias: %.4lf", media);
    }
 
 // Encerrar
@@ -201,10 +201,62 @@ void method_03 ( void )
   * method04.
   */
 
+void trocarLinhas(double matriz[MAX][2], int i, int j) 
+{
+    double temp0 = matriz[i][0];
+    double temp1 = matriz[i][1];
+
+    matriz[i][0] = matriz[j][0];
+    matriz[i][1] = matriz[j][1];
+
+    matriz[j][0] = temp0;
+    matriz[j][1] = temp1;
+}
+
 void method_04 ( void )
- {
+{
   // Identificar
     printf("\n%s\n", "\n\tmethod_04");
+    FILE *arquivo = fopen("DADOS_1.TXT", "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo DADOS_1.TXT\n");
+        return;
+    }
+
+    double matriz[MAX][2];
+    int total = 0;
+    double x = 1.0, y = 1.0;
+
+    while (fscanf(arquivo, "%lf %lf", &x, &y) == 2 && total < MAX) {
+        if (!(x == 0.0 && y == 0.0)) {
+            matriz[total][0] = x;
+            matriz[total][1] = y;
+            total++;
+        }
+    }
+
+    fclose(arquivo);
+
+    for (int i = 0; i < total - 1; i++) {
+        for (int j = 0; j < total - i - 1; j++) {
+            int trocar = 0;
+
+            if (matriz[j][0] > matriz[j + 1][0]) {
+                trocar = 1;
+            } else if (matriz[j][0] == matriz[j + 1][0] && matriz[j][1] > matriz[j + 1][1]) {
+                trocar = 1;
+            }
+
+            if (trocar) {
+                trocarLinhas(matriz, j, j + 1);
+            }
+        }
+    }
+
+    printf("Pares ordenados:\n");
+    for (int i = 0; i < total; i++) {
+        printf("(%.1lf, %.1lf)\n", matriz[i][0], matriz[i][1]);
+    }
  // Encerrar
     printf("\n%s\n", "Apertar ENTER para continuar.");
     getchar();
@@ -214,10 +266,59 @@ void method_04 ( void )
   * method05.
   */
 
+double calcularDistanciaEntreExtremos(double matriz[][2], int linhas, int colunas) 
+{
+    double x1 = matriz[0][0];
+    double y1 = matriz[0][1];
+    double x2 = matriz[linhas - 1][0];
+    double y2 = matriz[linhas - 1][1];
+
+    return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+}
+
 void method_05 ( void )
 {
  // Identificar
    printf("\n%s\n", "\n\tmethod_5");
+   FILE *arquivo = fopen("DADOS_1.TXT", "r");
+    if (arquivo == NULL) {
+        printf("\nErro ao abrir o arquivo");
+        return;
+    }
+
+    double matriz[MAX][2];
+    int linhas = 0;
+
+    while (fscanf(arquivo, "%lf %lf", &matriz[linhas][0], &matriz[linhas][1]) == 2 &&
+           !(matriz[linhas][0] == 0 && matriz[linhas][1] == 0) &&
+           linhas < MAX) {
+        linhas++;
+    }
+
+    fclose(arquivo);
+
+    for (int i = 0; i < linhas - 1; i++) {
+        for (int j = 0; j < linhas - i - 1; j++) {
+            if (matriz[j][0] > matriz[j + 1][0] ||
+               (matriz[j][0] == matriz[j + 1][0] && matriz[j][1] > matriz[j + 1][1])) {
+                // Trocar linhas
+                double temp0 = matriz[j][0];
+                double temp1 = matriz[j][1];
+                matriz[j][0] = matriz[j + 1][0];
+                matriz[j][1] = matriz[j + 1][1];
+                matriz[j + 1][0] = temp0;
+                matriz[j + 1][1] = temp1;
+            }
+        }
+    }
+
+    if (linhas > 1) {
+        double distancia = calcularDistanciaEntreExtremos(matriz, linhas, 2);
+        printf("\nDistancia entre o primeiro e o ultimo par ordenado: %.4lf", distancia);
+    } else {
+        printf("\nNao ha pares suficientes para calcular a distancia");
+    }
+
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
