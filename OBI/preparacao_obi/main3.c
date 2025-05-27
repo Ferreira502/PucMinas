@@ -15,12 +15,12 @@
   Função para ...
 */
 
-int isVowel(char c) {
+int verificaMin (char c) {
     return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' ||
             c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U');
 }
 
-char toUpperManual(char c) {
+char verificaMa (char c) {
     if (c >= 'a' && c <= 'z') {
         return c - 32;
     }
@@ -32,9 +32,9 @@ int processar(char str[]) {
     int tamanho = strlen(str);
 
     for (int i = 0; i < tamanho; i++) {
-        if (isVowel(str[i]) && isVowel(str[i + 1])) {
+        if (verificaMin(str[i]) && verificaMin(str[i + 1])) {
             char original = str[i];
-            str[i] = toUpperManual(str[i]);
+            str[i] = verificaMa(str[i]);
             if (str[i] != original) {
                 alteradas++;
             }
