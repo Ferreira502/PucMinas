@@ -1,359 +1,516 @@
 /* 
    mymatrix.hpp  - v0.0. - 30 / 05 / 2025 
    Author: Gabriel Ferreira Pereira
+*/ 
  
- */ 
+#ifndef  _MYMATRIX_H_
+#define  _MYMATRIX_H_
  
-// ----------------------------------------------- definicoes globais 
- 
-#ifndef  _MYMATRIX_H_ 
-#define _MYMATRIX_H_ 
- 
-// dependencias 
- 
-#include <iostream> 
-using std::cin  ;  // para entrada 
-using std::cout;   // para saida 
-using std::endl;  // para mudar de linha 
- 
-#include <iomanip> 
-using std::setw;  // para definir espacamento 
- 
-#include <string> 
-using std::string;  // para cadeia de caracteres 
- 
-#include <fstream> 
-using std::ofstream;  // para gravar arquivo 
-using std::ifstream;   // para ler    arquivo 
- 
- 
-template < typename T > 
+#include <iostream>
+using std::cin;
+using std::cout;
+using std::endl;
+
+#include <iomanip>
+using std::setw;
+
+#include <string>
+using std::string;
+
+#include <fstream>
+using std::ofstream;
+using std::ifstream;
+
+template <typename T>
 class Matrix 
-{ 
-  private:    // area reservada 
-    T   optional; 
-    int rows      ; 
-    int columns; 
-    T** data       ; 
- 
-  public:   // area aberta 
-  
-    Matrix ( ) 
-    { 
-     // definir valores iniciais 
-        this->rows       = 0; 
-        this->columns = 0; 
-     // sem reservar area 
-        data                  = nullptr; 
-    } // end constructor 
- 
-    Matrix ( int rows, int columns, T initial ) 
-    { 
-     // definir dado local 
-        bool OK            = true; 
-     // definir valores iniciais 
-        this->optional = initial      ; 
-        this->rows       = rows       ; 
-        this->columns = columns; 
-     // reservar area 
-        data         = new T* [ rows ]; 
-        if ( data != nullptr ) 
-        { 
-           for ( int x = 0; x < rows; x=x+1 ) 
-           { 
-              data [x] = new T  [ columns ]; 
-              OK = OK && ( data [x] != nullptr ); 
-           } // end for 
-           if ( ! OK ) 
-           { 
-              data = nullptr; 
-           } // end if 
-        } // end if 
-    } // end constructor 
- 
-   ~Matrix ( ) 
-   { 
-       if ( data != nullptr ) 
-       { 
-          for ( int x = 0; x < rows; x=x+1 ) 
-          { 
-              delete ( data [ x ] ); 
-          } // end for 
-          delete ( data ); 
-          data = nullptr; 
-       } // end if 
-   } // end destructor ( ) 
- 
-    void set ( int row, int column, T value ) 
-    { 
-      if ( row       < 0 || row        >= rows      || 
-           column < 0 || column >= columns ) 
-      { 
-         cout << "\nERROR: Invalid position.\n"; 
-      } 
-      else 
-      { 
-         data [ row ][ column ] = value; 
-      } // end if 
-    } // end set ( ) 
- 
-    T    get ( int row, int column ) 
-    { 
-      T value = optional; 
-      if ( row       < 0 || row       >= rows       || 
-           column < 0 || column >= columns ) 
-      { 
-         cout << "\nERROR: Invalid position.\n"; 
-      } 
-      else 
-      { 
-         value = data [ row ][ column ]; 
-      } // end if 
-      return ( value ); 
-    } // end get ( ) 
-     
-    void print ( ) 
-    { 
-       cout << endl; 
-       for ( int x = 0; x < rows; x=x+1 ) 
-       { 
-           for ( int y = 0; y < columns; y=y+1 ) 
-           { 
-               cout << data[ x ][ y ] << "\t"; 
-           } // end for 
-           cout << endl; 
-       } // end for 
-       cout << endl; 
-    } // end print ( ) 
+{
+private:
+    T   optional;
+    int rows;
+    int columns;
+    T** data;
 
-    void read ( ) 
-    { 
-       cout << endl; 
-       for ( int x = 0; x < rows; x=x+1 ) 
-       { 
-           for ( int y = 0; y < columns; y=y+1 ) 
-           { 
-               cout << setw( 2 ) << x << ", " 
-                        << setw( 2 ) << y << " : "; 
-               cin    >> data[ x ][ y ]; 
-           } // end for 
-       } // end for 
-       cout << endl; 
-    } // end read ( )
+public:
+    // Construtor padrão
+    Matrix()
+    {
+        rows = 0;
+        columns = 0;
+        data = nullptr;
+    }
 
-    void fprint ( string fileName ) 
-    { 
-       ofstream afile; 
- 
-       afile.open ( fileName ); 
-       afile << rows       << endl; 
-       afile << columns << endl; 
-       for ( int x = 0; x < rows; x=x+1 ) 
-       { 
-           for ( int y = 0; y < columns; y=y+1 ) 
-           { 
-               afile << data[ x ][ y] << endl; 
-           } // end for 
-       } // end for 
-       afile.close ( ); 
-    } // end fprint ( )
+    // Construtor que aloca (rows x columns) e inicializa
+    Matrix(int rows, int columns, T initial)
+    {
+        optional   = initial;
+        this->rows    = rows;
+        this->columns = columns;
 
-    void fread ( string fileName ) 
-    { 
-       ifstream afile; 
-       int m = 0; 
-       int n  = 0; 
- 
-       afile.open ( fileName ); 
-       afile >> m; 
-       afile >> n; 
-       if ( m <= 0 || n <= 0 ) 
-       { 
-          cout << "\nERROR: Invalid dimensions for matrix.\n" << endl; 
-       } 
-       else 
-       { 
-        // guardar a quantidade de dados 
-           rows       = m; 
-           columns = n; 
-        // reservar area 
-           data         = new T* [ rows ]; 
-           for ( int x = 0; x < rows; x=x+1 ) 
-           { 
-               data [x] = new T  [ columns ]; 
-           } // end for 
-        // ler dados 
-           for ( int x = 0; x < rows; x=x+1 ) 
-           { 
-               for ( int y = 0; y < columns; y=y+1 ) 
-               { 
-                   afile >> data[ x ][ y ]; 
-               } // end for 
-           } // end for 
-       } // end if 
-       afile.close ( ); 
-    } // end fread ( ) 
+        data = new T*[rows];
+        for (int i = 0; i < rows; i++)
+        {
+            data[i] = new T[columns];
+            // opcional: inicializar todos os elementos com o valor “initial”
+            for (int j = 0; j < columns; j++)
+                data[i][j] = initial;
+        }
+    }
 
-     Matrix& operator= ( const Matrix <T> &other ) 
-    { 
-       if ( other.rows == 0 || other.columns == 0 ) 
-       { 
-          cout << "\nERROR: Missing data.\n" << endl; 
-       } 
-       else 
-       { 
-           this->rows        = other.rows  ; 
-           this->columns = other.columns; 
-           this->data         = new T* [ rows ]; 
-           for ( int x = 0; x < rows; x=x+1 ) 
-           { 
-               this->data [ x ] = new T  [ columns ]; 
-           } // end for 
-           for ( int x = 0; x < this->rows; x=x+1 ) 
-           { 
-               for ( int y = 0; y < this->columns; y=y+1 ) 
-               { 
-                   data [ x ][ y ] = other.data [ x ][ y ]; 
-               } // end for 
-           } // end for 
-       } // end if 
-       return ( *this ); 
-    } // end operator= ( ) 
+    // Destrutor: desaloca linhas e depois o ponteiro “data”
+    ~Matrix()
+    {
+        if (data != nullptr)
+        {
+            for (int i = 0; i < rows; i++)
+                delete[] data[i];
+            delete[] data;
+            data = nullptr;
+        }
+    }
 
-     bool isZeros ( ) 
-    { 
-       bool result = false; 
-       int x = 0; 
-       int y = 0; 
-       if ( rows > 0 && columns > 0 ) 
-       { 
-          result = true; 
-          while ( x < rows && result ) 
-          { 
-                y = 0; 
-                while ( y < columns && result ) 
-                { 
-                      result = result && ( data [ x ][ y ] == 0 ); 
-                      y = y + 1; 
-                } // end while 
-                x = x + 1; 
-          } // end while 
-       } // end if 
-       return ( result ); 
-    } // end isZeros ( )
+    // seta o valor (row, column)
+    void set(int row, int column, T value)
+    {
+        if (row < 0 || row >= rows || column < 0 || column >= columns)
+        {
+            cout << "\nERROR: Invalid position.\n";
+        }
+        else
+        {
+            data[row][column] = value;
+        }
+    }
 
-    bool operator!= ( const Matrix <T> &other ) 
-    { 
-       bool result = false; 
-       int    x         = 0; 
-       int    y         = 0; 
- 
-       if ( other.rows       == 0 || rows        != other.rows      || 
-            other.columns == 0 || columns != other.columns ) 
-       { 
-          cout << "\nERROR: Missing data.\n" << endl; 
-       } 
-       else 
-       { 
-          x = 0; 
-          while ( x < rows && ! result ) 
-          { 
-                y = 0; 
-                while ( y < columns && ! result ) 
-                { 
-                      result = ( data [ x ][ y ] != other.data [ x ][ y ] ); 
-                      y = y + 1; 
-                } // end while 
-                x = x + 1; 
-          } // end while 
-       } // end if 
-       return ( result ); 
-    } // end operator!= ( ) 
- 
-     Matrix& operator- ( const Matrix <T> &other ) 
-    { 
-       static Matrix <T> result ( 1, 1, 0 ); 
-       int      x      = 0; 
-       int      y      = 0; 
- 
-       if ( other.rows       == 0 || rows        != other.rows || 
-            other.columns == 0 || columns != other.columns ) 
-       { 
-          cout << "\nERROR: Missing data.\n" << endl; 
-       } 
-       else 
-       { 
-          result.rows       = rows; 
-          result.columns = other.columns; 
-          result.data         = new T* [ result.rows ]; 
-          for ( int x = 0; x < result.rows; x=x+1 ) 
-          { 
-              result.data [x] = new T  [ result.columns ]; 
-          } // end for 
- 
-          for ( int x = 0; x < result.rows; x=x+1 ) 
-          { 
-              for ( int y = 0; y < result.columns; y=y+1 ) 
-              { 
-                  result.data [ x ][ y ] = data [ x ][ y ] - other.data [ x ][ y ]; 
-              } // end for 
-          } // end for 
-       } // end if 
-       return ( result ); 
-    } // end operator- ( ) 
+    // retorna o valor (row, column)
+    T get(int row, int column) const
+    {
+        if (row < 0 || row >= rows || column < 0 || column >= columns)
+        {
+            cout << "\nERROR: Invalid position.\n";
+            return optional;
+        }
+        else
+        {
+            return data[row][column];
+        }
+    }
 
-    Matrix& operator* ( const Matrix <T> &other ) 
-    { 
-       static Matrix <T> result ( 1, 1, 0 ); 
-       int x      = 0; 
-       int y      = 0; 
-       int z      = 0; 
-       int sum = 0; 
- 
-       if (           rows <= 0 ||           columns == 0 || 
-            other.rows <= 0 || other.columns == 0 || 
-                    columns    != other.rows                ) 
-       { 
-          cout << endl << "ERROR: Invalid data." << endl; 
-          result.data [ 0 ][ 0 ] = 0; 
-       } 
-       else 
-       { 
-          result.rows       = rows; 
-          result.columns = other.columns; 
-          result.data         = new T* [ result.rows ]; 
-          for ( int x = 0; x < result.rows; x=x+1 ) 
-          { 
-              result.data [x] = new T  [ result.columns ]; 
-          } // end for 
- 
-          for ( x = 0; x < result.rows; x = x + 1 ) 
-          { 
-              for ( y = 0; y < result.columns; y = y + 1 ) 
-              { 
-                 sum = 0; 
-                 for ( z = 0; z < columns; z = z + 1 ) 
-                 { 
-                     sum = sum + data [ x ][ z ] *  other.data [ z ][ y ]; 
-                 } // end for 
-                 result.data [ x ][ y ] = sum; 
-             } // end for 
-          } // end for 
-       } // end if 
-       return ( result ); 
-    } // end operator* ( ) 
- 
-    const int getRows ( ) 
-    { 
-       return ( rows ); 
-    } // end getRows ( ) 
- 
-    const int getColumns ( ) 
-    { 
-       return ( columns ); 
-    } // end getColumns ( )
+    // imprime toda a matriz
+    void print() const
+    {
+        cout << endl;
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                cout << data[i][j] << "\t";
+            }
+            cout << endl;
+        }
+        cout << endl;
+    }
 
+    // lê do teclado linha a linha (não usado neste exemplo)
+    void read()
+    {
+        cout << endl;
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                cout << setw(2) << i << ", " << setw(2) << j << " : ";
+                cin >> data[i][j];
+            }
+        }
+        cout << endl;
+    }
 
-}; // end class 
- 
-#endif 
+    // grava em arquivo: primeira linha = rows, segunda = columns; depois todos os elementos linha a linha
+    void fprint(const string fileName) const
+    {
+        ofstream afile(fileName);
+        afile << rows << endl;
+        afile << columns << endl;
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                afile << data[i][j] << endl;
+            }
+        }
+        afile.close();
+    }
+
+    // lê de arquivo no mesmo formato: rows, columns e depois valores
+    void fread(const string fileName)
+    {
+        ifstream afile(fileName);
+        int m = 0, n = 0;
+        afile >> m;
+        afile >> n;
+        if (m <= 0 || n <= 0)
+        {
+            cout << "\nERROR: Invalid dimensions for matrix.\n" << endl;
+            return;
+        }
+
+        // se já houver memória alocada, libera antes de alocar nova
+        if (data != nullptr)
+        {
+            for (int i = 0; i < rows; i++)
+                delete[] data[i];
+            delete[] data;
+        }
+
+        rows = m;
+        columns = n;
+        data = new T*[rows];
+        for (int i = 0; i < rows; i++)
+            data[i] = new T[columns];
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                afile >> data[i][j];
+            }
+        }
+        afile.close();
+    }
+
+    // sobrescreve operador = (copia conteúdo de other para this)
+    Matrix& operator=(const Matrix<T>& other)
+    {
+        if (this == &other) return *this; // autoatribuição
+
+        // libera memória antiga, se houver
+        if (data != nullptr)
+        {
+            for (int i = 0; i < rows; i++)
+                delete[] data[i];
+            delete[] data;
+        }
+
+        rows = other.rows;
+        columns = other.columns;
+        optional = other.optional;
+
+        if (rows > 0 && columns > 0)
+        {
+            data = new T*[rows];
+            for (int i = 0; i < rows; i++)
+            {
+                data[i] = new T[columns];
+                for (int j = 0; j < columns; j++)
+                    data[i][j] = other.data[i][j];
+            }
+        }
+        else
+        {
+            data = nullptr;
+        }
+
+        return *this;
+    }
+
+    // verifica se a matriz é toda zero (não usado aqui)
+    bool isZeros() const
+    {
+        if (rows <= 0 || columns <= 0) return false;
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < columns; j++)
+                if (data[i][j] != 0)
+                    return false;
+        return true;
+    }
+
+    // operador != (compara se existe ao menos um elemento diferente)
+    bool operator!=(const Matrix<T>& other) const
+    {
+        if (rows != other.rows || columns != other.columns)
+        {
+            return true; // diferem em dimensões
+        }
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < columns; j++)
+                if (data[i][j] != other.data[i][j])
+                    return true;
+        return false; // todos iguais
+    }
+
+    // operador - (diferença posição a posição)
+    Matrix operator-(const Matrix<T>& other) const
+    {
+        Matrix<T> result(1, 1, optional);
+        if (rows != other.rows || columns != other.columns)
+        {
+            cout << "\nERROR: Missing data.\n" << endl;
+            return result;
+        }
+
+        result.rows = rows;
+        result.columns = columns;
+        // alocar matriz de saída
+        if (result.data != nullptr)
+        {
+            for (int i = 0; i < result.rows; i++)
+                delete[] result.data[i];
+            delete[] result.data;
+        }
+        result.data = new T*[rows];
+        for (int i = 0; i < rows; i++)
+            result.data[i] = new T[columns];
+
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < columns; j++)
+                result.data[i][j] = data[i][j] - other.data[i][j];
+
+        return result;
+    }
+
+    // operador * (multiplicação de matrizes)
+    Matrix operator*(const Matrix<T>& other) const
+    {
+        Matrix<T> result(1, 1, optional);
+
+        if (rows <= 0 || columns <= 0 || other.rows <= 0 || other.columns <= 0 || columns != other.rows)
+        {
+            cout << "\nERROR: Invalid data for multiplication.\n";
+            return result;
+        }
+
+        result.rows = rows;
+        result.columns = other.columns;
+        // alocar result
+        if (result.data != nullptr)
+        {
+            for (int i = 0; i < result.rows; i++)
+                delete[] result.data[i];
+            delete[] result.data;
+        }
+        result.data = new T*[rows];
+        for (int i = 0; i < rows; i++)
+            result.data[i] = new T[other.columns];
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < other.columns; j++)
+            {
+                T sum = 0;
+                for (int k = 0; k < columns; k++)
+                    sum += data[i][k] * other.data[k][j];
+                result.data[i][j] = sum;
+            }
+        }
+
+        return result;
+    }
+
+    // método scalar: multiplica TODOS os elementos por k e retorna nova matriz
+    Matrix<T> scalar(T k) const
+    {
+        Matrix<T> result(rows, columns, optional);
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                result.set(i, j, data[i][j] * k);
+            }
+        }
+        return result;
+    }
+
+    const int getRows() const { return rows; }
+    const int getColumns() const { return columns; }
+
+    bool identidade() const
+   {
+    if (rows != columns)
+    {
+        return false;
+    }
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            if (i == j && data[i][j] != 1)
+                return false;
+            if (i != j && data[i][j] != 0)
+                return false;
+        }
+    }
+
+    return true;
+   }
+
+   bool operator== (const Matrix<T> &other) const
+{
+    if (rows != other.rows || columns != other.columns)
+        return false;
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            if (data[i][j] != other.data[i][j])
+                return false;
+        }
+    }
+
+    return true;
+}
+
+Matrix<T> add(const Matrix<T> &other)
+{
+    Matrix<T> result(rows, columns, optional);
+
+    if (rows != other.rows || columns != other.columns)
+    {
+        cout << "\nERRO: As matrizes devem ter as mesmas dimensoes" << endl;
+    }
+    else
+    {
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                result.set(i, j, this->get(i, j) + other.get(i, j));
+            }
+        }
+    }
+
+    return result;
+}
+
+void addRows(int targetRow, int sourceRow, T multiplier)
+{
+    if (targetRow < 0 || targetRow >= rows || sourceRow < 0 || sourceRow >= rows)
+    {
+        cout << "\nERROR: valores da linha invalida\n";
+    }
+    else
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            data[targetRow][j] = data[targetRow][j] + multiplier * data[sourceRow][j];
+        }
+    }
+}
+
+void subtractRows(int targetRow, int sourceRow, T multiplier)
+{
+    if (targetRow < 0 || targetRow >= rows || sourceRow < 0 || sourceRow >= rows)
+    {
+        cout << "\nERROR: valores da linha invalida\n";
+    }
+    else
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            data[targetRow][j] = data[targetRow][j] - multiplier * data[sourceRow][j];
+        }
+    }
+}
+
+int searchRows(T value)
+{
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            if (data[i][j] == value)
+            {
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+int searchColumns(T value)
+{
+    for (int j = 0; j < columns; j++)
+    {
+        for (int i = 0; i < rows; i++)
+        {
+            if (data[i][j] == value)
+            {
+                return j;
+            }
+        }
+    }
+    return -1;
+}
+
+void transpose()
+{
+    if (rows <= 0 || columns <= 0)
+    {
+        cout << "\nERRO: As matrizes devem ter as mesmas dimensoes\n";
+    }
+    else
+    {
+        Matrix<T> temp(columns, rows, optional);
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                temp.set(j, i, data[i][j]);
+            }
+        }
+
+        for (int i = 0; i < rows; i++)
+        {
+            delete[] data[i];
+        }
+        delete[] data;
+
+        rows = temp.getRows();
+        columns = temp.getColumns();
+
+        data = new T*[rows];
+        for (int i = 0; i < rows; i++)
+        {
+            data[i] = new T[columns];
+            for (int j = 0; j < columns; j++)
+            {
+                data[i][j] = temp.get(i, j);
+            }
+        }
+    }
+}
+
+bool hasSequentialValuesByRow()
+{
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns - 1; j++)
+        {
+            if (data[i][j] + 1 != data[i][j + 1])
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+void buildCustomPatternE2()
+{
+    int value = 1;
+
+    for (int i = rows - 1; i >= 0; i--)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            data[i][j] = value;
+            value++;
+        }
+    }
+}
+
+};
+
+#endif
