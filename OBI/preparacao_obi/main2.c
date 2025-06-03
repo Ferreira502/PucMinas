@@ -26,11 +26,11 @@ bool calMatrix (int matrix[MAX][MAX], int linhas, int colunas)
     {
         for (size_t j = 0; j < colunas; j++)
         {
-            if (i < j) //triângulo superior
+            if (i < j) //triangulo superior
             {
                 soma_1 = soma_1 + i; 
             }
-            else if ( i > j)  //triângulo inferior
+            else if ( i > j)  //triangulo inferior
             {
                 soma_2 = soma_2 + j;
             }
