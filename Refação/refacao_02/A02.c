@@ -1,3 +1,5 @@
+// 842527 - Gabriel Ferreira Pereira
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -181,28 +183,147 @@ void p_05 (void)
 // QUESTÃO 06
 // -------------------------------
 
+void f_06(char s[]) 
+{
+    int i = 0, j = 0;
+    int espaco = 0;
+
+    while (s[i] != '\0') 
+    {
+        if (s[i] != ' ') 
+        {
+            s[j++] = s[i];
+            espaco = 0;
+        } else if (!espaco) 
+        {
+            s[j++] = s[i];
+            espaco = 1;
+        }
+        i++;
+    }
+
+    s[j] = '\0';
+}
+
 void p_06 (void)
 {
-   // a
+    char s[] = "  amarelo   branco   dourado   ";
+    f_06(s);
+    printf("\"%s\"\n", s);
+    getchar();
+    getchar();
 }
 
 // -------------------------------
 // QUESTÃO 07
 // -------------------------------
 
+typedef struct 
+{
+    int l, c;
+    int data[10][10];
+} matriz;
+
+void f_07(matriz *m) 
+{
+    int i = 0;
+    while (i < m->l) 
+    {
+        int j = 0;
+        while (j <= i) 
+        {
+            m->data[i][j] = (i + 1) * 10 + (j + 1);
+            j++;
+        }
+        j = i + 1;
+        while (j < m->c) {
+            m->data[i][j] = 0;
+            j++;
+        }
+        i++;
+    }
+}
+
+
 void p_07 (void)
 {
-   // a
+    matriz m;
+    m.l = 3;
+    m.c = 3;
+
+    f_07(&m);
+
+    for (int i = 0; i < m.l; i++) 
+    {
+        for (int j = 0; j < m.c; j++) 
+        {
+            printf("%2d ", m.data[i][j]);
+        }
+        printf("\n");
+    }
+
+    getchar();
+    getchar();
 }
 
 // -------------------------------
 // QUESTÃO 08
 // -------------------------------
-
-void p_08 (void)
+int f_08(int n, char *filename) 
 {
-   // a
+    if (n <= 3) return 1;
+
+    FILE *file = fopen(filename, "w");
+    if (file == NULL) return 1;
+
+    int i = 1;
+    while (i < n) 
+    {
+        int j = 0;
+        while (j < i) 
+        {
+            fprintf(file, "*");
+            j++;
+        }
+        fprintf(file, "\n");
+        i++;
+    }
+
+    i = n - 2;
+    while (i > 0) 
+    {
+        int j = 0;
+        while (j < i) 
+        {
+            fprintf(file, "*");
+            j++;
+        }
+        fprintf(file, "\n");
+        i--;
+    }
+
+    fclose(file);
+    return 0;
 }
+
+void p_08(void) 
+{
+    int n = 4;
+    char *filename = "QUESTAO08.TXT";
+
+    int result = f_08(n, filename);
+
+    if (result == 0)
+        printf("\nArquivo gerado com sucesso");
+    else
+        printf("\nErro ao gerar arquivo");
+
+
+    getchar();
+    getchar();
+}
+
+
 
 // -------------------------------
 // MAIN
@@ -224,8 +345,8 @@ int main(void)
         printf("\n6 - p_06");
         printf("\n7 - p_07");
         printf("\n8 - p_08");
-        printf("0 - Sair\n");
-        printf("Opcao: ");
+        printf("\n0 - Sair");
+        printf("\nOpcao: ");
         scanf("%d", &opcao);
 
         switch (opcao)
