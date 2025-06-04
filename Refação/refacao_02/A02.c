@@ -9,7 +9,7 @@
 // QUESTÃO 01
 // -------------------------------
 
-void p_01(void) s
+void p_01(void)
 {
     char s[MAX] = "abacate maduro barato";
     char r[MAX];
@@ -58,34 +58,123 @@ void p_02(void)
     for (int i = 0; i < x; i++) {
         printf("%d ", b[i]);
     }
+    getchar();
 }
 
 // -------------------------------
 // QUESTÃO 03
 // -------------------------------
 
-void p_03(void) 
+void matrix(int p, int q, int m, int n, int m1[][3]) 
 {
-   // i
+    int z = 0;
+    if (0 <= p && p < m && 0 <= q && q < n) 
+    {
+        for (int x = 0; x < m; x++) 
+        {
+            for (int y = n - 1; y >= 0; y--) 
+            {
+                z = m1[p][x];
+                m1[p][x] = m1[q][x];
+                m1[q][x] = z;
+            }
+        }
+    }
+
+    printf("Resultado da matriz:\n");
+    for (int i = 0; i < m; i++) 
+    {
+        for (int j = 0; j < n; j++) 
+        {
+            printf("%d ", m1[i][j]);
+        }
+        printf("\n");
+    }
 }
 
+void p_03(void) {
+    int m[3][3] = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+
+    matrix(0, 2, 3, 3, m);
+}
 
 // -------------------------------
 // QUESTÃO 04
 // -------------------------------
 
+void f_04(int x, int y, int a[]) {
+    if (x < y - 1) {
+        a[x] = a[x] + a[y];
+        f_04((x + y) / 2, y, a);
+    } else {
+        a[x] = 0;
+    }
+}
+
 void p_04(void) 
 {
-    //c
+    int a[] = {1, 2, 3, 4, 5, 6, 7};
+
+    f_04(0, 6, a);
+
+    for (int i = 0; i < 7; i++) 
+    {
+        printf("\n%d", a[i]);
+    }
 }
 
 // -------------------------------
 // QUESTÃO 05
 // -------------------------------
 
+struct y 
+{
+    int a, b, c;
+};
+
+void f_05(struct y *r) 
+{
+    int d = r->a, e = r->c;
+
+    if (d < e) 
+    {
+        (*r).a = e;
+        (*r).c = d;
+    }
+
+    d = r->b;
+    e = r->c;
+
+    if (d < e) 
+    {
+        r->b = e;
+        r->c = d;
+    }
+
+    d = (*r).a;
+    e = r->b;
+
+    if (d < e) 
+    {
+        r->a = e;
+        (*r).b = d;
+    }
+}
+
 void p_05 (void)
 {
-    //a
+    struct y x = { .a = 2, .b = 1, .c = 3 };
+
+    f_05(&x);
+    printf("\n%d %d %d", x.a, x.b, x.c);
+
+    getchar();
+    getchar();
+
 }
 
 // -------------------------------
