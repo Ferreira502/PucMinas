@@ -27,6 +27,9 @@ using namespace std;
 void metodo01() 
 {
     cout << "\n\tMetodo01311\n";
+    Contato contato1;
+    contato1.testReadName();
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -34,6 +37,9 @@ void metodo01()
 void metodo02() 
 {
     cout << "\n\tMetodo1312\n";
+    Contato contato1;
+    contato1.testReadPhone();
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -41,6 +47,9 @@ void metodo02()
 void metodo03() 
 {
     cout << "\n\tMetodo1313\n";
+    Contato contato1;
+    contato1.testIsValidPhone();
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -48,6 +57,15 @@ void metodo03()
 void metodo04() 
 {
     cout << "\n\tMetodo1314\n";
+    Contato contato1;
+
+    std::string nomeArquivo;
+    std::cout << "Digite o nome do arquivo: ";
+    std::getline(std::cin, nomeArquivo);
+
+    contato1.readFromFile(nomeArquivo);
+    
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -55,6 +73,12 @@ void metodo04()
 void metodo05() 
 {
     cout << "\n\tMetodo1315\n";
+    Contato contato1;
+    contato1.setNome("Joao Silva");
+    contato1.setFone("9999-1234", 0);
+
+    contato1.writeToFile("Pessoa1.txt");
+    
     cout << "\nApertar ENTER para continuar" << endl;
     getchar();
 }
@@ -62,6 +86,19 @@ void metodo05()
 void metodo06() 
 {
     cout << "\n\tMetodo1316\n";
+    Contato contato1("Joao da Silva", "99999-1111", "98888-2222");
+
+    std::cout << "Contato criado:" << std::endl;
+    std::cout << contato1.toString() << std::endl;
+
+    Contato contato2;
+    std::cout << "\nLeitura de contato:" << std::endl;
+    contato2.readName("Digite o nome: ");
+    contato2.readPhone("Digite o primeiro telefone: ");
+    contato2.readPhone("Digite o segundo telefone: ");
+    
+    std::cout << "\nContato lido:" << std::endl;
+    std::cout << contato2.toString() << std::endl;
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -69,6 +106,12 @@ void metodo06()
 void metodo07() 
 {
     cout << "\n\tMetodo1317\n";
+    Contato contato1;
+    contato1.setFone("9999-1234", 0);
+    contato1.setFone("8888-5678", 1);
+
+    int n = contato1.phones();
+    contato1.testPhones();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -76,6 +119,12 @@ void metodo07()
 void metodo08() 
 {
     cout << "\n\tMetodo1318\n";
+    
+    Contato contato1;
+    contato1.setFone("91234-5678", 0);
+
+    contato1.testSetPhone2a();
+
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -83,6 +132,12 @@ void metodo08()
 void metodo09() 
 {
     cout << "\n\tMetodo1319\n";
+    
+    Contato contato1;
+    contato1.setFone("91234-5678", 0); 
+    contato1.setFone("99876-4321", 1); 
+
+    contato1.testSetPhone2b();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -90,6 +145,11 @@ void metodo09()
 void metodo10() 
 {
     cout << "\n\tMetodo1320\n";
+    Contato contato1;
+    contato1.setFone("91234-5678", 0); 
+    contato1.setFone("99876-4321", 1); 
+
+    contato1.testSetPhone2c();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -97,6 +157,21 @@ void metodo10()
 void metodo11() 
 {
     cout << "\n\tMetodo13E1\n";
+    Contato contato1;
+    contato1.setNome("Joao");
+    contato1.setFone("9999-1234", 0);
+    contato1.setFone("8888-5678", 1);
+    contato1.setFone("7777-9999", 2);
+
+    contato1.testPhones();
+    std::cout << "Quantidade telefones: " << contato1.phones() << std::endl;
+
+    contato1.removeFone(1);
+
+    contato1.testPhones();
+    std::cout << "Quantidade telefones: " << contato1.phones() << std::endl;
+
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -104,6 +179,21 @@ void metodo11()
 void metodo12() 
 {
     cout << "\n\tMetodo13E2\n";
+
+    Contato contato1;
+    contato1.setNome("\nJoao da Silva\n");
+    contato1.setFone("\n9999-1234\n", 0);
+    contato1.setFone("\n8888-5678\n", 1);
+
+    contato1.setEnderecoResidencial("\nRua das Flores, 123\n");
+    contato1.setEnderecoProfissional("\nAv. Central, 456\n");
+
+    std::cout << contato1.toString() << std::endl;
+    contato1.testEnderecos();
+
+    std::cout << "\nQuantidade de telefones: \n" << contato1.phones() << std::endl;
+
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
