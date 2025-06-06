@@ -28,12 +28,14 @@ void method_00 ( )
 void method_01 ( ) 
 { 
  // definir dados 
-    Contato       pessoa1; 
-    ref_Contato pessoa2 = nullptr; 
-    ref_Contato pessoa3 = new Contato ( ); 
+    Contato pessoa1;
+    Contato* pessoa3 = new Contato();
  
  // identificar 
     cout << "\nMethod_01 - v0.0\n" << endl; 
+    cout << "Objetos pessoa1 e pessoa3 criados" << endl;
+
+    delete pessoa3;
  
  // encerrar 
     pause ( "Apertar ENTER para continuar" ); 
@@ -45,21 +47,22 @@ void method_01 ( )
 void method_02 ( ) 
 { 
  // definir dados 
-    Contato        pessoa1; 
-    ref_Contato pessoa2 = nullptr; 
-    ref_Contato pessoa3 = new Contato ( ); 
+    Contato pessoa1;
+    Contato* pessoa3 = new Contato();
  
  // identificar 
     cout << "\nMethod_02 - v0.0\n" << endl; 
  
  // testar atribuicoes 
-    pessoa1.setNome   ( "Pessoa_01" ); 
-    pessoa1.setFone    ( "111" ); 
-    pessoa3->setNome ( "Pessoa_03" ); 
-    pessoa3->setFone  ( "333" ); 
- 
-    cout << "pessoa1 - { " << pessoa1.getNome   ( ) << ", " << pessoa1.getFone    ( ) << " }" << endl; 
-    cout << "pessoa3 - { " << pessoa3->getNome ( ) << ", " << pessoa3->getFone ( ) << " }" << endl; 
+     pessoa1.setNome("Pessoa_01");
+    pessoa1.setFone("111", 0);
+    pessoa3->setNome("Pessoa_03");
+    pessoa3->setFone("333", 0);
+
+    cout << "pessoa1 - { " << pessoa1.getNome() << ", " << pessoa1.getFone(0) << " }" << endl;
+    cout << "pessoa3 - { " << pessoa3->getNome() << ", " << pessoa3->getFone(0) << " }" << endl;
+
+    delete pessoa3;
  
  // encerrar 
     pause ( "Apertar ENTER para continuar" ); 
@@ -71,21 +74,22 @@ void method_02 ( )
 void method_03 ( ) 
 { 
  // definir dados 
-    Contato       pessoa1; 
-    ref_Contato pessoa2 = nullptr; 
-    ref_Contato pessoa3 = new Contato ( ); 
+    Contato pessoa1;
+    Contato* pessoa3 = new Contato();
  
  // identificar 
     cout << "\nMethod_03 - v0.0\n" << endl; 
  
  // testar atribuicoes 
-    pessoa1.setNome   ( "Pessoa_01" ); 
-    pessoa1.setFone    ( "111" ); 
-    pessoa3->setNome ( "Pessoa_03" ); 
-    pessoa3->setFone  ( "333" ); 
- 
-    cout << "pessoa1 - " << pessoa1.toString   ( ) << endl; 
-    cout << "pessoa3 - " << pessoa3->toString ( ) << endl; 
+    pessoa1.setNome("Pessoa_01");
+    pessoa1.setFone("111", 0);
+    pessoa3->setNome("Pessoa_03");
+    pessoa3->setFone("333", 0);
+
+    cout << "pessoa1 - " << pessoa1.toString() << endl;
+    cout << "pessoa3 - " << pessoa3->toString() << endl;
+
+    delete pessoa3;
  
  // encerrar 
     pause ( "Apertar ENTER para continuar" ); 
@@ -97,17 +101,18 @@ void method_03 ( )
 void method_04 ( ) 
 { 
  // definir dados 
-    Contato       pessoa1 ( "Pessoa_01", "111" ); 
-    ref_Contato    pessoa2 = nullptr; 
-    ref_Contato pessoa3 = new Contato ( "Pessoa_03", "333" ); 
+    Contato pessoa1("Pessoa_01", "111");
+    Contato* pessoa3 = new Contato("Pessoa_03", "333");
  
  // identificar 
     cout << "\nMethod_04 - v0.0\n" << endl; 
  
  // testar atribuicoes 
  
-    cout << "pessoa1 - " << pessoa1.toString   ( ) << endl; 
-    cout << "pessoa3 - " << pessoa3->toString ( ) << endl; 
+    cout << "pessoa1 - " << pessoa1.toString() << endl;
+    cout << "pessoa3 - " << pessoa3->toString() << endl;
+
+    delete pessoa3;
  
  // encerrar 
     pause ( "Apertar ENTER para continuar" ); 
@@ -258,13 +263,13 @@ void method_09 ( )
  // testar atribuicoes 
  
     pessoa [ 0 ].setNome ( "Pessoa_1" ); 
-    pessoa [ 0 ].setFone ( "111" ); 
+    pessoa [ 0 ].setFone ( "111", 0 ); 
  
     pessoa [ 1 ].setNome ( "Pessoa_2" ); 
-    pessoa [ 1 ].setFone ( "222" ); 
+    pessoa [ 1 ].setFone ( "222" , 0); 
  
     pessoa [ 2 ].setNome ( "Pessoa_3" ); 
-    pessoa [ 2 ].setFone ( "333" ); 
+    pessoa [ 2 ].setFone ( "333" , 0); 
  
     for ( x=0; x < 3; x=x+1 ) 
     { 
