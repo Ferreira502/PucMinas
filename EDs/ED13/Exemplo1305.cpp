@@ -319,12 +319,21 @@ int main ( int argc, char** argv )
     do 
     { 
      // identificar 
-        cout << "EXEMPLO1300 - Programa - v0.0\n            " << endl; 
+        cout << "EXEMPLO1305 - Programa - v0.0\n  "                     << endl; 
  
      // mostrar opcoes 
-        cout << "Opcoes                                                          " << endl; 
-        cout << " 0 - parar                                                        " << endl; 
-        cout << " 1 - testar definicao de contatos (objetos) " << endl; 
+        cout << "Opcoes "                                               << endl; 
+        cout << " 0  - parar "                                          << endl; 
+        cout << " 1  - Testar definicoes da classe "                    << endl;
+        cout << " 2  - Testar atribuicoes "                             << endl;
+        cout << " 3  - Testar recuperacao de dados "                    << endl;
+        cout << " 4  - Testar construtor alternativo "                  << endl;
+        cout << " 5  - Testar construtor alternativo "                  << endl;
+        cout << " 6  - Testar construtor alternativo "                  << endl;
+        cout << " 7  - Testar atribuicoes e tratamento de erro "        << endl;
+        cout << " 8  - Testar atribuicoes e tratamento de erro "        << endl;
+        cout << " 9  - Testar arranjo de objetos (1) "                  << endl;
+        cout << " 10 - Testar arranjo de referencias para objetos (2) " << endl; 
  
      // ler do teclado 
         cout << endl << "Entrar com uma opcao: "; 
@@ -339,6 +348,34 @@ int main ( int argc, char** argv )
           case 1: 
             method_01 ( ); 
            break; 
+           case 2: 
+            method_02 ( ); 
+           break; 
+           case 3: 
+            method_03 ( ); 
+           break; 
+           case 4: 
+            method_04 ( ); 
+           break; 
+           case 5: 
+            method_05 ( ); 
+           break; 
+           case 6: 
+            method_06 ( ); 
+           break; 
+           case 7: 
+            method_07 ( ); 
+           break; 
+           case 8: 
+            method_08 ( ); 
+           break; 
+           case 9: 
+            method_09 ( ); 
+           break; 
+           case 10: 
+            method_10 ( ); 
+           break; 
+
           default: 
             cout << endl << "ERRO: Valor invalido." << endl; 
         } // end switch 

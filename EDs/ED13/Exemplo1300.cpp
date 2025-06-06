@@ -28,7 +28,7 @@ void method_00 ( )
 void method_01 ( ) 
 { 
  // definir dados 
-    Contato       pessoa1; 
+    Contato     pessoa1; 
     ref_Contato pessoa2 = nullptr; 
     ref_Contato pessoa3 = new Contato ( ); 
  
@@ -133,7 +133,11 @@ int main ( int argc, char** argv )
      // mostrar opcoes 
         cout << "Opcoes                                                          " << endl; 
         cout << " 0 - parar                                                        " << endl; 
-        cout << " 1 - testar definicao de contatos (objetos) " << endl; 
+        cout << " 1 - testar definicao de contatos (objetos) " << endl;
+        cout << " 2 - Testar atribuicoes "                     << endl;
+        cout << " 3 - Testar recuperacao de dados "            << endl;
+        cout << " 4 - Testar construtor alternativo "          << endl;
+
  
      // ler do teclado 
         cout << endl << "Entrar com uma opcao: "; 
@@ -147,6 +151,15 @@ int main ( int argc, char** argv )
            break; 
           case 1: 
             method_01 ( ); 
+           break; 
+           case 2: 
+            method_02 ( ); 
+           break; 
+           case 3: 
+            method_03 ( ); 
+           break; 
+           case 4: 
+            method_04 ( ); 
            break; 
           default: 
             cout << endl << "ERRO: Valor invalido." << endl; 
