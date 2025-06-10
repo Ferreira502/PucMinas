@@ -1,5 +1,5 @@
 /* 
-   mymatrix.hpp  - v0.0. - 06 / 06 / 2025 
+   mymatrix.hpp  - v0.0. - 09 / 06 / 2025 
    Author: Gabriel Ferreira Pereira
 */ 
  

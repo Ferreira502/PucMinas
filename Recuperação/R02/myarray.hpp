@@ -1,5 +1,5 @@
 /* 
-   myarray.hpp   - v0.0. - 23 / 05 / 2025 
+   myarray.hpp   - v0.0. - 09 / 06 / 2025 
    Author: Gabriel Ferreira Pereira
 */ 
  

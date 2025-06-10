@@ -1,5 +1,5 @@
 /*
- R02 - v0.0. - 06 / 05 / 2025
+ R02 - v0.0. - 09 / 06 / 2025
  Author: Gabriel Ferreira Pereira
 
  Para compilar em terminal (janela de comandos):
@@ -17,6 +17,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include "myarray.hpp"
 
 using namespace std;
 
@@ -25,12 +26,52 @@ using namespace std;
 void metodo01() 
 {
    cout << "\n\tMetodo1311\n";
+
+   ifstream infile("DADOS1.TXT");
+   if (!infile) 
+   {
+     cout << "Erro ao abrir DADOS1.TXT" << endl;
+     return;
+   }
+
+   int size;
+   infile >> size;
+
+   Array<int> arr(size, 0);
+   for (int i = 0; i < size; i++) 
+   {
+      infile >> arr[i];
+   }
+   infile.close();
+
+   if (!isAscending(arr)) 
+   {
+       sortAscending(arr);
+   }
+
+   ofstream outfile("CRESCENTE.TXT");
+   if (!outfile) 
+   {
+      cout << "Erro ao criar CRESCENTE.TXT" << endl;
+      return;
+   }
+
+   outfile << arr.getLength() << endl;
+   for (int i = 0; i < arr.getLength(); i++) 
+   {
+      outfile << arr.get(i) << endl;
+   }
+   outfile.close();
+
+   cout << "Processo concluido com sucesso" << endl;
    cout << "\nApertar ENTER para continuar." << endl;
    getchar();
 }
 
+
 void metodo02() 
 {
+
    cout << "\n\tMetodo1312\n";
    cout << "\nApertar ENTER para continuar." << endl;
    getchar();
@@ -111,18 +152,16 @@ void menuOpcoes() {
     cout << "Matricula: 842527 Nome: Gabriel Ferreira Pereira" << endl;
     cout << "Opcoes: "           << endl;
     cout << " 0 - parar "        << endl;
-    cout << " 1 - metodo 1311 "  << endl;
-    cout << " 2 - metodo 1312 "  << endl;
-    cout << " 3 - metodo 1313 "  << endl;
-    cout << " 4 - metodo 1314 "  << endl;
-    cout << " 5 - metodo 1315 "  << endl;
-    cout << " 6 - metodo 1316 "  << endl;
-    cout << " 7 - metodo 1317 "  << endl;
-    cout << " 8 - metodo 1318 "  << endl;
-    cout << " 9 - metodo 1319 "  << endl;
-    cout << "10 - metodo 1320 "  << endl;
-    cout << "11 - metodo 13E1 "  << endl;
-    cout << "12 - metodo 13E2 "  << endl;
+    cout << " 1 - metodo 01 "  << endl;
+    cout << " 2 - metodo 02 "  << endl;
+    cout << " 3 - metodo 03 "  << endl;
+    cout << " 4 - metodo 04 "  << endl;
+    cout << " 5 - metodo 05 "  << endl;
+    cout << " 6 - metodo 06 "  << endl;
+    cout << " 7 - metodo 07 "  << endl;
+    cout << " 8 - metodo 08 "  << endl;
+    cout << " 9 - metodo 09 "  << endl;
+    cout << "10 - metodo 10 "  << endl;
     cout << endl;
 }
 
@@ -152,8 +191,6 @@ int main()
             case 8:  metodo08(); break;
             case 9:  metodo09(); break;
             case 10: metodo10(); break;
-            case 11: metodo11(); break;
-            case 12: metodo12(); break;
             default: 
                 cout << "\nERRO: Opcao invalida\n" << endl;
                 break;
