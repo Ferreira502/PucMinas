@@ -106,7 +106,7 @@ void metodo02()
 
 // --------------- METODO03-----------------
 
-// Função para achar a mediana personalizada
+// Funcao para achar a mediana
 double arranjo_mediana(Array* arr, int tamanho) 
 {
     if (tamanho <= 0) return 0;
@@ -148,7 +148,7 @@ double arranjo_mediana(Array* arr, int tamanho)
     }
 }
 
-
+// Funcao para achar a moda
 int arranjo_moda(Array* arr) 
 {
     if (arr->length == 0) return 0;
@@ -254,9 +254,69 @@ void metodo04()
 }
 
 // --------------- METODO05-----------------
+
+// Funcao para verificar se a string contem apenas '0' e '1'
+int ehBinarioValido(char *linha) 
+{
+    for (int i = 0; linha[i] != '\0' && linha[i] != '\n'; i++) 
+    {
+        if (linha[i] != '0' && linha[i] != '1') 
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+// Funcao para converter vetor binario em numero decimal
+int arranjo_paraDecimal(int binario[], int tamanho) 
+{
+    int decimal = 0;
+    for (int i = 0; i < tamanho; i++) 
+    {
+        decimal = decimal * 2 + binario[i];
+    }
+    return decimal;
+}
+
 void metodo05() 
 {
     printf("\n\tmetodo05\n");
+    FILE *arquivo = fopen("BINARIOS1.TXT", "r");
+    if (arquivo == NULL) 
+    {
+        printf("\nErro ao abrir o arquivo.\n");
+        return;
+    }
+
+    char linha[100];
+    int binario[100];
+    int tamanho = 0;
+
+    printf("\nConvertendo binarios validos do arquivo:\n\n");
+
+    while (fgets(linha, sizeof(linha), arquivo) != NULL) 
+    {
+        linha[strcspn(linha, "\n")] = '\0';
+
+        if (ehBinarioValido(linha)) 
+        {
+            tamanho = strlen(linha);
+            for (int i = 0; i < tamanho; i++) 
+            {
+                binario[i] = linha[i] - '0';
+            }
+
+            int decimal = arranjo_paraDecimal(binario, tamanho);
+            printf("Binario: %s => Decimal: %d\n", linha, decimal);
+        } else {
+            printf("Invalido: %s\n", linha);
+        }
+    }
+
+    fclose(arquivo);
+    
+    getchar();
     printf("\nApertar ENTER para continuar.\n");
     getchar();
 }
@@ -294,9 +354,68 @@ void metodo09()
 }
 
 // --------------- METODO10-----------------
+
+typedef struct 
+{
+    char nome[MAX];
+    int codigo;
+    double preco;
+} Supermercado;
+
+
 void metodo10() 
 {
     printf("\n\tmetodo10\n");
+    FILE* arquivo = fopen("DADOS3.TXT", "r");
+    if (arquivo == NULL) 
+    {
+        printf("\nErro ao abrir o arquivo\n");
+    }
+
+    int N;
+    fscanf(arquivo, "%d", &N);
+
+    if (N < 2) {
+        printf("\nE necessario pelo menos dois supermercados.\n");
+        fclose(arquivo);
+        return;
+    }
+
+    Supermercado lista[MAX];
+    for (int i = 0; i < N; i++) 
+    {
+        fscanf(arquivo, "%s %d", lista[i].nome, &lista[i].codigo);
+    }
+
+    for (int i = 0; i < N; i++) 
+    {
+        fscanf(arquivo, "%lf", &lista[i].preco);
+    }
+
+    fclose(arquivo);
+
+    double soma = 0.0;
+    for (int i = 0; i < N; i++) 
+    {
+        soma += lista[i].preco;
+    }
+    double media = soma / N;
+
+    printf("\nPreco medio: %.2lf\n", media);
+
+    printf("\nSupermercados com precos abaixo da media:\n");
+    int count = 0;
+    for (int i = 0; i < N; i++) {
+        if (lista[i].preco < media) {
+            printf("- %s (Codigo: %d) -> R$ %.2lf\n", lista[i].nome, lista[i].codigo, lista[i].preco);
+            count++;
+        }
+    }
+
+    if (count < 2) {
+        printf("\nApenas %d supermercado com preco abaixo da media\n", count);
+    }
+
     printf("\nApertar ENTER para continuar.\n");
     getchar();
 }
