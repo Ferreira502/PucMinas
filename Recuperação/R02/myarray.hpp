@@ -368,6 +368,7 @@ T addInterval(int start, int end)
 double averageInterval(int start, int end)
 {
     double media = 0.0;
+    int quantidade = 0;
 
     if (start < 0 || end >= length || start > end)
     {
@@ -375,18 +376,20 @@ double averageInterval(int start, int end)
         return media;
     }
 
-    T soma = 0;
-    int quantidade = (end - start + 1);
-
     for (int i = start; i <= end; i++)
     {
-        soma += data[i];
+        media += data[i];
+        quantidade++;
     }
 
-    media = static_cast<double>(soma) / quantidade;
+    if (quantidade > 0)
+    {
+        media = media / quantidade;
+    }
 
     return media;
 }
+
 
 bool negatives()
 {

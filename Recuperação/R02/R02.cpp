@@ -12,6 +12,7 @@
 */
 
 #include <iostream>
+#include <fstream>
 #include <limits>
 #include <string>
 #include <cstdlib>
@@ -25,124 +26,139 @@ using namespace std;
 
 void metodo01() 
 {
-   cout << "\n\tMetodo1311\n";
+   cout << "\n\tMetodo01\n";
+   Array<int> arr;
+   arr.fread("DADOS1.TXT");
 
-   ifstream infile("DADOS1.TXT");
-   if (!infile) 
+   cout << "\nArranjo original:" << endl;
+   arr.print();
+
+   arr.sortDown();
+
+   cout << "\nArranjo em ordem decrescente:" << endl;
+
+   ofstream arquivo("DECRESCENTE.TXT");
+
+   if(arquivo.is_open())
    {
-     cout << "Erro ao abrir DADOS1.TXT" << endl;
-     return;
+      arquivo << arr.getLength() << endl;
+      for (int i = 0; i < arr.getLength(); i++) 
+      {
+         arquivo << arr.get(i) << endl;
+      }
+      arquivo.close();
+      cout << "Dados gravados com sucesso\n";
    }
+   else {
+        cout << "Nao foi possivel abrir o arquivo\n";
+    }
 
-   int size;
-   infile >> size;
-
-   Array<int> arr(size, 0);
-   for (int i = 0; i < size; i++) 
-   {
-      infile >> arr[i];
-   }
-   infile.close();
-
-   if (!isAscending(arr)) 
-   {
-       sortAscending(arr);
-   }
-
-   ofstream outfile("CRESCENTE.TXT");
-   if (!outfile) 
-   {
-      cout << "Erro ao criar CRESCENTE.TXT" << endl;
-      return;
-   }
-
-   outfile << arr.getLength() << endl;
-   for (int i = 0; i < arr.getLength(); i++) 
-   {
-      outfile << arr.get(i) << endl;
-   }
-   outfile.close();
-
-   cout << "Processo concluido com sucesso" << endl;
+   getchar();
    cout << "\nApertar ENTER para continuar." << endl;
    getchar();
+}
+
+void arranjo_inverter(Array<int>& arr) 
+{
+    int n = arr.getLength();
+    for (int i = 0; i < n / 2; i++) 
+    {
+        int temp = arr.get(i);
+        arr.set(i, arr.get(n - 1 - i));
+        arr.set(n - 1 - i, temp);
+    }
 }
 
 
 void metodo02() 
 {
 
-   cout << "\n\tMetodo1312\n";
+   cout << "\n\tMetodo02\n";
+   Array<int> arr;
+   arr.fread("DECRESCENTE.TXT");
+
+   cout << "\nArranjo original:" << endl;
+   arr.print();
+
+   arranjo_inverter(arr);
+
+   cout << "\nArranjo invertido:" << endl;
+   arr.print();
+
+   ofstream arquivo("INVERTIDOS.TXT");
+
+   if (arquivo.is_open()) 
+   {
+       arquivo << arr.getLength() << endl;
+       for (int i = 0; i < arr.getLength(); i++) 
+       {
+         arquivo << arr.get(i) << endl;
+       }
+       arquivo.close();
+       cout << "Dados invertidos gravados com sucesso no arquivo INVERTIDOS.TXT\n";
+   } else 
+   {
+      cout << "Nao foi possivel abrir o arquivo INVERTIDOS.TXT\n";
+   }
+
+   getchar();
    cout << "\nApertar ENTER para continuar." << endl;
    getchar();
 }
 
 void metodo03() 
 {
-   cout << "\n\tMetodo1313\n";
+   cout << "\n\tMetodo03\n";
    cout << "\nApertar ENTER para continuar." << endl;
    getchar();
 }
 
 void metodo04() 
 {
-   cout << "\n\tMetodo1314\n";
+   cout << "\n\tMetodo04\n";
    cout << "\nApertar ENTER para continuar." << endl;
    getchar();
 }
 
+
 void metodo05() 
 {
-   cout << "\n\tMetodo1315\n";
+   cout << "\n\tMetodo05\n";
    cout << "\nApertar ENTER para continuar." << endl;
    getchar();
 }
 
 void metodo06() 
 {
-   cout << "\n\tMetodo1316\n";
+   cout << "\n\tMetodo06\n";
    cout << "\nApertar ENTER para continuar." << endl;
    getchar();
 }
 
 void metodo07() 
 {
-   cout << "\n\tMetodo1317\n";
+   cout << "\n\tMetodo07\n";
    cout << "\nApertar ENTER para continuar." << endl;
    getchar();
 }
 
 void metodo08() 
 {
-   cout << "\n\tMetodo1318\n";
+   cout << "\n\tMetodo08\n";
    cout << "\nApertar ENTER para continuar." << endl;
    getchar();
 }
 
 void metodo09() 
 {
-   cout << "\n\tMetodo1319\n";
+   cout << "\n\tMetodo09\n";
    cout << "\nApertar ENTER para continuar." << endl;
    getchar();
 }
 
 void metodo10() 
 {
-   cout << "\n\tMetodo1320\n";
-   cout << "\nApertar ENTER para continuar." << endl;
-   getchar();
-}
-
-void metodo11() 
-{
-   cout << "\n\tMetodo13E1\n";
-   cout << "\nApertar ENTER para continuar." << endl;
-   getchar();
-}
-
-void metodo12() 
-{
-   cout << "\n\tMetodo13E2\n";
+   cout << "\n\tMetodo10\n";
    cout << "\nApertar ENTER para continuar." << endl;
    getchar();
 }
