@@ -204,4 +204,39 @@ Matrix* loadMatrixFromFile(const char* filename) {
     return mat;
 }
 
+int getRowCount(const Matrix* mat) 
+{
+    if (!mat) return 0;
+    return mat->rows;
+}
+
+int getColumnCount(const Matrix* mat) 
+{
+    if (!mat) return 0;
+    return mat->cols;
+}
+
+Matrix* readMatrix(const char* filename) {
+    FILE* file = fopen(filename, "r");
+    if (!file) return NULL;
+
+    int rows, cols;
+    fscanf(file, "%d %d", &rows, &cols);
+
+    Matrix* mat = (Matrix*) malloc(sizeof(Matrix));
+    mat->rows = rows;
+    mat->cols = cols;
+
+    mat->data = (double**) malloc(rows * sizeof(double*));
+    for (int i = 0; i < rows; i++) {
+        mat->data[i] = (double*) malloc(cols * sizeof(double));
+        for (int j = 0; j < cols; j++) {
+            fscanf(file, "%lf", &mat->data[i][j]);
+        }
+    }
+
+    fclose(file);
+    return mat;
+}
+
 #endif
