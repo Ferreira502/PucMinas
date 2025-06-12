@@ -1,5 +1,5 @@
 /* 
-   myarray.h  - v1.0 - 11 / 06 / 2025 
+   myarray.h  - v1.0 - 09 / 06 / 2025 
    Autor: Gabriel Ferreira Pereira
 */
 

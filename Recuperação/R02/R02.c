@@ -3,8 +3,8 @@
  Author: Gabriel Ferreira Pereira
 
  Para compilar em terminal (janela de comandos):
- Linux : g++ -o R02 R02.cpp
- Windows: g++ -o R02 R02.cpp
+ Linux : g++ -o R02 R02.c
+ Windows: g++ -o R02 R02.c
 
  Para executar em terminal (janela de comandos):
  Linux : ./R02
