@@ -176,7 +176,7 @@ public:
     return false;
    }
 
-   bool contains(std::string subtexto) 
+   bool contains(string subtexto) 
    {
         int tamanhoConteudo = conteudo.length();
         int tamanhoSubtexto = subtexto.length();
@@ -264,6 +264,132 @@ public:
         return resultado;
     }
 
+    string encrypt() 
+    {
+        string resultado = "";
+        int deslocamento = 3;
+
+        for (int i = 0; i < conteudo.length(); i++) 
+        {
+            char c = conteudo[i];
+
+        
+            if (c >= 'A' && c <= 'Z') 
+            {
+                char codificado = ((c - 'A' + deslocamento) % 26) + 'A';
+                resultado += codificado;
+            }
+
+            else if (c >= 'a' && c <= 'z') 
+            {
+                char codificado = ((c - 'a' + deslocamento) % 26) + 'a';
+                resultado += codificado;
+            }
+
+            else 
+            {
+                resultado += c;
+            }
+        }
+
+        return resultado;
+    }
+
+    string decrypt() 
+    {
+        string resultado = "";
+        int deslocamento = 3;
+
+        for (int i = 0; i < conteudo.length(); i++) 
+        {
+            char c = conteudo[i];
+
+            if (c >= 'A' && c <= 'Z') 
+            {
+                char decodificado = ((c - 'A' - deslocamento + 26) % 26) + 'A';
+                resultado += decodificado;
+            }
+            else if (c >= 'a' && c <= 'z') 
+            {
+                char decodificado = ((c - 'a' - deslocamento + 26) % 26) + 'a';
+                resultado += decodificado;
+            }
+            
+            else 
+            {
+                resultado += c;
+            }
+        }
+
+        return resultado;
+    }
+
+    int split(string sequencia[]) 
+    {
+        int quantidade = 0;
+        string palavra = "";
+    
+        for (int i = 0; i <= conteudo.length(); i++) 
+        {
+            char c = conteudo[i];
+
+            if (c == ' ' || c == '\0') 
+            {
+                if (palavra != "") 
+                {
+                    sequencia[quantidade] = palavra;
+                    quantidade++;
+                    palavra = "";
+                }
+            } 
+            else 
+            {
+                palavra += c;
+            }
+        }
+
+        return quantidade;
+    }
+
+    int splitBy(char delimitador, string sequencia[]) 
+    {
+        int quantidade = 0;
+        string palavra = "";
+
+        for (int i = 0; i <= conteudo.length(); i++) 
+        {
+            char c = conteudo[i];
+
+            if (c == delimitador || c == '\0') 
+            {
+                if (palavra != "") 
+                {
+                    sequencia[quantidade] = palavra;
+                    quantidade++;
+                    palavra = "";
+                }
+            } 
+            else 
+            {
+                palavra += c;
+            }
+        }
+
+        return quantidade;
+    }
+
+
+    string reverse() 
+    {
+        string invertido = "";
+
+        for (int i = conteudo.length() - 1; i >= 0; i--) 
+        {
+            invertido += conteudo[i];
+        }
+
+        return invertido;
+}
 
 };
 
@@ -365,7 +491,8 @@ void metodo03()
     cout << "obj6.getBoolean() = " << obj6.getBoolean() << endl; 
     cout << "obj7.getBoolean() = " << obj7.getBoolean() << endl; 
     cout << "obj8.getBoolean() = " << obj8.getBoolean() << endl; 
-
+    
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -390,6 +517,7 @@ void metodo04()
     cout << "Contem 'x': " << obj.contains("x") << endl;         
     cout << "Contem 'abc': " << obj.contains("abc") << endl;     
 
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -413,6 +541,8 @@ void metodo05()
     cout << "obj1.toUpperCase() = " << obj1.toUpperCase() << endl; 
     cout << "obj2.toUpperCase() = " << obj2.toUpperCase() << endl; 
     cout << "obj3.toUpperCase() = " << obj3.toUpperCase() << endl;
+
+    getchar();
     cout << "\nApertar ENTER para continuar" << endl;
     getchar();
 }
@@ -437,6 +567,7 @@ void metodo06()
     cout << "obj2.toLowerCase() = " << obj2.toLowerCase() << endl;
     cout << "obj3.toLowerCase() = " << obj3.toLowerCase() << endl;
 
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -461,6 +592,7 @@ void metodo07()
     cout << "obj2.replace('a', '*') = " << obj2.replace('a', '*') << endl;
     cout << "obj3.replace('-', '.') = " << obj3.replace('-', '.') << endl;
 
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -476,6 +608,18 @@ void metodo07()
 void metodo08() 
 {
     cout << "\n\tMetodo08\n";
+
+    MeuObjeto obj1("abc");
+    MeuObjeto obj2("xyz");
+    MeuObjeto obj3("Hello, World");
+    MeuObjeto obj4("Segredo123");
+
+    cout << "obj1.encrypt() = " << obj1.encrypt() << endl;
+    cout << "obj2.encrypt() = " << obj2.encrypt() << endl;
+    cout << "obj3.encrypt() = " << obj3.encrypt() << endl;
+    cout << "obj4.encrypt() = " << obj4.encrypt() << endl;
+
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -492,6 +636,18 @@ void metodo08()
 void metodo09() 
 {
     cout << "\n\tMetodo09\n";
+
+    MeuObjeto obj1("def");
+    MeuObjeto obj2("abc");
+    MeuObjeto obj3("Khoor, Zruog!");
+    MeuObjeto obj4("Vhjuhgr123");
+
+    cout << "obj1.decrypt() = " << obj1.decrypt() << endl;
+    cout << "obj2.decrypt() = " << obj2.decrypt() << endl;
+    cout << "obj3.decrypt() = " << obj3.decrypt() << endl;
+    cout << "obj4.decrypt() = " << obj4.decrypt() << endl;
+
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -508,6 +664,20 @@ void metodo09()
 void metodo10() 
 {
     cout << "\n\tMetodo10\n";
+    
+    MeuObjeto obj1("O rato roeu a roupa do rei");
+    string palavras[10];
+
+    int qtd = obj1.split(palavras);
+
+    cout << "Quantidade de palavras: " << qtd << endl;
+
+    for (int i = 0; i < qtd; i++) 
+    {
+        cout << "[" << i << "]: " << palavras[i] << endl;
+    }
+
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -518,6 +688,32 @@ void metodo10()
 void metodo11() 
 {
     cout << "\n\tMetodoE1\n";
+    
+    MeuObjeto obj1("ana,maria,joao,ze");
+    string nomes[10];
+
+    int qtd = obj1.splitBy(',', nomes);
+
+    cout << "Fragmentos encontrados: " << qtd << endl;
+
+    for (int i = 0; i < qtd; i++) 
+    {
+        cout << "[" << i << "]: " << nomes[i] << endl;
+    }
+
+    MeuObjeto obj2("10:20:30:40");
+    string numeros[10];
+
+    int qtd2 = obj2.splitBy(':', numeros);
+
+    cout << "\nFragmentos encontrados: " << qtd2 << endl;
+
+    for (int i = 0; i < qtd2; i++) 
+    {
+        cout << "[" << i << "]: " << numeros[i] << endl;
+    }
+
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -527,6 +723,16 @@ void metodo11()
 void metodo12() 
 {
     cout << "\n\tMetodoE2\n";
+
+    MeuObjeto obj1("abcde");
+    MeuObjeto obj2("12345");
+    MeuObjeto obj3("amor");
+
+    cout << "Original: " << "abcde" << " | Invertido: " << obj1.reverse() << endl; 
+    cout << "Original: " << "12345" << " | Invertido: " << obj2.reverse() << endl; 
+    cout << "Original: " << "amor" << "  | Invertido: " << obj3.reverse() << endl;
+
+    getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
