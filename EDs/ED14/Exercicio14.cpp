@@ -226,6 +226,45 @@ public:
     }
 
 
+    string toLowerCase() 
+    {
+        string resultado = "";
+
+        for (int i = 0; i < conteudo.length(); i++) 
+        {
+            char c = conteudo[i];
+
+            if (c >= 'A' && c <= 'Z') 
+            {
+                resultado += c + 32;
+            } 
+            else 
+            {
+                resultado += c;
+            }   
+        }
+
+        return resultado;
+    }
+    string replace(char original, char novo) 
+    {
+        string resultado = "";
+
+        for (int i = 0; i < conteudo.length(); i++) 
+        {
+            if (conteudo[i] == original) 
+            {
+                resultado += novo;
+            } else 
+            {
+                resultado += conteudo[i];
+            }
+        }
+
+        return resultado;
+    }
+
+
 };
 
 // --------------- METODO01-----------------
@@ -368,7 +407,7 @@ void metodo05()
 {
     cout << "\n\tMetodo05\n";
      MeuObjeto obj1("abc123");
-    MeuObjeto obj2("Teste De CAso!");
+    MeuObjeto obj2("Teste De CAso");
     MeuObjeto obj3("JA ESTA EM MAIUSCULAS");
 
     cout << "obj1.toUpperCase() = " << obj1.toUpperCase() << endl; 
@@ -389,6 +428,15 @@ void metodo05()
 void metodo06() 
 {
     cout << "\n\tMetodo06\n";
+
+     MeuObjeto obj1("ABC123");
+    MeuObjeto obj2("Teste De CAso");
+    MeuObjeto obj3("ja esta em minusculas");
+
+    cout << "obj1.toLowerCase() = " << obj1.toLowerCase() << endl;
+    cout << "obj2.toLowerCase() = " << obj2.toLowerCase() << endl;
+    cout << "obj3.toLowerCase() = " << obj3.toLowerCase() << endl;
+
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
@@ -404,6 +452,15 @@ void metodo06()
 void metodo07() 
 {
     cout << "\n\tMetodo07\n";
+
+    MeuObjeto obj1("banana");
+    MeuObjeto obj2("A casa e azul");
+    MeuObjeto obj3("123-456-789");
+
+    cout << "obj1.replace('a', 'o') = " << obj1.replace('a', 'o') << endl;
+    cout << "obj2.replace('a', '*') = " << obj2.replace('a', '*') << endl;
+    cout << "obj3.replace('-', '.') = " << obj3.replace('-', '.') << endl;
+
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
