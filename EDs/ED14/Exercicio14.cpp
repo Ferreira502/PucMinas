@@ -1,14 +1,14 @@
 /*
- Exercicio12 - v0.0. - 06 / 05 / 2025
+ Exercicio14 - v0.0. - 13 / 05 / 2025
  Author: Gabriel Ferreira Pereira
 
  Para compilar em terminal (janela de comandos):
- Linux : g++ -o exercicio13 exercicio13.cpp
- Windows: g++ -o exercicio13 exercicio13.cpp
+ Linux : g++ -o exercicio14 exercicio14.cpp
+ Windows: g++ -o exercicio14 exercicio14.cpp
 
  Para executar em terminal (janela de comandos):
- Linux : ./exercicio13
- Windows: exercicio13
+ Linux : ./exercicio14
+ Windows: exercicio14
 */
 
 #include <iostream>
