@@ -1,14 +1,14 @@
 /*
- Exercicio14 - v0.0. - 13 / 05 / 2025
+ Exercicio14 - v0.0. - 18 / 06 / 2025
  Author: Gabriel Ferreira Pereira
 
  Para compilar em terminal (janela de comandos):
- Linux : g++ -o exercicio14 exercicio14.cpp
- Windows: g++ -o exercicio14 exercicio14.cpp
+ Linux : g++ -o exercicio15 exercicio15.cpp
+ Windows: g++ -o exercicio15 exercicio15.cpp
 
  Para executar em terminal (janela de comandos):
- Linux : ./exercicio14
- Windows: exercicio14
+ Linux : ./exercicio15
+ Windows: exercicio15
 */
 
 #include <iostream>
@@ -30,7 +30,6 @@ using namespace std;
 void metodo01() 
 {
     cout << "\n\tMetodo01\n";
-
     getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
@@ -42,7 +41,6 @@ void metodo01()
 void metodo02() 
 {
     cout << "\n\tMetodo02\n";
-
     getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
@@ -55,7 +53,6 @@ void metodo02()
 void metodo03() 
 {
     cout << "\n\tMetodo03\n";
-
     getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
@@ -69,7 +66,6 @@ void metodo03()
 void metodo04() 
 {
     cout << "\n\tMetodo04\n";
-
     getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
@@ -93,8 +89,6 @@ void metodo05()
 void metodo06() 
 {
     cout << "\n\tMetodo06\n";
-
-
     getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
@@ -105,7 +99,6 @@ void metodo06()
 void metodo07() 
 {
     cout << "\n\tMetodo07\n";
-
     getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
@@ -117,7 +110,6 @@ void metodo07()
 void metodo08() 
 {
     cout << "\n\tMetodo08\n";
-
     getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
@@ -129,7 +121,6 @@ void metodo08()
 void metodo09() 
 {
     cout << "\n\tMetodo09\n";
-
     getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
@@ -140,7 +131,6 @@ void metodo09()
 void metodo10() 
 {
     cout << "\n\tMetodo10\n";
-
     getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
@@ -152,7 +142,6 @@ void metodo10()
 void metodo11() 
 {
     cout << "\n\tMetodoE1\n";
-
     getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
@@ -163,22 +152,13 @@ void metodo11()
 void metodo12() 
 {
     cout << "\n\tMetodoE2\n";
-
-    MeuObjeto obj1("abcde");
-    MeuObjeto obj2("12345");
-    MeuObjeto obj3("amor");
-
-    cout << "Original: " << "abcde" << " | Invertido: " << obj1.reverse() << endl; 
-    cout << "Original: " << "12345" << " | Invertido: " << obj2.reverse() << endl; 
-    cout << "Original: " << "amor" << "  | Invertido: " << obj3.reverse() << endl;
-
     getchar();
     cout << "\nApertar ENTER para continuar." << endl;
     getchar();
 }
 
 void menuOpcoes() {
-    cout << "\nExercicio14 - v.0.0 - 13/05/2025" << endl;
+    cout << "\nExercicio15 - v.0.0 - 18/05/2025" << endl;
     cout << "Matricula: 842527 Nome: Gabriel Ferreira Pereira" << endl;
     cout << "Opcoes: "           << endl;
     cout << " 0 - parar "        << endl;
