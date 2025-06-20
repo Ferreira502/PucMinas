@@ -25,10 +25,43 @@
   * Metodo01.
   */
 
+char* str_push_back(char *s, char c) 
+{
+    size_t len = 0;
+
+    if (s == NULL) 
+    {
+        s = (char*) malloc(2 * sizeof(char));
+        if (s == NULL) return NULL;
+        s[0] = c;
+        s[1] = '\0';
+        return s;
+    }
+
+    len = strlen(s);
+
+    char* temp = (char*) realloc(s, (len + 2) * sizeof(char));
+    if (temp == NULL) return s;
+
+    temp[len] = c;
+    temp[len + 1] = '\0';
+
+    return temp;
+}
+
 void metodo01( void ) 
 {
 // Identificar
   printf("\n%s\n", "\n\tMetodo01");
+  char *texto = NULL;
+
+    texto = str_push_back(texto, 'A');
+    texto = str_push_back(texto, 'B');
+    texto = str_push_back(texto, 'C');
+
+    printf("Resultado: %s\n", texto);
+
+    free(texto);
 // Encerrar
   printf("\n%s\n", "Apertar ENTER para continuar.");
   getchar();
@@ -38,10 +71,54 @@ void metodo01( void )
   * Metodo02.
   */
 
+char* str_pop_back(char *s) 
+{
+    if (s == NULL) 
+    {
+      return NULL;
+    }
+
+    size_t len = strlen(s);
+
+    if (len == 0) 
+    {
+      return s; 
+    }
+
+    s[len - 1] = '\0';
+
+    char* temp = realloc(s, len * sizeof(char));
+    if (temp != NULL) 
+    {
+      return temp;
+    } 
+    else 
+    {
+      return s;
+    }
+}  
+
 void metodo02 ( void )
 {
 // Identificar
   printf("\n%s\n", "\n\tMetodo02");
+   char *texto = malloc(strlen("OLA") + 1);
+   if (texto == NULL)
+   {
+      printf("\nERRO");
+   } 
+
+   strcpy(texto, "OLA");
+
+   printf("Antes: %s\n", texto);
+
+   texto = str_pop_back(texto);
+   printf("Depois: %s\n", texto);
+
+   texto = str_pop_back(texto);
+   printf("Depois: %s\n", texto);
+
+   free(texto);
 // Encerrar
   printf("\n%s\n", "Apertar ENTER para continuar.");
   getchar();
@@ -51,10 +128,48 @@ void metodo02 ( void )
   * Metodo03.
   */
 
+char* str_push_front(char c, char *s) 
+{
+    size_t len = 0;
+
+    if (s != NULL) 
+    {
+      len = strlen(s);
+    }
+
+    char *temp = (char*) malloc((len + 2) * sizeof(char));
+    if (temp == NULL) 
+    {
+      return NULL;
+    }
+
+    temp[0] = c;
+
+    if (s != NULL) 
+    {
+      strcpy(temp + 1, s);
+      free(s);
+    } else 
+    {
+      temp[1] = '\0';
+    }
+
+    return temp;
+}  
+
 void metodo03 ( void )
 {
  // Identificar
    printf("\n%s\n", "\n\tMetodo03");
+   char *texto = NULL;
+
+   texto = str_push_front('C', texto);
+   texto = str_push_front('B', texto);
+   texto = str_push_front('A', texto);
+
+   printf("Resultado: %s\n", texto);
+
+   free(texto);
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -64,10 +179,56 @@ void metodo03 ( void )
   * Metodo04.
   */
 
+char* str_pop_front(char *s) 
+{
+    if (s == NULL) 
+    {
+      return NULL;
+    }
+
+    size_t len = strlen(s);
+
+    if (len == 0) 
+    {
+      return s;
+    }
+
+    for (size_t i = 0; i < len; i++) 
+    {
+      s[i] = s[i + 1];
+    }
+
+    char *temp = realloc(s, len * sizeof(char));
+    if (temp != NULL) 
+    {
+        return temp;
+    } else 
+    {
+      return s;
+    }
+}
+
 void metodo04 ( void )
 {
  // Identificar
    printf("\n%s\n", "\n\tMetodo04");
+   char *texto = malloc(6);
+   if (texto == NULL)
+   {
+      printf("\ERRO");
+   }
+
+   strcpy(texto, "Hello");
+
+   printf("Antes: %s\n", texto);
+
+   texto = str_pop_front(texto);
+   printf("Depois: %s\n", texto);
+
+   texto = str_pop_front(texto); 
+   printf("Depois: %s\n", texto);
+
+   free(texto);
 // Encerrar
    printf("\n%s\n", "Apertar ENTER para continuar.");
    getchar();
@@ -77,10 +238,65 @@ void metodo04 ( void )
   * Metodo05.
   */
 
+char* str_push_mid(char *s, char c) 
+{
+    if (s == NULL) 
+    {
+        return NULL;
+    }
+
+    size_t len = strlen(s);
+
+    if (len < 2) 
+    {
+        return s;
+    }
+
+    size_t meio = len / 2;
+
+    char *temp = (char *) malloc((len + 2) * sizeof(char));
+    if (temp == NULL) 
+    {
+        return s;
+    }
+
+    for (size_t i = 0; i < meio; i++)
+    {
+        temp[i] = s[i];
+    }
+
+    temp[meio] = c;
+
+    for (size_t i = meio; i <= len; i++) 
+    {
+        temp[i + 1] = s[i];
+    }
+
+    free(s);
+    return temp;
+}
+
 void metodo05 ( void )
 {
 // Identificar
   printf("\n%s\n", "\n\tMetodo05");
+  
+  char *texto = malloc(strlen("Hello") + 1);
+
+  if (texto == NULL)
+  {
+      printf("\nERRO");
+  }
+
+  strcpy(texto, "Hello");
+
+  printf("Antes: %s\n", texto);
+
+  texto = str_push_mid(texto, '-');
+
+  printf("Depois: %s\n", texto);
+
+  free(texto);
 // Encerrar
   printf("\n%s\n", "Apertar ENTER para continuar.");
   getchar();
