@@ -22,82 +22,211 @@
  
 using namespace std; 
 
+#define null nullptr
+
+void pause ( std::string text ) 
+{ 
+    std::string dummy; 
+    std::cin.clear ( ); 
+    std::cout << std::endl << text; 
+    std::cin.ignore( ); 
+    std::getline(std::cin, dummy); 
+    std::cout << std::endl << std::endl; 
+} // end pause ( ) 
+
 // -------------------------- definicao de metodos
 
-void metodo01() {
+/**  
+     Funcao para acrescentar valor ao final 
+     de um arranjo, por meio de apontador. 
+     @return  apontador para arranjo atualizado 
+     @param array - apontador para arranjo 
+     @param value - valor a ser inserido 
+  */ 
+
+void metodo01() 
+{
     cout << "\n\tMetodo01\n";
-    cout << "Apertar ENTER para continuar." << endl;
+    Array<int> arr;
+    int n = 0;
+
+    cout << "Quantos valores: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) 
+    {
+        int val;
+        cout << "Digite o valor " << i + 1 << ": ";
+        cin >> val;
+        arr.push_back(val);
+    }
+
+    cout << "Array preenchido: ";
+
+    arr.print();
+    pause("Apertar ENTER para continuar");
     getchar();
 }
 
-void metodo02() {
+void metodo02() 
+{
     cout << "\n\tMetodo02\n";
-    cout << "Apertar ENTER para continuar." << endl;
+    Array<int> arr;
+    int n = 0, valor = 0;
+
+    cout << "Quantos valores deseja inserir? ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cout << "Digite o valor " << (i + 1) << ": ";
+        cin >> valor;
+        arr.push_back(valor);
+    }
+
+    cout << "\nAntes do pop_back: ";
+    arr.print();
+
+    arr.pop_back();
+
+    cout << "Depois do pop_back: ";
+    arr.print();
+
+    pause("Apertar ENTER para continuar");
     getchar();
 }
 
-void metodo03() {
+void metodo03() 
+{
     cout << "\n\tMetodo03\n";
-    cout << "Apertar ENTER para continuar." << endl;
+    Array<int> arr;
+    int n = 0, valor = 0;
+
+    cout << "Quantos valores deseja inserir no inicio do array: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) 
+    {
+        cout << "Digite o valor " << (i + 1) << ": ";
+        cin >> valor;
+        arr.push_front(valor);
+    }
+
+    cout << "\nArray resultante: ";
+    arr.print();
+
+    pause("Apertar ENTER para continuar");
     getchar();
 }
 
-void metodo04() {
+void metodo04() 
+{
     cout << "\n\tMetodo04\n";
-    cout << "Apertar ENTER para continuar." << endl;
+    Array<int> arr;
+    int n = 0, valor = 0;
+
+    cout << "Quantos valores deseja inserir: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) 
+    {
+        cout << "Digite o valor " << (i + 1) << ": ";
+        cin >> valor;
+        arr.push_back(valor); 
+    }
+
+    cout << "\nAntes do pop_front: ";
+    arr.print();
+
+    arr.pop_front();
+
+    cout << "\nArray resultante: ";
+    arr.print();
+    pause("Apertar ENTER para continuar");
     getchar();
 }
 
-void metodo05() {
+void metodo05() 
+{
     cout << "\n\tMetodo05\n";
-    cout << "Apertar ENTER para continuar." << endl;
+    Array<int> arr;
+    int n, valor;
+
+    cout << "Quantos valores deseja inserir: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) 
+    {
+        cout << "Digite o valor " << (i + 1) << ": ";
+        cin >> valor;
+        arr.push_back(valor);
+    }
+
+    cout << "Array atual: ";
+    arr.print();
+
+    cout << "\nDigite um valor para inserir no meio: ";
+    cin >> valor;
+
+    arr.push_mid(valor);
+
+    cout << "Array apos push_mid: ";
+    arr.print();
+    pause("Apertar ENTER para continuar");
     getchar();
 }
 
-void metodo06() {
+void metodo06() 
+{
     cout << "\n\tMetodo06\n";
-    cout << "Apertar ENTER para continuar." << endl;
+    pause("Apertar ENTER para continuar");
     getchar();
 }
 
-void metodo07() {
+void metodo07() 
+{
     cout << "\n\tMetodo07\n";
-    cout << "Apertar ENTER para continuar." << endl;
+    pause("Apertar ENTER para continuar");
     getchar();
 }
 
-void metodo08() {
+void metodo08() 
+{
     cout << "\n\tMetodo08\n";
-    cout << "Apertar ENTER para continuar." << endl;
+    pause("Apertar ENTER para continuar");
     getchar();
 }
 
-void metodo09() {
+void metodo09() 
+{
     cout << "\n\tMetodo09\n";
-    cout << "Apertar ENTER para continuar." << endl;
+    pause("Apertar ENTER para continuar");
     getchar();
 }
 
-void metodo10() {
+void metodo10() 
+{
     cout << "\n\tMetodo10\n";
     getchar();
-    cout << "Apertar ENTER para continuar." << endl;
+    pause("Apertar ENTER para continuar");
     getchar();
 }
 
-void metodo11() {
+void metodo11() 
+{
     cout << "\n\tMetodo11\n";
-    cout << "Apertar ENTER para continuar." << endl;
+    pause("Apertar ENTER para continuar");
     getchar();
 }
 
-void metodo12() {
+void metodo12() 
+{
     cout << "\n\tMetodo12\n";
-    cout << "Apertar ENTER para continuar." << endl;
+    pause("Apertar ENTER para continuar");
     getchar();
 }
 
-void menuOpcoes() {
+void menuOpcoes() 
+{
     cout << "\nExercicio16 - v.0.0 - 27/05/2025" << endl;
     cout << "Matricula: 842527 Nome: Gabriel Ferreira Pereira" << endl;
     cout << "Opcoes:" << endl;
