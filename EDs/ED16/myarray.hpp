@@ -29,6 +29,7 @@ using std::ifstream ;   // para ler       arquivo
 
 template <typename T>
 class Array {
+    
 private:
     int length;
     T* data;
@@ -69,29 +70,32 @@ public:
         length++;
     }
 
-     void push_front(const T& value) 
-     {
-        T* new_data = new T[length + 1];
-        new_data[0] = value;
-        for (int i = 0; i < length; i++) {
-            new_data[i + 1] = data[i];
-        }
-        delete[] data;
-        data = new_data;
-        length++;
+    void push_front(const T& value) 
+    {
+       T* new_data = new T[length + 1];
+       new_data[0] = value;
+       for (int i = 0; i < length; i++) 
+       {
+           new_data[i + 1] = data[i];
+       }
+       delete[] data;
+       data = new_data;
+       length++;
     }
 
     void pop_back() 
     {
         if (length == 0) return;
-        if (length == 1) {
+        if (length == 1) 
+        {
             delete[] data;
             data = null;
             length = 0;
             return;
         }
         T* new_data = new T[length - 1];
-        for (int i = 0; i < length - 1; i++) {
+        for (int i = 0; i < length - 1; i++) 
+        {
             new_data[i] = data[i];
         }
         delete[] data;
@@ -161,6 +165,169 @@ public:
         }
         cout << endl;
     }
+
+    void pop_mid() 
+    {
+        if (length == 0) return;
+
+        if (length == 1) 
+        {
+            delete[] data;
+            data = nullptr;
+            length = 0;
+            return;
+        }
+
+        int mid = length / 2;
+        T* new_data = new T[length - 1];
+
+        for (int i = 0; i < mid; i++) 
+        {
+            new_data[i] = data[i];
+        }
+
+        for (int i = mid + 1; i < length; i++) 
+        {
+            new_data[i - 1] = data[i];
+        }
+
+        delete[] data;
+        data = new_data;
+        length--;
+    }
+
+
 };
 
-#endif // ARRAY_HPP
+    typedef struct s_intArray 
+    {
+        int length;
+        int* data;
+    } intArray;
+
+    typedef intArray* ref_intArray;
+
+    ref_intArray read_intArray() 
+    {
+    
+        ref_intArray arr = new intArray;
+
+        cout << "Digite o tamanho do arranjo: ";
+    
+        cin >> arr->length;
+    
+        arr->data = new int[arr->length];
+
+        cout << "Digite os " << arr->length << " valores:\n";
+    
+        for (int i = 0; i < arr->length; i++) 
+        {
+            cout << i << ": ";
+            cin >> arr->data[i];
+    
+        }
+
+    
+        return arr;
+    }
+
+    void print_intArray(ref_intArray arr) 
+    {
+        cout << "[ ";
+        for (int i = 0; i < arr->length; i++) 
+        {
+            cout << arr->data[i] << " ";
+        }
+        cout << "]\n";
+    }
+
+    int intArray_cmp(ref_intArray p, ref_intArray q) 
+    {
+        if (p == nullptr && q == nullptr) return 0;
+        if (p == nullptr) return -1;
+        if (q == nullptr) return 1;
+
+        int minLength;
+        if (p->length < q->length) 
+        {
+            minLength = p->length;
+        } else 
+        {
+            minLength = q->length;
+        }
+
+        for (int i = 0; i < minLength; i++) 
+        {
+            int diff = p->data[i] - q->data[i];
+            if (diff != 0) return diff;
+        }
+
+        if (p->length < q->length) return -1;
+        if (p->length > q->length) return 1;
+        return 0;
+    }
+
+    ref_intArray intArray_cat(ref_intArray p, ref_intArray q) 
+    {
+        if (p == nullptr && q == nullptr) return nullptr;
+
+        ref_intArray result = new intArray;
+        result->length = 0;
+        result->data = nullptr;
+
+        if (p != nullptr) 
+        {
+            result->length += p->length;
+        }
+
+        if (q != nullptr) 
+        {
+            result->length += q->length;
+        }
+
+        result->data = new int[result->length];
+
+        int index = 0;
+
+        if (p != nullptr) 
+        {
+            for (int i = 0; i < p->length; i++) 
+            {
+                result->data[index++] = p->data[i];
+            }
+        }
+
+        if (q != nullptr) 
+        {
+            for (int i = 0; i < q->length; i++) 
+            {
+                result->data[index++] = q->data[i];
+            }
+        }
+
+        return result;
+
+    }
+
+    ref_intArray intArray_seek(ref_intArray a, int x) 
+    {
+        if (a == nullptr || a->data == nullptr || a->length <= 0)
+            return nullptr;
+
+        for (int i = 0; i < a->length; i++) 
+        {
+            if (a->data[i] == x) 
+            {
+                ref_intArray result = new intArray;
+                result->length = 1;
+                result->data = new int[1];
+                result->data[0] = x;
+                return result;
+            }
+        }
+
+        return nullptr;
+    }
+
+
+#endif

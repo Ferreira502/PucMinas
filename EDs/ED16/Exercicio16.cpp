@@ -149,7 +149,7 @@ void metodo05()
 {
     cout << "\n\tMetodo05\n";
     Array<int> arr;
-    int n, valor;
+    int n = 0, valor = 0;
 
     cout << "Quantos valores deseja inserir: ";
     cin >> n;
@@ -169,8 +169,9 @@ void metodo05()
 
     arr.push_mid(valor);
 
-    cout << "Array apos push_mid: ";
+    cout << "Array push_mid: ";
     arr.print();
+
     pause("Apertar ENTER para continuar");
     getchar();
 }
@@ -178,6 +179,27 @@ void metodo05()
 void metodo06() 
 {
     cout << "\n\tMetodo06\n";
+    Array<int> arr;
+    int n = 0, valor = 0;
+
+    cout << "Quantos valores: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) 
+    {
+        cout << "Digite o valor " << (i + 1) << ": ";
+        cin >> valor;
+        arr.push_back(valor);
+    }
+
+    cout << "Array antes do pop_mid: ";
+    arr.print();
+
+    arr.pop_mid();
+
+    cout << "Array depois do pop_mid: ";
+    arr.print();
+    
     pause("Apertar ENTER para continuar");
     getchar();
 }
@@ -185,6 +207,31 @@ void metodo06()
 void metodo07() 
 {
     cout << "\n\tMetodo07\n";
+
+    ref_intArray a = read_intArray();
+    ref_intArray b = read_intArray();
+
+    cout << "Primeiro array: ";
+    print_intArray(a);
+
+    cout << "Segundo array : ";
+    print_intArray(b);
+
+    int resultado = intArray_cmp(a, b);
+
+    cout << "\nResultado da comparacao: ";
+    if (resultado == 0)
+        cout << "Arrays iguais.\n";
+    else if (resultado < 0)
+        cout << "Primeiro array e menor.\n";
+    else
+        cout << "Primeiro array e maior.\n";
+
+    delete[] a->data;
+    delete a;
+    delete[] b->data;
+    delete b;
+
     pause("Apertar ENTER para continuar");
     getchar();
 }
@@ -192,6 +239,27 @@ void metodo07()
 void metodo08() 
 {
     cout << "\n\tMetodo08\n";
+    ref_intArray a = read_intArray();
+    ref_intArray b = read_intArray();
+
+    ref_intArray c = intArray_cat(a, b);
+
+    cout << "Primeiro array: ";
+    print_intArray(a);
+
+    cout << "Segundo array : ";
+    print_intArray(b);
+
+    cout << "Array concatenado: ";
+    print_intArray(c);
+
+    delete[] a->data;
+    delete a;
+    delete[] b->data;
+    delete b;
+    delete[] c->data;
+    delete c;
+
     pause("Apertar ENTER para continuar");
     getchar();
 }
@@ -199,6 +267,29 @@ void metodo08()
 void metodo09() 
 {
     cout << "\n\tMetodo09\n";
+
+    ref_intArray arr = read_intArray();
+
+    int valor;
+    cout << "Digite o valor a ser procurado: ";
+    cin >> valor;
+
+    ref_intArray encontrado = intArray_seek(arr, valor);
+
+    if (encontrado != nullptr) 
+    {
+        cout << "\nValor encontrado: ";
+        print_intArray(encontrado);
+        delete[] encontrado->data;
+        delete encontrado;
+    } else 
+    {
+        cout << "\nValor NAO encontrado no array";
+    }
+
+    delete[] arr->data;
+    delete arr;
+
     pause("Apertar ENTER para continuar");
     getchar();
 }
