@@ -323,11 +323,99 @@ public:
                 result->data = new int[1];
                 result->data[0] = x;
                 return result;
+        }
+    }
+
+    // Não encontrou
+    return nullptr;
+    }
+
+
+    ref_intArray intArray_sub(ref_intArray a, int start, int size) 
+    {
+        if (a == nullptr || a->data == nullptr || a->length <= 0)
+            return nullptr;
+
+        if (start < 0 || size <= 0 || start + size > a->length)
+            return nullptr;
+
+        ref_intArray result = new intArray;
+        result->length = size;
+        result->data = new int[size];
+
+        for (int i = 0; i < size; i++) 
+        {
+            result->data[i] = a->data[start + i];
+        }
+
+        return result;
+    }
+
+    ref_intArray intArray_merge(ref_intArray p, ref_intArray q) 
+    {
+        if (p == nullptr || p->data == nullptr || p->length < 0) return nullptr;
+        if (q == nullptr || q->data == nullptr || q->length < 0) return nullptr;
+
+        int totalLength = p->length + q->length;
+
+        ref_intArray result = new intArray;
+        result->length = totalLength;
+        result->data = new int[totalLength];
+
+        int index = 0;
+        int i = 0, j = 0;
+
+        while (i < p->length || j < q->length) 
+        {
+            if (i < p->length) 
+            {
+                result->data[index++] = p->data[i++];
+            }
+            if (j < q->length) 
+            {
+                result->data[index++] = q->data[j++];
             }
         }
 
-        return nullptr;
+        return result;
     }
 
+    ref_intArray intArray_mergeDown(ref_intArray p, ref_intArray q) 
+    {
+        if (p == nullptr || p->data == nullptr || p->length < 0) return nullptr;
+        if (q == nullptr || q->data == nullptr || q->length < 0) return nullptr;
+
+        int totalLength = p->length + q->length;
+        ref_intArray result = new intArray;
+        result->length = totalLength;
+        result->data = new int[totalLength];
+
+        int index = 0;
+
+        for (int i = 0; i < p->length; i++) 
+        {
+            result->data[index++] = p->data[i];
+        }
+
+        for (int i = 0; i < q->length; i++) 
+        {
+            result->data[index++] = q->data[i];
+        }
+
+        for (int i = 0; i < result->length - 1; i++) 
+        {
+            for (int j = 0; j < result->length - i - 1; j++) 
+            {
+                if (result->data[j] < result->data[j + 1]) 
+                {
+                    int temp = result->data[j];
+                    result->data[j] = result->data[j + 1];
+                    result->data[j + 1] = temp;
+                }
+            }
+        }
+
+        return result;
+    }
 
 #endif

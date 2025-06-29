@@ -297,6 +297,32 @@ void metodo09()
 void metodo10() 
 {
     cout << "\n\tMetodo10\n";
+    
+    ref_intArray arr = read_intArray();
+
+    int inicio = 0, qtd = 0;
+    cout << "\nDigite a posicao inicial: ";
+    cin >> inicio;
+    cout << "\nDigite a quantidade de elementos: ";
+    cin >> qtd;
+
+    ref_intArray sub = intArray_sub(arr, inicio, qtd);
+
+    if (sub != nullptr) 
+    {
+        cout << "\nSubarray: ";
+        print_intArray(sub);
+        delete[] sub->data;
+        delete sub;
+    } 
+    else 
+    {
+        cout << "\nSubarray invalido";
+    }
+
+    delete[] arr->data;
+    delete arr;
+
     getchar();
     pause("Apertar ENTER para continuar");
     getchar();
@@ -305,6 +331,24 @@ void metodo10()
 void metodo11() 
 {
     cout << "\n\tMetodo11\n";
+    cout << "\nDigite o primeiro arranjo:\n";
+    ref_intArray a = read_intArray();
+
+    cout << "\nDigite o segundo arranjo:\n";
+    ref_intArray b = read_intArray();
+
+    ref_intArray r = intArray_merge(a, b);
+
+    cout << "\nArranjo intercalado: ";
+    print_intArray(r);
+
+    delete[] a->data;
+    delete[] b->data;
+    delete[] r->data;
+    delete a;
+    delete b;
+    delete r;
+
     pause("Apertar ENTER para continuar");
     getchar();
 }
@@ -312,6 +356,48 @@ void metodo11()
 void metodo12() 
 {
     cout << "\n\tMetodo12\n";
+    int tamanhoA = 0, tamanhoB = 0;
+
+    cout << "\nDigite o tamanho do primeiro arranjo: ";
+    cin >> tamanhoA;
+
+    ref_intArray a = new intArray;
+    a->length = tamanhoA;
+    a->data = new int[tamanhoA];
+
+    cout << "\nDigite os " << tamanhoA << " elementos do primeiro arranjo:\n";
+    for (int i = 0; i < tamanhoA; i++) {
+        cout << "a[" << i << "] = ";
+        cin >> a->data[i];
+    }
+
+    cout << "\nDigite o tamanho do segundo arranjo: ";
+    cin >> tamanhoB;
+
+    ref_intArray b = new intArray;
+    b->length = tamanhoB;
+    b->data = new int[tamanhoB];
+
+    cout << "\nDigite os " << tamanhoB << " elementos do segundo arranjo:\n";
+    for (int i = 0; i < tamanhoB; i++) {
+        cout << "b[" << i << "] = ";
+        cin >> b->data[i];
+    }
+
+    ref_intArray r = intArray_mergeDown(a, b);
+
+    cout << "\n\nResultado da fusao em ordem decrescente:\n";
+    for (int i = 0; i < r->length; i++) {
+        cout << r->data[i] << " ";
+    }
+    cout << endl;
+
+    delete[] a->data;
+    delete[] b->data;
+    delete[] r->data;
+    delete a;
+    delete b;
+    delete r;
     pause("Apertar ENTER para continuar");
     getchar();
 }
