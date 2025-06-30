@@ -1,0 +1,161 @@
+✅ Passagem por referência (Pessoa&)
+Permite modificar o objeto original, sem copiar.
+
+✅ Operador ->
+Usado quando você tem um ponteiro para um objeto: ptr->metodo() equivale a (*ptr).metodo().
+
+✅ Palavra-chave this
+Dentro de uma classe, this é um ponteiro para o objeto atual. Exemplo:
+
+cpp
+Copiar
+Editar
+this->idade = idade;
+Usado para diferenciar membros de parâmetros com o mesmo nome.
+
+#include <iostream>
+using namespace std;
+
+class Pessoa {
+private:
+    string nome;
+    int idade;
+
+public:
+    Pessoa(string nome = "", int idade = 0) {
+        // Usando 'this' para referenciar os atributos do objeto
+        this->nome = nome;
+        this->idade = idade;
+    }
+
+    void apresentar() const {
+        cout << "Nome: " << nome << ", Idade: " << idade << endl;
+    }
+
+    void alterarNome(string novoNome) {
+        this->nome = novoNome; // 'this' é útil para clareza (ou evitar conflitos com parâmetros)
+    }
+
+    void alterarIdade(int novaIdade) {
+        this->idade = novaIdade;
+    }
+};
+
+// Função que altera a pessoa via referência (não faz cópia!)
+void modificarPessoaPorReferencia(Pessoa& p) {
+    p.alterarNome("Nome Atualizado");
+    p.alterarIdade(99);
+}
+
+// Função que altera a pessoa via ponteiro
+void modificarPessoaPorPonteiro(Pessoa* p) {
+    if (p != nullptr) {
+        p->alterarNome("Nome por Ponteiro");
+        p->alterarIdade(88);
+    }
+}
+
+int main() {
+    // Criando objeto estaticamente
+    Pessoa p1("Gabriel", 21);
+    cout << "Antes da modificação por referência:\n";
+    p1.apresentar();
+
+    modificarPessoaPorReferencia(p1); // Passagem por referência
+    cout << "Depois da modificação por referência:\n";
+    p1.apresentar();
+
+    // Criando objeto dinamicamente (com ponteiro)
+    Pessoa* p2 = new Pessoa("Joana", 25);
+    cout << "\nAntes da modificação por ponteiro:\n";
+    p2->apresentar();
+
+    modificarPessoaPorPonteiro(p2); // Passagem por ponteiro
+    cout << "Depois da modificação por ponteiro:\n";
+    p2->apresentar();
+
+    delete p2; // libera memória
+    return 0;
+}
+📌 O que o programa mostra:
+✅ Passagem por referência:
+cpp
+Copiar
+Editar
+void modificarPessoaPorReferencia(Pessoa& p)
+Modifica p1 diretamente, sem copiar o objeto.
+
+✅ Passagem por ponteiro com ->:
+cpp
+Copiar
+Editar
+Pessoa* p2 = new Pessoa(...);
+p2->apresentar();
+Acessamos métodos com -> pois p2 é um ponteiro.
+
+✅ Uso de this:
+Dentro dos métodos da classe, this é um ponteiro para o objeto que chamou o método.
+
+🔍 Curiosidade avançada
+cpp
+Copiar
+Editar
+Pessoa& setIdade(int idade) {
+    this->idade = idade;
+    return *this;
+}
+Esse padrão permite encadeamento de métodos:
+
+cpp
+Copiar
+Editar
+p1.setIdade(20).setNome("Carlos").apresentar();
+
+
+
+
+PARTE THELDO 
+
+
+#include <iostream>
+
+#define null nullptr
+#define intCell int
+
+class intStack 
+{ 
+  private: 
+    int      length; 
+    intCell *data; 
+  public: 
+    intStack ( )
+    {
+        length = 0; data = null;
+    }
+    void push ( int value ) 
+    { } 
+    int  pop  ( ) 
+    { return ( 0 ); }
+    void dup  ( ) 
+    { }
+    void swap ( ) 
+    { }
+    void test ( )
+    {
+        intStack   a;
+        intStack * b = null;
+        
+        std::cout << "\nTest intStack\n" << std::endl;
+        
+        std::cout << std::endl;
+    }
+};
+
+using ref_intStack = intStack*;
+
+int main ( )
+{
+    std::cout << "\nTest intStack\n" << std::endl;
+    std::cout << std::endl;
+    return ( EXIT_SUCCESS );
+}
