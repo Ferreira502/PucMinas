@@ -428,6 +428,7 @@ void method_01 ( )
     cout << "push back: "  <<  endl;
     a.print();
 
+    cout << "\n";
     //Remove dados na Pilha de tras pra frente
     // |__|__|__|__|__| <--
 
@@ -436,6 +437,7 @@ void method_01 ( )
     cout << "pop back: " << endl;
     a.print();
 
+    cout << "\n";
 
     //Adiciona dados na Pilha de frente para tras
     // -->  |__|__|__|__|__|
@@ -446,7 +448,7 @@ void method_01 ( )
     cout << "push front: " << endl;
     a.print();
 
-
+    cout << "\n";
     //Remove dados na Pilha de frente para tras
     // -->  |__|__|__|__|__|
 
@@ -455,14 +457,18 @@ void method_01 ( )
     cout << "pop front: " << endl;
     a.print();
 
+    cout << "\n";
+
     a.push_mid(5, size); // insere 5 na posicao do meio
     cout << "push mid: " << endl;
     a.print();
 
+    cout << "\n";
     a.pop_mid(size); // remove o valor na posicao do meio
     cout << "pop mid: " << endl;
     a.print();
 
+    cout << "\n";
     //Comparacao
 
     cout << "Comparacao: " << endl;
@@ -479,6 +485,7 @@ void method_01 ( )
     cout << "x == y: " << intArray_cmp(x, y) << endl; // 3
     cout << "x <  z: " << intArray_cmp(x, z) << endl; // -1
 
+    cout << "\n";
     //Concatenar
 
     cout << "Concatenar: " << endl;
@@ -491,6 +498,7 @@ void method_01 ( )
     cout << "e: "; intArray_print(e);
     cout << "d + e: "; intArray_print(r);
 
+    cout << "\n";
     //Seek
 
     cout << "Seek:" << endl;
@@ -508,6 +516,7 @@ void method_01 ( )
         cout << "Valor 30 nao encontrado.\n";
     }
 
+    cout << "\n";
     //Substring
 
     cout << "Substring" << endl;
@@ -516,6 +525,7 @@ void method_01 ( )
     ref_intArray sub = intArray_sub(f, 1, 3); // Esperado: {20, 30, 40}
     intArray_print(sub);
 
+    cout << "\n";
     //Merge
 
     ref_intArray g = new intArray{4, new int[4]{1, 3, 5, 7}};
@@ -528,6 +538,7 @@ void method_01 ( )
     cout << "Merge: " << endl; 
     intArray_print(i);  // [1 2 3 4 5 6 7]
 
+    cout << "\n";
     //Merge Down
 
     ref_intArray j = new intArray{3, new int[3]{9, 6, 3}};
@@ -537,6 +548,7 @@ void method_01 ( )
     cout << "MergeDown" << endl;
     intArray_print(l); // deve exibir: [9 8 7 6 3 2]
 
+    cout << "\n";
 
  // encerrar 
     pause ( "Apertar ENTER para continuar" ); 
