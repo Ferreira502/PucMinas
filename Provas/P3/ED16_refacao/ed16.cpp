@@ -174,6 +174,32 @@ public:
         }
         cout << "]" << endl;
     }
+
+    void set(int index, int value)
+    {
+        if (index >= 0 && index < capacity)
+        {
+            data[index] = value;
+        }
+        else
+        {
+            cout << "Erro: indice invalido." << endl;
+        }
+    }
+
+    int get(int index)
+    {
+        if (index >= 0 && index < capacity)
+        {
+            return data[index];
+        }
+        else
+        {
+            cout << "Erro: indice invalido." << endl;
+            return -1; // valor padrão de erro
+        }
+    }
+
 };
 
 typedef struct s_intArray 
@@ -240,6 +266,128 @@ ref_intArray intArray_seek(ref_intArray a, int x)
     return nullptr; // não encontrou
 }
 
+ref_intArray intArray_sub(ref_intArray a, int start, int size)
+{
+    if (a == nullptr || a->data == nullptr)
+    {
+        cout << "Erro: array nulo" << endl;
+        return nullptr;
+    }
+
+    if (start < 0 || start >= a->length || size < 0 || start + size > a->length)
+    {
+        cout << "Erro: intervalo invalido.\n";
+        return nullptr;
+    }
+
+    // Criar novo subarray
+    ref_intArray result = new intArray;
+    result->length = size;
+    result->data = new int[size];
+
+    for (int i = 0; i < size; i++)
+    {
+        result->data[i] = a->data[start + i];
+    }
+
+    return result;
+}
+
+ref_intArray intArray_merge(ref_intArray p, ref_intArray q)
+{
+    // Validar entrada
+    if (p == nullptr || q == nullptr || p->data == nullptr || q->data == nullptr)
+    {
+        cout << "Erro: arrays invalidos.\n";
+        return nullptr;
+    }
+
+    // Criar novo array para o resultado
+    int total = p->length + q->length;
+    ref_intArray result = new intArray;
+    result->length = total;
+    result->data = new int[total];
+
+    int i = 0, j = 0, k = 0;
+
+    // Merge: comparando elementos
+    while (i < p->length && j < q->length)
+    {
+        if (p->data[i] <= q->data[j])
+        {
+            result->data[k++] = p->data[i++];
+        }
+        else
+        {
+            result->data[k++] = q->data[j++];
+        }
+    }
+
+    // Copiar o restante de p (se sobrar)
+    while (i < p->length)
+    {
+        result->data[k++] = p->data[i++];
+    }
+
+    // Copiar o restante de q (se sobrar)
+    while (j < q->length)
+    {
+        result->data[k++] = q->data[j++];
+    }
+
+    return result;
+}
+
+void bobby_Short(ref_intArray a)
+{
+    for (int i = 0; i < a->length - 1; i++)
+    {
+        for (int j = i + 1; j < a->length; j++)
+        {
+            if (a->data[i] < a->data[j])
+            {
+                int temp = a->data[i];
+                a->data[i] = a->data[j];
+                a->data[j] = temp;
+            }
+        }
+    }
+}
+
+ref_intArray intArray_mergeDown(ref_intArray p, ref_intArray q)
+{
+    if (p == nullptr || q == nullptr || p->data == nullptr || q->data == nullptr)
+        return nullptr;
+
+    bobby_Short(p);
+    bobby_Short(q);
+
+    int total = p->length + q->length;
+    ref_intArray result = new intArray;
+    result->length = total;
+    result->data = new int[total];
+
+    int i = 0, j = 0, k = 0;
+
+    while (i < p->length && j < q->length)
+    {
+        if (p->data[i] >= q->data[j])
+            result->data[k++] = p->data[i++];
+        else
+            result->data[k++] = q->data[j++];
+    }
+
+    while (i < p->length)
+        result->data[k++] = p->data[i++];
+
+    while (j < q->length)
+        result->data[k++] = q->data[j++];
+
+    return result;
+}
+
+
+
 void intArray_print(ref_intArray arr)
 {
     cout << "[";
@@ -271,11 +419,17 @@ void method_01 ( )
     Array   a (10);
     int size = 0; 
     
+    //Adiciona dados na Pilha de tras pra frente
+    // |__|__|__|__|__| <--
+
     a.push_back(1, size); // insere 1 na posição 0
     a.push_back(2, size); // insere 2 na posição 1
     
     cout << "push back: "  <<  endl;
     a.print();
+
+    //Remove dados na Pilha de tras pra frente
+    // |__|__|__|__|__| <--
 
     // a.pop_back(size); // remove 2 na posicao 1
     // a.pop_back(size); // remove 1 na posicao 0
@@ -283,12 +437,18 @@ void method_01 ( )
     a.print();
 
 
+    //Adiciona dados na Pilha de frente para tras
+    // -->  |__|__|__|__|__|
+
     a.push_front(1, size); // insere 1 na posicao 1
     a.push_front(2, size); // insere 2 na posicao 0
 
-    cout << "push back: " << endl;
+    cout << "push front: " << endl;
     a.print();
 
+
+    //Remove dados na Pilha de frente para tras
+    // -->  |__|__|__|__|__|
 
     // a.pop_front(size); // remove 2 na posicao 0
     // a.pop_front(size); // remove 1 na posicao 1
@@ -333,7 +493,7 @@ void method_01 ( )
 
     //Seek
 
-    cout << "\nSeek:\n";
+    cout << "Seek:" << endl;
 
     ref_intArray arr = new intArray{5, new int[5]{10, 20, 30, 40, 50}};
     ref_intArray found = intArray_seek(arr, 30);
@@ -347,6 +507,36 @@ void method_01 ( )
     {
         cout << "Valor 30 nao encontrado.\n";
     }
+
+    //Substring
+
+    cout << "Substring" << endl;
+
+    ref_intArray f = new intArray{5, new int[5]{10, 20, 30, 40, 50}};
+    ref_intArray sub = intArray_sub(f, 1, 3); // Esperado: {20, 30, 40}
+    intArray_print(sub);
+
+    //Merge
+
+    ref_intArray g = new intArray{4, new int[4]{1, 3, 5, 7}};
+    ref_intArray h = new intArray{3, new int[3]{2, 4, 6}};
+    ref_intArray i = intArray_merge(g, h);
+
+    cout << "a: "; intArray_print(g);  // [1 3 5 7]
+    cout << "b: "; intArray_print(h);  // [2 4 6]
+    
+    cout << "Merge: " << endl; 
+    intArray_print(i);  // [1 2 3 4 5 6 7]
+
+    //Merge Down
+
+    ref_intArray j = new intArray{3, new int[3]{9, 6, 3}};
+    ref_intArray k = new intArray{3, new int[3]{8, 7, 2}};
+    ref_intArray l = intArray_mergeDown(j, k);
+
+    cout << "MergeDown" << endl;
+    intArray_print(l); // deve exibir: [9 8 7 6 3 2]
+
 
  // encerrar 
     pause ( "Apertar ENTER para continuar" ); 
