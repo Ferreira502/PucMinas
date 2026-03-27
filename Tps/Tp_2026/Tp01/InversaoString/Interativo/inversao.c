@@ -3,36 +3,35 @@
 
 #include<stdio.h>
 
+void inversao(char string[])
+{
+	int x = 0;
+
+	for ( int i = 0; string[i] != '\0'; i++ )
+	{
+        x++;
+	}
+
+    for ( int j = x - 1; j >= 0; j-- )
+    {
+		printf("%c", string[j]);
+	}
+
+    printf("\n");
+}
+
 int main ()
 {
 	char string[100];
 	int fim = 0;
 
-	while (!fim) 
+    scanf("%[^\n]", string);
+
+	while ( string[0] == 'F' && string[1] == 'I' && string[2] == 'M' ) 
 	{
-        int x = 0;
-        scanf(" %[^\n]", string);
-
-        if ( string[0] == 'F' && string[1] == 'I' && string[2] == 'M' ) 
-		{
-            fim = 1;
-        } 
-
-	else 
-	{
-		for ( int i = 0; string[i] != '\0'; i++ )
-	    {
-            x++;
-		}
-
-        for ( int j = x - 1; j >= 0; j-- )
-        {
-			printf("%c", string[j]);
-		}
-
-        printf("\n");
+        inversao(string);
+        scanf("%[^\n]", string);
     }
-    }
-
+    
 	return 0;
 }
