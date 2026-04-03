@@ -25,12 +25,12 @@ int main ()
 	char string[100];
 	int fim = 0;
 
-    scanf("%[^\n]", string);
+    scanf(" %[^\n]", string);
 
-	while ( string[0] == 'F' && string[1] == 'I' && string[2] == 'M' ) 
+	while (!(string[0] == 'F' && string[1] == 'I' && string[2] == 'M')) 
 	{
         inversao(string);
-        scanf("%[^\n]", string);
+        scanf(" %[^\n]", string);
     }
     
 	return 0;
