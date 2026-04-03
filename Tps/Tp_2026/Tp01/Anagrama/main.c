@@ -1,11 +1,14 @@
+// Questao 06
+// Autor: Gabriel Ferreira Pereira
+
 #include<stdio.h>
 
 /**
  * @author Gabriel Ferreira Pereira
  *
- * @param char string char string 2 
+ * @param char string int x
  *
- * @reason  funcao recebe 2 strings descubra se é anagrama e retorna SIM ou NAO
+ * @reason  funcao recebe uma string e um inteiro e ordena a cadeia de caracteres
  *          
  */
 void sort( char string[], int x ) 
@@ -24,6 +27,15 @@ void sort( char string[], int x )
         }
     }
 }
+
+/**
+ * @author Gabriel Ferreira Pereira
+ *
+ * @param char string char string 2 
+ *
+ * @reason  funcao recebe 2 strings descubra se é anagrama e retorna SIM ou NAO
+ *          
+ */
 
 int anagrama( char a[], char b[], int x, int y )
 {
