@@ -29,10 +29,10 @@ class Fila {
 
    /**
     * Insere um elemento na ultima posicao da fila.
-    * @param x int elemento a ser inserido.
+    * @param x int elemento a ser inserido. FILA CIRCULAR
     * @throws Exception Se a fila estiver cheia.
     */
-   public void inserir(int x) throws Exception {
+   public void inserirCirc(int x) throws Exception {
 
       //validar insercao
       if (((ultimo + 1) % array.length) == primeiro) {
@@ -46,11 +46,11 @@ class Fila {
 
    /**
     * Remove um elemento da primeira posicao da fila e movimenta 
-    * os demais elementos para o primeiro da mesma.
+    * os demais elementos para o primeiro da mesma. FILA CIRCULAR
     * @return resp int elemento a ser removido.
     * @throws Exception Se a fila estiver vazia.
     */
-   public int remover() throws Exception {
+   public int removerCirc() throws Exception {
 
       //validar remocao
       if (primeiro == ultimo) {
@@ -64,7 +64,7 @@ class Fila {
 
 
    /**
-    * Mostra os array separados por espacos.
+    * Mostra os array separados por espacos. FILA CIRCULAR
     */
    public void mostrar (){
       System.out.print("[ ");
@@ -89,6 +89,39 @@ class Fila {
       }
    }
 
+   /**
+    * Insere um elemento na ultima posicao da fila.
+    * @param x int elemento a ser inserido. FILA NORMAL
+    * @throws Exception Se a fila estiver cheia.
+    */
+   public void inserir(int x) throws Exception {
+
+      //validar insercao
+      if ( ultimo == array.length) {
+         throw new Exception("Erro ao inserir!");
+      }
+
+      array[ultimo] = x;
+      ultimo++;
+   }
+
+   /**
+    * Remove um elemento da primeira posicao da fila e movimenta 
+    * os demais elementos para o primeiro da mesma. FILA NORMAL
+    * @return resp int elemento a ser removido.
+    * @throws Exception Se a fila estiver vazia.
+    */
+   public int remover() throws Exception {
+
+      //validar remocao
+      if (primeiro == ultimo) {
+         throw new Exception("Erro ao remover!");
+      }
+
+      int resp = array[primeiro];
+      primeiro++;
+      return resp;
+   }
 
    /**
     * Retorna um boolean indicando se a fila esta vazia
