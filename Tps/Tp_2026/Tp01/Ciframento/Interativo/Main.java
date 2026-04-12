@@ -28,6 +28,7 @@ class Main
 		while ( palavra.length() != 3 || palavra.charAt(0) != 'F' || palavra.charAt(1) != 'I' || palavra.charAt(2) != 'M' )
 		{
 			ciframento(palavra);
+			System.out.println();
 			palavra = sc.nextLine();
 		}
 	}

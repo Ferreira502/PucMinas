@@ -2,53 +2,120 @@
 // Autor: Gabriel Ferreira Pereira 
 
 import java.util.*;
-
 public class Main 
 {
+    public static int somenteVogais( String palavra )
+    {
+        char c;
+        for ( int i = 0; i < palavra.length(); i++ )
+        {
+            c = palavra.charAt(i);
+
+            if ( c != 'a' && c != 'e' && c != 'i' && c != 'o' && c != 'u' && c != 'A' && c != 'E' && c != 'I' && c != 'O' && c != 'U' )
+            {
+                return 0;
+            }
+    
+        }
+        return 1;
+    }
+
+    public static int somenteConsoantes( String palavra )
+    {
+        char c;
+        for ( int i = 0; i < palavra.length(); i++ )
+        {
+            c = palavra.charAt(i);
+            
+            if ((c <= 97 && c >= 122) || (c <= 65 && c >= 90))
+            {
+                return 0;
+            }
+
+            if ( c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U' )
+            {
+                return 0;
+            }
+        }
+        return 1;
+    }
+
+    public static int ehInteiro(String palavra)
+    {
+        char c;
+        int tamanho = palavra.length();
+        int inicio = 0;
+        
+        if ( palavra.charAt(0) == '-' ) 
+        {
+            inicio = 1;
+        }
+
+        if ( inicio == tamanho ) return 0;
+        for ( int i = inicio; i < tamanho; i++ )
+        {
+            c = palavra.charAt(i);
+            if ( c < 48 || c > 57 ) return 0;
+        }
+        return 1;
+    }
+
+    public static boolean ehReal(String palavra)
+    {
+        char c;
+        int tamanho = palavra.length();
+        int inicio = 0;
+        int pontos = 0;
+        if ( palavra.charAt(0) == '-' ) inicio = 1;
+        if ( inicio == tamanho ) return false;
+        for ( int i = inicio; i < tamanho; i++ )
+        {
+            c = palavra.charAt(i);
+            if ( c == 46 ) { pontos++; continue; }
+            if ( c < 48 || c > 57 ) return false;
+        }
+        return pontos == 1;
+    }
+
     public static void main ( String[] args)
     {
         Scanner sc = new Scanner( System.in );
         String palavra;
-
         palavra = sc.nextLine();
-
         while (palavra.length() != 3 || palavra.charAt(0) != 'F' || palavra.charAt(1) != 'I' || palavra.charAt(2) != 'M')
-		{
-            int x1 = 0;
-            int x2 = 0;
-            int x3 = 0;
-            int x4 = 0;
-            char c;
-
-            int tamanho = palavra.length();
-
-            for ( int i = 0; i < tamanho; i++ )
+        {
+            if ( somenteVogais(palavra) )
             {
-                c = palavra.charAt(i);
-                
-                if ( c >= 97 && c <= 122 ) 
-                {
-                    x1++;
-                }
-
-                if ( c >= 65 && c <= 90 ) 
-                {
-                    x2++;
-                }
-
-                if ( c >= 48 && c <= 57 ) 
-                {
-                    x3++;
-                }
-
-                if ( c == 44 || c == 46 ) 
-                {
-                    x4++;
-                }
+                System.out.print("SIM ");
             }
-
-
-
+            else
+            {
+                System.out.print("NAO ");
+            }
+            if ( somenteConsoantes(palavra) )
+            {
+                System.out.print("SIM ");
+            }
+            else
+            {
+                System.out.print("NAO ");
+            }
+            if ( ehInteiro(palavra) )
+            {
+                System.out.print("SIM ");
+            }
+            else
+            {
+                System.out.print("NAO ");
+            }
+            if ( ehReal(palavra) )
+            {
+                System.out.println("SIM");
+            }
+            else
+            {
+                System.out.println("NAO");
+            }
             palavra = sc.nextLine();
         }
     }
