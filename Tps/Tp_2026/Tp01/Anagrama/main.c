@@ -70,13 +70,31 @@ int main ()
 
         for (int i = 0; string[i] != ' ' && string[i] != '\0'; i++)
         {
-            a[x] = string[i];
+            if (string[i] >= 65 && string[i] <= 90)
+            {
+                a[x] = string[i] + 32;
+            }
+
+            else
+            {
+                a[x] = string[i];
+            }
+
             x++;
         }
 
         for (int i = x + 1; string[i] != '\0'; i++)
         {
-            b[y] = string[i];
+            if (string[i] >= 65 && string[i] <= 90)
+            {
+                b[y] = string[i] + 32;
+            }
+            
+            else
+            {
+                b[y] = string[i];
+            }
+
             y++;
         }
         

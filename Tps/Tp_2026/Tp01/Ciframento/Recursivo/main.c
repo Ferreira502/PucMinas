@@ -1,11 +1,23 @@
+//  QUESTAO 09 DO TP01 
+// AUTHOR: Gabriel Ferreira Pereira
+
 #include <stdio.h>
 
+/**
+ * @author Gabriel Ferreira Pereira
+ *
+ * @param char string int n 
+ *
+ * @reason  funcao recebe 1 string e o seu tamanho e acrescenta mais 3 em cada valor
+ *          
+ */
 char * ciframentoRec( char string[], int n )
 {
     if ( string[n] == '\0')
     {
         return string;
     }
+
     else
     {
         string[n] += 3;

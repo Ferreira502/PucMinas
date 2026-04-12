@@ -43,7 +43,6 @@ public class Main
     public static int ehInteiro(String palavra)
     {
         char c;
-        int tamanho = palavra.length();
         int inicio = 0;
         
         if ( palavra.charAt(0) == '-' ) 
@@ -51,30 +50,59 @@ public class Main
             inicio = 1;
         }
 
-        if ( inicio == tamanho ) return 0;
-        for ( int i = inicio; i < tamanho; i++ )
+        if ( inicio == palavra.length() ) 
+        {
+            return 0;
+        }
+
+        for ( int i = inicio; i < palavra.length(); i++ )
         {
             c = palavra.charAt(i);
-            if ( c < 48 || c > 57 ) return 0;
+            if ( c < 48 || c > 57 ) 
+            {
+                return 0;
+            }
         }
         return 1;
     }
 
-    public static boolean ehReal(String palavra)
+    public static int ehReal(String palavra)
     {
         char c;
         int tamanho = palavra.length();
         int inicio = 0;
         int pontos = 0;
-        if ( palavra.charAt(0) == '-' ) inicio = 1;
-        if ( inicio == tamanho ) return false;
+
+        if ( palavra.charAt(0) == '-' )
+        {
+            inicio = 1;
+        }
+
+        if ( inicio == tamanho )
+        {
+            return 0;
+        }
+
         for ( int i = inicio; i < tamanho; i++ )
         {
             c = palavra.charAt(i);
-            if ( c == 46 ) { pontos++; continue; }
-            if ( c < 48 || c > 57 ) return false;
+
+            if ( c == 46 )
+            {
+                pontos++;
+            }
+            
+            else if ( c < 48 || c > 57 )
+            {
+                return 0;
+            }
         }
-        return pontos == 1;
+
+        if ( pontos == 1 )
+        {
+            return 1;
+        }
+        return 0;
     }
 
     public static void main ( String[] args)
@@ -84,38 +112,46 @@ public class Main
         palavra = sc.nextLine();
         while (palavra.length() != 3 || palavra.charAt(0) != 'F' || palavra.charAt(1) != 'I' || palavra.charAt(2) != 'M')
         {
-            if ( somenteVogais(palavra) )
+            if ( somenteVogais(palavra) == 1)
             {
                 System.out.print("SIM ");
             }
+
             else
             {
                 System.out.print("NAO ");
             }
-            if ( somenteConsoantes(palavra) )
+
+            if ( somenteConsoantes(palavra) == 1)
             {
                 System.out.print("SIM ");
             }
+
             else
             {
                 System.out.print("NAO ");
             }
-            if ( ehInteiro(palavra) )
+
+            if ( ehInteiro(palavra) == 1)
             {
                 System.out.print("SIM ");
             }
+
             else
             {
                 System.out.print("NAO ");
             }
-            if ( ehReal(palavra) )
+
+            if ( ehReal(palavra) == 1)
             {
                 System.out.println("SIM");
             }
+
             else
             {
                 System.out.println("NAO");
             }
+
             palavra = sc.nextLine();
         }
     }
