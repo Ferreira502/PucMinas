@@ -28,7 +28,7 @@ char * ciframentoRec( char string[], int n )
 
 int main ()
 {
-    char string[100];
+    char string[1000];
     int n = 0;
 
     scanf(" %[^\n]", string);
