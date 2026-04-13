@@ -2,6 +2,7 @@
 // Autor: Gabriel Ferreira Pereira 
 
 import java.util.*;
+
 public class Main 
 {
     public static int somenteVogais( String palavra )
