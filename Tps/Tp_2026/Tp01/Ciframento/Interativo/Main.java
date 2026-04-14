@@ -5,7 +5,7 @@ import java.util.*;
 
 class Main 
 {
-	public static void ciframento( String palavra) // Metodo que vai receber uma String e printar o caracter + 3
+	public static void ciframento( String palavra)
 	{
 		Scanner sc = new Scanner(System.in);
 		char c;

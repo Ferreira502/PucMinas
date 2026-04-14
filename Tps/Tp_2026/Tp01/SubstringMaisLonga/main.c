@@ -1,6 +1,7 @@
+// QUESTAO 07 do tp01
+// AUTHOR: Gabriel Ferreira Pereira
+
 #include<stdio.h>
-
-
 
 int substring(char c[], int x)
 {
@@ -22,7 +23,7 @@ int substring(char c[], int x)
                 }
             }
 
-            if (!repetido)
+            if (repetido == 1)
             {
                 tamanho++;
             }
