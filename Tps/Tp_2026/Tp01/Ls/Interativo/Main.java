@@ -26,8 +26,8 @@ public class Main
         for ( int i = 0; i < palavra.length(); i++ )
         {
             c = palavra.charAt(i);
-            
-            if ((c <= 97 && c >= 122) || (c <= 65 && c >= 90))
+
+            if ( c < 'A' || (c > 'Z' && c < 'a') || c > 'z' )
             {
                 return 0;
             }
@@ -58,18 +58,24 @@ public class Main
         for ( int i = inicio; i < palavra.length(); i++ )
         {
             c = palavra.charAt(i);
-            if ( c < 48 || c > 57 ) 
+            if ( c < '0' || c > '9' ) 
             {
                 return 0;
             }
         }
+
         return 1;
     }
-
     public static int eReal(String palavra)
     {
         char c;
         int inicio = 0;
+        int cont = 0;
+
+        if ( eInteiro(palavra) == 1 )
+        {
+            return 1;
+        }
 
         if (palavra.charAt(0) == '-')
         {
@@ -84,11 +90,27 @@ public class Main
         for (int i = inicio; i < palavra.length(); i++)
         {
             c = palavra.charAt(i);
-            if (c < '9' || c > '0')
+
+            if (c == '.' || c == ',')
+            {
+                cont++;
+                if (cont > 1)
+                {
+                    return 0;
+                }
+            }
+
+            else if (c < '0' || c > '9')
             {
                 return 0;
             }
         }
+
+        if (cont == 0)
+        {
+            return 0;
+        }
+        
         return 1;
     }
 

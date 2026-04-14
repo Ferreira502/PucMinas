@@ -59,10 +59,19 @@ int somenteConsoantes(char p[], int i)
 
 int eInteiro(char p[], int i) 
 {
-
     if (p[i] == '\0') 
     {
+        if (i == 0) 
+        {
+            return 0; 
+        }
+        
         return 1;
+    }
+
+    if (i == 0 && p[i] == '-')
+    {
+        return eInteiro(p, i + 1);
     }
 
     if (p[i] < '0' || p[i] > '9') 
@@ -75,19 +84,28 @@ int eInteiro(char p[], int i)
 
 int eReal(char p[], int i, int cont) 
 {
-
     if (p[i] == '\0') 
     {
-        if (cont == 1) 
+        if (cont <= 1) 
         {
             return 1;
         }
 
         return 0;
     }
-    
+
+    if (i == 0 && p[i] == '-')
+    {
+        return eReal(p, i + 1, cont);
+    }
+
     if (p[i] == '.' || p[i] == ',') 
     {
+        if (cont >= 1)
+        {
+            return 0; 
+        }
+
         return eReal(p, i + 1, cont + 1);
     }
 
@@ -95,7 +113,7 @@ int eReal(char p[], int i, int cont)
     {
         return 0;
     }
-
+    
     return eReal(p, i + 1, cont);
 }
 
