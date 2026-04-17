@@ -1,5 +1,6 @@
 import java.util.*;
 
+// CLasse Colecaorestaurente
 public class ColecaoRestaurante 
 {
     private int tamanho;
