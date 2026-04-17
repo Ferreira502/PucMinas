@@ -12,7 +12,7 @@ class Restaurante
     private Hora horarioAbertura;
     private Hora horarioFechamento;
     private Data dataAbertura;
-    private boolean aberto; 
+    private boolean aberto;
     
     public Restaurante( int id, String nome, String cidade, int capacidade, double avaliacao, 
         String[] tiposCozinha, String faixaPreco, Hora horarioAbertura, Hora horarioFechamento, Data dataAbertura, boolean aberto ) 
@@ -89,10 +89,22 @@ class Restaurante
     
     // Setters
 
-    public void setId( int id ) 
-    {
-        this.id = id;
-    }
 
+    public Restaurante parRestaurante ( String S )
+    {
+
+        Scanner sc = new Scanner(s);
+
+        sc.useDelimiter(",");
+        int id = sc.nextInt();
+        String nome = sc.next();
+        String cidade = sc.next();
+        int capacidade = sc.nextInt();
+        double avaliacao = sc.nextDouble();
+
+
+
+        return s;
+    }
 
 }
