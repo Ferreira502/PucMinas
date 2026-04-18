@@ -1,4 +1,3 @@
-import java.util.*;
 
 class Restaurante
 {
@@ -14,6 +13,13 @@ class Restaurante
     private Data dataAbertura;
     private boolean aberto;
     
+
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param id, nome, cidade, capacidade, avaliacao, tiposCozinha, faixaPreco, horarioAbertura, 
+     *          horarioFechamento, dataAbertura, aberto do restaurante
+     * @reason Construtor da classe Restaurante
+     */
     public Restaurante( int id, String nome, String cidade, int capacidade, double avaliacao, 
         String[] tiposCozinha, String faixaPreco, Hora horarioAbertura, Hora horarioFechamento, Data dataAbertura, boolean aberto ) 
     {
@@ -87,24 +93,20 @@ class Restaurante
         return this.aberto;
     }
     
-    // Setters
-
-
-    public Restaurante parRestaurante ( String S )
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @reason Retorna o restaurante formatado como String
+     * @return String com o restaurante formatado
+     */
+    public String formatar()
     {
-
-        Scanner sc = new Scanner(s);
-
-        sc.useDelimiter(",");
-        int id = sc.nextInt();
-        String nome = sc.next();
-        String cidade = sc.next();
-        int capacidade = sc.nextInt();
-        double avaliacao = sc.nextDouble();
-
-
-
-        return s;
+        String tipos = "[" + tiposCozinha[0] + "," + tiposCozinha[1] + "]";
+        String horario = horarioAbertura.formatarHora() + "-" + horarioFechamento.formatarHora();
+        String data = dataAbertura.formatarData();
+    
+        return "[" + id + " ## " + nome + " ## " + cidade + " ## " + capacidade + " ## " + 
+            avaliacao + " ## " + tipos + " ## " + faixaPreco + " ## " + 
+            horario + " ## " + data + " ## " + aberto + "]";
     }
 
 }
