@@ -2,13 +2,12 @@ import java.util.*;
 
 public class Main
 {
-
     /**
      * @author Gabriel Ferreira Pereira
      * @param colecao, id
      * @reason Busca e imprime o restaurante com o ID fornecido
      */
-    public static Restaurante buscarPorId(ColecaoRestaurante colecao, int id)
+    public static void buscarPorId(ColecaoRestaurante colecao, int id)
     {
         Restaurante[] restaurantes = colecao.getRestaurantes();
 
@@ -16,11 +15,9 @@ public class Main
         {
             if (restaurantes[i].getID() == id)
             {
-                return restaurantes[i];
+                System.out.println(restaurantes[i].formatar());
             }
         }
-
-        return null;
     }
 
     public static void main(String[] args)
@@ -32,16 +29,11 @@ public class Main
         int quantidade = 0;
 
         int id = sc.nextInt();
+
         while (id != -1)
         {
-            Restaurante r = buscarPorId(colecao, id);
-
-            if (r != null)
-            {
-                selecionados[quantidade] = r;
-                quantidade++;
-            }
-
+            selecionados[quantidade] = colecao.getRestaurantes()[id - 1];
+            quantidade++;
             id = sc.nextInt();
         }
 
