@@ -1,5 +1,6 @@
+import java.util.*;
 
-class Restaurante
+public class Restaurante
 {
     private int id;
     private String nome;

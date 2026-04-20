@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Hora
+public class Hora
 {
     private int hora;
     private int minuto;

@@ -107,7 +107,7 @@ public class ColecaoRestaurante
     {
         try 
         {
-            Scanner sc = new Scanner(path);
+            Scanner sc = new Scanner(new File(path));
             sc.nextLine(); // pula o cabecalho antes de definir o delimitador
             sc.useDelimiter(",|\n");
 

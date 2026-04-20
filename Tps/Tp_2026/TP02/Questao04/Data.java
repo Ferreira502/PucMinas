@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Data
+public class Data
 {
     private int ano;
     private int mes;
