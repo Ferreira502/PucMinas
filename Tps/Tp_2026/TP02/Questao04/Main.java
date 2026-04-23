@@ -7,7 +7,7 @@ public class Main
      * @param colecao, id
      * @reason Busca e imprime o restaurante com o ID fornecido
      */
-    public static void buscarPorId(ColecaoRestaurante colecao, int id)
+    public static void buscarPorId ( ColecaoRestaurante colecao, int id )
     {
         Restaurante[] restaurantes = colecao.getRestaurantes();
 
@@ -20,16 +20,16 @@ public class Main
         }
     }
 
-    public static void main(String[] args)
+    public static void main ( String[] args ) throws Exception
     {
         Scanner sc = new Scanner(System.in);
         ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
 
-        Restaurante[] selecionados = new Restaurante[550];
+        Restaurante[] selecionados = new Restaurante[500];
         int quantidade = 0;
 
         int id = sc.nextInt();
-
+        
         while (id != -1)
         {
             selecionados[quantidade] = colecao.getRestaurantes()[id - 1];

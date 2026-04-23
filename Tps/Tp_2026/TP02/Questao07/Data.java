@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Data
+public class Data
 {
     private int ano;
     private int mes;
@@ -11,7 +11,7 @@ class Data
      * @param ano mes e dia da data
      * @reason Construtor da classe Data
      */
-    public Data(int ano, int mes, int dia) 
+    public Data( int ano, int mes, int dia ) 
     {
         this.ano = ano;
         this.mes = mes;
@@ -24,7 +24,7 @@ class Data
      * @reason Converte uma String para um objeto Data
      * @return objeto Data correspondente
      */
-    public static Data parseData( String s )
+    public static Data paseData( String s )
     {
         Scanner sc = new Scanner(s);
         sc.useDelimiter("-");
