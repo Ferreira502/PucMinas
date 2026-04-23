@@ -16,6 +16,8 @@ o que falta ser feito
 - Questão 12 -> Falta fazer tudo e os log
 - Questão 13 -> Falta fazer a fila circular com Alocação sequencial e o log  < classes prontas >
 
+-------------
+
 Todos os logs devem ser utilizado no que esta em fontes na unidade 3 na parte de ordenação
 
 em java para calcular seria assim:
@@ -62,3 +64,8 @@ declarar variaveis assim
 	 printf("Tempo para ordenar: %f s.\n", total);
 	 printf("isOrdenado: %s\n", isOrdenado(array, n) ? "true" : "false");
 
+
+-------------
+
+
+Arrumar as classes em java, pois o ler arquivo que esta em coleção restaurante deve ser lido na classe Restaurante.
