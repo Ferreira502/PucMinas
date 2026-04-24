@@ -95,30 +95,30 @@ class Restaurante
     }
     
     /**
- * @author Gabriel Ferreira Pereira
- * @param String s
- * @reason Converte uma String para double manualmente
- * @return numero real
- */
-public static double parseDouble(String s)
-{
-    int inteiro = 0;
-    int decimal = 0;
-    boolean ponto = false;
-
-    for (int i = 0; i < s.length(); i++)
+     * @author Gabriel Ferreira Pereira
+     * @param String s
+     * @reason Converte uma String para double manualmente
+     * @return numero real
+     */
+    public static double parseDouble(String s)
     {
-        char c = s.charAt(i);
-        if (c == '.')
-            ponto = true;
-        else if (!ponto)
-            inteiro = inteiro * 10 + (c - '0');
-        else
-            decimal = decimal * 10 + (c - '0');
-    }
+        int inteiro = 0;
+        int decimal = 0;
+        boolean ponto = false;
 
-    return inteiro + decimal / 10.0;
-}
+        for (int i = 0; i < s.length(); i++)
+        {
+            char c = s.charAt(i);
+            if (c == '.')
+                ponto = true;
+            else if (!ponto)
+                inteiro = inteiro * 10 + (c - '0');
+            else
+                decimal = decimal * 10 + (c - '0');
+        }
+
+        return inteiro + decimal / 10.0;
+    }
 
     /**
      * @author Gabriel Ferreira Pereira
@@ -129,6 +129,8 @@ public static double parseDouble(String s)
     public static Restaurante ler( String linha ) throws Exception
     {
         Scanner sc = new Scanner(linha);
+        sc.useDelimiter(",");
+
         int id = sc.nextInt();
         String nome = sc.next();
         String cidade = sc.next();
@@ -147,7 +149,9 @@ public static double parseDouble(String s)
 
         String horario = sc.next();
         Scanner scHorario = new Scanner(horario);
+
         scHorario.useDelimiter("-");
+
         Hora horarioAbertura   = Hora.parseHora(scHorario.next());
         Hora horarioFechamento = Hora.parseHora(scHorario.next());
         scHorario.close();
@@ -155,9 +159,20 @@ public static double parseDouble(String s)
         Data dataAbertura = Data.parseData(sc.next());
 
         String abertoStr = sc.next();
-        boolean aberto = abertoStr.charAt(0) == 't';
+        boolean aberto;
 
-        return new Restaurante(id, nome, cidade, capacidade, avaliacao, tiposCozinha, faixaPreco, horarioAbertura, horarioFechamento, dataAbertura, aberto);
+        if (abertoStr.charAt(0) == 't')
+        {
+            aberto = true;
+        }
+
+        else
+        {
+            aberto = false;
+        }
+
+        Restaurante restaurante = new Restaurante(id, nome, cidade, capacidade, avaliacao, tiposCozinha, faixaPreco, horarioAbertura, horarioFechamento, dataAbertura, aberto);
+        return restaurante;    
     }
 
     /**

@@ -2,7 +2,7 @@ Fazer as questões do TP02
 
 o que falta ser feito
 
-- Questão 01 -> Esta tudo certo e pronto 
+- Questão 01 -> pronto 
 - Questão 02 -> Falta fazer tudo 
 - Questão 03 -> Falta fazer tudo e os log
 - Questão 04 -> Falta fazer o log para contar e gerar um arquivo para mostrar o tempo de execução

@@ -1,6 +1,6 @@
-import java.util.*;
+import java.util.Scanner;
 
-public class Restaurante
+class Restaurante
 {
     private int id;
     private String nome;
@@ -94,6 +94,87 @@ public class Restaurante
         return this.aberto;
     }
     
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param String s
+     * @reason Converte uma String para double manualmente
+     * @return numero real
+     */
+    public static double parseDouble(String s)
+    {
+        int inteiro = 0;
+        int decimal = 0;
+        boolean ponto = false;
+
+        for (int i = 0; i < s.length(); i++)
+        {
+            char c = s.charAt(i);
+            if (c == '.')
+                ponto = true;
+            else if (!ponto)
+                inteiro = inteiro * 10 + (c - '0');
+            else
+                decimal = decimal * 10 + (c - '0');
+        }
+
+        return inteiro + decimal / 10.0;
+    }
+
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param path caminho do arquivo CSV
+     * @reason Le uma linha do CSV e cria um objeto Restaurante
+     * @return Restaurante criado
+     */
+    public static Restaurante ler( String linha ) throws Exception
+    {
+        Scanner sc = new Scanner(linha);
+        sc.useDelimiter(",");
+
+        int id = sc.nextInt();
+        String nome = sc.next();
+        String cidade = sc.next();
+        int capacidade = sc.nextInt();
+        double avaliacao = parseDouble(sc.next());
+
+        String cozinhaStr = sc.next();
+        Scanner scCozinha = new Scanner(cozinhaStr);
+        scCozinha.useDelimiter(";");
+        String tipo1 = scCozinha.next();
+        String tipo2 = scCozinha.next();
+        scCozinha.close();
+        String[] tiposCozinha = new String[]{tipo1, tipo2};
+
+        String faixaPreco = sc.next();
+
+        String horario = sc.next();
+        Scanner scHorario = new Scanner(horario);
+
+        scHorario.useDelimiter("-");
+
+        Hora horarioAbertura   = Hora.parseHora(scHorario.next());
+        Hora horarioFechamento = Hora.parseHora(scHorario.next());
+        scHorario.close();
+
+        Data dataAbertura = Data.parseData(sc.next());
+
+        String abertoStr = sc.next();
+        boolean aberto;
+
+        if (abertoStr.charAt(0) == 't')
+        {
+            aberto = true;
+        }
+
+        else
+        {
+            aberto = false;
+        }
+
+        Restaurante restaurante = new Restaurante(id, nome, cidade, capacidade, avaliacao, tiposCozinha, faixaPreco, horarioAbertura, horarioFechamento, dataAbertura, aberto);
+        return restaurante;    
+    }
+
     /**
      * @author Gabriel Ferreira Pereira
      * @reason Retorna o restaurante formatado como String

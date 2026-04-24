@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Hora
+class Hora
 {
     private int hora;
     private int minuto;
@@ -10,7 +10,7 @@ public class Hora
      * @param hora e minuto da hora
      * @reason Construtor da classe Hora
      */
-    public Hora(int hora, int minuto) 
+    public Hora ( int hora, int minuto )
     {
         this.hora = hora;
         this.minuto = minuto;
@@ -22,7 +22,7 @@ public class Hora
      * @reason Converte uma String para um objeto Hora
      * @return objeto Hora correspondente
      */
-    public static Hora parseHora( String s )
+    public static Hora parseHora ( String s )
     {
         Scanner sc = new Scanner(s);
         sc.useDelimiter(":");

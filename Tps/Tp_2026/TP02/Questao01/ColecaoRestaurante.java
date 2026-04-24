@@ -71,7 +71,7 @@ public class ColecaoRestaurante
 
         for ( int i = 0; i < 500; i++ )
         {
-            colecao.adicionar(Restaurante.ler(sc));
+            colecao.adicionar(Restaurante.ler(sc.nextLine()));
         }
 
         return colecao;
