@@ -11,7 +11,7 @@ class Data
      * @param ano mes e dia da data
      * @reason Construtor da classe Data
      */
-    public Data(int ano, int mes, int dia) 
+    public Data ( int ano, int mes, int dia ) 
     {
         this.ano = ano;
         this.mes = mes;
@@ -32,7 +32,7 @@ class Data
         int mes = sc.nextInt();
         int dia = sc.nextInt();
 
-        Data data = new Data(ano, mes, dia);
+        Data data = new Data ( ano, mes, dia );
         
         return data;
     }

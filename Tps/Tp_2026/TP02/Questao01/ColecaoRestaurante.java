@@ -25,6 +25,16 @@ public class ColecaoRestaurante
 
     /**
      * @author Gabriel Ferreira Pereira
+     * @param Restaurante r
+     * @reason Adiciona tamanho em ColecaoRestaurante
+     */
+    public void adicionar( Restaurante r )
+    {
+        this.restaurantes[this.tamanho] = r;
+        this.tamanho++;
+    }
+    /**
+     * @author Gabriel Ferreira Pereira
      * @reason Pega os restaurantes da colecao
      * @return this.restaurantes
      */
@@ -47,115 +57,23 @@ public class ColecaoRestaurante
 
     /**
      * @author Gabriel Ferreira Pereira
-     * @param String s
-     * @reason Converte uma String para double manualmente
-     * @return numero real
-     */
-    public static double parseDouble( String s )
-    {
-        int inteiro = 0;
-        int decimal = 0;
-        boolean ponto = false;
-        
-        for ( int i = 0; i < s.length(); i++ )
-        {
-            char c = s.charAt(i);
-            if (c == '.')
-            {
-                ponto = true;
-            }
-
-            else if (ponto == false)
-            {
-                inteiro = inteiro * 10 + (c - '0');
-            }
-            else
-            {
-                decimal = decimal * 10 + (c - '0');
-            }
-        }
-        
-        return inteiro + decimal / 10.0;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param String path
-     * @reason Le o arquivo CSV, cria os restaurantes e configura a colecao
-     */
-    public void lerCsv( String path ) 
-    {
-        try 
-        {
-            Scanner sc = new Scanner(new File(path));
-            sc.nextLine(); // pula o cabecalho antes de definir o delimitador
-
-            sc.useDelimiter(",|\n");
-
-            for (int i = 0; i < 500; i++) 
-            {
-                int id = sc.nextInt();
-                String nome = sc.next();
-                String cidade = sc.next();
-                int capacidade = sc.nextInt();
-                double avaliacao = parseDouble(sc.next());
-
-                // Tipos Cozinha
-                String cozinhaStr = sc.next(); // "churrasco;internacional"
-                Scanner scCozinha = new Scanner(cozinhaStr);
-                scCozinha.useDelimiter(";");
-                String tipo1 = scCozinha.next();
-                String tipo2 = scCozinha.next();
-                scCozinha.close();
-                String[] tiposCozinha = new String[]{tipo1, tipo2};
-
-                String faixaPreco = sc.next();
-
-                String horario = sc.next(); // "11:00-20:00"
-
-                Scanner scHorario = new Scanner(horario);
-                scHorario.useDelimiter("-");
-
-                Hora horarioAbertura = Hora.parseHora(scHorario.next()); // "11:00"
-                Hora horarioFechamento = Hora.parseHora(scHorario.next()); // "20:00"
-
-                Data dataAbertura = Data.parseData(sc.next());
-                
-                String abertoStr = sc.next();
-
-                boolean aberto;
-                
-                if (abertoStr.charAt(0) == 't')
-                {
-                    aberto = true;
-                }
-                else
-                {
-                    aberto = false;
-                }
-
-                this.restaurantes[this.tamanho] = new Restaurante(id, nome, cidade, capacidade, avaliacao, tiposCozinha, faixaPreco, horarioAbertura, horarioFechamento, dataAbertura, aberto);
-                this.tamanho++;
-            }
-        
-        } 
-        catch (Exception e) 
-        {
-            System.out.println("Erro para abrir o Arquivo");
-            return;
-        }
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param String s
-     * @reason Le o dataset do arquivo CSV e retorna a colecao com os restaurantes
+     * @reason Le o dataset do arquivo CSV usando Restaurante.ler() e retorna a colecao
      * @return colecao
      */
-    public static ColecaoRestaurante lerCsv() 
+    public static ColecaoRestaurante lerCsv() throws Exception
     {
         ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[550]);
-        colecao.lerCsv("restaurante.csv");
+        Scanner sc = new Scanner(new File("restaurante.csv"));
+        
+        sc.nextLine();
+
+        sc.useDelimiter(",|\n");
+
+        for ( int i = 0; i < 500; i++ )
+        {
+            colecao.adicionar(Restaurante.ler(sc));
+        }
+
         return colecao;
     }
 }

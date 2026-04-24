@@ -5,40 +5,26 @@ public class Main
 
     /**
      * @author Gabriel Ferreira Pereira
-     * @param colecao, id
-     * @reason Busca e imprime o restaurante com o ID fornecido
+     * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
+     *         e exibe na tela a lista de restaurantes selecionados
      */
-    public static void buscarPorId( ColecaoRestaurante colecao, int id )
+    public static void main(String[] args) throws Exception
     {
-        Restaurante[] restaurantes = colecao.getRestaurantes();
-
-        for (int i = 0; i < colecao.getTamanho(); i++)
-        {
-            if (restaurantes[i].getID() == id)
-            {
-                System.out.println(restaurantes[i].formatar());
-                return;
-            }   
-        }
-
-        System.out.println("Restaurante nao encontrado");
-    }
-
-    public static void main( String[] args )
-    {
-        Scanner sc = new Scanner(System.in);
         ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
-        //colecao.insercao();
-        int id = 0;
-        
-        while (sc.hasNextInt())
+        Restaurante[] restaurantes = colecao.getRestaurantes();
+        Scanner sc = new Scanner(System.in);
+        int id;
+
+        while ((id = sc.nextInt()) != -1)
         {
-            id = sc.nextInt();
-            buscarPorId(colecao, id);
+            for (int i = 0; i < colecao.getTamanho(); i++)
+            {
+                if (restaurantes[i].getID() == id)
+                {
+                    System.out.println(restaurantes[i].formatar());
+                }
+            }
         }
 
-        ColecaoRestaurante.insercao(colecao.getRestaurantes());
-
-        colecao.imprimir();
     }
 }
