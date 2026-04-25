@@ -8,7 +8,7 @@ Hora parse_hora(char *s)
     return hora;
 }
 
-void formatar_hora(Hora *hora, char *buffer)
+void formatar_hora(Hora *hora, char *saidaLinha)
 {
-    sprintf(buffer, "%02d:%02d", hora->hora, hora->minuto);
+    sprintf(saidaLinha, "%02d:%02d", hora->hora, hora->minuto);
 }

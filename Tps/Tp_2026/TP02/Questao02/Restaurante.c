@@ -31,7 +31,7 @@ Restaurante ler_restaurante(char *linha)
     char cozinha[100];
     int pos = 0;
     int j = 0, k = 0;
-
+    
     // id
     pos = lerCampo(linha, pos, campo);
     sscanf(campo, "%d", &r.id);
@@ -116,7 +116,7 @@ Restaurante ler_restaurante(char *linha)
     return r;
 }
 
-void formatar_restaurante(Restaurante *r, char *buffer)
+void formatar_restaurante(Restaurante *r, char *saidaLinha)
 {
     char dataStr[20];
     char horarioAbertura[10];
@@ -137,7 +137,7 @@ void formatar_restaurante(Restaurante *r, char *buffer)
         sprintf(abertoStr, "false");
     }
     
-    sprintf(buffer, "[%d ## %s ## %s ## %d ## %.1f ## [%s,%s] ## %s ## %s-%s ## %s ## %s]",
+    sprintf(saidaLinha, "[%d ## %s ## %s ## %d ## %.1f ## [%s,%s] ## %s ## %s-%s ## %s ## %s]",
         r->id, r->nome, r->cidade, r->capacidade, r->avaliacao,
         r->tipo1, r->tipo2, r->faixaPreco,
         horarioAbertura, horarioFechamento,

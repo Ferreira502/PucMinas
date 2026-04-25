@@ -8,7 +8,7 @@ Data parse_data(char *s)
     return data;
 }
 
-void formatar_data(Data *data, char *buffer)
+void formatar_data(Data *data, char *saidaLinha)
 {
-    sprintf(buffer, "%02d/%02d/%04d", data->dia, data->mes, data->ano );
+    sprintf(saidaLinha, "%02d/%02d/%04d", data->dia, data->mes, data->ano );
 }

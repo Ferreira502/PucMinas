@@ -20,11 +20,11 @@ Restaurante* getRestaurantes(ColecaoRestaurante *colecao)
 
 void imprimir(ColecaoRestaurante *colecao)
 {
-    char buffer[500];
+    char saidaLinha[500];
     for (int i = 0; i < colecao->tamanho; i++)
     {
-        formatar_restaurante(&colecao->restaurantes[i], buffer);
-        printf("%s\n", buffer);
+        formatar_restaurante(&colecao->restaurantes[i], saidaLinha);
+        printf("%s\n", saidaLinha);
     }
 }
 
@@ -37,13 +37,14 @@ ColecaoRestaurante lerCsv()
     char linha[500];
 
     // pular cabecalho
-    fgets(linha, sizeof(linha), f);
+    fgets(linha, 500, f);
 
     for (int i = 0; i < 500; i++)
     {
-        fgets(linha, sizeof(linha), f);
-        // remover o \n do final
-        linha[strcspn(linha, "\n")] = 0;
+        fgets(linha, 500, f);
+        
+        linha[strcspn(linha, "\n")] = 0; // remover o \n do final
+        
         Restaurante r = ler_restaurante(linha);
         adicionar(&colecao, r);
     }

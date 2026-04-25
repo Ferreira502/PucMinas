@@ -5,8 +5,9 @@ int main()
 {
     ColecaoRestaurante colecao = lerCsv();
     Restaurante *restaurantes = getRestaurantes(&colecao);
-    char buffer[500];
-    int id;
+
+    char saidaLinha[500];
+    int id = 0;
 
     while (scanf("%d", &id) && id != -1)
     {
@@ -14,8 +15,8 @@ int main()
         {
             if (restaurantes[i].id == id)
             {
-                formatar_restaurante(&restaurantes[i], buffer);
-                printf("%s\n", buffer);
+                formatar_restaurante(&restaurantes[i], saidaLinha);
+                printf("%s\n", saidaLinha);
             }
         }
     }
