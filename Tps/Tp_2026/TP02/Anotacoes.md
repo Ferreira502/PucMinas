@@ -5,16 +5,16 @@ o que falta ser feito
 - Questão 01 -> pronto 
 - Questão 02 -> Falta fazer tudo 
 - Questão 03 -> Falta fazer tudo e os log
-- Questão 04 -> Falta fazer o log para contar e gerar um arquivo para mostrar o tempo de execução
-- Questão 05 -> Falta fazer a pesquisa sequencial e o log  < classes prontas > 
+- Questão 04 -> pronto
+- Questão 05 -> pronto 
 - Questão 06 -> Falta fazer tudo e os log
-- Questão 07 -> Falta fazer a ordenação e o log  < classes prontas >
+- Questão 07 -> pronto
 - Questão 08 -> Falta fazer tudo e os log
-- Questão 09 -> Falta fazer a ordenação e o log  < classes prontas >
+- Questão 09 -> pronto
 - Questão 10 -> Falta fazer tudo e os log
-- Questão 11 -> Falta fazer a lista com alocação sequencial e o log  < classes prontas >
+- Questão 11 -> pronto
 - Questão 12 -> Falta fazer tudo e os log
-- Questão 13 -> Falta fazer a fila circular com Alocação sequencial e o log  < classes prontas >
+- Questão 13 -> pronto
 
 -------------
 
