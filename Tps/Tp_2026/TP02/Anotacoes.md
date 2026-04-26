@@ -3,8 +3,8 @@ Fazer as questões do TP02
 o que falta ser feito
 
 - Questão 01 -> pronto 
-- Questão 02 -> Falta fazer tudo 
-- Questão 03 -> Falta fazer tudo e os log
+- Questão 02 -> pronto
+- Questão 03 -> pronto
 - Questão 04 -> pronto
 - Questão 05 -> pronto 
 - Questão 06 -> Falta fazer tudo e os log

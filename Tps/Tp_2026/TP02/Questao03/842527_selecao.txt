@@ -1,0 +1,3 @@
+Tempo para ordenar: 73.000000 ms.
+Comparacoes: 1225
+Movimentacoes: 47
