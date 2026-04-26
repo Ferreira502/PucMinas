@@ -17,10 +17,10 @@ Data parse_data( char *s )
 /**
  * @author Gabriel Ferreira Pereira
  * @param data objeto Data
- * @param saidaLinha para armazenar a data formatada
+ * @param saida_linha para armazenar a data formatada
  * @reason Retorna a data no formato DD/MM/YYYY
  */
-void formatar_data( Data *data, char *saidaLinha )
+void formatar_data( Data *data, char *saida_linha )
 {
-    sprintf(saidaLinha, "%02d/%02d/%04d", data->dia, data->mes, data->ano);
+    sprintf(saida_linha, "%02d/%02d/%04d", data->dia, data->mes, data->ano);
 }

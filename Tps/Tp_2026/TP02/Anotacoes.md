@@ -7,11 +7,11 @@ o que falta ser feito
 - Questão 03 -> pronto
 - Questão 04 -> pronto
 - Questão 05 -> pronto 
-- Questão 06 -> Falta fazer tudo e os log
+- Questão 06 -> pronto
 - Questão 07 -> pronto
-- Questão 08 -> Falta fazer tudo e os log
+- Questão 08 -> pronto
 - Questão 09 -> pronto
-- Questão 10 -> Falta fazer tudo e os log
+- Questão 10 -> pronto
 - Questão 11 -> pronto
 - Questão 12 -> Falta fazer tudo e os log
 - Questão 13 -> pronto

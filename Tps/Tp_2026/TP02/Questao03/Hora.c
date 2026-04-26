@@ -17,10 +17,10 @@ Hora parse_hora( char *s )
 /**
  * @author Gabriel Ferreira Pereira
  * @param hora objeto Hora
- * @param saidaLinha para armazenar a hora formatada
+ * @param saida_linha para armazenar a hora formatada
  * @reason Retorna a hora no formato hh:mm
  */
-void formatar_hora( Hora *hora, char *saidaLinha )
+void formatar_hora( Hora *hora, char *saida_linha )
 {
-    sprintf(saidaLinha, "%02d:%02d", hora->hora, hora->minuto);
+    sprintf(saida_linha, "%02d:%02d", hora->hora, hora->minuto);
 }

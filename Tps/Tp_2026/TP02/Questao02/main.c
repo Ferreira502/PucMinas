@@ -8,20 +8,20 @@
  */
 int main()
 {
-    ColecaoRestaurante colecao = lerCsv();
-    Restaurante *restaurantes = getRestaurantes(&colecao);
-    char saidaLinha[500];
+    ColecaoRestaurante colecao = ler_csv();
+    Restaurante *restaurantes = get_restaurantes(&colecao);
+    char saida_linha[500];
 
     int id = 0;
 
     while ( scanf("%d", &id) && id != -1 )
     {
-        for ( int i = 0; i < getTamanho(&colecao); i++ )
+        for ( int i = 0; i < get_tamanho(&colecao); i++ )
         {
             if ( restaurantes[i].id == id )
             {
-                formatar_restaurante(&restaurantes[i], saidaLinha);
-                printf("%s\n", saidaLinha);
+                formatar_restaurante(&restaurantes[i], saida_linha);
+                printf("%s\n", saida_linha);
             }
         }
     }

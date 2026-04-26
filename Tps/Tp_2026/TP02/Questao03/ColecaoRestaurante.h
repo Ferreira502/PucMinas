@@ -9,14 +9,10 @@ typedef struct ColecaoRestaurante
     Restaurante restaurantes[500];
 } ColecaoRestaurante;
 
-int getTamanho(ColecaoRestaurante*);
-
+int get_tamanho(ColecaoRestaurante*);
 void adicionar(ColecaoRestaurante*, Restaurante);
-
-Restaurante* getRestaurantes(ColecaoRestaurante*);
-
+Restaurante* get_restaurantes(ColecaoRestaurante*);
 void imprimir(ColecaoRestaurante*);
-
-ColecaoRestaurante lerCsv();
+ColecaoRestaurante ler_csv();
 
 #endif

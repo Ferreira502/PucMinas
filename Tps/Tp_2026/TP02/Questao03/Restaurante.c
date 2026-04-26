@@ -8,10 +8,10 @@
  * @reason Le um campo da linha do CSV ate encontrar virgula ou fim de linha
  * @return nova posicao na linha apos o campo lido
  */
-int lerCampo( char *linha, int pos, char *campo )
+int ler_campo( char *linha, int pos, char *campo )
 {
     int i = 0;
-    
+
     while ( linha[pos] != ',' && linha[pos] != '\0' && linha[pos] != '\n' )
     {
         campo[i] = linha[pos];
@@ -21,7 +21,6 @@ int lerCampo( char *linha, int pos, char *campo )
 
     campo[i] = '\0';
     pos++;
-
     return pos;
 }
 
@@ -35,85 +34,86 @@ Restaurante ler_restaurante( char *linha )
 {
     Restaurante r;
     char campo[100];
-    char horarioAbertura[10];
-    char horarioFechamento[10];
-    char dataStr[20];
-    char abertoStr[10];
+    char horario_abertura[10];
+    char horario_fechamento[10];
+    char data_str[20];
+    char aberto_str[10];
     char cozinha[100];
     int pos = 0;
     int j = 0, k = 0;
 
     // id
-    pos = lerCampo(linha, pos, campo);
+    pos = ler_campo(linha, pos, campo);
     sscanf(campo, "%d", &r.id);
 
     // nome
-    pos = lerCampo(linha, pos, r.nome);
+    pos = ler_campo(linha, pos, r.nome);
 
     // cidade
-    pos = lerCampo(linha, pos, r.cidade);
+    pos = ler_campo(linha, pos, r.cidade);
 
     // capacidade
-    pos = lerCampo(linha, pos, campo);
+    pos = ler_campo(linha, pos, campo);
     sscanf(campo, "%d", &r.capacidade);
 
     // avaliacao
-    pos = lerCampo(linha, pos, campo);
+    pos = ler_campo(linha, pos, campo);
     sscanf(campo, "%lf", &r.avaliacao);
 
     // cozinha
-    pos = lerCampo(linha, pos, cozinha);
-    while (cozinha[j] != ';')
+    pos = ler_campo(linha, pos, cozinha);
+
+    while ( cozinha[j] != ';' )
     {
         r.tipo1[k++] = cozinha[j++];
     }
-    
+
     r.tipo1[k] = '\0';
     j++; k = 0;
-    
-    while (cozinha[j] != '\0')
+
+    while ( cozinha[j] != '\0' )
     {
         r.tipo2[k++] = cozinha[j++];
     }
-    
+
     r.tipo2[k] = '\0';
 
     // faixa preco
-    pos = lerCampo(linha, pos, r.faixaPreco);
+    pos = ler_campo(linha, pos, r.faixaPreco);
 
     // horario
-    pos = lerCampo(linha, pos, campo);
+    pos = ler_campo(linha, pos, campo);
     j = 0; k = 0;
-    
-    while (campo[j] != '-')
+
+    while ( campo[j] != '-' )
     {
-        horarioAbertura[k++] = campo[j++];
+        horario_abertura[k++] = campo[j++];
     }
-    
-    horarioAbertura[k] = '\0';
-    
+
+    horario_abertura[k] = '\0';
     j++; k = 0;
-    while (campo[j] != '\0')
+
+    while ( campo[j] != '\0' )
     {
-        horarioFechamento[k++] = campo[j++];
+        horario_fechamento[k++] = campo[j++];
     }
-    
-    horarioFechamento[k] = '\0';
-    r.horarioAbertura = parse_hora(horarioAbertura);
-    r.horarioFechamento = parse_hora(horarioFechamento);
+
+    horario_fechamento[k] = '\0';
+    r.horario_abertura = parse_hora(horario_abertura);
+    r.horario_fechamento = parse_hora(horario_fechamento);
 
     // data
-    pos = lerCampo(linha, pos, dataStr);
-    r.dataAbertura = parse_data(dataStr);
+    pos = ler_campo(linha, pos, data_str);
+    r.data_abertura = parse_data(data_str);
 
     // aberto
-    pos = lerCampo(linha, pos, abertoStr);
+    pos = ler_campo(linha, pos, aberto_str);
 
-    if (abertoStr[0] == 't')
+    if ( aberto_str[0] == 't' )
     {
         r.aberto = 1;
     }
-    
+
     else
     {
         r.aberto = 0;
@@ -124,33 +124,33 @@ Restaurante ler_restaurante( char *linha )
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param r, saidaLinha
+ * @param r, saida_linha
  * @reason Retorna o restaurante formatado como String
  */
-void formatar_restaurante(Restaurante *r, char *saidaLinha)
+void formatar_restaurante( Restaurante *r, char *saida_linha )
 {
-    char dataStr[20];
-    char horarioAbertura[10];
-    char horarioFechamento[10];
-    char abertoStr[10];
+    char data_str[20];
+    char horario_abertura[10];
+    char horario_fechamento[10];
+    char aberto_str[10];
 
-    formatar_data(&r->dataAbertura, dataStr);
-    formatar_hora(&r->horarioAbertura, horarioAbertura);
-    formatar_hora(&r->horarioFechamento, horarioFechamento);
+    formatar_data(&r->data_abertura, data_str);
+    formatar_hora(&r->horario_abertura, horario_abertura);
+    formatar_hora(&r->horario_fechamento, horario_fechamento);
 
-    if (r->aberto == 1)
+    if ( r->aberto == 1 )
     {
-        sprintf(abertoStr, "true");
+        sprintf(aberto_str, "true");
     }
     
     else
     {
-        sprintf(abertoStr, "false");
+        sprintf(aberto_str, "false");
     }
 
-    sprintf(saidaLinha, "[%d ## %s ## %s ## %d ## %.1f ## [%s,%s] ## %s ## %s-%s ## %s ## %s]",
+    sprintf(saida_linha, "[%d ## %s ## %s ## %d ## %.1f ## [%s,%s] ## %s ## %s-%s ## %s ## %s]",
         r->id, r->nome, r->cidade, r->capacidade, r->avaliacao,
         r->tipo1, r->tipo2, r->faixaPreco,
-        horarioAbertura, horarioFechamento,
-        dataStr, abertoStr);
+        horario_abertura, horario_fechamento,
+        data_str, aberto_str);
 }

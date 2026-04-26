@@ -8,7 +8,7 @@
  * @reason Retorna a quantidade de restaurantes da colecao
  * @return tamanho da colecao
  */
-int getTamanho( ColecaoRestaurante *colecao )
+int get_tamanho( ColecaoRestaurante *colecao )
 {
     return colecao->tamanho;
 }
@@ -30,7 +30,7 @@ void adicionar( ColecaoRestaurante *colecao, Restaurante r )
  * @reason Retorna o array de restaurantes da colecao
  * @return ponteiro para o array de restaurantes
  */
-Restaurante* getRestaurantes( ColecaoRestaurante *colecao )
+Restaurante* get_restaurantes( ColecaoRestaurante *colecao )
 {
     return colecao->restaurantes;
 }
@@ -42,11 +42,11 @@ Restaurante* getRestaurantes( ColecaoRestaurante *colecao )
  */
 void imprimir( ColecaoRestaurante *colecao )
 {
-    char saidaLinha[500];
-    for (int i = 0; i < colecao->tamanho; i++)
+    char saida_linha[500];
+    for ( int i = 0; i < colecao->tamanho; i++ )
     {
-        formatar_restaurante(&colecao->restaurantes[i], saidaLinha);
-        printf("%s\n", saidaLinha);
+        formatar_restaurante(&colecao->restaurantes[i], saida_linha);
+        printf("%s\n", saida_linha);
     }
 }
 
@@ -55,7 +55,7 @@ void imprimir( ColecaoRestaurante *colecao )
  * @reason Le o dataset do arquivo CSV e retorna a colecao de restaurantes
  * @return colecao de restaurantes
  */
-ColecaoRestaurante lerCsv()
+ColecaoRestaurante ler_csv()
 {
     ColecaoRestaurante colecao;
     colecao.tamanho = 0;
@@ -66,10 +66,10 @@ ColecaoRestaurante lerCsv()
     // pular cabecalho
     fgets(linha, 500, f);
 
-    for (int i = 0; i < 500; i++)
+    for ( int i = 0; i < 500; i++ )
     {
         fgets(linha, 500, f);
-        linha[strcspn(linha, "\n")] = 0; // remover o \n do final
+        linha[strcspn(linha, "\n")] = 0;
         Restaurante r = ler_restaurante(linha);
         adicionar(&colecao, r);
     }

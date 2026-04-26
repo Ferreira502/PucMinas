@@ -8,7 +8,7 @@
  * @reason Compara dois nomes caractere por caractere
  * @return positivo se a > b, negativo se a < b, zero se iguais
  */
-int compararNome( char *a, char *b )
+int comparar_nome( char *a, char *b )
 {
     int i = 0;
     int cmp = 0;
@@ -47,7 +47,7 @@ void selecao( Restaurante *selecionados, int tamanho, int *comparacoes )
         {
             comparacoes[0]++; // avanca comparacoes
             
-            if ( compararNome(selecionados[menor].nome, selecionados[j].nome) > 0 )
+            if ( comparar_nome(selecionados[menor].nome, selecionados[j].nome) > 0 )
             {
                 menor = j;
             }
@@ -70,19 +70,19 @@ void selecao( Restaurante *selecionados, int tamanho, int *comparacoes )
  */
 int main()
 {
-    ColecaoRestaurante colecao = lerCsv();
-    Restaurante *restaurantes = getRestaurantes(&colecao);
+    ColecaoRestaurante colecao = ler_csv();
+    Restaurante *restaurantes = get_restaurantes(&colecao);
     Restaurante selecionados[500];
     int tamanho = 0;
-    char saidaLinha[500];
+    char saida_linha[500];
     int id = 0;
     int contadores[2] = {0, 0};
     clock_t inicio, fim;
-    double total;
+    double total = 0.0;
 
     while ( scanf("%d", &id) && id != -1 )
     {
-        for ( int i = 0; i < getTamanho(&colecao); i++ )
+        for ( int i = 0; i < get_tamanho(&colecao); i++ )
         {
             if ( restaurantes[i].id == id )
             {
@@ -96,19 +96,19 @@ int main()
     inicio = clock();
     selecao(selecionados, tamanho, contadores);
     fim = clock();
-    total = (double)(fim - inicio); // mostra o tempo em ms
+    total = ((fim - inicio) / (double)CLOCKS_PER_SEC); // mostra o tempo em segundos
 
     // Salvar tempo e status em arquivo
     FILE *log = fopen("842527_selecao.txt", "w");
-    fprintf(log, "Tempo para ordenar: %f ms.\n", total);
+    fprintf(log, "Tempo para ordenar: %f s\n", total);
     fprintf(log, "Comparacoes: %d\n", contadores[0]);
     fprintf(log, "Movimentacoes: %d\n", contadores[1]);
     fclose(log);
 
     for ( int i = 0; i < tamanho; i++ )
     {
-        formatar_restaurante(&selecionados[i], saidaLinha);
-        printf("%s\n", saidaLinha);
+        formatar_restaurante(&selecionados[i], saida_linha);
+        printf("%s\n", saida_linha);
     }
 
     return 0;
