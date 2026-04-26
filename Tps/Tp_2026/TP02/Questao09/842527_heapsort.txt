@@ -1,4 +1,0 @@
-Tempo para ordenar: 0.001 s.
-isOrdenado: true
-Comparacoes: 359
-Movimentacoes: 243
