@@ -97,6 +97,7 @@ class Hora
     }
 }
 
+
 class Restaurante
 {
     private int id;
@@ -287,6 +288,7 @@ class Restaurante
             avaliacao + " ## " + tipos + " ## " + faixaPreco + " ## " + 
             horario + " ## " + data + " ## " + aberto + "]";
     }
+
 }
 
 class ColecaoRestaurante 
@@ -350,7 +352,7 @@ class ColecaoRestaurante
      */
     public static ColecaoRestaurante lerCsv() throws Exception
     {
-        ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[500]);
+        ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[550]);
         Scanner sc = new Scanner(new File("restaurante.csv"));
         
         sc.nextLine();
@@ -366,102 +368,92 @@ class ColecaoRestaurante
     }
 }
 
-
-class Questao04 
+class Questao05
 {
+
     /**
      * @author Gabriel Ferreira Pereira
-     * @reason Metodo de ordenacao por insercao, ordena pelo atributo cidade
-     * @param  restaurantes, tamanho, contadores
-     * */
-    public static void insercao( Restaurante[] restaurantes, int tamanho, int[] contadores )
+     * @param selecionados, tamanho, nome, contadores
+     * @reason funcao que faz a pesquisa Sequencial para achar o nome do restaurante de acordo com id fonecido
+     * @return resp
+     */
+    public static boolean pesqSeq( Restaurante[] selecionados, int tamanho, String nome, int[] contadores )
     {
-        for ( int i = 1; i < tamanho; i++ )
+        boolean resp = false;
+
+        for ( int i = 0; i < tamanho; i++ )
         {
-            Restaurante tmp = restaurantes[i];
-            int j = i - 1;
-
-            contadores[0]++;   // avanca o comparacoes
-
-            while ( j >= 0 && restaurantes[j].getCidade().compareTo(tmp.getCidade()) > 0 )
+            //System.out.println("'" + selecionados[i].getNome() + "'");
+            contadores[0]++;
+            if ( selecionados[i].getNome().compareTo(nome) == 0 )
             {
-                restaurantes[j + 1] = restaurantes[j];
-                j--;
-                contadores[1]++; // avanca o movimentacoes
+                resp = true;
+                i = tamanho;
             }
+            
+            //System.out.println("Comparando: '" + selecionados[i].getNome() + "' com '" + nome + "'");
 
-            restaurantes[j + 1] = tmp;
-            contadores[1]++; // avanca o movimentacoes
         }
+        return resp;
     }
 
     /**
      * @author Gabriel Ferreira Pereira
      * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
-     *         e exibe na tela a lista de restaurantes selecionados
+     *         e chama a funcao de pesquisa e exibe na tela SIM ou NAO se o nome fornecido esta na pesquisa
      */
-    public static void main(String[] args) throws Exception
+
+    public static void main( String[] args ) throws Exception
     {
         Scanner sc = new Scanner(System.in);
-        
         ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
         Restaurante[] restaurantes = colecao.getRestaurantes();
         Restaurante[] selecionados = new Restaurante[500];
 
         int tamanho = 0;
-        
         int id = 0;
-
-        long inicio, fim;
 
         while ( ( id = sc.nextInt() ) != -1 )
         {
-            for (int i = 0; i < colecao.getTamanho(); i++)
+            for ( int i = 0; i < colecao.getTamanho(); i++ )
             {
-                if (restaurantes[i].getID() == id)
+                if ( restaurantes[i].getID() == id )
                 {
                     selecionados[tamanho] = restaurantes[i];
                     tamanho++;
                 }
             }
         }
-  
-        // Execucao do algoritmo de ordenacao
-        int[] contadores = new int[]{0, 0};
+
+        int[] comparacoes = new int[]{0};
+        long inicio = System.currentTimeMillis();
+
+        PrintWriter log = new PrintWriter("842527_sequencial.txt");
+
+        sc.nextLine();    // pega o \n do nextInt de -1
         
-        inicio = System.currentTimeMillis();
+        String nome;
+        nome = sc.nextLine(); 
 
-        insercao(selecionados, tamanho, contadores);
-
-        fim = System.currentTimeMillis();
-
-        int comparacoes = contadores[0];
-        int movimentacoes = contadores[1];
-
-        boolean ordenado = true;
-        
-        for (int i = 0; i < tamanho - 1; i++)
+        while ( nome.length() != 3 || nome.charAt(0) != 'F' || nome.charAt(1) != 'I' || nome.charAt(2) != 'M' )
         {
-            if (selecionados[i].getCidade().compareTo(selecionados[i + 1].getCidade()) > 0)
+            if ( pesqSeq(selecionados, tamanho, nome, comparacoes) )
             {
-                ordenado = false;
+                System.out.println("SIM");
             }
+
+            else
+            {
+                System.out.println("NAO");
+            }
+
+            nome = sc.nextLine();
         }
-        
-        //Mostrar o conjunto ordenado, tempo de execucao e status da ordenacao
-		//algoritmo.mostrar();
-        // Salvar tempo e status em arquivo
-        PrintWriter log = new PrintWriter("842527_insercao.txt");
-        log.println("Tempo para ordenar: " + (fim - inicio) + " s.");
-        log.println("isOrdenado: " + ordenado);
-        log.println("Comparacoes: " + comparacoes);
-        log.println("Movimentacoes: " + movimentacoes);
+
+        long fim = System.currentTimeMillis();
+
+        log.println("Comparacoes: " + comparacoes[0]);
         log.close();
-
-
-        for (int i = 0; i < tamanho; i++)
-        {
-            System.out.println(selecionados[i].formatar());
-        }
     }
 }
+
