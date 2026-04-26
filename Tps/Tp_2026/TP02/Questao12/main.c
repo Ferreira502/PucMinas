@@ -1,166 +1,111 @@
 #include <stdio.h>
-#include <time.h>
 #include "ColecaoRestaurante.h"
 
-/**
- * @author Gabriel Ferreira Pereira
- * @param a, b
- * @reason Compara dois nomes caractere por caractere
- * @return positivo se a > b, negativo se a < b, zero se iguais
- */
-int comparar_nome( char *a, char *b )
-{
-    int i = 0;
-    int cmp = 0;
+#define MAX 100
 
-    while ( a[i] != '\0' && b[i] != '\0' && cmp == 0 )
-    {
-        if ( a[i] > b[i] )
-        {
-            cmp = 1;
-        }
-        else if ( a[i] < b[i] )
-        {
-            cmp = -1;
-        }
-        i++;
-    }
-    
-    return cmp;
+typedef struct
+{
+    Restaurante dados[MAX];
+    int topo;
+} Pilha;
+
+void inicializar( Pilha *p )
+{
+    p->topo = -1;
 }
 
-/**
- * @author Gabriel Ferreira Pereira
- * @param selecionados, tamanho
- * @reason Retorna o maior valor de capacidade
- * @return maior capacidade
- */
-int get_maior( Restaurante *selecionados, int tamanho )
+int pilha_vazia( Pilha *p )
 {
-    int maior = selecionados[0].capacidade;
-
-    for ( int i = 1; i < tamanho; i++ )
-    {
-        int val = selecionados[i].capacidade;
-
-        if ( val > maior )
-        {
-            maior = val;
-        }
-    }
-
-    return maior;
+    return p->topo == -1;
 }
 
-/**
- * @author Gabriel Ferreira Pereira
- * @param selecionados, tamanho, contadores
- * @reason Ordena o array de restaurantes por capacidade usando counting sort
- *         e desempata por nome usando insercao
- */
-void counting_sort( Restaurante *selecionados, int tamanho, int *contadores )
+int pilha_cheia( Pilha *p )
 {
-    int tam_count = get_maior(selecionados, tamanho) + 1;
-    int count[tam_count];
-    Restaurante ordenado[tamanho];
+    return p->topo == MAX - 1;
+}
 
-    // inicializar contagem
-    for ( int i = 0; i < tam_count; i++ )
+void inserir( Pilha *p, Restaurante r )
+{
+    if ( !pilha_cheia(p) )
     {
-        count[i] = 0;
+        p->topo++;
+        p->dados[p->topo] = r;
     }
+}
 
-    // contar ocorrencias
-    for ( int i = 0; i < tamanho; i++ )
-    {
-        contadores[0]++; // avanca comparacoes
-        count[selecionados[i].capacidade]++;
-    }
+Restaurante remover( Pilha *p )
+{
+    Restaurante r = p->dados[p->topo];
+    p->topo--;
+    return r;
+}
 
-    // acumular contagem
-    for ( int i = 1; i < tam_count; i++ )
+void mostrar( Pilha *p )
+{
+    char saida_linha[500];
+    for ( int i = p->topo; i >= 0; i-- )
     {
-        count[i] += count[i - 1];
-    }
-
-    // ordenar
-    for ( int i = tamanho - 1; i >= 0; i-- )
-    {
-        int idx = selecionados[i].capacidade;
-        ordenado[count[idx] - 1] = selecionados[i];
-        count[idx]--;
-        contadores[1]++; // avanca movimentacoes
-    }
-
-    // copiar para o array original
-    for ( int i = 0; i < tamanho; i++ )
-    {
-        selecionados[i] = ordenado[i];
-    }
-
-    // desempate por nome usando insercao
-    for ( int i = 1; i < tamanho; i++ )
-    {
-        Restaurante tmp = selecionados[i];
-        int j = i - 1;
-        while ( j >= 0 && selecionados[j].capacidade == tmp.capacidade &&
-                comparar_nome(selecionados[j].nome, tmp.nome) > 0 )
-        {
-            contadores[0]++; // avanca comparacoes
-            selecionados[j + 1] = selecionados[j];
-            contadores[1]++; // avanca movimentacoes
-            j--;
-        }
-        selecionados[j + 1] = tmp;
+        formatar_restaurante(&p->dados[i], saida_linha);
+        printf("%s\n", saida_linha);
     }
 }
 
 /**
  * @author Gabriel Ferreira Pereira
- * @reason Metodo principal que busca, ordena e exibe restaurantes
+ * @reason Pilha com alocacao sequencial de registros de restaurante.
+ *         Lê IDs para montar a colecao base, depois processa comandos
+ *         I (inserir) e R (remover) operando sobre a pilha.
  */
 int main()
 {
     ColecaoRestaurante colecao = ler_csv();
     Restaurante *restaurantes = get_restaurantes(&colecao);
-    Restaurante selecionados[500];
-    int tamanho = 0;
+    Pilha pilha;
+    inicializar(&pilha);
+
     char saida_linha[500];
     int id = 0;
-    int contadores[2] = {0, 0};
-    clock_t inicio, fim;
-    double total = 0.0;
 
+    // leitura dos IDs para montar a pilha inicial
     while ( scanf("%d", &id) && id != -1 )
     {
         for ( int i = 0; i < get_tamanho(&colecao); i++ )
         {
             if ( restaurantes[i].id == id )
             {
-                selecionados[tamanho] = restaurantes[i];
-                tamanho++;
+                inserir(&pilha, restaurantes[i]);
             }
         }
     }
 
-    // Execucao do algoritmo de ordenacao
-    inicio = clock();
-    counting_sort(selecionados, tamanho, contadores);
-    fim = clock();
-    total = ((fim - inicio) / (double)CLOCKS_PER_SEC) * 1000.0;
+    // processamento dos comandos
+    char opcao;
 
-    // Salvar tempo e status em arquivo
-    FILE *log = fopen("842527_countingsort.txt", "w");
-    fprintf(log, "Tempo para ordenar: %f s\n", total);
-    fprintf(log, "Comparacoes: %d\n", contadores[0]);
-    fprintf(log, "Movimentacoes: %d\n", contadores[1]);
-    fclose(log);
-
-    for ( int i = 0; i < tamanho; i++ )
+    while ( scanf(" %c", &opcao) == 1 )
     {
-        formatar_restaurante(&selecionados[i], saida_linha);
-        printf("%s\n", saida_linha);
+        if ( opcao == 'I' )
+        {
+            scanf("%d", &id);
+            for ( int i = 0; i < get_tamanho(&colecao); i++ )
+            {
+                if ( restaurantes[i].id == id )
+                {
+                    inserir(&pilha, restaurantes[i]);
+                }
+            }
+        }
+        
+        else if ( opcao == 'R' )
+        {
+            if ( !pilha_vazia(&pilha) )
+            {
+                Restaurante r = remover(&pilha);
+                printf("(R)%s\n", r.nome);
+            }
+        }
     }
+
+    mostrar(&pilha);
 
     return 0;
 }

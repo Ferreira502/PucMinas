@@ -13,7 +13,7 @@ o que falta ser feito
 - Questão 09 -> pronto
 - Questão 10 -> pronto
 - Questão 11 -> pronto
-- Questão 12 -> Falta fazer tudo e os log
+- Questão 12 -> pronto
 - Questão 13 -> pronto
 
 -------------
