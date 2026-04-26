@@ -72,7 +72,6 @@ class Data
     }
 }
 
-
 class Hora
 {
     private int hora;
@@ -300,6 +299,7 @@ class Restaurante
         }
 
         Restaurante restaurante = new Restaurante(id, nome, cidade, capacidade, avaliacao, tiposCozinha, faixaPreco, horarioAbertura, horarioFechamento, dataAbertura, aberto);
+        
         return restaurante;    
     }
 
@@ -320,7 +320,6 @@ class Restaurante
     }
 
 }
-
 
 class ColecaoRestaurante 
 {
@@ -384,7 +383,7 @@ class ColecaoRestaurante
     public static ColecaoRestaurante lerCsv() throws Exception
     {
         ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[550]);
-        Scanner sc = new Scanner(new File("restaurante.csv"));
+        Scanner sc = new Scanner(new File("/tmp/restaurantes.csv"));
         
         sc.nextLine();
 

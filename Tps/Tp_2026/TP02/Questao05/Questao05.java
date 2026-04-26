@@ -279,6 +279,7 @@ class Restaurante
         }
 
         Restaurante restaurante = new Restaurante(id, nome, cidade, capacidade, avaliacao, tiposCozinha, faixaPreco, horarioAbertura, horarioFechamento, dataAbertura, aberto);
+        
         return restaurante;    
     }
 
@@ -362,7 +363,7 @@ class ColecaoRestaurante
     public static ColecaoRestaurante lerCsv() throws Exception
     {
         ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[550]);
-        Scanner sc = new Scanner(new File("restaurante.csv"));
+        Scanner sc = new Scanner(new File("/tmp/restaurantes.csv"));
         
         sc.nextLine();
 
@@ -392,17 +393,14 @@ class Questao05
 
         for ( int i = 0; i < tamanho; i++ )
         {
-            //System.out.println("'" + selecionados[i].getNome() + "'");
             contadores[0]++;
             if ( selecionados[i].getNome().compareTo(nome) == 0 )
             {
                 resp = true;
                 i = tamanho;
             }
-            
-            //System.out.println("Comparando: '" + selecionados[i].getNome() + "' com '" + nome + "'");
-
         }
+        
         return resp;
     }
 

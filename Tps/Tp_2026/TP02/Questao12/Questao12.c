@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#define MAX 100
+
 
 typedef struct Data
 {
@@ -31,13 +33,17 @@ typedef struct Restaurante
     
 } Restaurante;
 
-typedef struct ColecaoRestaurante
+typedef struct Colecao_restaurante
 {
     int tamanho;
     Restaurante restaurantes[500];
-} ColecaoRestaurante;
+} Colecao_restaurante;
 
-
+typedef struct
+{
+    Restaurante dados[MAX];
+    int topo;
+} Pilha;
 
 /**
  * @author Gabriel Ferreira Pereira
@@ -246,11 +252,11 @@ void formatar_restaurante( Restaurante *r, char *saida_linha )
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param colecao objeto ColecaoRestaurante
+ * @param colecao objeto Colecao_restaurante
  * @reason Retorna a quantidade de restaurantes da colecao
  * @return tamanho da colecao
  */
-int get_tamanho( ColecaoRestaurante *colecao )
+int get_tamanho( Colecao_restaurante *colecao )
 {
     return colecao->tamanho;
 }
@@ -260,7 +266,7 @@ int get_tamanho( ColecaoRestaurante *colecao )
  * @param colecao, r
  * @reason Adiciona um restaurante na colecao
  */
-void adicionar( ColecaoRestaurante *colecao, Restaurante r )
+void adicionar( Colecao_restaurante *colecao, Restaurante r )
 {
     colecao->restaurantes[colecao->tamanho] = r;
     colecao->tamanho++;
@@ -268,23 +274,24 @@ void adicionar( ColecaoRestaurante *colecao, Restaurante r )
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param colecao objeto ColecaoRestaurante
+ * @param colecao objeto Colecao_restaurante
  * @reason Retorna o array de restaurantes da colecao
  * @return ponteiro para o array de restaurantes
  */
-Restaurante* get_restaurantes( ColecaoRestaurante *colecao )
+Restaurante* get_restaurantes( Colecao_restaurante *colecao )
 {
     return colecao->restaurantes;
 }
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param colecao objeto ColecaoRestaurante
+ * @param colecao objeto Colecao_restaurante
  * @reason Imprime todos os restaurantes da colecao formatados
  */
-void imprimir( ColecaoRestaurante *colecao )
+void imprimir( Colecao_restaurante *colecao )
 {
     char saida_linha[500];
+
     for ( int i = 0; i < colecao->tamanho; i++ )
     {
         formatar_restaurante(&colecao->restaurantes[i], saida_linha);
@@ -297,20 +304,20 @@ void imprimir( ColecaoRestaurante *colecao )
  * @reason Le o dataset do arquivo CSV e retorna a colecao de restaurantes
  * @return colecao de restaurantes
  */
-ColecaoRestaurante ler_csv()
+Colecao_restaurante ler_csv()
 {
-    ColecaoRestaurante colecao;
+    Colecao_restaurante colecao;
     colecao.tamanho = 0;
 
-    FILE *f = fopen("restaurante.csv", "r");
+    FILE *f = fopen("/tmp/restaurantes.csv", "r");
     char linha[500];
-    int j = 0;
 
     // pular cabecalho
     fgets(linha, 500, f);
 
     for ( int i = 0; i < 500; i++ )
     {
+        int j = 0;
         fgets(linha, 500, f);
 
         // substitui o \n por \0 para encerrar a string
@@ -326,4 +333,152 @@ ColecaoRestaurante ler_csv()
 
     fclose(f);
     return colecao;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param p objeto Pilha
+ * @reason Inicializa a pilha com topo -1
+ */
+void inicializar( Pilha *p )
+{
+    p->topo = -1;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param p objeto Pilha
+ * @reason Verifica se a pilha esta vazia
+ * @return 1 se vazia, 0 caso contrario
+ */
+int pilha_vazia( Pilha *p )
+{
+    return p->topo == -1;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param p objeto Pilha
+ * @reason Verifica se a pilha esta cheia
+ * @return 1 se cheia, 0 caso contrario
+ */
+int pilha_cheia( Pilha *p )
+{
+    return p->topo == MAX - 1;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param p objeto Pilha
+ * @param r Restaurante a ser inserido
+ * @reason Insere um restaurante no topo da pilha
+ */
+void inserir( Pilha *p, Restaurante r )
+{
+    if ( pilha_cheia(p) )
+    {
+        printf("Erro: pilha cheia!\n");
+    }
+    else
+    {
+        p->topo++;
+        p->dados[p->topo] = r;
+    }
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param p objeto Pilha
+ * @reason Remove e retorna o restaurante do topo da pilha
+ * @return Restaurante removido
+ */
+Restaurante remover( Pilha *p )
+{
+    if ( pilha_vazia(p) )
+    {
+        printf("Erro: pilha vazia!\n");
+        Restaurante vazio;
+        vazio.id = -1;
+        return vazio;
+    }
+
+    Restaurante r = p->dados[p->topo];
+    p->topo--;
+    return r;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param p objeto Pilha
+ * @reason Mostra os restaurantes da pilha do topo para a base
+ */
+void mostrar( Pilha *p )
+{
+    char saida_linha[500];
+
+    for ( int i = p->topo; i >= 0; i-- )
+    {
+        formatar_restaurante(&p->dados[i], saida_linha);
+        printf("%s\n", saida_linha);
+    }
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Pilha com alocacao sequencial de registros de restaurante.
+ *         Lê IDs para montar a colecao base, depois processa comandos
+ *         I (inserir) e R (remover) operando sobre a pilha.
+ */
+int main()
+{
+    Colecao_restaurante colecao = ler_csv();
+    Restaurante *restaurantes = get_restaurantes(&colecao);
+    Pilha pilha;
+    inicializar(&pilha);
+
+    char saida_linha[500];
+    int id = 0;
+
+    // leitura dos IDs para montar a pilha inicial
+    while ( scanf("%d", &id) && id != -1 )
+    {
+        for ( int i = 0; i < get_tamanho(&colecao); i++ )
+        {
+            if ( restaurantes[i].id == id )
+            {
+                inserir(&pilha, restaurantes[i]);
+            }
+        }
+    }
+
+    // processamento dos comandos
+    char opcao;
+
+    while ( scanf(" %c", &opcao) == 1 )
+    {
+        if ( opcao == 'I' )
+        {
+            scanf("%d", &id);
+            for ( int i = 0; i < get_tamanho(&colecao); i++ )
+            {
+                if ( restaurantes[i].id == id )
+                {
+                    inserir(&pilha, restaurantes[i]);
+                }
+            }
+        }
+        
+        else if ( opcao == 'R' )
+        {
+            if ( !pilha_vazia(&pilha) )
+            {
+                Restaurante r = remover(&pilha);
+                printf("(R)%s\n", r.nome);
+            }
+        }
+    }
+
+    mostrar(&pilha);
+
+    return 0;
 }

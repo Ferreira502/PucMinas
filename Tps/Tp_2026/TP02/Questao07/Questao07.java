@@ -363,7 +363,7 @@ class ColecaoRestaurante
     public static ColecaoRestaurante lerCsv() throws Exception
     {
         ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[550]);
-        Scanner sc = new Scanner(new File("restaurante.csv"));
+        Scanner sc = new Scanner(new File("/tmp/restaurantes.csv"));
         
         sc.nextLine();
 

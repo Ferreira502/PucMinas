@@ -144,12 +144,15 @@ Restaurante ler_restaurante( char *linha )
 
     // cozinha
     pos = ler_campo(linha, pos, cozinha);
+
     while ( cozinha[j] != ';' )
     {
         r.tipo1[k++] = cozinha[j++];
     }
+
     r.tipo1[k] = '\0';
     j++; k = 0;
+    
     while ( cozinha[j] != '\0' )
     {
         r.tipo2[k++] = cozinha[j++];
@@ -162,12 +165,15 @@ Restaurante ler_restaurante( char *linha )
     // horario
     pos = ler_campo(linha, pos, campo);
     j = 0; k = 0;
+
     while ( campo[j] != '-' )
     {
         horario_abertura[k++] = campo[j++];
     }
+
     horario_abertura[k] = '\0';
     j++; k = 0;
+
     while ( campo[j] != '\0' )
     {
         horario_fechamento[k++] = campo[j++];
@@ -288,7 +294,7 @@ Colecao_restaurante ler_csv()
     Colecao_restaurante colecao;
     colecao.tamanho = 0;
 
-    FILE *f = fopen("restaurante.csv", "r");
+    FILE *f = fopen("/tmp/restaurantes.csv", "r");
     char linha[500];
     int j = 0;
 

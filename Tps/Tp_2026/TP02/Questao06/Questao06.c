@@ -106,6 +106,7 @@ int ler_campo( char *linha, int pos, char *campo )
 
     campo[i] = '\0';
     pos++;
+    
     return pos;
 }
 
@@ -281,6 +282,7 @@ Restaurante* get_restaurantes( Colecao_restaurante *colecao )
 void imprimir( Colecao_restaurante *colecao )
 {
     char saida_linha[500];
+
     for ( int i = 0; i < colecao->tamanho; i++ )
     {
         formatar_restaurante(&colecao->restaurantes[i], saida_linha);
@@ -298,7 +300,7 @@ Colecao_restaurante ler_csv()
     Colecao_restaurante colecao;
     colecao.tamanho = 0;
 
-    FILE *f = fopen("restaurante.csv", "r");
+    FILE *f = fopen("/tmp/restaurantes.csv", "r");
     char linha[500];
     int j = 0;
 
