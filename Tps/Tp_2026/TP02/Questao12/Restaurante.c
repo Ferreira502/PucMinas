@@ -21,6 +21,7 @@ int ler_campo( char *linha, int pos, char *campo )
 
     campo[i] = '\0';
     pos++;
+    
     return pos;
 }
 

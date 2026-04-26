@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+
 typedef struct Data
 {
     int dia;
@@ -30,12 +31,13 @@ typedef struct Restaurante
     
 } Restaurante;
 
-
-typedef struct Colecao_restaurante
+typedef struct ColecaoRestaurante
 {
     int tamanho;
     Restaurante restaurantes[500];
-} Colecao_restaurante;
+} ColecaoRestaurante;
+
+
 
 /**
  * @author Gabriel Ferreira Pereira
@@ -154,6 +156,7 @@ Restaurante ler_restaurante( char *linha )
     }
 
     r.tipo1[k] = '\0';
+
     j++; k = 0;
 
     while ( cozinha[j] != '\0' )
@@ -243,11 +246,11 @@ void formatar_restaurante( Restaurante *r, char *saida_linha )
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param colecao objeto Colecao_restaurante
+ * @param colecao objeto ColecaoRestaurante
  * @reason Retorna a quantidade de restaurantes da colecao
  * @return tamanho da colecao
  */
-int get_tamanho( Colecao_restaurante *colecao )
+int get_tamanho( ColecaoRestaurante *colecao )
 {
     return colecao->tamanho;
 }
@@ -257,7 +260,7 @@ int get_tamanho( Colecao_restaurante *colecao )
  * @param colecao, r
  * @reason Adiciona um restaurante na colecao
  */
-void adicionar( Colecao_restaurante *colecao, Restaurante r )
+void adicionar( ColecaoRestaurante *colecao, Restaurante r )
 {
     colecao->restaurantes[colecao->tamanho] = r;
     colecao->tamanho++;
@@ -265,21 +268,21 @@ void adicionar( Colecao_restaurante *colecao, Restaurante r )
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param colecao objeto Colecao_restaurante
+ * @param colecao objeto ColecaoRestaurante
  * @reason Retorna o array de restaurantes da colecao
  * @return ponteiro para o array de restaurantes
  */
-Restaurante* get_restaurantes( Colecao_restaurante *colecao )
+Restaurante* get_restaurantes( ColecaoRestaurante *colecao )
 {
     return colecao->restaurantes;
 }
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param colecao objeto Colecao_restaurante
+ * @param colecao objeto ColecaoRestaurante
  * @reason Imprime todos os restaurantes da colecao formatados
  */
-void imprimir( Colecao_restaurante *colecao )
+void imprimir( ColecaoRestaurante *colecao )
 {
     char saida_linha[500];
     for ( int i = 0; i < colecao->tamanho; i++ )
@@ -294,9 +297,9 @@ void imprimir( Colecao_restaurante *colecao )
  * @reason Le o dataset do arquivo CSV e retorna a colecao de restaurantes
  * @return colecao de restaurantes
  */
-Colecao_restaurante ler_csv()
+ColecaoRestaurante ler_csv()
 {
-    Colecao_restaurante colecao;
+    ColecaoRestaurante colecao;
     colecao.tamanho = 0;
 
     FILE *f = fopen("restaurante.csv", "r");
@@ -309,7 +312,7 @@ Colecao_restaurante ler_csv()
     for ( int i = 0; i < 500; i++ )
     {
         fgets(linha, 500, f);
-        
+
         // substitui o \n por \0 para encerrar a string
         while ( linha[j] != '\n' && linha[j] != '\0' )
         {
@@ -322,6 +325,5 @@ Colecao_restaurante ler_csv()
     }
 
     fclose(f);
-
     return colecao;
 }
