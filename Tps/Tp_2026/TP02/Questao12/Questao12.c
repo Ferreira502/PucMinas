@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define MAX 100
+#define MAX 500
 
 
 typedef struct Data
@@ -377,8 +377,9 @@ void inserir( Pilha *p, Restaurante r )
 {
     if ( pilha_cheia(p) )
     {
-        printf("Erro: pilha cheia!\n");
+        printf("Erro\n");
     }
+    
     else
     {
         p->topo++;
@@ -396,7 +397,7 @@ Restaurante remover( Pilha *p )
 {
     if ( pilha_vazia(p) )
     {
-        printf("Erro: pilha vazia!\n");
+        printf("Erro\n");
         Restaurante vazio;
         vazio.id = -1;
         return vazio;
