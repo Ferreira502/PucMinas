@@ -37,7 +37,6 @@ class Matriz
     {
         inicio = new Celula();
         Celula tmp = inicio;
-        Celula anterior = inicio;
 
         for (int i = 0; i < linha; i++)
         {
@@ -198,65 +197,6 @@ class Matriz
         }
     }
 
-    // Remove uma coluna da matriz
-    public void removerColuna(int colunaRemover) {
-        if (colunaRemover < 0 || colunaRemover >= this.coluna) {
-            System.out.println("Índice de coluna inválido!");
-            return;
-        }
-
-        // Caso especial: remover a primeira coluna (coluna 0)
-        if (colunaRemover == 0) {
-            Celula tmp = inicio;
-            while (tmp != null) {
-                tmp = tmp.inf;
-                if (inicio != null) {
-                    inicio = inicio.dir; // muda o início da matriz
-                    if (inicio != null) inicio.esq = null;
-                }
-            }
-        } else {
-            // Caminhar até a coluna anterior à que será removida
-            Celula tmpLinha = inicio;
-            for (int i = 0; i < linha; i++) {
-                Celula tmpColuna = tmpLinha;
-                for (int j = 0; j < colunaRemover - 1; j++) {
-                    tmpColuna = tmpColuna.dir;
-                }
-
-                Celula remover = tmpColuna.dir;
-                if (remover != null) {
-                    // Ajusta os ponteiros
-                    tmpColuna.dir = remover.dir;
-                    if (remover.dir != null)
-                        remover.dir.esq = tmpColuna;
-                    // Desconecta a célula removida
-                    remover.dir = remover.esq = remover.sup = remover.inf = null;
-                }
-
-                tmpLinha = tmpLinha.inf;
-            }
-        }
-
-        this.coluna--; // Atualiza o número de colunas
-        System.out.println("Coluna " + colunaRemover + " removida com sucesso!");
-    }
-
-
-    public static void main(String[] args) 
-    {
-        int valores = 1;
-        Matriz m = new Matriz(3, 3);
-        m.preencherMatriz(3, 3, valores);
-        m.mostrar(3, 3);
-        m.diagonalPrincipal(3, 3);
-        m.diagonalSecundaria(3, 3);
-
-        // m.removerColuna(1); // remove a segunda coluna
-        // System.out.println("\nApós remover a coluna 1:");
-        // m.mostrar(3, 3);
-    }
-
     // Mostrar uma coluna específica da matriz
     public void mostrarColuna(int colunaSelecionada) {
         if (colunaSelecionada < 0 || colunaSelecionada >= this.coluna) {
@@ -362,4 +302,17 @@ class Matriz
         System.out.println("Coluna " + colunaRemover + " removida com sucesso!");
     }
 
+    public static void main(String[] args) 
+    {
+        int valores = 1;
+        Matriz m = new Matriz(3, 3);
+        m.preencherMatriz(3, 3, valores);
+        m.mostrar(3, 3);
+        m.diagonalPrincipal(3, 3);
+        m.diagonalSecundaria(3, 3);
+
+        // m.removerColuna(1); // remove a segunda coluna
+        // System.out.println("\nApós remover a coluna 1:");
+        // m.mostrar(3, 3);
+    }
 }
