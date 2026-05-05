@@ -10,7 +10,7 @@ class Celula
 
     public Celula( int elemento ) 
     {
-      this.elemento = elemento;
-      this.prox = null;
+        this.elemento = elemento;
+        this.prox = null;
 	}
 }

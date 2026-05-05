@@ -17,26 +17,24 @@ class Fila
 
     public int remover()
     {
-	int resp;
+	    int resp;
 
         if ( primeiro == ultimo )
         {
            resp = -1;
         }
 
-	else 
-	{
-
+	    else 
+	    {
         	Celula tmp = primeiro;
         	primeiro = primeiro.prox;
         	int elemento = primeiro.elemento;
-		tmp.prox = null;
+		    tmp.prox = null;
         	tmp = null;
-        // esta faltando  andar Com o Primeiro 
         	resp =  elemento;
-	}
+	    }
 
-	return resp;
+	    return resp;
     }
 
     public void mostrar()
@@ -46,21 +44,22 @@ class Fila
             System.out.print(i.elemento + " ");
         }
 
-	System.out.println("");
+        System.out.println("");
     }
 
     public boolean pesquisar ( int x )
     {
-	boolean resp = false;
-	for ( Celula i = primeiro; i != null; i = i.prox )
-	{
-		if ( i.elemento == x )
-		{
-			resp = true;
-		}
-	}
+        boolean resp = false;
 
-	return resp;
+        for ( Celula i = primeiro.prox; i != null; i = i.prox )
+        {
+            if ( i.elemento == x )
+            {
+                resp = true;
+            }
+        }
+
+        return resp;
     }
 
 }
