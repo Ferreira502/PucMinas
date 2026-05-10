@@ -19,7 +19,19 @@ class Main
 			if ( op == 'D' )
 			{
 				resposta = fila.remover();
-				System.out.println("" + resposta);
+
+				if ( resposta == -1 ) 
+				{
+					System.out.print("" + resposta);	
+				}
+
+				else 
+				{
+					System.out.println("" + resposta);	
+
+				}
+
+				
 			}
 
 			else if ( op == 'E')
