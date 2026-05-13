@@ -1,3 +1,6 @@
+// ArvoreLista, funcao que apenas pesquisa o primeiro caracter de uma palavra verifica se existe na arvore 
+// e se existir ele entra na lista e pesquisa a palavra, tanto de forma ordenada ou nao, depois ele insere a palavra que ele recebeu e pesquisou
+
 class Celula
 {
     String palavra;
