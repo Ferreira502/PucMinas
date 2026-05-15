@@ -15,7 +15,7 @@ public class Main
         {
             int menor = i;
             
-            for ( int j = i + 1; j < tamanho; j++ )
+            for ( int j = i + 1; j < tamanho; j++ ) 
             {
                 comparacoes[0]++; // avanca comparacoes
                 

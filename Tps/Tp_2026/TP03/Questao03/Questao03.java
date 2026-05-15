@@ -97,7 +97,6 @@ class Hora
     }
 }
 
-
 class Restaurante
 {
     private int id;
@@ -279,7 +278,6 @@ class Restaurante
         }
 
         Restaurante restaurante = new Restaurante(id, nome, cidade, capacidade, avaliacao, tiposCozinha, faixaPreco, horarioAbertura, horarioFechamento, dataAbertura, aberto);
-        
         return restaurante;    
     }
 
@@ -298,7 +296,6 @@ class Restaurante
             avaliacao + " ## " + tipos + " ## " + faixaPreco + " ## " + 
             horario + " ## " + data + " ## " + aberto + "]";
     }
-
 }
 
 class ColecaoRestaurante 
@@ -362,7 +359,7 @@ class ColecaoRestaurante
      */
     public static ColecaoRestaurante lerCsv() throws Exception
     {
-        ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[550]);
+        ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[500]);
         Scanner sc = new Scanner(new File("/tmp/restaurantes.csv"));
         
         sc.nextLine();
@@ -378,89 +375,135 @@ class ColecaoRestaurante
     }
 }
 
-class Questao05
-{
 
+class Questao03
+{
     /**
      * @author Gabriel Ferreira Pereira
-     * @param selecionados, tamanho, nome, contadores
-     * @reason funcao que faz a pesquisa Sequencial para achar o nome do restaurante de acordo com id fonecido
-     * @return resp
+     * @param selecionados, esq, dir, k, contadores
+     * @reason Funcao recursiva do quicksortParcial parcial
      */
-    public static boolean pesqSeq( Restaurante[] selecionados, int tamanho, String nome, int[] contadores )
+    public static void quicksortParcial( Restaurante[] selecionados, int tamanho, int[] contadores, int k )
     {
-        boolean resp = false;
+        quicksortParcial(selecionados, 0, tamanho - 1, k, contadores);
+    }
 
-        for ( int i = 0; i < tamanho; i++ )
+    private static void quicksortParcial( Restaurante[] selecionados, int esq, int dir, int k, int[] contadores )
+    {
+        int i = esq;
+        int j = dir;
+        Restaurante pivo = selecionados[ ( esq + dir ) / 2 ];
+
+        while ( i <= j )
         {
-            contadores[0]++;
-            if ( selecionados[i].getNome().compareTo(nome) == 0 )
+            while ( selecionados[i].getAvaliacao() < pivo.getAvaliacao() || (selecionados[i].getAvaliacao() == pivo.getAvaliacao()
+                && selecionados[i].getNome().compareTo(pivo.getNome()) < 0) )
             {
-                resp = true;
-                i = tamanho;
+                contadores[0]++;
+                i++;
+            }
+            contadores[0]++;
+
+            while ( selecionados[j].getAvaliacao() > pivo.getAvaliacao() || (selecionados[j].getAvaliacao() == pivo.getAvaliacao()
+                && selecionados[j].getNome().compareTo(pivo.getNome()) > 0) )
+            {
+                contadores[0]++;
+                j--;
+            }
+            contadores[0]++;
+
+            if ( i <= j )
+            {
+                Restaurante temp = selecionados[i];
+                selecionados[i] = selecionados[j];
+                selecionados[j] = temp;
+                contadores[1] += 3;
+                i++;
+                j--;
             }
         }
-        
-        return resp;
+
+        if (esq < j)
+        {
+            quicksortParcial(selecionados, esq, j, k, contadores);
+        }
+
+        if (i < dir && i < k)
+        {
+            quicksortParcial(selecionados, i, dir, k, contadores);
+        }
     }
 
     /**
      * @author Gabriel Ferreira Pereira
      * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
-     *         e chama a funcao de pesquisa e exibe na tela SIM ou NAO se o nome fornecido esta na pesquisa
+     *         e exibe na tela a lista de restaurantes selecionados
      */
-
-    public static void main( String[] args ) throws Exception
+    public static void main(String[] args) throws Exception
     {
         Scanner sc = new Scanner(System.in);
+        
         ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
         Restaurante[] restaurantes = colecao.getRestaurantes();
         Restaurante[] selecionados = new Restaurante[500];
 
-        int tamanho = 0;
+        int tamanho  = 0;
+        int k = 10;
         int id = 0;
+        long inicio, fim;
 
-        while ( ( id = sc.nextInt() ) != -1 )
+        while ((id = sc.nextInt()) != -1)
         {
-            for ( int i = 0; i < colecao.getTamanho(); i++ )
+            for (int i = 0; i < colecao.getTamanho(); i++)
             {
-                if ( restaurantes[i].getID() == id )
+                if (restaurantes[i].getID() == id)
                 {
                     selecionados[tamanho] = restaurantes[i];
                     tamanho++;
                 }
             }
         }
+  
+        int[] contadores = new int[]{0, 0};
+        inicio = System.currentTimeMillis();
 
-        int[] comparacoes = new int[]{0};
-        long inicio = System.currentTimeMillis();
-
-        PrintWriter log = new PrintWriter("842527_sequencial.txt");
-
-        sc.nextLine();    // pega o \n do nextInt de -1
-        
-        String nome;
-        nome = sc.nextLine(); 
-
-        while ( nome.length() != 3 || nome.charAt(0) != 'F' || nome.charAt(1) != 'I' || nome.charAt(2) != 'M' )
+        if (tamanho > 0)
         {
-            if ( pesqSeq(selecionados, tamanho, nome, comparacoes) )
-            {
-                System.out.println("SIM");
-            }
-
-            else
-            {
-                System.out.println("NAO");
-            }
-
-            nome = sc.nextLine();
+            quicksortParcial(selecionados, tamanho, contadores, k);
         }
 
-        long fim = System.currentTimeMillis();
+        fim = System.currentTimeMillis();
 
-        log.println("Comparacoes: " + comparacoes[0]);
+        boolean ordenado = true;
+
+        int limite = tamanho;
+
+        if (limite > k)
+        {
+            limite = k;
+        }
+
+        for (int i = 0; i < limite - 1; i++)
+        {
+            if (selecionados[i].getAvaliacao() > selecionados[i + 1].getAvaliacao() || (selecionados[i].getAvaliacao() == selecionados[i + 1].getAvaliacao()
+                && selecionados[i].getNome().compareTo(selecionados[i + 1].getNome()) > 0))
+            {
+                ordenado = false;
+            }
+        }
+        
+        PrintWriter log = new PrintWriter("842527_quicksort_parcial.txt");
+        log.println("Tempo para ordenar: " + (fim - inicio) / 1000.0 + " s.");
+        log.println("isOrdenado: " + ordenado);
+        log.println("Comparacoes: " + contadores[0]);
+        log.println("Movimentacoes: " + contadores[1]);
         log.close();
+
+        for (int j = 0; j < tamanho; j++)
+        {
+            System.out.println(selecionados[j].formatar());
+        }
+
+        sc.close();
     }
 }
-
