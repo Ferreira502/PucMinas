@@ -3,16 +3,16 @@
 
 #include "Restaurante.h"
 
-typedef struct ColecaoRestaurante
+typedef struct Colecao_restaurante
 {
     int tamanho;
     Restaurante restaurantes[500];
-} ColecaoRestaurante;
+} Colecao_restaurante;
 
-int get_tamanho(ColecaoRestaurante*);
-void adicionar(ColecaoRestaurante*, Restaurante);
-Restaurante* get_restaurantes(ColecaoRestaurante*);
-void imprimir(ColecaoRestaurante*);
-ColecaoRestaurante ler_csv();
+int get_tamanho(Colecao_restaurante*);
+void adicionar(Colecao_restaurante*, Restaurante);
+Restaurante* get_restaurantes(Colecao_restaurante*);
+void imprimir(Colecao_restaurante*);
+Colecao_restaurante ler_csv();
 
 #endif

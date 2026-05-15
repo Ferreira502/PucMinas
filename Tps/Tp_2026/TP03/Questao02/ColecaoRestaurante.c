@@ -4,11 +4,11 @@
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param colecao objeto ColecaoRestaurante
+ * @param colecao objeto Colecao_restaurante
  * @reason Retorna a quantidade de restaurantes da colecao
  * @return tamanho da colecao
  */
-int get_tamanho( ColecaoRestaurante *colecao )
+int get_tamanho( Colecao_restaurante *colecao )
 {
     return colecao->tamanho;
 }
@@ -18,7 +18,7 @@ int get_tamanho( ColecaoRestaurante *colecao )
  * @param colecao, r
  * @reason Adiciona um restaurante na colecao
  */
-void adicionar( ColecaoRestaurante *colecao, Restaurante r )
+void adicionar( Colecao_restaurante *colecao, Restaurante r )
 {
     colecao->restaurantes[colecao->tamanho] = r;
     colecao->tamanho++;
@@ -26,21 +26,21 @@ void adicionar( ColecaoRestaurante *colecao, Restaurante r )
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param colecao objeto ColecaoRestaurante
+ * @param colecao objeto Colecao_restaurante
  * @reason Retorna o array de restaurantes da colecao
  * @return ponteiro para o array de restaurantes
  */
-Restaurante* get_restaurantes( ColecaoRestaurante *colecao )
+Restaurante* get_restaurantes( Colecao_restaurante *colecao )
 {
     return colecao->restaurantes;
 }
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param colecao objeto ColecaoRestaurante
+ * @param colecao objeto Colecao_restaurante
  * @reason Imprime todos os restaurantes da colecao formatados
  */
-void imprimir( ColecaoRestaurante *colecao )
+void imprimir( Colecao_restaurante *colecao )
 {
     char saida_linha[500];
     for ( int i = 0; i < colecao->tamanho; i++ )
@@ -55,9 +55,9 @@ void imprimir( ColecaoRestaurante *colecao )
  * @reason Le o dataset do arquivo CSV e retorna a colecao de restaurantes
  * @return colecao de restaurantes
  */
-ColecaoRestaurante ler_csv()
+Colecao_restaurante ler_csv()
 {
-    ColecaoRestaurante colecao;
+    Colecao_restaurante colecao;
     colecao.tamanho = 0;
 
     FILE *f = fopen("restaurante.csv", "r");
