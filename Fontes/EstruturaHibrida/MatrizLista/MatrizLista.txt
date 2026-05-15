@@ -1,0 +1,17 @@
+inserirLis
+
+void diagonalPrincipal ( int x ) 
+{
+    Celula i = inicio;
+
+    while ( i != null )
+    {
+        inserirLista ( i.primeiro, int x)
+        i = i.inf;
+
+        if ( i.inf != null )
+        {
+            i = i.dir;
+        }
+    }
+}
