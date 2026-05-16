@@ -1,105 +1,6 @@
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.*;
-
-class Data
-{
-    private int ano;
-    private int mes;
-    private int dia;
-    
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param ano mes e dia da data
-     * @reason Construtor da classe Data
-     */
-    public Data ( int ano, int mes, int dia ) 
-    {
-        this.ano = ano;
-        this.mes = mes;
-        this.dia = dia;    
-    }
-
-    public int getAno()
-    {
-        return this.ano;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param s String no formato YYYY-MM-DD
-     * @reason Converte uma String para um objeto Data
-     * @return objeto Data correspondente
-     */
-    public static Data parseData( String s )
-    {
-        Scanner sc = new Scanner(s);
-        sc.useDelimiter("-");
-        int ano = sc.nextInt();
-        int mes = sc.nextInt();
-        int dia = sc.nextInt();
-
-        Data data = new Data ( ano, mes, dia );
-        
-        return data;
-    }
-    
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Retorna a data no formato DD/MM/YYYY
-     * @return String com a data formatada
-     */
-    public String formatarData ()
-    {
-        String s = String.format("%02d/%02d/%04d", dia,mes,ano);
-        return s;
-    }
-}
-
-class Hora
-{
-    private int hora;
-    private int minuto;
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param hora e minuto da hora
-     * @reason Construtor da classe Hora
-     */
-    public Hora ( int hora, int minuto )
-    {
-        this.hora = hora;
-        this.minuto = minuto;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param s String no formato HH:mm
-     * @reason Converte uma String para um objeto Hora
-     * @return objeto Hora correspondente
-     */
-    public static Hora parseHora ( String s )
-    {
-        Scanner sc = new Scanner(s);
-        sc.useDelimiter(":");
-        int hora1 = sc.nextInt();
-        int minuto = sc.nextInt();
-
-        Hora hora = new Hora(hora1, minuto);
-
-        return hora;
-    }
-    
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Retorna a hora no formato HH:mm
-     * @return String com a hora formatada
-     */
-    public String formatarHora ()
-    {
-        String s = String.format("%02d:%02d", hora, minuto);
-        return s;
-    }
-}
 
 class Restaurante
 {
@@ -210,7 +111,6 @@ class Restaurante
         for ( int i = 0; i < s.length(); i++ )
         {
             char c = s.charAt(i);
-            
             if (c == '.')
             {
                 ponto = true;
@@ -229,6 +129,7 @@ class Restaurante
 
         return inteiro + decimal / 10.0;
     }
+
     /**
      * @author Gabriel Ferreira Pereira
      * @param path caminho do arquivo CSV
@@ -363,7 +264,7 @@ class ColecaoRestaurante
      */
     public static ColecaoRestaurante lerCsv() throws Exception
     {
-        ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[550]);
+        ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[500]);
         Scanner sc = new Scanner(new File("/tmp/restaurantes.csv"));
         
         sc.nextLine();
@@ -379,159 +280,269 @@ class ColecaoRestaurante
     }
 }
 
-class Fila
+class Data
 {
-    private Restaurante[] array;
-    private int primeiro;
-    private int ultimo;
-
+    private int ano;
+    private int mes;
+    private int dia;
+    
     /**
      * @author Gabriel Ferreira Pereira
-     * @reason Construtor da classe Fila com tamanho 5
+     * @param ano mes e dia da data
+     * @reason Construtor da classe Data
      */
-    public Fila()
+    public Data ( int ano, int mes, int dia ) 
     {
-        array = new Restaurante[6]; // tamanho 5 + 1
-        primeiro = ultimo = 0;
+        this.ano = ano;
+        this.mes = mes;
+        this.dia = dia;    
     }
 
     /**
      * @author Gabriel Ferreira Pereira
-     * @reason Verifica se a fila esta cheia
+     * @param s String no formato YYYY-MM-DD
+     * @reason Converte uma String para um objeto Data
+     * @return objeto Data correspondente
      */
-    public boolean isCheia()
+    public static Data parseData( String s )
     {
-        return ( ( ultimo + 1 ) % array.length ) == primeiro;
+        Scanner sc = new Scanner(s);
+        sc.useDelimiter("-");
+        int ano = sc.nextInt();
+        int mes = sc.nextInt();
+        int dia = sc.nextInt();
+
+        Data data = new Data ( ano, mes, dia );
+        
+        return data;
+    }
+    
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @reason Retorna a data no formato DD/MM/YYYY
+     * @return String com a data formatada
+     */
+    public String formatarData ()
+    {
+        String s = String.format("%02d/%02d/%04d", dia,mes,ano);
+        return s;
+    }
+}
+
+class Hora
+{
+    private int hora;
+    private int minuto;
+
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param hora e minuto da hora
+     * @reason Construtor da classe Hora
+     */
+    public Hora ( int hora, int minuto )
+    {
+        this.hora = hora;
+        this.minuto = minuto;
     }
 
     /**
      * @author Gabriel Ferreira Pereira
-     * @reason Verifica se a fila esta vazia
+     * @param s String no formato HH:mm
+     * @reason Converte uma String para um objeto Hora
+     * @return objeto Hora correspondente
      */
-    public boolean isVazia()
+    public static Hora parseHora ( String s )
     {
-        return primeiro == ultimo;
-    }
+        Scanner sc = new Scanner(s);
+        sc.useDelimiter(":");
+        int hora1 = sc.nextInt();
+        int minuto = sc.nextInt();
 
+        Hora hora = new Hora(hora1, minuto);
+
+        return hora;
+    }
+    
     /**
      * @author Gabriel Ferreira Pereira
-     * @param restaurante Restaurante a ser inserido
-     * @reason Insere um restaurante no fim da fila.
-     *         Se a fila estiver cheia, remove o primeiro antes de inserir
+     * @reason Retorna a hora no formato HH:mm
+     * @return String com a hora formatada
      */
-    public void inserir( Restaurante restaurante ) throws Exception
+    public String formatarHora ()
     {
-        if ( isCheia() )
+        String s = String.format("%02d:%02d", hora, minuto);
+        return s;
+    }
+}
+
+class No
+{
+    Restaurante elemento;
+    No esq, dir;
+
+    public No( Restaurante elemento )
+    {
+        this.elemento = elemento;
+        esq = dir = null;
+    }
+}
+
+class ArvoreBinaria
+{
+    private No raiz;
+
+    public ArvoreBinaria()
+    {
+        raiz = null;
+    }
+
+    public void inserir( Restaurante r )
+    {
+        raiz = inserir( raiz, r );
+    }
+
+    private No inserir( No i, Restaurante r )
+    {
+        if ( i == null )
         {
-            Restaurante r = remover();
-            System.out.println("(R)" + r.getNome());
+            i = new No(r);
         }
 
-        array[ultimo] = restaurante;
-        ultimo = ( ultimo + 1 ) % array.length;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Remove e retorna o primeiro restaurante da fila
-     */
-    public Restaurante remover() throws Exception
-    {
-        if ( isVazia() )
+        else if ( r.getNome().compareTo( i.elemento.getNome() ) > 0 )
         {
-            throw new Exception("Erro ao remover!");
+            i.dir = inserir( i.dir, r );
         }
 
-        Restaurante resp = array[primeiro];
-        primeiro = ( primeiro + 1 ) % array.length;
-        return resp;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Calcula a media arredondada do ano de abertura dos restaurantes na fila
-     */
-    public int mediaAno()
-    {
-        int soma = 0;
-        int count = 0;
-
-        for ( int i = primeiro; i != ultimo; i = ( i + 1 ) % array.length )
+        else if ( r.getNome().compareTo( i.elemento.getNome() ) < 0 )
         {
-            soma += array[i].getDataAbertura().getAno();
-            count++;
+            i.esq = inserir( i.esq, r );
         }
 
-        return (int)( ( soma + count / 2 ) / count );
+        return i;
     }
 
     /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Mostra os restaurantes da fila formatados
-     */
-    public void mostrar()
+	 * Metodo publico iterativo para pesquisar elemento.
+	 * @param x Elemento que sera procurado.
+	 * @return <code>true</code> se o elemento existir,
+	 * <code>false</code> em caso contrario.
+	 */
+	public void pesquisar( String nome )
     {
-        for ( int i = primeiro; i != ultimo; i = ( i + 1 ) % array.length )
+        pesquisar( raiz, nome, true );
+    }
+
+
+	/**
+	 * Metodo privado recursivo para pesquisar elemento.
+	 * @param x Elemento que sera procurado.
+	 * @param i No em analise.
+	 */
+	private void pesquisar( No i, String nome, boolean raizFlag )
+    {
+        if ( i == null )
         {
-            System.out.println(array[i].formatar());
+            System.out.println(" NAO");
+            return;
+        }
+
+        int cmp = nome.compareTo( i.elemento.getNome() );
+
+        if ( raizFlag )
+        {
+            System.out.print("raiz");
+        }
+
+        if ( cmp == 0 )
+        {
+            System.out.println(" SIM");
+        }
+        else if ( cmp > 0 )
+        {
+            System.out.print(" dir");
+            pesquisar( i.dir, nome, false );
+        }
+        else
+        {
+            System.out.print(" esq");
+            pesquisar( i.esq, nome, false );
+        }
+    }
+
+	/**
+	 * Metodo publico iterativo para exibir elementos.
+	 */
+    public void caminharCentral()
+    {
+        if ( raiz == null )
+        {
+            System.out.println("V");
+        }
+        else
+        {
+            caminharCentral( raiz );
+        }
+    }
+
+    /**
+	 * Metodo privado recursivo para exibir elementos.
+	 * @param i No em analise.
+	 */
+    private void caminharCentral( No i )
+    {
+        if ( i != null )
+        {
+            caminharCentral( i.esq );
+            System.out.println( i.elemento.formatar() );
+            caminharCentral( i.dir );
         }
     }
 }
 
-class Questao13 
+class Questao12
 {
     /**
      * @author Gabriel Ferreira Pereira
-     * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
-     * e adiciona na lista circular e imprime o que foi pedido
+     * @reason Insere restaurantes na arvore binaria por nome,
+     *         pesquisa chaves e exibe caminhamento em ordem
      */
-    public static void main( String[] args ) throws Exception
+    public static void main(String[] args) throws Exception
     {
-
-        Scanner sc = new Scanner(System.in);
         ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
         Restaurante[] restaurantes = colecao.getRestaurantes();
+        Scanner sc = new Scanner(System.in);
+        ArvoreBinaria arvore = new ArvoreBinaria();
 
-        Fila fila = new Fila();
-        int id = 0;
+        int id = sc.nextInt();
 
-        while ( ( id = sc.nextInt() ) != -1 )
+        while ( id != -1 )
         {
             for ( int i = 0; i < colecao.getTamanho(); i++ )
             {
                 if ( restaurantes[i].getID() == id )
                 {
-                    fila.inserir(restaurantes[i]);
-                    System.out.println("(I)" + fila.mediaAno());
+                    arvore.inserir( restaurantes[i] );
                 }
             }
+
+            id = sc.nextInt();
         }
 
-        int n = sc.nextInt();
+        sc.nextLine();
 
-        for ( int i = 0; i < n; i++ )
+        String nome = sc.nextLine();
+
+        while ( nome.compareTo("FIM") != 0 )
         {
-            
-            String comando = sc.next();
-
-            if ( comando.compareTo("I") == 0 )
-            {
-                id = sc.nextInt();
-                for ( int j = 0; j < colecao.getTamanho(); j++ )
-                    if ( restaurantes[j].getID() == id )
-                    {
-                        fila.inserir(restaurantes[j]);
-                        System.out.println("(I)" + fila.mediaAno());
-                    }
-            }
-            
-            else if ( comando.compareTo("R") == 0 )
-            {
-                Restaurante r = fila.remover();
-                System.out.println("(R)" + r.getNome());
-            }
+            arvore.pesquisar( nome );
+            nome = sc.nextLine();
         }
 
-        fila.mostrar();
+        arvore.caminharCentral();
+
+        PrintWriter log = new PrintWriter("842527_arvore_binaria.txt");
+        log.close();
+
+        sc.close();
     }
 }

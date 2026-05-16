@@ -18,11 +18,6 @@ class Data
         this.dia = dia;    
     }
 
-    public int getAno()
-    {
-        return this.ano;
-    }
-
     /**
      * @author Gabriel Ferreira Pereira
      * @param s String no formato YYYY-MM-DD

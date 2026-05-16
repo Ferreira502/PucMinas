@@ -100,30 +100,21 @@ class Restaurante
      * @reason Converte uma String para double manualmente
      * @return numero real
      */
-    public static double parseDouble( String s )
+    public static double parseDouble(String s)
     {
         int inteiro = 0;
         int decimal = 0;
         boolean ponto = false;
 
-        for ( int i = 0; i < s.length(); i++ )
+        for (int i = 0; i < s.length(); i++)
         {
             char c = s.charAt(i);
-            
             if (c == '.')
-            {
                 ponto = true;
-            }
-            
-            else if ( ponto == false) 
-            {
+            else if (!ponto)
                 inteiro = inteiro * 10 + (c - '0');
-            }
-
             else
-            {
                 decimal = decimal * 10 + (c - '0');
-            }
         }
 
         return inteiro + decimal / 10.0;
