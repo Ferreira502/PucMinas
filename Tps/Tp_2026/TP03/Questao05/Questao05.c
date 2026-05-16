@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct Data
 {
@@ -304,6 +306,7 @@ Colecao_restaurante ler_csv()
     for ( int i = 0; i < 500; i++ )
     {
         fgets(linha, 500, f);
+        j = 0;
 
         // substitui o \n por \0 para encerrar a string
         while ( linha[j] != '\n' && linha[j] != '\0' )
@@ -320,29 +323,293 @@ Colecao_restaurante ler_csv()
     return colecao;
 }
 
+
+typedef struct Celula 
+{
+	Restaurante elemento;
+	struct Celula* prox;
+} Celula;
+
+Celula* primeiro;
+Celula* ultimo;
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param restaurante
+ * @reason Cria uma nova celula da lista flexivel
+ * @return ponteiro para a nova celula
+ */
+Celula* novaCelula( Restaurante restaurante ) 
+{
+   Celula* nova = (Celula*) malloc(sizeof(Celula));
+   nova->elemento = restaurante;
+   nova->prox = NULL;
+   return nova;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Cria uma lista sem elementos com celula cabeca
+ */
+void start () 
+{
+   Restaurante restaurante_vazio;
+   memset(&restaurante_vazio, 0, sizeof(Restaurante));
+   primeiro = novaCelula(restaurante_vazio);
+   ultimo = primeiro;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param restaurante
+ * @reason Insere um restaurante na primeira posicao da lista
+ */
+void inserirInicio( Restaurante restaurante ) 
+{
+   Celula* tmp = novaCelula(restaurante);
+   tmp->prox = primeiro->prox;
+   primeiro->prox = tmp;
+
+   if ( primeiro == ultimo ) 
+   {                    
+        ultimo = tmp;
+   }
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param restaurante
+ * @reason Insere um restaurante na ultima posicao da lista
+ */
+void inserirFim( Restaurante restaurante ) 
+{
+   ultimo->prox = novaCelula(restaurante);
+   ultimo = ultimo->prox;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Remove um restaurante da primeira posicao da lista
+ * @return restaurante removido
+ */
+Restaurante removerInicio() 
+{
+   Celula* tmp = primeiro->prox;
+   Restaurante resp = tmp->elemento;
+   primeiro->prox = tmp->prox;
+
+   if ( tmp == ultimo )
+   {
+      ultimo = primeiro;
+   }
+
+   tmp->prox = NULL;
+   free(tmp);
+   return resp;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Remove um restaurante da ultima posicao da lista
+ * @return restaurante removido
+ */
+Restaurante removerFim() 
+{
+   Celula* i;
+
+   for ( i = primeiro; i->prox != ultimo; i = i->prox );
+
+   Restaurante resp = ultimo->elemento;
+   free(ultimo);
+   ultimo = i;
+   ultimo->prox = NULL;
+
+   return resp;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Calcula e retorna o tamanho da lista
+ * @return tamanho da lista
+ */
+int tamanho() 
+{
+   int tamanho = 0;
+   Celula* i;
+   for ( i = primeiro; i != ultimo; i = i->prox, tamanho++ );
+   return tamanho;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param restaurante, pos
+ * @reason Insere um restaurante em uma posicao especifica da lista
+ */
+void inserir( Restaurante restaurante, int pos ) 
+{
+   int tam = tamanho();
+
+   if ( pos == 0 )
+   {
+      inserirInicio(restaurante);
+   } 
+   else if ( pos == tam )
+   {
+      inserirFim(restaurante);
+   } 
+   else 
+   {
+      int j;
+      Celula* i = primeiro;
+
+      for ( j = 0; j < pos; j++, i = i->prox );
+
+      Celula* tmp = novaCelula(restaurante);
+      tmp->prox = i->prox;
+      i->prox = tmp;
+   }
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param pos
+ * @reason Remove um restaurante de uma posicao especifica da lista
+ * @return restaurante removido
+ */
+Restaurante remover( int pos ) 
+{
+   Restaurante resp;
+   int tam = tamanho();
+
+   if ( pos == 0 )
+   {
+      resp = removerInicio();
+   } 
+
+   else if ( pos == tam - 1 )
+   {
+      resp = removerFim();
+   } 
+
+   else 
+   {
+      Celula* i = primeiro;
+      int j;
+
+      for ( j = 0; j < pos; j++, i = i->prox );
+
+      Celula* tmp = i->prox;
+      resp = tmp->elemento;
+      i->prox = tmp->prox;
+      tmp->prox = NULL;
+      free(tmp);
+   }
+
+   return resp;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Mostra os restaurantes da lista formatados
+ */
+void mostrar() 
+{
+   char saida_linha[500];
+   Celula* i;
+   
+   for ( i = primeiro->prox; i != NULL; i = i->prox ) 
+   {
+      formatar_restaurante(&i->elemento, saida_linha);
+      printf("%s\n", saida_linha);
+   }
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param restaurantes, tamanho, id
+ * @reason Busca um restaurante pelo ID no vetor lido do CSV
+ * @return restaurante encontrado
+ */
+Restaurante buscar_restaurante( Restaurante *restaurantes, int tamanho, int id )
+{
+    for ( int i = 0; i < tamanho; i++ )
+    {
+        if ( restaurantes[i].id == id )
+        {
+            return restaurantes[i];
+        }
+    }
+
+    return restaurantes[0];
+}
+
 /**
  * @author Gabriel Ferreira Pereira
  * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
- *         e exibe na tela a lista de restaurantes selecionados
+ *         e executa os comandos sobre a lista flexivel
  */
 int main()
 {
     Colecao_restaurante colecao = ler_csv();
     Restaurante *restaurantes = get_restaurantes(&colecao);
-    char saida_linha[500];
     int id = 0;
+    int n = 0;
+    char comando[3];
+
+    start();
 
     while ( scanf("%d", &id) && id != -1 )
     {
-        for ( int i = 0; i < get_tamanho(&colecao); i++ )
+        inserirFim(buscar_restaurante(restaurantes, get_tamanho(&colecao), id));
+    }
+
+    scanf("%d", &n);
+
+    for ( int i = 0; i < n; i++ )
+    {
+        scanf("%s", comando);
+
+        if ( comando[0] == 'I' && comando[1] == 'I' )
         {
-            if ( restaurantes[i].id == id )
-            {
-                formatar_restaurante(&restaurantes[i], saida_linha);
-                printf("%s\n", saida_linha);
-            }
+            scanf("%d", &id);
+            inserirInicio(buscar_restaurante(restaurantes, get_tamanho(&colecao), id));
+        }
+
+        else if ( comando[0] == 'I' && comando[1] == '*' )
+        {
+            int pos = 0;
+            scanf("%d %d", &pos, &id);
+            inserir(buscar_restaurante(restaurantes, get_tamanho(&colecao), id), pos);
+        }
+
+        else if ( comando[0] == 'I' && comando[1] == 'F' )
+        {
+            scanf("%d", &id);
+            inserirFim(buscar_restaurante(restaurantes, get_tamanho(&colecao), id));
+        }
+
+        else if ( comando[0] == 'R' && comando[1] == 'I' )
+        {
+            Restaurante removido = removerInicio();
+            printf("(R)%s\n", removido.nome);
+        }
+
+        else if ( comando[0] == 'R' && comando[1] == '*' )
+        {
+            int pos = 0;
+            scanf("%d", &pos);
+            Restaurante removido = remover(pos);
+            printf("(R)%s\n", removido.nome);
+        }
+
+        else if ( comando[0] == 'R' && comando[1] == 'F' )
+        {
+            Restaurante removido = removerFim();
+            printf("(R)%s\n", removido.nome);
         }
     }
+
+    mostrar();
 
     return 0;
 }
