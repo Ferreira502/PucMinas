@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.*;
 
 class Restaurante
@@ -602,98 +603,125 @@ class Lista
    }
 }
 
-
 class Questao11
 {
+
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param selecionados, tamanho, contadores
+     * @reason Ordena o array de restaurantes por avaliacao e desempata por nome
+     */
+    public static void quicksort( Restaurante[] selecionados, int tamanho, int[] contadores )
+    {
+        quicksort(selecionados, 0, tamanho - 1, contadores);
+    }
+
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param selecionados, esq, dir, contadores
+     * @reason Funcao recursiva do quicksort
+     */
+    private static void quicksort( Restaurante[] selecionados, int esq, int dir, int[] contadores )
+    {
+        int i = esq;
+        int j = dir;
+        Restaurante pivo = selecionados[( esq + dir ) / 2];
+
+        while ( i <= j )
+        {
+            while ( selecionados[i].getAvaliacao() < pivo.getAvaliacao() ||
+                   ( selecionados[i].getAvaliacao() == pivo.getAvaliacao() &&
+                     selecionados[i].getNome().compareTo(pivo.getNome()) < 0 ) )
+            {
+                contadores[0]++;
+                i++;
+            }
+            contadores[0]++;
+
+            while ( selecionados[j].getAvaliacao() > pivo.getAvaliacao() ||
+                   ( selecionados[j].getAvaliacao() == pivo.getAvaliacao() &&
+                     selecionados[j].getNome().compareTo(pivo.getNome()) > 0 ) )
+            {
+                contadores[0]++;
+                j--;
+            }
+            contadores[0]++;
+
+            if ( i <= j )
+            {
+                Restaurante tmp = selecionados[i];
+                selecionados[i] = selecionados[j];
+                selecionados[j] = tmp;
+                contadores[1] += 3;
+                i++;
+                j--;
+            }
+        }
+
+        if ( esq < j ) quicksort(selecionados, esq, j, contadores);
+        if ( i < dir ) quicksort(selecionados, i, dir, contadores);
+    }
+
      /**
      * @author Gabriel Ferreira Pereira
      * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
      *         e exibe na tela a lista de restaurantes selecionados
      */
-    public static void main(String[] args) throws Exception 
+    public static void main(String[] args) throws Exception
     {
         Scanner sc = new Scanner(System.in);
+        
         ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
         Restaurante[] restaurantes = colecao.getRestaurantes();
-        Lista lista = new Lista(500);
+        Restaurante[] selecionados = new Restaurante[500];
+
+        int tamanho  = 0;
+        int k = 10;
         int id = 0;
+        long inicio, fim;
 
-        while ((id = sc.nextInt()) != -1) 
+        while ((id = sc.nextInt()) != -1)
         {
-            for (int i = 0; i < colecao.getTamanho(); i++) 
+            for (int i = 0; i < colecao.getTamanho(); i++)
             {
-                if (restaurantes[i].getID() == id) 
+                if (restaurantes[i].getID() == id)
                 {
-                    lista.inserirFim(restaurantes[i]);
+                    selecionados[tamanho] = restaurantes[i];
+                    tamanho++;
                 }
             }
         }
+  
+        int[] contadores = new int[]{0, 0};
+        inicio = System.currentTimeMillis();
 
-        int n = sc.nextInt();
+        quicksort(selecionados, tamanho, contadores);
 
-        for (int i = 0; i < n; i++) 
+        fim = System.currentTimeMillis();
+
+        boolean ordenado = true;
+
+        for (int i = 0; i < tamanho - 1; i++)
         {
-            String comando = sc.next();
-
-            if (comando.compareTo("II") == 0) 
+            if (selecionados[i].getAvaliacao() > selecionados[i + 1].getAvaliacao() || (selecionados[i].getAvaliacao() == selecionados[i + 1].getAvaliacao()
+                && selecionados[i].getNome().compareTo(selecionados[i + 1].getNome()) > 0))
             {
-                id = sc.nextInt();
-                for (int j = 0; j < colecao.getTamanho(); j++) 
-                {
-                    if (restaurantes[j].getID() == id) 
-                    {
-                        lista.inserirInicio(restaurantes[j]);
-                    }
-                }
-
-            } 
-
-            else if (comando.compareTo("I*") == 0) 
-            {
-                int posicao = sc.nextInt();
-                id = sc.nextInt();
-                for (int j = 0; j < colecao.getTamanho(); j++) 
-                {
-                    if (restaurantes[j].getID() == id) 
-                    {
-                        lista.inserir(restaurantes[j], posicao);
-                    }
-                }
-
-            } 
-
-            else if (comando.compareTo("IF") == 0) 
-            {
-                id = sc.nextInt();
-                for (int j = 0; j < colecao.getTamanho(); j++) 
-                {
-                    if (restaurantes[j].getID() == id) 
-                    {
-                        lista.inserirFim(restaurantes[j]);
-                    }
-                }
-            } 
-            
-            else if (comando.compareTo("RI") == 0) 
-            {
-                Restaurante r = lista.removerInicio();
-                System.out.println("(R)" + r.getNome());
-            } 
-            
-            else if (comando.compareTo("R*") == 0) 
-            {
-                int posicao = sc.nextInt();
-                Restaurante r = lista.remover(posicao);
-                System.out.println("(R)" + r.getNome());
-            } 
-            
-            else if (comando.compareTo("RF") == 0) 
-            {
-                Restaurante r = lista.removerFim();
-                System.out.println("(R)" + r.getNome());
+                ordenado = false;
             }
         }
+        
+        PrintWriter log = new PrintWriter("842527_quicksort_parcial.txt");
+        log.println("Tempo para ordenar: " + (fim - inicio) / 1000.0 + " s.");
+        log.println("isOrdenado: " + ordenado);
+        log.println("Comparacoes: " + contadores[0]);
+        log.println("Movimentacoes: " + contadores[1]);
+        log.close();
 
-        lista.mostrar();
-    }   
+        for (int j = 0; j < tamanho; j++)
+        {
+            System.out.println(selecionados[j].formatar());
+        }
+
+        sc.close();
+    }
 }
