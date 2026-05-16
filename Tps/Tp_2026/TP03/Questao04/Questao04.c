@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
 
 typedef struct Data
@@ -368,6 +369,19 @@ int comparar_restaurante( Restaurante *a, Restaurante *b )
 
 /**
  * @author Gabriel Ferreira Pereira
+ * @param array, i, j, contadores
+ * @reason Troca duas posicoes do heap e contabiliza movimentacoes
+ */
+void swap_restaurantes( Restaurante *array, int i, int j, int *contadores )
+{
+    Restaurante temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+    contadores[1] += 3;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
  * @param array, tamHeap, contadores
  * @reason Constroi o heap maximo inserindo um elemento por vez
  */
@@ -375,56 +389,13 @@ void construir( Restaurante *array, int tamHeap, int *contadores )
 {
     for ( int i = tamHeap; i > 1; i /= 2 )
     {
-        // printf("construir: comparando %s com pai %s\n", array[i].nome, array[i / 2].nome);
         contadores[0]++;
 
         if ( comparar_restaurante(&array[i], &array[i / 2]) > 0 )
         {
-            // printf("construir: trocando %s com %s\n", array[i].nome, array[i / 2].nome);
-            Restaurante temp = array[i];
-            array[i] = array[i / 2];
-            array[i / 2] = temp;
-            contadores[1] += 3;
-        }
-
-        else
-        {
-            i = 1;
+            swap_restaurantes(array, i, i / 2, contadores);
         }
     }
-}
-
-/**
- * @author Gabriel Ferreira Pereira
- * @param array, i, tamHeap, contadores
- * @reason Retorna o indice do maior filho de um no heap
- * @return indice do maior filho
- */
-int getMaiorFilho( Restaurante *array, int i, int tamHeap, int *contadores )
-{
-    int filho;
-
-    if ( 2 * i == tamHeap )
-    {
-        filho = 2 * i;
-    }
-
-    else
-    {
-        contadores[0]++;
-
-        if ( comparar_restaurante(&array[2 * i], &array[2 * i + 1]) > 0 )
-        {
-            filho = 2 * i;
-        }
-
-        else
-        {
-            filho = 2 * i + 1;
-        }
-    }
-
-    return filho;
 }
 
 /**
@@ -438,17 +409,33 @@ void reconstruir( Restaurante *array, int tamHeap, int *contadores )
 
     while ( i <= ( tamHeap / 2 ) )
     {
-        int filho = getMaiorFilho(array, i, tamHeap, contadores);
-        // printf("reconstruir: pai %s, maior filho %s\n", array[i].nome, array[filho].nome);
+        int filho;
+
+        if ( 2 * i == tamHeap )
+        {
+            filho = 2 * i;
+        }
+
+        else
+        {
+            contadores[0]++;
+
+            if ( comparar_restaurante(&array[2 * i], &array[( 2 * i ) + 1]) > 0 )
+            {
+                filho = 2 * i;
+            }
+
+            else
+            {
+                filho = ( 2 * i ) + 1;
+            }
+        }
+
         contadores[0]++;
 
         if ( comparar_restaurante(&array[filho], &array[i]) > 0 )
         {
-            // printf("reconstruir: trocando %s com %s\n", array[i].nome, array[filho].nome);
-            Restaurante temp = array[i];
-            array[i] = array[filho];
-            array[filho] = temp;
-            contadores[1] += 3;
+            swap_restaurantes(array, i, filho, contadores);
             i = filho;
         }
 
@@ -461,38 +448,57 @@ void reconstruir( Restaurante *array, int tamHeap, int *contadores )
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param array, n, contadores
- * @reason Ordena o array de restaurantes com heapsort
+ * @param array, n, k, contadores
+ * @reason Ordena parcialmente os k primeiros restaurantes com heapsort
  */
-void heapsort( Restaurante *array, int n, int *contadores )
+void heapsort_parcial( Restaurante *array, int n, int k, int *contadores )
 {
-    Restaurante arrayTmp[501];
+    Restaurante heap[501];
 
-    for ( int i = 0; i < n; i++ )
+    if ( n <= 1 )
     {
-        arrayTmp[i + 1] = array[i];
+        return;
+    }
+
+    if ( k > n )
+    {
+        k = n;
+    }
+
+    for ( int i = 0; i < k; i++ )
+    {
+        heap[i + 1] = array[i];
         contadores[1]++;
     }
 
-    for ( int tamHeap = 2; tamHeap <= n; tamHeap++ )
+    for ( int tamHeap = 2; tamHeap <= k; tamHeap++ )
     {
-        // printf("heapsort: construindo heap com tamanho %d\n", tamHeap);
-        construir(arrayTmp, tamHeap, contadores);
+        construir(heap, tamHeap, contadores);
     }
 
-    for ( int tamHeap = n; tamHeap > 1; tamHeap-- )
+    for ( int i = k; i < n; i++ )
     {
-        // printf("heapsort: movendo %s para a posicao %d\n", arrayTmp[1].nome, tamHeap);
-        Restaurante temp = arrayTmp[1];
-        arrayTmp[1] = arrayTmp[tamHeap];
-        arrayTmp[tamHeap] = temp;
-        contadores[1] += 3;
-        reconstruir(arrayTmp, tamHeap - 1, contadores);
+        contadores[0]++;
+
+        if ( comparar_restaurante(&array[i], &heap[1]) < 0 )
+        {
+            Restaurante temp = heap[1];
+            heap[1] = array[i];
+            array[i] = temp;
+            contadores[1] += 3;
+            reconstruir(heap, k, contadores);
+        }
     }
 
-    for ( int i = 0; i < n; i++ )
+    for ( int tamHeap = k; tamHeap > 1; tamHeap-- )
     {
-        array[i] = arrayTmp[i + 1];
+        swap_restaurantes(heap, 1, tamHeap, contadores);
+        reconstruir(heap, tamHeap - 1, contadores);
+    }
+
+    for ( int i = 0; i < k; i++ )
+    {
+        array[i] = heap[i + 1];
         contadores[1]++;
     }
 }
@@ -513,6 +519,7 @@ int main()
     int contadores[2] = {0, 0};
     clock_t inicio, fim;
     double total = 0.0;
+    int k = 10;
 
     while ( scanf("%d", &id) && id != -1 )
     {
@@ -527,7 +534,7 @@ int main()
     }
 
     inicio = clock();
-    heapsort(selecionados, tamanho, contadores);
+    heapsort_parcial(selecionados, tamanho, k, contadores);
     fim = clock();
     total = ( fim - inicio ) / (double) CLOCKS_PER_SEC;
 

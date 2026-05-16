@@ -512,6 +512,5 @@ class Questao06
         }
 
         pilha.mostrar();
-        sc.close();
     }
 }

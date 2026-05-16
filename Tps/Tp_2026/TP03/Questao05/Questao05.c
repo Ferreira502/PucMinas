@@ -353,9 +353,25 @@ Celula* novaCelula( Restaurante restaurante )
  */
 void start () 
 {
-   Restaurante restaurante_vazio;
-   memset(&restaurante_vazio, 0, sizeof(Restaurante));
-   primeiro = novaCelula(restaurante_vazio);
+   Restaurante vazio;
+   vazio.id = 0;
+   vazio.nome[0] = '\0';
+   vazio.cidade[0] = '\0';
+   vazio.capacidade = 0;
+   vazio.avaliacao = 0.0;
+   vazio.tipo1[0] = '\0';
+   vazio.tipo2[0] = '\0';
+   vazio.faixaPreco[0] = '\0';
+   vazio.horario_abertura.hora = 0;
+   vazio.horario_abertura.minuto = 0;
+   vazio.horario_fechamento.hora = 0;
+   vazio.horario_fechamento.minuto = 0;
+   vazio.data_abertura.dia = 0;
+   vazio.data_abertura.mes = 0;
+   vazio.data_abertura.ano = 0;
+   vazio.aberto = 0;
+
+   primeiro = novaCelula(vazio);
    ultimo = primeiro;
 }
 
@@ -457,6 +473,7 @@ void inserir( Restaurante restaurante, int pos )
    {
       inserirFim(restaurante);
    } 
+
    else 
    {
       int j;
@@ -611,5 +628,4 @@ int main()
 
     mostrar();
 
-    return 0;
 }

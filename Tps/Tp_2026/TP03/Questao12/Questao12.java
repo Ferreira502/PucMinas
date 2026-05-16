@@ -268,7 +268,6 @@ class ColecaoRestaurante
         Scanner sc = new Scanner(new File("/tmp/restaurantes.csv"));
         
         sc.nextLine();
-
         sc.useDelimiter(",|\n");
 
         for ( int i = 0; i < 500; i++ )

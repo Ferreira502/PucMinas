@@ -1,553 +1,327 @@
-import java.io.File;
-import java.io.PrintWriter;
 import java.util.*;
 
-class Data
+class Celula
 {
-    private int ano;
-    private int mes;
-    private int dia;
-    
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param ano mes e dia da data
-     * @reason Construtor da classe Data
-     */
-    public Data ( int ano, int mes, int dia ) 
-    {
-        this.ano = ano;
-        this.mes = mes;
-        this.dia = dia;    
-    }
+    public int elemento;
+    public Celula dir, esq, sup, inf;
 
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param s String no formato YYYY-MM-DD
-     * @reason Converte uma String para um objeto Data
-     * @return objeto Data correspondente
-     */
-    public static Data parseData( String s )
+    public Celula()
     {
-        Scanner sc = new Scanner(s);
-        sc.useDelimiter("-");
-        int ano = sc.nextInt();
-        int mes = sc.nextInt();
-        int dia = sc.nextInt();
-
-        Data data = new Data ( ano, mes, dia );
-        
-        return data;
-    }
-    
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param s String no formato YYYY-MM-DD
-     * @reason Faz comparacao do tipo DATA quando e chamado
-     * @return a comparacao
-     */
-    public int compareTo( Data s )
-    {
-        if ( this.ano != s.ano )
-        {
-            return this.ano - s.ano;
-        }
-        if ( this.mes != s.mes )
-        {
-            return this.mes - s.mes;
-        }
-        
-        return this.dia - s.dia;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Retorna a data no formato DD/MM/YYYY
-     * @return String com a data formatada
-     */
-    public String formatarData ()
-    {
-        String s = String.format("%02d/%02d/%04d", dia,mes,ano);
-        return s;
+        this.elemento = 0;
+        this.dir = this.esq = this.sup = this.inf = null;
     }
 }
 
-class Hora
+class Matriz
 {
-    private int hora;
-    private int minuto;
+    private Celula inicio;
+    private int linhas;
+    private int colunas;
 
     /**
      * @author Gabriel Ferreira Pereira
-     * @param hora e minuto da hora
-     * @reason Construtor da classe Hora
+     * @param linhas, colunas
+     * @reason Construtor que aloca e conecta todas as celulas da matriz
      */
-    public Hora ( int hora, int minuto )
+    public Matriz( int linhas, int colunas )
     {
-        this.hora = hora;
-        this.minuto = minuto;
+        this.linhas  = linhas;
+        this.colunas = colunas;
+        matrizFlex(linhas, colunas);
     }
 
     /**
      * @author Gabriel Ferreira Pereira
-     * @param s String no formato HH:mm
-     * @reason Converte uma String para um objeto Hora
-     * @return objeto Hora correspondente
+     * @param linha, coluna
+     * @reason Cria a matriz flexivel encadeada
      */
-    public static Hora parseHora ( String s )
+    public void matrizFlex( int linha, int coluna )
     {
-        Scanner sc = new Scanner(s);
-        sc.useDelimiter(":");
-        int hora1 = sc.nextInt();
-        int minuto = sc.nextInt();
+        inicio = new Celula();
+        Celula tmp = inicio;
 
-        Hora hora = new Hora(hora1, minuto);
-
-        return hora;
-    }
-    
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Retorna a hora no formato HH:mm
-     * @return String com a hora formatada
-     */
-    public String formatarHora ()
-    {
-        String s = String.format("%02d:%02d", hora, minuto);
-        return s;
-    }
-}
-
-class Restaurante
-{
-    private int id;
-    private String nome;
-    private String cidade;
-    private int capacidade;
-    private double avaliacao;
-    private String[] tiposCozinha;
-    private String faixaPreco;
-    private Hora horarioAbertura;
-    private Hora horarioFechamento;
-    private Data dataAbertura;
-    private boolean aberto;
-    
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param id, nome, cidade, capacidade, avaliacao, tiposCozinha, faixaPreco, horarioAbertura, 
-     *          horarioFechamento, dataAbertura, aberto do restaurante
-     * @reason Construtor da classe Restaurante
-     */
-    public Restaurante( int id, String nome, String cidade, int capacidade, double avaliacao, 
-        String[] tiposCozinha, String faixaPreco, Hora horarioAbertura, Hora horarioFechamento, Data dataAbertura, boolean aberto ) 
-    {
-        this.id = id;
-        this.nome = nome;
-        this.cidade = cidade;
-        this.capacidade = capacidade;
-        this.avaliacao = avaliacao;
-        this.tiposCozinha = tiposCozinha;
-        this.faixaPreco = faixaPreco;
-        this.horarioAbertura = horarioAbertura;
-        this.horarioFechamento = horarioFechamento;
-        this.dataAbertura = dataAbertura;
-        this.aberto = aberto;
-    }
-
-    // Getters
-
-    public int getID ()
-    {
-        return this.id;
-    }
-
-    public String getNome ()
-    {
-        return this.nome;
-    }
-
-    public String getCidade ()
-    {
-        return this.cidade;
-    }
-
-    public int getCapacidade ()
-    {
-        return this.capacidade;
-    }
-
-    public double getAvaliacao ()
-    {
-        return this.avaliacao;
-    }
-
-    public String[] getTiposCozinha ()
-    {
-        return this.tiposCozinha;
-    }
-
-    public String getFaixaPreco ()
-    {
-        return this.faixaPreco;
-    }
-
-    public Hora getHorarioAbertura ()
-    {
-        return this.horarioAbertura;
-    }
-
-    public Hora getHorarioFechamento ()
-    {
-        return this.horarioFechamento;
-    }
-
-    public Data getDataAbertura ()
-    {
-        return this.dataAbertura;
-    }
-
-    public boolean getAberto ()
-    {
-        return this.aberto;
-    }
-    
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param String s
-     * @reason Converte uma String para double manualmente
-     * @return numero real
-     */
-    public static double parseDouble( String s )
-    {
-        int inteiro = 0;
-        int decimal = 0;
-        boolean ponto = false;
-
-        for ( int i = 0; i < s.length(); i++ )
+        for ( int j = 1; j < coluna; j++ )
         {
-            char c = s.charAt(i);
-            
-            if (c == '.')
-            {
-                ponto = true;
-            }
-            
-            else if ( ponto == false) 
-            {
-                inteiro = inteiro * 10 + (c - '0');
-            }
-
-            else
-            {
-                decimal = decimal * 10 + (c - '0');
-            }
+            tmp.dir = new Celula();
+            tmp.dir.esq = tmp;
+            tmp = tmp.dir;
         }
 
-        return inteiro + decimal / 10.0;
+        Celula linhaCima = inicio;
+
+        for ( int i = 1; i < linha; i++ )
+        {
+            Celula novaLinha = new Celula();
+            linhaCima.inf = novaLinha;
+            novaLinha.sup = linhaCima;
+
+            Celula atual = novaLinha;
+            Celula tmpCima = linhaCima;
+
+            for ( int j = 1; j < coluna; j++ )
+            {
+                atual.dir = new Celula();
+                atual.dir.esq = atual;
+                atual = atual.dir;
+
+                tmpCima = tmpCima.dir;
+                atual.sup = tmpCima;
+                tmpCima.inf = atual;
+            }
+
+            linhaCima = linhaCima.inf;
+        }
+}
+
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param linha, coluna
+     * @reason Navega ate a celula da posicao indicada
+     */
+    private Celula getCelula( int linha, int coluna )
+    {
+        Celula c = this.inicio;
+
+        for ( int i = 0; i < linha;  i++ ) 
+        {
+            c = c.inf;
+        }
+
+        for ( int j = 0; j < coluna; j++ ) 
+        {
+            c = c.dir;
+        }
+
+        return c;
     }
 
     /**
      * @author Gabriel Ferreira Pereira
-     * @param path caminho do arquivo CSV
-     * @reason Le uma linha do CSV e cria um objeto Restaurante
-     * @return Restaurante criado
+     * @param linha, coluna, valor
+     * @reason Define o valor de uma celula
      */
-    public static Restaurante ler( String linha ) throws Exception
+    public void set( int linha, int coluna, int valor )
     {
-        Scanner sc = new Scanner(linha);
-        sc.useDelimiter(",");
+        getCelula( linha, coluna ).elemento = valor;
+    }
 
-        int id = sc.nextInt();
-        String nome = sc.next();
-        String cidade = sc.next();
-        int capacidade = sc.nextInt();
-        double avaliacao = parseDouble(sc.next());
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param linha, coluna
+     * @reason Retorna o valor de uma celula
+     */
+    public int get( int linha, int coluna )
+    {
+        return getCelula( linha, coluna ).elemento;
+    }
 
-        String cozinhaStr = sc.next();
-        Scanner scCozinha = new Scanner(cozinhaStr);
-        scCozinha.useDelimiter(";");
-        String tipo1 = scCozinha.next();
-        String tipo2 = scCozinha.next();
-        scCozinha.close();
-        String[] tiposCozinha = new String[]{tipo1, tipo2};
+    public int getLinhas()  
+    { 
+        return this.linhas; 
+    }
 
-        String faixaPreco = sc.next();
+    public int getColunas() 
+    { 
+        return this.colunas; 
+    }
 
-        String horario = sc.next();
-        Scanner scHorario = new Scanner(horario);
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @reason Exibe a matriz linha por linha
+     */
+    public void mostrar()
+    {
+        Celula tmpLinha = inicio;
 
-        scHorario.useDelimiter("-");
-
-        Hora horarioAbertura   = Hora.parseHora(scHorario.next());
-        Hora horarioFechamento = Hora.parseHora(scHorario.next());
-        scHorario.close();
-
-        Data dataAbertura = Data.parseData(sc.next());
-
-        String abertoStr = sc.next();
-        boolean aberto;
-
-        if (abertoStr.charAt(0) == 't')
+        for ( int i = 0; i < linhas; i++ )
         {
-            aberto = true;
+            Celula tmpColuna = tmpLinha;
+
+            for ( int j = 0; j < colunas; j++ )
+            {
+                System.out.print(tmpColuna.elemento + " ");
+                tmpColuna = tmpColuna.dir;
+            }
+
+            System.out.println();
+            tmpLinha = tmpLinha.inf;
+        }
+    }
+
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @reason Imprime a diagonal principal da matriz
+     */
+    public void mostrarDiagonalPrincipal()
+    {
+        Celula i = inicio;
+
+        int min = 0;
+
+        if ( linhas < colunas )
+        {
+            min = linhas;
         }
 
         else
         {
-            aberto = false;
+            min = colunas;
         }
 
-        Restaurante restaurante = new Restaurante(id, nome, cidade, capacidade, avaliacao, tiposCozinha, faixaPreco, horarioAbertura, horarioFechamento, dataAbertura, aberto);
-        
-        return restaurante;    
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Retorna o restaurante formatado como String
-     * @return String com o restaurante formatado
-     */
-    public String formatar()
-    {
-        String tipos = "[" + tiposCozinha[0] + "," + tiposCozinha[1] + "]";
-        String horario = horarioAbertura.formatarHora() + "-" + horarioFechamento.formatarHora();
-        String data = dataAbertura.formatarData();
-    
-        return "[" + id + " ## " + nome + " ## " + cidade + " ## " + capacidade + " ## " + 
-            avaliacao + " ## " + tipos + " ## " + faixaPreco + " ## " + 
-            horario + " ## " + data + " ## " + aberto + "]";
-    }
-
-}
-
-class ColecaoRestaurante 
-{
-
-    private int tamanho;
-    private Restaurante[] restaurantes;
-
-    public ColecaoRestaurante( int tamanho, Restaurante[] restaurantes ) 
-    {
-        this.tamanho = tamanho;
-        this.restaurantes = restaurantes;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Retorna a quantidade de restaurantes da colecao
-     * @return this.tamanho
-     */
-    public int getTamanho() 
-    {
-        return this.tamanho;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param Restaurante r
-     * @reason Adiciona tamanho em ColecaoRestaurante
-     */
-    public void adicionar( Restaurante r )
-    {
-        this.restaurantes[this.tamanho] = r;
-        this.tamanho++;
-    }
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Pega os restaurantes da colecao
-     * @return this.restaurantes
-     */
-    public Restaurante[] getRestaurantes() 
-    {
-        return this.restaurantes;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Imprime todos os restaurantes da colecao
-     */
-    public void imprimir() 
-    {
-        for ( int i = 0; i < this.tamanho; i++ ) 
+        for ( int k = 0; k < min; k++ )
         {
-            System.out.println(this.restaurantes[i].formatar());
-        }
-    }
+            System.out.print(i.elemento + " ");
 
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Le o dataset do arquivo CSV usando Restaurante.ler() e retorna a colecao
-     * @return colecao
-     */
-    public static ColecaoRestaurante lerCsv() throws Exception
-    {
-        ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[550]);
-        Scanner sc = new Scanner(new File("/tmp/restaurantes.csv"));
-        
-        sc.nextLine();
-
-        sc.useDelimiter(",|\n");
-
-        for ( int i = 0; i < 500; i++ )
-        {
-            colecao.adicionar(Restaurante.ler(sc.nextLine()));
-        }
-
-        return colecao;
-    }
-}
-
-
-class Questao09 
-{
-    public static int getMaiorFilho( Restaurante[] restaurantes, int i, int tamHeap ) 
-    {
-        int filho = 0;
-
-        if ( 2 * i == tamHeap || restaurantes[2 * i].getDataAbertura().compareTo(restaurantes[2 * i + 1].getDataAbertura()) > 0 ) 
-        {
-            filho = 2 * i; 
-        }
-        
-        else 
-        {
-            filho = 2 * i + 1;
-        }
-
-        return filho;
-    }
-
-    public static void construir( Restaurante[] restaurantes, int tamHeap, int[] contadores ) 
-    {
-        for ( int i = tamHeap; i > 1; i /= 2 ) 
-        {
-            contadores[0]++; // avanca o comparacao
-
-            if ( restaurantes[i].getDataAbertura().compareTo(restaurantes[i / 2].getDataAbertura()) > 0 ) 
+            if ( k < min - 1 )
             {
-                Restaurante tmp = restaurantes[i];
-                restaurantes[i] = restaurantes[i / 2];
-                restaurantes[i / 2] = tmp;
-                contadores[1]++; // avanca o movimentacao
+                i = i.inf;
+                i = i.dir;
             }
         }
+
+        System.out.println();
     }
 
-    public static void reconstruir( Restaurante[] restaurantes, int tamHeap, int[] contadores ) 
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @reason Imprime a diagonal secundaria da matriz
+     */
+    public void mostrarDiagonalSecundaria()
     {
-        int i = 1;
+        Celula i = inicio;
 
-        while ( i <= tamHeap / 2 ) 
+        for ( int j = 1; j < colunas; j++ )
         {
-            int filho = getMaiorFilho( restaurantes, i, tamHeap );
+            i = i.dir;
+        }
 
-            contadores[0]++; // avanca o comparacao
+        int min = 0;
 
-            if ( restaurantes[i].getDataAbertura().compareTo(restaurantes[filho].getDataAbertura()) < 0 ) 
+        if ( linhas < colunas )
+        {
+            min = linhas;
+        }
+
+        else
+        {
+            min = colunas;
+        }
+
+        for ( int k = 0; k < min; k++ )
+        {
+            System.out.print(i.elemento + " ");
+
+            if ( k < min - 1 )
             {
-                Restaurante tmp = restaurantes[i];
-                restaurantes[i] = restaurantes[filho];
-                restaurantes[filho] = tmp;
-                contadores[1]++; // avanca o movimentacao
-
-                i = filho;
-            } 
-
-            else 
-            {
-                i = tamHeap;
+                i = i.inf;
+                i = i.esq;
             }
         }
+
+        System.out.println();
     }
 
-    public static void heapSort( Restaurante[] selecionados, int tamanho, int[] contadores ) 
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param m Matriz a ser somada
+     * @reason Soma esta matriz com m e retorna a resultante
+     */
+    public Matriz somar( Matriz m )
     {
-        Restaurante[] tmp = new Restaurante[tamanho + 1];
-        
-        for ( int i = 0; i < tamanho; i++ ) 
-        {
-            tmp[i + 1] = selecionados[i];
-        }
-        
-        for ( int tamHeap = 2; tamHeap <= tamanho; tamHeap++ ) 
-        {
-            construir(tmp, tamHeap, contadores);
-        }
-    
-        int tamHeap = tamanho;
-        
-        while ( tamHeap > 1 ) 
-        {
-            Restaurante aux = tmp[1];
-            tmp[1] = tmp[tamHeap];
-            tmp[tamHeap] = aux;
-            tamHeap--;
-            contadores[1]++; // avanca o movimentacao
+        Matriz resultado = new Matriz( this.linhas, this.colunas );
 
-            reconstruir(tmp, tamHeap, contadores);
+        Celula tmpLinhaA = this.inicio;
+        Celula tmpLinhaB = m.inicio;
+        Celula tmpLinhaR = resultado.inicio;
+
+        for ( int i = 0; i < linhas; i++ )
+        {
+            Celula a = tmpLinhaA;
+            Celula b = tmpLinhaB;
+            Celula r = tmpLinhaR;
+
+            for ( int j = 0; j < colunas; j++ )
+            {
+                r.elemento = a.elemento + b.elemento;
+                a = a.dir;
+                b = b.dir;
+                r = r.dir;
+            }
+
+            tmpLinhaA = tmpLinhaA.inf;
+            tmpLinhaB = tmpLinhaB.inf;
+            tmpLinhaR = tmpLinhaR.inf;
         }
 
-        for ( int i = 0; i < tamanho; i++ ) 
-        {
-            selecionados[i] = tmp[i + 1];
-        }
+        return resultado;
     }
 
-    public static void main(String[] args) throws Exception
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param m Matriz a ser multiplicada
+     * @reason Multiplica esta matriz por m e retorna a resultante
+     */
+    public Matriz multiplicar( Matriz m )
+    {
+        Matriz resultado = new Matriz( this.linhas, m.getColunas() );
+
+        for ( int i = 0; i < this.linhas; i++ )
+        {
+            for ( int j = 0; j < m.getColunas(); j++ )
+            {
+                int soma = 0;
+
+                for ( int k = 0; k < this.colunas; k++ )
+                {
+                    soma += this.get(i, k) * m.get(k, j);
+                }
+
+                resultado.set( i, j, soma );
+            }
+        }
+
+        return resultado;
+    }
+}
+
+class Questao09
+{
+    public static void main( String[] args )
     {
         Scanner sc = new Scanner(System.in);
-        
-        ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
-        Restaurante[] restaurantes = colecao.getRestaurantes();
-        Restaurante[] selecionados = new Restaurante[500];
 
-        int tamanho = 0;
-        int id = 0;
-        long inicio, fim;
+        int t = sc.nextInt();
 
-        while ( ( id = sc.nextInt() ) != -1 )
+        for ( int i = 0; i < t; i++ )
         {
-            for (int i = 0; i < colecao.getTamanho(); i++)
+            int l = sc.nextInt();
+            int c = sc.nextInt();
+
+            Matriz a = new Matriz(l, c);
+
+            for ( int j = 0; j < l; j++ )
             {
-                if (restaurantes[i].getID() == id)
+                for ( int k = 0; k < c; k++ )
                 {
-                    selecionados[tamanho] = restaurantes[i];
-                    tamanho++;
+                    a.set( j, k, sc.nextInt() );
                 }
             }
-        }
-  
-        int[] contadores = new int[]{0, 0};
 
-        inicio = System.currentTimeMillis();
-        heapSort(selecionados, tamanho, contadores);
-        fim = System.currentTimeMillis();
+            Matriz b = new Matriz(l, c);
 
-        int comparacoes = contadores[0];
-        int movimentacoes = contadores[1];
-
-        boolean ordenado = true;
-        
-        for (int i = 0; i < tamanho - 1; i++) 
-        {
-            if (selecionados[i].getDataAbertura().compareTo(selecionados[i + 1].getDataAbertura()) > 0) 
+            for ( int x = 0; x < l; x++ )
             {
-                ordenado = false;
-
+                for ( int m = 0; m < c; m++ )
+                {
+                    b.set( x, m, sc.nextInt() );
+                }
             }
-        }
-        
-        PrintWriter log = new PrintWriter("842527_heapsort.txt");
-        log.println("Tempo para ordenar: " + (fim - inicio) / 1000.0 + " s.");
-        log.println("isOrdenado: " + ordenado);
-        log.println("Comparacoes: " + comparacoes);
-        log.println("Movimentacoes: " + movimentacoes);
-        log.close();
 
-        for (int i = 0; i < tamanho; i++)
-        {
-            System.out.println(selecionados[i].formatar());
+            a.mostrarDiagonalPrincipal();
+            b.mostrarDiagonalSecundaria();
+
+            a.somar(b).mostrar();
+            a.multiplicar(b).mostrar();
         }
     }
 }

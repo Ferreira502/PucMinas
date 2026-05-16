@@ -313,6 +313,7 @@ Colecao_restaurante ler_csv()
         {
             j++;
         }
+
         linha[j] = '\0';
         
         Restaurante r = ler_restaurante(linha);
@@ -355,8 +356,6 @@ void start()
     ultimo = primeiro;
 }
 
-
-
 /**
  * Insere elemento na fila (politica FIFO).
  * @param x int Elemento a inserir.
@@ -366,8 +365,6 @@ void inserirFim( Restaurante x )
     ultimo->prox = novaCelula(x);
     ultimo = ultimo->prox;
 }
-
-
 
 /**
  * Remove elemento da fila (politica FIFO).
@@ -390,8 +387,6 @@ Restaurante removerInicio()
     return resp;
 }
 
-
-
 /**
  * Mostra os elementos separados por espacos.
  */
@@ -406,7 +401,6 @@ void mostrar()
         printf("%s\n", saida_linha);
     }
 }
-
 
 /**
  * @author Gabriel Ferreira Pereira
@@ -468,6 +462,5 @@ int main()
  
     mostrar();
  
-    return 0;
 }
 

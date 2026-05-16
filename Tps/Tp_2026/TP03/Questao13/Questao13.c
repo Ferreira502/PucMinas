@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct Data
 {
@@ -295,15 +297,15 @@ Colecao_restaurante ler_csv()
     colecao.tamanho = 0;
 
     FILE *f = fopen("/tmp/restaurantes.csv", "r");
+
     char linha[500];
     int j = 0;
 
-    // pular cabecalho
     fgets(linha, 500, f);
 
     for ( int i = 0; i < 500; i++ )
     {
-        fgets(linha, 500, f);
+        fgets(linha, 500, f); // consumir o \n que sobra no buffer depois do ultimo scanf dos ID
 
         // substitui o \n por \0 para encerrar a string
         while ( linha[j] != '\n' && linha[j] != '\0' )
@@ -311,7 +313,8 @@ Colecao_restaurante ler_csv()
             j++;
         }
         linha[j] = '\0';
-        
+
+
         Restaurante r = ler_restaurante(linha);
         adicionar(&colecao, r);
     }
@@ -460,27 +463,25 @@ int main()
 
     char nome[100];
 
-    // le linha por linha ate FIM
     fgets(nome, 100, stdin);
 
-    while ( nome[0] != 'F' || nome[1] != 'I' || nome[2] != 'M' )
+    while ( fgets(nome, 100, stdin) != NULL )
     {
-        // remove o \n do final
         int j = 0;
 
-        while ( nome[j] != '\n' && nome[j] != '\0' )
+        while ( nome[j] != '\n' && nome[j] != '\r' && nome[j] != '\0' ) // '\r' trata o Enter do Windows (\r\n), tive que pesquisar esse tratamento, porque estava
+                                                                        //  dando timeout na saida do verde
         {
             j++;
-        } 
+        }
 
         nome[j] = '\0';
-
-        pesquisar(ab, nome);
-
-        fgets(nome, 100, stdin);
+        
+        if ( strcmp(nome, "FIM") != 0 )
+        {
+            pesquisar(ab, nome);
+        }
     }
 
     caminhar_em(ab);
-
-    return 0;
 }
