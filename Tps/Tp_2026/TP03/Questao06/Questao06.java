@@ -1,103 +1,5 @@
 import java.io.File;
-import java.io.PrintWriter;
 import java.util.*;
-
-class Data
-{
-    private int ano;
-    private int mes;
-    private int dia;
-    
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param ano mes e dia da data
-     * @reason Construtor da classe Data
-     */
-    public Data ( int ano, int mes, int dia ) 
-    {
-        this.ano = ano;
-        this.mes = mes;
-        this.dia = dia;    
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param s String no formato YYYY-MM-DD
-     * @reason Converte uma String para um objeto Data
-     * @return objeto Data correspondente
-     */
-    public static Data parseData( String s )
-    {
-        Scanner sc = new Scanner(s);
-        sc.useDelimiter("-");
-        int ano = sc.nextInt();
-        int mes = sc.nextInt();
-        int dia = sc.nextInt();
-
-        Data data = new Data ( ano, mes, dia );
-        
-        return data;
-    }
-    
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Retorna a data no formato DD/MM/YYYY
-     * @return String com a data formatada
-     */
-    public String formatarData ()
-    {
-        String s = String.format("%02d/%02d/%04d", dia,mes,ano);
-        return s;
-    }
-}
-
-
-class Hora
-{
-    private int hora;
-    private int minuto;
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param hora e minuto da hora
-     * @reason Construtor da classe Hora
-     */
-    public Hora ( int hora, int minuto )
-    {
-        this.hora = hora;
-        this.minuto = minuto;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param s String no formato HH:mm
-     * @reason Converte uma String para um objeto Hora
-     * @return objeto Hora correspondente
-     */
-    public static Hora parseHora ( String s )
-    {
-        Scanner sc = new Scanner(s);
-        sc.useDelimiter(":");
-        int hora1 = sc.nextInt();
-        int minuto = sc.nextInt();
-
-        Hora hora = new Hora(hora1, minuto);
-
-        return hora;
-    }
-    
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Retorna a hora no formato HH:mm
-     * @return String com a hora formatada
-     */
-    public String formatarHora ()
-    {
-        String s = String.format("%02d:%02d", hora, minuto);
-        return s;
-    }
-}
-
 
 class Restaurante
 {
@@ -208,7 +110,6 @@ class Restaurante
         for ( int i = 0; i < s.length(); i++ )
         {
             char c = s.charAt(i);
-            
             if (c == '.')
             {
                 ponto = true;
@@ -362,7 +263,7 @@ class ColecaoRestaurante
      */
     public static ColecaoRestaurante lerCsv() throws Exception
     {
-        ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[550]);
+        ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[500]);
         Scanner sc = new Scanner(new File("/tmp/restaurantes.csv"));
         
         sc.nextLine();
@@ -378,156 +279,241 @@ class ColecaoRestaurante
     }
 }
 
-
-class Questao07 
+class Data
 {
-    public static void mergesort( Restaurante[] restaurantes, int esq, int dir, int[] contadores )
+    private int ano;
+    private int mes;
+    private int dia;
+    
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param ano mes e dia da data
+     * @reason Construtor da classe Data
+     */
+    public Data ( int ano, int mes, int dia ) 
     {
-        if ( esq < dir )
-        {
-            int meio = ( esq + dir ) / 2;
-            mergesort( restaurantes, esq, meio, contadores );
-            mergesort( restaurantes, meio + 1, dir, contadores );
-            intercalar( restaurantes, esq, meio, dir, contadores );
-        }
-    }
-
-    public static void intercalar( Restaurante[] restaurantes, int esq, int meio, int dir, int[] contadores )
-    {
-        int n1, n2, i, j, k;
-        n1 = meio - esq + 1;
-        n2 = dir - meio;
-
-        Restaurante[] a1 = new Restaurante[n1];
-        Restaurante[] a2 = new Restaurante[n2];
-
-        for ( i = 0; i < n1; i++ )
-        {
-            a1[i] = restaurantes[esq + i];
-        }
-
-        for ( j = 0; j < n2; j++ )
-        {
-            a2[j] = restaurantes[meio + j + 1];
-        }
-
-        i = 0;
-        j = 0;
-        k = esq;
-
-        // Intercala os dois subarrays comparando cidade e desempatando por nome
-        
-        while ( i < n1 && j < n2 )
-        {
-            contadores[0]++; // avanca o movimentacoes
-
-            int tmp = a1[i].getCidade().compareTo( a2[j].getCidade() );
-
-            // Se as cidades forem iguais, desempata pelo nome
-            if ( tmp == 0 )
-            {
-                contadores[0]++; // avanca o movimentacoes
-                tmp = a1[i].getNome().compareTo( a2[j].getNome() );
-            }
-
-            // Coloca o menor elemento no array original
-            if ( tmp <= 0 )
-            {
-                restaurantes[k++] = a1[i++];
-            }
-            else
-            {
-                restaurantes[k++] = a2[j++];
-            }
-
-            contadores[1]++; // avanca o comparacoes
-        }
-
-        // Copia o restante de a1 caso a2 tenha acabado primeiro
-        while ( i < n1 )
-        {
-            restaurantes[k++] = a1[i++];
-            contadores[1]++; // avanca o comparcoes 
-        }
-
-        // Copia o restante de a2 caso a1 tenha acabado primeiro
-        while ( j < n2 )
-        {
-            restaurantes[k++] = a2[j++];
-            contadores[1]++; // avanca o comparacoes
-        }
+        this.ano = ano;
+        this.mes = mes;
+        this.dia = dia;    
     }
 
     /**
+     * @author Gabriel Ferreira Pereira
+     * @param s String no formato YYYY-MM-DD
+     * @reason Converte uma String para um objeto Data
+     * @return objeto Data correspondente
+     */
+    public static Data parseData( String s )
+    {
+        Scanner sc = new Scanner(s);
+        sc.useDelimiter("-");
+        int ano = sc.nextInt();
+        int mes = sc.nextInt();
+        int dia = sc.nextInt();
+
+        Data data = new Data ( ano, mes, dia );
+        
+        return data;
+    }
+    
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @reason Retorna a data no formato DD/MM/YYYY
+     * @return String com a data formatada
+     */
+    public String formatarData ()
+    {
+        String s = String.format("%02d/%02d/%04d", dia,mes,ano);
+        return s;
+    }
+}
+
+class Hora
+{
+    private int hora;
+    private int minuto;
+
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param hora e minuto da hora
+     * @reason Construtor da classe Hora
+     */
+    public Hora ( int hora, int minuto )
+    {
+        this.hora = hora;
+        this.minuto = minuto;
+    }
+
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param s String no formato HH:mm
+     * @reason Converte uma String para um objeto Hora
+     * @return objeto Hora correspondente
+     */
+    public static Hora parseHora ( String s )
+    {
+        Scanner sc = new Scanner(s);
+        sc.useDelimiter(":");
+        int hora1 = sc.nextInt();
+        int minuto = sc.nextInt();
+
+        Hora hora = new Hora(hora1, minuto);
+
+        return hora;
+    }
+    
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @reason Retorna a hora no formato HH:mm
+     * @return String com a hora formatada
+     */
+    public String formatarHora ()
+    {
+        String s = String.format("%02d:%02d", hora, minuto);
+        return s;
+    }
+}
+
+/**
+ * Celula (pilha, lista e fila dinamica)
+ */
+class Celula 
+{
+	public Restaurante elemento;
+	public Celula prox;
+
+
+	/**
+	 * Construtor da classe.
+	 */
+	public Celula() 
+    {
+		this(null);
+	}
+
+	/**
+	 * Construtor da classe.
+	 * @param restaurante restaurante inserido na celula.
+	 */
+	public Celula(Restaurante restaurante) 
+    {
+      this.elemento = restaurante;
+      this.prox = null;
+	}
+}
+
+class Pilha 
+{
+	private Celula topo;
+
+	/**
+	 * Construtor da classe que cria uma fila sem elementos.
+	 */
+	public Pilha() 
+    {
+		topo = null;
+	}
+
+	/**
+	 * Insere elemento na pilha (politica FILO).
+	 * 
+	 * @param restaurante restaurante a inserir.
+	 */
+	public void inserir( Restaurante restaurante ) 
+    {
+		Celula tmp = new Celula(restaurante);
+		tmp.prox = topo;
+		topo = tmp;
+		tmp = null;
+	}
+
+	/**
+	 * Remove elemento da pilha (politica FILO).
+	 * 
+	 * @return restaurante removido.
+	 * @trhows Exception Se a sequencia nao contiver elementos.
+	 */
+	public Restaurante remover()
+    {
+		if (topo == null) 
+        {
+			System.out.println("ERRO");
+		}
+
+		Restaurante resp = topo.elemento;
+		Celula tmp = topo;
+		topo = topo.prox;
+		tmp.prox = null;
+		tmp = null;
+		return resp;
+	}
+
+	/**
+	 * Mostra os restaurantes da pilha do topo para a base.
+	 */
+	public void mostrar() 
+    {
+		for ( Celula i = topo; i != null; i = i.prox )
+        {
+			System.out.println(i.elemento.formatar());
+        }
+	}
+}
+
+class Questao06
+{
+     /**
      * @author Gabriel Ferreira Pereira
      * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
      *         e exibe na tela a lista de restaurantes selecionados
      */
     public static void main(String[] args) throws Exception
     {
-        Scanner sc = new Scanner(System.in);
-        
         ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
         Restaurante[] restaurantes = colecao.getRestaurantes();
-        Restaurante[] selecionados = new Restaurante[500];
-
-        int tamanho = 0;
-        
+        Scanner sc = new Scanner(System.in);
+        Pilha pilha = new Pilha();
         int id = 0;
 
-        long inicio, fim;
-
-        while ( ( id = sc.nextInt() ) != -1 )
+        while ((id = sc.nextInt()) != -1)
         {
             for (int i = 0; i < colecao.getTamanho(); i++)
             {
                 if (restaurantes[i].getID() == id)
                 {
-                    selecionados[tamanho] = restaurantes[i];
-                    tamanho++;
+                    pilha.inserir(restaurantes[i]);
+                    break;
                 }
             }
         }
-  
-        // Execucao do algoritmo de ordenacao
-        int[] contadores = new int[]{0, 0};
-        
-        inicio = System.currentTimeMillis();
 
-        mergesort( selecionados, 0, tamanho - 1, contadores );
+        int n = sc.nextInt();
 
-        fim = System.currentTimeMillis();
-
-        int comparacoes = contadores[0];
-        int movimentacoes = contadores[1];
-
-        boolean ordenado = true;
-        
-        for (int i = 0; i < tamanho - 1; i++)
+        for (int i = 0; i < n; i++)
         {
-            // Compara a cidade do elemento atual com a cidade do proximo elemento
-            // Se a cidade atual for maior que a proxima, o array nao esta ordenado
-            
-            if (selecionados[i].getCidade().compareTo(selecionados[i + 1].getCidade()) > 0)
+            char opcao = sc.next().charAt(0);
+
+            if (opcao == 'I')
             {
-                ordenado = false;
+                id = sc.nextInt();
+                for (int j = 0; j < colecao.getTamanho(); j++)
+                {
+                    if (restaurantes[j].getID() == id)
+                    {
+                        pilha.inserir(restaurantes[j]);
+                        break;
+                    }
+                }
+            }
+             
+            else if (opcao == 'R')
+            {
+                Restaurante r = pilha.remover();
+                System.out.println("(R)" + r.getNome());
             }
         }
-        
-        //Mostrar o conjunto ordenado, tempo de execucao e status da ordenacao
-		//algoritmo.mostrar();
-        // Salvar tempo e status em arquivo
-        PrintWriter log = new PrintWriter("842527_mergesort.txt");
-        log.println("Tempo para ordenar: " + (fim - inicio) / 1000.0 + " s.");
-        log.println("isOrdenado: " + ordenado);
-        log.println("Comparacoes: " + comparacoes);
-        log.println("Movimentacoes: " + movimentacoes);
-        log.close();
 
-
-        for (int i = 0; i < tamanho; i++)
-        {
-            System.out.println(selecionados[i].formatar());
-        }
+        pilha.mostrar();
+        sc.close();
     }
 }

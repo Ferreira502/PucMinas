@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include <time.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct Data
 {
@@ -28,7 +29,6 @@ typedef struct Restaurante
     Hora horario_fechamento;
     Data data_abertura;
     int aberto;
-    
 } Restaurante;
 
 typedef struct Colecao_restaurante
@@ -36,7 +36,6 @@ typedef struct Colecao_restaurante
     int tamanho;
     Restaurante restaurantes[500];
 } Colecao_restaurante;
-
 
 /**
  * @author Gabriel Ferreira Pereira
@@ -86,7 +85,6 @@ void formatar_hora( Hora *hora, char *saida_linha )
     sprintf(saida_linha, "%02d:%02d", hora->hora, hora->minuto);
 }
 
-
 /**
  * @author Gabriel Ferreira Pereira
  * @param linha, pos, campo
@@ -96,7 +94,7 @@ void formatar_hora( Hora *hora, char *saida_linha )
 int ler_campo( char *linha, int pos, char *campo )
 {
     int i = 0;
-
+    
     while ( linha[pos] != ',' && linha[pos] != '\0' && linha[pos] != '\n' )
     {
         campo[i] = linha[pos];
@@ -106,7 +104,7 @@ int ler_campo( char *linha, int pos, char *campo )
 
     campo[i] = '\0';
     pos++;
-    
+
     return pos;
 }
 
@@ -156,12 +154,11 @@ Restaurante ler_restaurante( char *linha )
 
     r.tipo1[k] = '\0';
     j++; k = 0;
-
+    
     while ( cozinha[j] != '\0' )
     {
         r.tipo2[k++] = cozinha[j++];
     }
-
     r.tipo2[k] = '\0';
 
     // faixa preco
@@ -228,7 +225,7 @@ void formatar_restaurante( Restaurante *r, char *saida_linha )
     {
         sprintf(aberto_str, "true");
     }
-    
+
     else
     {
         sprintf(aberto_str, "false");
@@ -282,7 +279,6 @@ Restaurante* get_restaurantes( Colecao_restaurante *colecao )
 void imprimir( Colecao_restaurante *colecao )
 {
     char saida_linha[500];
-
     for ( int i = 0; i < colecao->tamanho; i++ )
     {
         formatar_restaurante(&colecao->restaurantes[i], saida_linha);
@@ -310,6 +306,7 @@ Colecao_restaurante ler_csv()
     for ( int i = 0; i < 500; i++ )
     {
         fgets(linha, 500, f);
+        j = 0;
 
         // substitui o \n por \0 para encerrar a string
         while ( linha[j] != '\n' && linha[j] != '\0' )
@@ -317,8 +314,7 @@ Colecao_restaurante ler_csv()
             j++;
         }
         linha[j] = '\0';
-
-
+        
         Restaurante r = ler_restaurante(linha);
         adicionar(&colecao, r);
     }
@@ -328,146 +324,150 @@ Colecao_restaurante ler_csv()
 }
 
 /**
- * @author Gabriel Ferreira Pereira
- * @param a, b
- * @reason Compara dois nomes caractere por caractere
- * @return positivo se a > b, negativo se a < b, zero se iguais
+ * Fila flexivel
  */
-int comparar_nome( char *a, char *b )
+typedef struct Celula 
 {
-    int i = 0;
-    int cmp = 0;
+	Restaurante elemento;        // Elemento inserido na celula.
+	struct Celula* prox; // Aponta a celula prox.
+} Celula;
 
-    while ( a[i] != '\0' && b[i] != '\0' && cmp == 0 )
-    {
-        if ( a[i] > b[i] )
-        {
-            cmp = 1;
-        }
-
-        else if ( a[i] < b[i] )
-        {
-            cmp = -1;
-        }
-
-        i++;
-    }
-    return cmp;
+Celula* novaCelula(Restaurante elemento)
+{
+   Celula* nova = (Celula*) malloc(sizeof(Celula));
+   nova->elemento = elemento;
+   nova->prox = NULL;
+   return nova;
 }
 
+Celula* primeiro;
+Celula* ultimo;
+
+
 /**
- * @author Gabriel Ferreira Pereira
- * @param selecionados, tamanho, nome, contadores
- * @reason Pesquisa binaria pelo nome do restaurante
- * @return 1 se encontrado, 0 caso contrario
+ * Cria uma fila sem elementos (somente no cabeca).
  */
-int pesq_bin( Restaurante *selecionados, int tamanho, char *nome, int *contadores )
+void start()
 {
-    int resp = 0;
-    int esq = 0;
-    int dir = tamanho - 1;
-    int meio;
+    Restaurante vazio;
+    vazio.id = -1;
+    primeiro = novaCelula(vazio);
+    ultimo = primeiro;
+}
 
-    while ( esq <= dir )
+
+
+/**
+ * Insere elemento na fila (politica FIFO).
+ * @param x int Elemento a inserir.
+ */
+void inserirFim( Restaurante x )
+{
+    ultimo->prox = novaCelula(x);
+    ultimo = ultimo->prox;
+}
+
+
+
+/**
+ * Remove elemento da fila (politica FIFO).
+ * @return Elemento removido.
+ */
+Restaurante removerInicio()
+{
+    if ( primeiro == ultimo )
     {
-        meio = ( esq + dir ) / 2;
-        contadores[0]++; // avanca comparacoes
-
-        int cmp = comparar_nome(nome, selecionados[meio].nome);
-
-        if ( cmp == 0 )
-        {
-            resp = 1;
-            esq = dir + 1;
-        }
-
-        else if ( cmp > 0 )
-        {
-            esq = meio + 1;
-        }
-
-        else
-        {
-            dir = meio - 1;
-        }
+        printf("ERRO");
+        return primeiro->elemento;
     }
-
+ 
+    Celula* tmp = primeiro;
+    primeiro = primeiro->prox;
+    Restaurante resp = primeiro->elemento;
+    tmp->prox = NULL;
+    free(tmp);
+    tmp = NULL;
     return resp;
 }
 
+
+
+/**
+ * Mostra os elementos separados por espacos.
+ */
+void mostrar()
+{
+    char saida_linha[500];
+    Celula* i;
+ 
+    for ( i = primeiro->prox; i != NULL; i = i->prox )
+    {
+        formatar_restaurante(&i->elemento, saida_linha);
+        printf("%s\n", saida_linha);
+    }
+}
+
+
 /**
  * @author Gabriel Ferreira Pereira
- * @reason Metodo principal que busca e pesquisa restaurantes por nome
+ * @param restaurantes, tamanho, id
+ * @reason Busca um restaurante pelo ID no vetor lido do CSV
+ * @return restaurante encontrado
+ */
+Restaurante buscar_restaurante( Restaurante *restaurantes, int tamanho, int id )
+{
+    for ( int i = 0; i < tamanho; i++ )
+    {
+        if ( restaurantes[i].id == id )
+        {
+            return restaurantes[i];
+        }
+    }
+
+    return restaurantes[0];
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
+ *         e executa os comandos sobre a lista flexivel
  */
 int main()
 {
     Colecao_restaurante colecao = ler_csv();
     Restaurante *restaurantes = get_restaurantes(&colecao);
-    Restaurante selecionados[500];
-    int tamanho = 0;
     int id = 0;
-    int contadores[2] = {0, 0};
-    clock_t inicio, fim;
-    double total = 0.0;
-
+    int n = 0;
+    char comando[3];
+ 
+    start();
+ 
     while ( scanf("%d", &id) && id != -1 )
     {
-        for ( int i = 0; i < get_tamanho(&colecao); i++ )
-        {
-            if ( restaurantes[i].id == id )
-            {
-                selecionados[tamanho] = restaurantes[i];
-                tamanho++;
-            }
-        }
+        inserirFim(buscar_restaurante(restaurantes, get_tamanho(&colecao), id));
     }
-
-    // Ordenar por nome antes de pesquisar
-    for ( int i = 1; i < tamanho; i++ )
+ 
+    scanf("%d", &n);
+ 
+    for ( int i = 0; i < n; i++ )
     {
-        Restaurante tmp = selecionados[i];
-
-        int j = i - 1;
-
-        while ( j >= 0 && comparar_nome(selecionados[j].nome, tmp.nome) > 0 )
+        scanf("%s", comando);
+ 
+        if ( comando[0] == 'I' )
         {
-            selecionados[j + 1] = selecionados[j];
-            j--;
+            scanf("%d", &id);
+            inserirFim(buscar_restaurante(restaurantes, get_tamanho(&colecao), id));
         }
-
-        selecionados[j + 1] = tmp;
+ 
+        else if ( comando[0] == 'R' )
+        {
+            Restaurante removido = removerInicio();
+            printf("(R)%s\n", removido.nome);
+        }
     }
-
-    // Pesquisa binaria
-    inicio = clock();
-    char nome[100];
-
-    scanf(" %[^\n]", nome);
-
-    while ( !(nome[0] == 'F' && nome[1] == 'I' && nome[2] == 'M') )
-    {
-        if ( pesq_bin(selecionados, tamanho, nome, contadores) )
-        {
-            printf("SIM\n");
-        }
-
-        else
-        {
-            printf("NAO\n");
-        }
-
-        scanf(" %[^\n]", nome);
-    }
-    
-    fim = clock();
-
-    total = ((fim - inicio) / (double)CLOCKS_PER_SEC); // mostra o tempo em segundos
-
-    // Salvar tempo e status em arquivo
-    FILE *log = fopen("842527_binaria.txt", "w");
-    fprintf(log, "Tempo para pesquisar: %f s\n", total);
-    fprintf(log, "Comparacoes: %d\n", contadores[0]);
-    fclose(log);
-
+ 
+    mostrar();
+ 
     return 0;
 }
+
