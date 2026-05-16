@@ -482,7 +482,6 @@ class Questao06
                 if (restaurantes[i].getID() == id)
                 {
                     pilha.inserir(restaurantes[i]);
-                    break;
                 }
             }
         }
@@ -501,7 +500,6 @@ class Questao06
                     if (restaurantes[j].getID() == id)
                     {
                         pilha.inserir(restaurantes[j]);
-                        break;
                     }
                 }
             }

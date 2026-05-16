@@ -1,5 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
+
 
 typedef struct Data
 {
@@ -28,9 +31,7 @@ typedef struct Restaurante
     Hora horario_fechamento;
     Data data_abertura;
     int aberto;
-    
 } Restaurante;
-
 
 typedef struct Colecao_restaurante
 {
@@ -86,7 +87,6 @@ void formatar_hora( Hora *hora, char *saida_linha )
     sprintf(saida_linha, "%02d:%02d", hora->hora, hora->minuto);
 }
 
-
 /**
  * @author Gabriel Ferreira Pereira
  * @param linha, pos, campo
@@ -96,7 +96,7 @@ void formatar_hora( Hora *hora, char *saida_linha )
 int ler_campo( char *linha, int pos, char *campo )
 {
     int i = 0;
-
+    
     while ( linha[pos] != ',' && linha[pos] != '\0' && linha[pos] != '\n' )
     {
         campo[i] = linha[pos];
@@ -156,12 +156,11 @@ Restaurante ler_restaurante( char *linha )
 
     r.tipo1[k] = '\0';
     j++; k = 0;
-
+    
     while ( cozinha[j] != '\0' )
     {
         r.tipo2[k++] = cozinha[j++];
     }
-
     r.tipo2[k] = '\0';
 
     // faixa preco
@@ -228,7 +227,7 @@ void formatar_restaurante( Restaurante *r, char *saida_linha )
     {
         sprintf(aberto_str, "true");
     }
-    
+
     else
     {
         sprintf(aberto_str, "false");
@@ -240,7 +239,6 @@ void formatar_restaurante( Restaurante *r, char *saida_linha )
         horario_abertura, horario_fechamento,
         data_str, aberto_str);
 }
-
 
 /**
  * @author Gabriel Ferreira Pereira
@@ -303,30 +301,229 @@ Colecao_restaurante ler_csv()
     FILE *f = fopen("/tmp/restaurantes.csv", "r");
     char linha[500];
     int j = 0;
-    
 
     // pular cabecalho
     fgets(linha, 500, f);
 
     for ( int i = 0; i < 500; i++ )
     {
-        j = 0;
         fgets(linha, 500, f);
-        
+        j = 0;
+
         // substitui o \n por \0 para encerrar a string
         while ( linha[j] != '\n' && linha[j] != '\0' )
         {
             j++;
         }
         linha[j] = '\0';
-
+        
         Restaurante r = ler_restaurante(linha);
         adicionar(&colecao, r);
     }
 
     fclose(f);
-
     return colecao;
+}
+
+
+typedef struct Celula 
+{
+	Restaurante elemento;
+	struct Celula* prox;
+} Celula;
+
+Celula* primeiro;
+Celula* ultimo;
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param restaurante
+ * @reason Cria uma nova celula da lista flexivel
+ * @return ponteiro para a nova celula
+ */
+Celula* novaCelula( Restaurante restaurante ) 
+{
+   Celula* nova = (Celula*) malloc(sizeof(Celula));
+   nova->elemento = restaurante;
+   nova->prox = NULL;
+   return nova;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Cria uma lista sem elementos com celula cabeca
+ */
+void start () 
+{
+   Restaurante restaurante_vazio;
+   memset(&restaurante_vazio, 0, sizeof(Restaurante));
+   primeiro = novaCelula(restaurante_vazio);
+   ultimo = primeiro;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param restaurante
+ * @reason Insere um restaurante na primeira posicao da lista
+ */
+void inserirInicio( Restaurante restaurante ) 
+{
+   Celula* tmp = novaCelula(restaurante);
+   tmp->prox = primeiro->prox;
+   primeiro->prox = tmp;
+
+   if ( primeiro == ultimo ) 
+   {                    
+        ultimo = tmp;
+   }
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param restaurante
+ * @reason Insere um restaurante na ultima posicao da lista
+ */
+void inserirFim( Restaurante restaurante ) 
+{
+   ultimo->prox = novaCelula(restaurante);
+   ultimo = ultimo->prox;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Remove um restaurante da primeira posicao da lista
+ * @return restaurante removido
+ */
+Restaurante removerInicio() 
+{
+   Celula* tmp = primeiro->prox;
+   Restaurante resp = tmp->elemento;
+   primeiro->prox = tmp->prox;
+
+   if ( tmp == ultimo )
+   {
+      ultimo = primeiro;
+   }
+
+   tmp->prox = NULL;
+   free(tmp);
+   return resp;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Remove um restaurante da ultima posicao da lista
+ * @return restaurante removido
+ */
+Restaurante removerFim() 
+{
+   Celula* i;
+
+   for ( i = primeiro; i->prox != ultimo; i = i->prox );
+
+   Restaurante resp = ultimo->elemento;
+   free(ultimo);
+   ultimo = i;
+   ultimo->prox = NULL;
+
+   return resp;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Calcula e retorna o tamanho da lista
+ * @return tamanho da lista
+ */
+int tamanho() 
+{
+   int tamanho = 0;
+   Celula* i;
+   for ( i = primeiro; i != ultimo; i = i->prox, tamanho++ );
+   return tamanho;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param restaurante, pos
+ * @reason Insere um restaurante em uma posicao especifica da lista
+ */
+void inserir( Restaurante restaurante, int pos ) 
+{
+   int tam = tamanho();
+
+   if ( pos == 0 )
+   {
+      inserirInicio(restaurante);
+   } 
+   else if ( pos == tam )
+   {
+      inserirFim(restaurante);
+   } 
+   else 
+   {
+      int j;
+      Celula* i = primeiro;
+
+      for ( j = 0; j < pos; j++, i = i->prox );
+
+      Celula* tmp = novaCelula(restaurante);
+      tmp->prox = i->prox;
+      i->prox = tmp;
+   }
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param pos
+ * @reason Remove um restaurante de uma posicao especifica da lista
+ * @return restaurante removido
+ */
+Restaurante remover( int pos ) 
+{
+   Restaurante resp;
+   int tam = tamanho();
+
+   if ( pos == 0 )
+   {
+      resp = removerInicio();
+   } 
+
+   else if ( pos == tam - 1 )
+   {
+      resp = removerFim();
+   } 
+
+   else 
+   {
+      Celula* i = primeiro;
+      int j;
+
+      for ( j = 0; j < pos; j++, i = i->prox );
+
+      Celula* tmp = i->prox;
+      resp = tmp->elemento;
+      i->prox = tmp->prox;
+      tmp->prox = NULL;
+      free(tmp);
+   }
+
+   return resp;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Mostra os restaurantes da lista formatados
+ */
+void mostrar() 
+{
+   char saida_linha[500];
+   Celula* i;
+   
+   for ( i = primeiro->prox; i != NULL; i = i->prox ) 
+   {
+      formatar_restaurante(&i->elemento, saida_linha);
+      printf("%s\n", saida_linha);
+   }
 }
 
 /**
@@ -346,77 +543,47 @@ int comparar_nome( char *a, char *b )
         {
             cmp = 1;
         }
+
         else if ( a[i] < b[i] )
         {
             cmp = -1;
         }
+      
         i++;
     }
-    
+
     return cmp;
 }
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param selecionados, tamanho
- * @reason Retorna o maior valor de capacidade
- * @return maior capacidade
+ * @param selecionados, tamanho, comparacoes, movimentacoes
+ * @reason Ordena o array de restaurantes pelo nome usando selecao
  */
-int get_maior( Restaurante *selecionados, int tamanho )
+void selecao( Restaurante *selecionados, int tamanho, int *comparacoes )
 {
-    int maior = selecionados[0].capacidade;
-
-    for ( int i = 1; i < tamanho; i++ )
+    for ( int i = 0; i < tamanho - 1; i++ )
     {
-        int val = selecionados[i].capacidade;
 
-        if ( val > maior )
+        int menor = i;
+        
+        for ( int j = i + 1; j < tamanho; j++ )
         {
-            maior = val;
+            comparacoes[0]++; // avanca comparacoes
+            
+            if ( comparar_nome(selecionados[menor].nome, selecionados[j].nome) > 0 )
+            {
+                menor = j;
+            }
         }
-    }
-
-    return maior;
-}
-
-/**
- * @author Gabriel Ferreira Pereira
- * @param selecionados, tamanho, contadores
- * @reason Ordena o array de restaurantes por capacidade usando counting sort
- */
-void counting_sort( Restaurante *selecionados, int tamanho, int *contadores )
-{
-    int tam_count = get_maior(selecionados, tamanho) + 1;
-    int count[tam_count];
-    Restaurante ordenado[tamanho];
-
-    for ( int i = 0; i < tam_count; i++ )
-    {
-        count[i] = 0;
-    }
-
-    for ( int i = 0; i < tamanho; i++ )
-    {
-        contadores[0]++; // avanca comparacoes
-        count[selecionados[i].capacidade]++;
-    }
-
-    for ( int i = 1; i < tam_count; i++ )
-    {
-        count[i] += count[i - 1];
-    }
-
-    for ( int i = tamanho - 1; i >= 0; i-- )
-    {
-        int idx = selecionados[i].capacidade;
-        ordenado[count[idx] - 1] = selecionados[i];
-        count[idx]--;
-        contadores[1]++; // avanca movimentacoes
-    }
-
-    for ( int i = 0; i < tamanho; i++ )
-    {
-        selecionados[i] = ordenado[i];
+        
+        if ( menor != i )
+        {
+            Restaurante tmp = selecionados[menor];
+            selecionados[menor] = selecionados[i];
+            selecionados[i] = tmp;
+            comparacoes[1]++; // avanca movimentacoes
+        }
     }
 }
 
@@ -428,13 +595,15 @@ int main()
 {
     Colecao_restaurante colecao = ler_csv();
     Restaurante *restaurantes = get_restaurantes(&colecao);
-    Restaurante selecionados[500];
-    int tamanho = 0;
+
     char saida_linha[500];
     int id = 0;
     int contadores[2] = {0, 0};
     clock_t inicio, fim;
     double total = 0.0;
+
+    // Inicializa a lista flexivel
+    start();
 
     while ( scanf("%d", &id) && id != -1 )
     {
@@ -442,26 +611,34 @@ int main()
         {
             if ( restaurantes[i].id == id )
             {
-                selecionados[tamanho] = restaurantes[i];
-                tamanho++;
+                inserirFim(restaurantes[i]);
             }
         }
     }
 
+    int tam = tamanho();
+    Restaurante selecionados[tam];
+    Celula *c = primeiro->prox;
+
+    for ( int i = 0; i < tam; i++, c = c->prox )
+    {
+        selecionados[i] = c->elemento;
+    }
+
     // Execucao do algoritmo de ordenacao
     inicio = clock();
-    counting_sort(selecionados, tamanho, contadores);
+    selecao(selecionados, tam, contadores);
     fim = clock();
     total = ((fim - inicio) / (double)CLOCKS_PER_SEC) * 1000.0;
 
-    // Salvar tempo e status em arquivo
-    FILE *log = fopen("842527_countingsort.txt", "w");
+    // Salvar tempo e contadores em arquivo
+    FILE *log = fopen("842527_selecao_flexivel.txt", "w");
     fprintf(log, "Tempo para ordenar: %f s\n", total);
     fprintf(log, "Comparacoes: %d\n", contadores[0]);
     fprintf(log, "Movimentacoes: %d\n", contadores[1]);
     fclose(log);
 
-    for ( int i = 0; i < tamanho; i++ )
+    for ( int i = 0; i < tam; i++ )
     {
         formatar_restaurante(&selecionados[i], saida_linha);
         printf("%s\n", saida_linha);

@@ -1,166 +1,293 @@
 #include <stdio.h>
-#include <time.h>
+#include <stdlib.h>
+#include <string.h>
 #include "ColecaoRestaurante.h"
 
+typedef struct Celula
+{
+    Restaurante elemento;
+    struct Celula *prox;
+} Celula;
+
 /**
  * @author Gabriel Ferreira Pereira
- * @param a, b
- * @reason Compara dois nomes caractere por caractere
- * @return positivo se a > b, negativo se a < b, zero se iguais
+ * @param restaurante
+ * @reason Cria uma nova celula da lista flexivel
+ * @return ponteiro para a nova celula
  */
-int comparar_nome( char *a, char *b )
+Celula* nova_celula( Restaurante restaurante )
 {
-    int i = 0;
-    int cmp = 0;
-
-    while ( a[i] != '\0' && b[i] != '\0' && cmp == 0 )
-    {
-        if ( a[i] > b[i] )
-        {
-            cmp = 1;
-        }
-        else if ( a[i] < b[i] )
-        {
-            cmp = -1;
-        }
-        i++;
-    }
-    
-    return cmp;
+    Celula *nova = (Celula*) malloc(sizeof(Celula));
+    nova->elemento = restaurante;
+    nova->prox = NULL;
+    return nova;
 }
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param selecionados, tamanho
- * @reason Retorna o maior valor de capacidade
- * @return maior capacidade
+ * @param restaurantes, tamanho, id
+ * @reason Busca um restaurante pelo ID no vetor lido do CSV
+ * @return restaurante encontrado
  */
-int get_maior( Restaurante *selecionados, int tamanho )
+Restaurante buscar_restaurante( Restaurante *restaurantes, int tamanho, int id )
 {
-    int maior = selecionados[0].capacidade;
-
-    for ( int i = 1; i < tamanho; i++ )
-    {
-        int val = selecionados[i].capacidade;
-
-        if ( val > maior )
-        {
-            maior = val;
-        }
-    }
-
-    return maior;
-}
-
-/**
- * @author Gabriel Ferreira Pereira
- * @param selecionados, tamanho, contadores
- * @reason Ordena o array de restaurantes por capacidade usando counting sort
- *         e desempata por nome usando insercao
- */
-void counting_sort( Restaurante *selecionados, int tamanho, int *contadores )
-{
-    int tam_count = get_maior(selecionados, tamanho) + 1;
-    int count[tam_count];
-    Restaurante ordenado[tamanho];
-
-    // inicializar contagem
-    for ( int i = 0; i < tam_count; i++ )
-    {
-        count[i] = 0;
-    }
-
-    // contar ocorrencias
     for ( int i = 0; i < tamanho; i++ )
     {
-        contadores[0]++; // avanca comparacoes
-        count[selecionados[i].capacidade]++;
-    }
-
-    // acumular contagem
-    for ( int i = 1; i < tam_count; i++ )
-    {
-        count[i] += count[i - 1];
-    }
-
-    // ordenar
-    for ( int i = tamanho - 1; i >= 0; i-- )
-    {
-        int idx = selecionados[i].capacidade;
-        ordenado[count[idx] - 1] = selecionados[i];
-        count[idx]--;
-        contadores[1]++; // avanca movimentacoes
-    }
-
-    // copiar para o array original
-    for ( int i = 0; i < tamanho; i++ )
-    {
-        selecionados[i] = ordenado[i];
-    }
-
-    // desempate por nome usando insercao
-    for ( int i = 1; i < tamanho; i++ )
-    {
-        Restaurante tmp = selecionados[i];
-        int j = i - 1;
-        while ( j >= 0 && selecionados[j].capacidade == tmp.capacidade &&
-                comparar_nome(selecionados[j].nome, tmp.nome) > 0 )
+        if ( restaurantes[i].id == id )
         {
-            contadores[0]++; // avanca comparacoes
-            selecionados[j + 1] = selecionados[j];
-            contadores[1]++; // avanca movimentacoes
-            j--;
+            return restaurantes[i];
         }
-        selecionados[j + 1] = tmp;
+    }
+
+    return restaurantes[0];
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param primeiro, ultimo
+ * @reason Inicializa a lista flexivel com celula cabeca
+ */
+void start( Celula **primeiro, Celula **ultimo )
+{
+    Restaurante restaurante_vazio;
+    memset(&restaurante_vazio, 0, sizeof(Restaurante));
+    *primeiro = nova_celula(restaurante_vazio);
+    *ultimo = *primeiro;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param primeiro, ultimo, restaurante
+ * @reason Insere um restaurante no inicio da lista
+ */
+void inserir_inicio( Celula **primeiro, Celula **ultimo, Restaurante restaurante )
+{
+    Celula *tmp = nova_celula(restaurante);
+    tmp->prox = (*primeiro)->prox;
+    (*primeiro)->prox = tmp;
+
+    if ( *primeiro == *ultimo )
+    {
+        *ultimo = tmp;
     }
 }
 
 /**
  * @author Gabriel Ferreira Pereira
- * @reason Metodo principal que busca, ordena e exibe restaurantes
+ * @param ultimo, restaurante
+ * @reason Insere um restaurante no fim da lista
+ */
+void inserir_fim( Celula **ultimo, Restaurante restaurante )
+{
+    (*ultimo)->prox = nova_celula(restaurante);
+    *ultimo = (*ultimo)->prox;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param primeiro, ultimo
+ * @reason Remove um restaurante do inicio da lista
+ * @return restaurante removido
+ */
+Restaurante remover_inicio( Celula **primeiro, Celula **ultimo )
+{
+    Celula *tmp = (*primeiro)->prox;
+    Restaurante resp = tmp->elemento;
+    (*primeiro)->prox = tmp->prox;
+
+    if ( tmp == *ultimo )
+    {
+        *ultimo = *primeiro;
+    }
+
+    free(tmp);
+    return resp;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param primeiro, ultimo
+ * @reason Remove um restaurante do fim da lista
+ * @return restaurante removido
+ */
+Restaurante remover_fim( Celula **primeiro, Celula **ultimo )
+{
+    Celula *i;
+
+    for ( i = *primeiro; i->prox != *ultimo; i = i->prox );
+
+    Restaurante resp = (*ultimo)->elemento;
+    free(*ultimo);
+    *ultimo = i;
+    (*ultimo)->prox = NULL;
+    return resp;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param primeiro, ultimo
+ * @reason Retorna a quantidade de elementos validos da lista
+ * @return tamanho da lista
+ */
+int tamanho_lista( Celula *primeiro, Celula *ultimo )
+{
+    int tamanho = 0;
+
+    for ( Celula *i = primeiro; i != ultimo; i = i->prox )
+    {
+        tamanho++;
+    }
+
+    return tamanho;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param primeiro, ultimo, restaurante, pos
+ * @reason Insere um restaurante em uma posicao especifica da lista
+ */
+void inserir( Celula **primeiro, Celula **ultimo, Restaurante restaurante, int pos )
+{
+    int tam = tamanho_lista(*primeiro, *ultimo);
+
+    if ( pos == 0 )
+    {
+        inserir_inicio(primeiro, ultimo, restaurante);
+    }
+
+    else if ( pos == tam )
+    {
+        inserir_fim(ultimo, restaurante);
+    }
+
+    else
+    {
+        Celula *i = *primeiro;
+
+        for ( int j = 0; j < pos; j++, i = i->prox );
+
+        Celula *tmp = nova_celula(restaurante);
+        tmp->prox = i->prox;
+        i->prox = tmp;
+    }
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param primeiro, ultimo, pos
+ * @reason Remove um restaurante de uma posicao especifica da lista
+ * @return restaurante removido
+ */
+Restaurante remover( Celula **primeiro, Celula **ultimo, int pos )
+{
+    int tam = tamanho_lista(*primeiro, *ultimo);
+
+    if ( pos == 0 )
+    {
+        return remover_inicio(primeiro, ultimo);
+    }
+
+    if ( pos == tam - 1 )
+    {
+        return remover_fim(primeiro, ultimo);
+    }
+
+    Celula *i = *primeiro;
+
+    for ( int j = 0; j < pos; j++, i = i->prox );
+
+    Celula *tmp = i->prox;
+    Restaurante resp = tmp->elemento;
+    i->prox = tmp->prox;
+    free(tmp);
+    return resp;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param primeiro
+ * @reason Mostra os restaurantes da lista formatados
+ */
+void mostrar( Celula *primeiro )
+{
+    char saida_linha[500];
+
+    for ( Celula *i = primeiro->prox; i != NULL; i = i->prox )
+    {
+        formatar_restaurante(&i->elemento, saida_linha);
+        printf("%s\n", saida_linha);
+    }
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
+ *         e executa os comandos sobre a lista flexivel
  */
 int main()
 {
     ColecaoRestaurante colecao = ler_csv();
     Restaurante *restaurantes = get_restaurantes(&colecao);
-    Restaurante selecionados[500];
-    int tamanho = 0;
-    char saida_linha[500];
+    Celula *primeiro;
+    Celula *ultimo;
     int id = 0;
-    int contadores[2] = {0, 0};
-    clock_t inicio, fim;
-    double total = 0.0;
+    int n = 0;
+    char comando[3];
+
+    start(&primeiro, &ultimo);
 
     while ( scanf("%d", &id) && id != -1 )
     {
-        for ( int i = 0; i < get_tamanho(&colecao); i++ )
+        inserir_fim(&ultimo, buscar_restaurante(restaurantes, get_tamanho(&colecao), id));
+    }
+
+    scanf("%d", &n);
+
+    for ( int i = 0; i < n; i++ )
+    {
+        scanf("%s", comando);
+
+        if ( strcmp(comando, "II") == 0 )
         {
-            if ( restaurantes[i].id == id )
-            {
-                selecionados[tamanho] = restaurantes[i];
-                tamanho++;
-            }
+            scanf("%d", &id);
+            inserir_inicio(&primeiro, &ultimo, buscar_restaurante(restaurantes, get_tamanho(&colecao), id));
+        }
+
+        else if ( strcmp(comando, "IF") == 0 )
+        {
+            scanf("%d", &id);
+            inserir_fim(&ultimo, buscar_restaurante(restaurantes, get_tamanho(&colecao), id));
+        }
+
+        else if ( strcmp(comando, "I*") == 0 )
+        {
+            int pos = 0;
+            scanf("%d %d", &pos, &id);
+            inserir(&primeiro, &ultimo, buscar_restaurante(restaurantes, get_tamanho(&colecao), id), pos);
+        }
+
+        else if ( strcmp(comando, "RI") == 0 )
+        {
+            Restaurante removido = remover_inicio(&primeiro, &ultimo);
+            printf("(R)%s\n", removido.nome);
+        }
+
+        else if ( strcmp(comando, "RF") == 0 )
+        {
+            Restaurante removido = remover_fim(&primeiro, &ultimo);
+            printf("(R)%s\n", removido.nome);
+        }
+
+        else if ( strcmp(comando, "R*") == 0 )
+        {
+            int pos = 0;
+            scanf("%d", &pos);
+            Restaurante removido = remover(&primeiro, &ultimo, pos);
+            printf("(R)%s\n", removido.nome);
         }
     }
 
-    // Execucao do algoritmo de ordenacao
-    inicio = clock();
-    counting_sort(selecionados, tamanho, contadores);
-    fim = clock();
-    total = ((fim - inicio) / (double)CLOCKS_PER_SEC) * 1000.0;
-
-    // Salvar tempo e status em arquivo
-    FILE *log = fopen("842527_countingsort.txt", "w");
-    fprintf(log, "Tempo para ordenar: %f s\n", total);
-    fprintf(log, "Comparacoes: %d\n", contadores[0]);
-    fprintf(log, "Movimentacoes: %d\n", contadores[1]);
-    fclose(log);
-
-    for ( int i = 0; i < tamanho; i++ )
-    {
-        formatar_restaurante(&selecionados[i], saida_linha);
-        printf("%s\n", saida_linha);
-    }
+    mostrar(primeiro);
 
     return 0;
 }
