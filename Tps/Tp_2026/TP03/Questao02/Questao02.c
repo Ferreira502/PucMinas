@@ -336,33 +336,37 @@ Colecao_restaurante ler_csv()
 int comparar_nome( char *a, char *b )
 {
     int i = 0;
-    
-    while ( a[i] != '\0' && b[i] != '\0' )
+    int resp = 0;
+
+    while ( a[i] != '\0' && b[i] != '\0' && resp == 0 )
     {
         if ( a[i] > b[i] )
         {
-            return 1;
+            resp = 1;
         }
 
         else if ( a[i] < b[i] )
         {
-            return -1;
+            resp = -1;
         }
-      
+
         i++;
     }
 
-    if ( a[i] == '\0' && b[i] == '\0' )
+    if ( resp == 0 )
     {
-        return 0;
+        if ( a[i] == '\0' && b[i] != '\0' )
+        {
+            resp = -1;
+        }
+        
+        else if ( a[i] != '\0' && b[i] == '\0' )
+        {
+            resp = 1;
+        }
     }
 
-    if ( a[i] == '\0' )
-    {
-        return -1;
-    }
-
-    return 1;
+    return resp;
 }
 
 /**

@@ -352,23 +352,28 @@ ArvoreBinaria* novo_arvore_binaria()
 
 No* inserir_rec( No* no, Restaurante r )
 {
+    No* resp = no;
+    
     if ( no == NULL )
     {
-        return novo_no(r);
+        resp = novo_no(r);
     }
 
-    int cmp = strcmp(r.nome, no->elemento.nome);
-
-    if ( cmp < 0 )
+    else
     {
-        no->esq = inserir_rec(no->esq, r);
-    }
-    else if ( cmp > 0 )
-    {
-        no->dir = inserir_rec(no->dir, r);
+        int cmp = strcmp(r.nome, no->elemento.nome);
+
+        if ( cmp < 0 )
+        {
+            no->esq = inserir_rec(no->esq, r);
+        }
+        else if ( cmp > 0 )
+        {
+            no->dir = inserir_rec(no->dir, r);
+        }
     }
 
-    return no;
+    return resp;
 }
 
 void inserir( ArvoreBinaria* ab, Restaurante r )
@@ -376,36 +381,38 @@ void inserir( ArvoreBinaria* ab, Restaurante r )
     ab->raiz = inserir_rec(ab->raiz, r);
 }
 
-void pesquisar_rec( No* no, char* nome, int raiz_flag )
+void pesquisar_rec( No* no, char* nome, int raiz )
 {
     if ( no == NULL )
     {
         printf(" NAO\n");
-        return;
     }
-
-    if ( raiz_flag )
-    {
-        printf("raiz");
-    }
-
-    int cmp = strcmp(nome, no->elemento.nome);
-
-    if ( cmp == 0 )
-    {
-        printf(" SIM\n");
-    }
-
-    else if ( cmp > 0 )
-    {
-        printf(" dir");
-        pesquisar_rec(no->dir, nome, 0);
-    }
-
+    
     else
     {
-        printf(" esq");
-        pesquisar_rec(no->esq, nome, 0);
+        if ( raiz )
+        {
+            printf("raiz");
+        }
+
+        int cmp = strcmp(nome, no->elemento.nome);
+
+        if ( cmp == 0 )
+        {
+            printf(" SIM\n");
+        }
+
+        else if ( cmp > 0 )
+        {
+            printf(" dir");
+            pesquisar_rec(no->dir, nome, 0);
+        }
+
+        else
+        {
+            printf(" esq");
+            pesquisar_rec(no->esq, nome, 0);
+        }
     }
 }
 
@@ -416,12 +423,14 @@ void pesquisar( ArvoreBinaria* ab, char* nome )
 
 void caminhar_em_rec( No* no )
 {
-    if ( no == NULL ) return;
-    caminhar_em_rec(no->esq);
-    char saida_linha[500];
-    formatar_restaurante(&no->elemento, saida_linha);
-    printf("%s\n", saida_linha);
-    caminhar_em_rec(no->dir);
+    if ( no != NULL )
+    {
+        caminhar_em_rec(no->esq);
+        char saida_linha[500];
+        formatar_restaurante(&no->elemento, saida_linha);
+        printf("%s\n", saida_linha);
+        caminhar_em_rec(no->dir);
+    }
 }
 
 void caminhar_em( ArvoreBinaria* ab )

@@ -372,18 +372,23 @@ void inserirFim( Restaurante x )
  */
 Restaurante removerInicio()
 {
+    Restaurante resp = primeiro->elemento;
+
     if ( primeiro == ultimo )
     {
         printf("ERRO");
-        return primeiro->elemento;
     }
- 
-    Celula* tmp = primeiro;
-    primeiro = primeiro->prox;
-    Restaurante resp = primeiro->elemento;
-    tmp->prox = NULL;
-    free(tmp);
-    tmp = NULL;
+
+    else
+    {
+        Celula* tmp = primeiro;
+        primeiro = primeiro->prox;
+        resp = primeiro->elemento;
+        tmp->prox = NULL;
+        free(tmp);
+        tmp = NULL;
+    }
+
     return resp;
 }
 
@@ -410,15 +415,22 @@ void mostrar()
  */
 Restaurante buscar_restaurante( Restaurante *restaurantes, int tamanho, int id )
 {
-    for ( int i = 0; i < tamanho; i++ )
+    Restaurante resp = restaurantes[0];
+    int i = 0;
+    int encontrou = 0;
+  
+    while ( i < tamanho && encontrou == 0 )
     {
         if ( restaurantes[i].id == id )
         {
-            return restaurantes[i];
+            resp = restaurantes[i];
+            encontrou = 1;
         }
+  
+        i++;
     }
 
-    return restaurantes[0];
+    return resp;
 }
 
 /**

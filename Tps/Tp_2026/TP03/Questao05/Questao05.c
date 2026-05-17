@@ -351,28 +351,12 @@ Celula* novaCelula( Restaurante restaurante )
  * @author Gabriel Ferreira Pereira
  * @reason Cria uma lista sem elementos com celula cabeca
  */
-void start () 
+void start()
 {
-   Restaurante vazio;
-   vazio.id = 0;
-   vazio.nome[0] = '\0';
-   vazio.cidade[0] = '\0';
-   vazio.capacidade = 0;
-   vazio.avaliacao = 0.0;
-   vazio.tipo1[0] = '\0';
-   vazio.tipo2[0] = '\0';
-   vazio.faixaPreco[0] = '\0';
-   vazio.horario_abertura.hora = 0;
-   vazio.horario_abertura.minuto = 0;
-   vazio.horario_fechamento.hora = 0;
-   vazio.horario_fechamento.minuto = 0;
-   vazio.data_abertura.dia = 0;
-   vazio.data_abertura.mes = 0;
-   vazio.data_abertura.ano = 0;
-   vazio.aberto = 0;
-
-   primeiro = novaCelula(vazio);
-   ultimo = primeiro;
+    Restaurante vazio;
+    vazio.id = -1;
+    primeiro = novaCelula(vazio);
+    ultimo = primeiro;
 }
 
 /**
@@ -549,15 +533,22 @@ void mostrar()
  */
 Restaurante buscar_restaurante( Restaurante *restaurantes, int tamanho, int id )
 {
-    for ( int i = 0; i < tamanho; i++ )
+    Restaurante resp = restaurantes[0];
+    int i = 0;
+    int encontrou = 0;
+  
+    while ( i < tamanho && encontrou == 0 )
     {
         if ( restaurantes[i].id == id )
         {
-            return restaurantes[i];
+            resp = restaurantes[i];
+            encontrou = 1;
         }
+  
+        i++;
     }
 
-    return restaurantes[0];
+    return resp;
 }
 
 /**
