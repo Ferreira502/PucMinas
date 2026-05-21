@@ -1,7 +1,7 @@
 class No
-	{
-	int elemento;
-	No esq,dir;
+{
+	private int elemento;
+	private No esq,dir;
 
 	public No ( int elemento)
 	{

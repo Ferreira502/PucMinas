@@ -549,6 +549,4 @@ int main()
         formatar_restaurante(&selecionados[i], saida_linha);
         printf("%s\n", saida_linha);
     }
-
-    return 0;
 }

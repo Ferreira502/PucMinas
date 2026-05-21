@@ -3,7 +3,7 @@ class ArvoreBinaria
 	private No raiz;
 
 	public ArvoreBinaria()
-       	{
+    {
 		raiz = null;
 	}
 

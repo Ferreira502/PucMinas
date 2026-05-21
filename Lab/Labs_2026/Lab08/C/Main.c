@@ -234,6 +234,4 @@ int main ()
     }
 
     delete_arvore_binaria(ab);
-
-    return 0;
 }
