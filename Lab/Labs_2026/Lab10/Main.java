@@ -54,6 +54,7 @@ class No
 
         return nivelDir - nivelEsq;
     }
+
 }
 
 class ArvoreAvl 
@@ -88,8 +89,7 @@ class ArvoreAvl
             i.esq = inserir(i.esq, x);
         }
 
-        i.setNivel();
-        return i;
+        return balancear(i);
     }
 
     public void caminharCentral() 
@@ -102,34 +102,75 @@ class ArvoreAvl
         if ( i != null ) 
 		{
             caminharCentral(i.esq);
+            //System.out.println(i.elemento + "" + "( " + i.getBalanceamento() + ")");
+            
             System.out.println(i.elemento + "" + "( " + i.nivel + ")");
             caminharCentral(i.dir);
         }
     }
 
-    /*
-   public No rotacionarEsq ( No i )
-   {
-   	No noDir = i.dir;
-	No noDirEsq = i.esq;
+    public No rotacionarEsq ( No i )
+    {
+        No noDir = i.dir;
+        No noDirEsq = noDir.esq;
 
-	noDir.esq = i;
-	i.dir = noDirEsq;
+        noDir.esq = i;
+        i.dir = noDirEsq;
 
-	return noDir;
+        
+		i.setNivel();
+		noDir.setNivel();
+
+        return noDir;
+    }
+
+    public No rotacionarDir ( No i )
+    {
+        No noEsq = i.esq;
+        No noEsqDir = noEsq.dir;
+
+        noEsq.dir = i;
+        i.esq = noEsqDir;
+
+        i.setNivel();
+		noEsq.setNivel();
+
+        return noEsq;
    }
 
-   public No rotacionarDir ( No i )
+   private No balancear ( No i )
    {
-   	No noEsq = i.esq;
-	No noEsqDir = noEsq.dir;
+        // System.out.println ("Cheguei aq balancear");
+        int fator = i.getBalanceamento();
+        
+        if ( fator == 2 )
+        {
+            int fatorFilhoDir = i.dir.getBalanceamento();
+            
+            if ( fatorFilhoDir < 0 )
+            {
+                i.dir = rotacionarDir(i.dir);
+            }
 
-	noEsq.dir = no;
-	no.esq = noEsqDir;
+            i = rotacionarEsq(i);
+        }
 
-	return noEsq;
-   }
-     */
+        else if ( fator == -2 )
+        {
+            int fatorFilhoEsq = i.esq.getBalanceamento(); 
+
+            if ( fatorFilhoEsq > 0 )
+            {
+                i.esq = rotacionarEsq(i.esq);
+            }
+            
+            i = rotacionarDir(i);
+
+        }
+    
+        i.setNivel();
+        return i;
+   }        
 }
 
 public class Main 
@@ -139,13 +180,17 @@ public class Main
 	{
         ArvoreAvl av = new ArvoreAvl();
 
-        av.inserir(20);
+        av.inserir(4);
+        av.inserir(35);
         av.inserir(10);
+        av.inserir(13);
+        av.inserir(3);
         av.inserir(30);
-        av.inserir(5);
-        av.inserir(25);
+        av.inserir(15);
+        av.inserir(12);
+        av.inserir(7);
         av.inserir(40);
-        av.inserir(50);
+        av.inserir(20);
 
         av.caminharCentral();
         // resultado caminhar -> 5, 10, 20, 25, 30, 40, 50

@@ -59,5 +59,15 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
-  "C_Cpp_Runner.msvcSecureNoWarnings": false
+  "C_Cpp_Runner.msvcSecureNoWarnings": false,
+  "java.project.sourcePaths": [
+    "Lab/Labs_2026/Lab09",
+    "Lab/Labs_2026/Lab08/Java",
+    "Lab/Labs_2026/Lab06/Java",
+    "Lab/Labs_2026/Lab04.1",
+    "Lab/Labs_2026/Lab04",
+    "Lab/Labs_2026/Lab03",
+    "Lab/Labs_2026/Lab02",
+    "Lab/Labs_2026/ExerciciosLab/Resolvendo_Prova"
+  ]
 }
