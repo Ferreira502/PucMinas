@@ -48,12 +48,12 @@ class No
 	this.nivel = x;
     }
 
-    public getBalanceamento()
+    public int getBalanceamento()
     {
     	int nivelEsq = getNivel( this.esq );
-	int nivelDir = getNivel( this.dir );
+		int nivelDir = getNivel( this.dir );
 
-	return nivelDir - nivelEsq;
+		return nivelDir - nivelEsq;
     }    
 }
 
