@@ -1,117 +1,167 @@
+import java.io.PrintWriter;
 import java.util.Scanner;
 
-class No 
+class No
 {
-
-    public int elemento;
+    public Restaurante elemento;
     public int nivel;
     public No esq, dir;
-    public No raiz;
 
-    No( int elemento ) 
-	{
+    public No( Restaurante elemento )
+    {
         this.elemento = elemento;
         this.nivel = 1;
         this.esq = null;
         this.dir = null;
-        this.raiz = null;
     }
 
-    public int getNivel(No i) 
-	{
-        int x = 0;
+    public int getNivel( No i )
+    {
+        int resp = 0;
 
-        if ( i != null ) 
-		{
-            x = i.nivel;
+        if ( i != null )
+        {
+            resp = i.nivel;
         }
 
-        return x;
+        return resp;
     }
 
-    public void setNivel() 
-	{
-        int x = 1;
-
+    public void setNivel()
+    {
         int nivelEsq = getNivel(this.esq);
         int nivelDir = getNivel(this.dir);
 
-        if ( nivelEsq > nivelDir ) 
-		{
-            x = nivelEsq + x;
+        if ( nivelEsq > nivelDir )
+        {
+            this.nivel = nivelEsq + 1;
         }
-
-		else 
-		{
-            x = nivelDir + x;
+        else
+        {
+            this.nivel = nivelDir + 1;
         }
-
-        this.nivel = x;
     }
 
-    public int getBalanceamento() 
-	{
-        int nivelEsq = getNivel(this.esq);
-        int nivelDir = getNivel(this.dir);
-
-        return nivelDir - nivelEsq;
+    public int getBalanceamento()
+    {
+        return getNivel(this.dir) - getNivel(this.esq);
     }
-
 }
 
-class ArvoreAvl 
+class ArvoreAvl
 {
+    private No raiz;
+    private int comparacoes;
 
-    public No raiz;
-
-    public ArvoreAvl() 
-	{
+    public ArvoreAvl()
+    {
         raiz = null;
+        comparacoes = 0;
     }
 
-    public void inserir( int x ) 
-	{
-        raiz = inserir(raiz, x);
+    public int getComparacoes()
+    {
+        return comparacoes;
     }
 
-    private No inserir( No i, int x ) 
-	{
-        if ( i == null ) 
-		{
-            i = new No(x);
-        } 
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param restaurante restaurante a ser inserido
+     * @reason Insere um restaurante na AVL usando o nome como chave
+     */
+    public void inserir( Restaurante restaurante )
+    {
+        raiz = inserir(raiz, restaurante);
+    }
 
-		else if ( i.elemento < x ) 
-		{
-            i.dir = inserir(i.dir, x);
-        } 
-
-		else if ( i.elemento > x ) 
-		{
-            i.esq = inserir(i.esq, x);
+    private No inserir( No i, Restaurante restaurante )
+    {
+        if ( i == null )
+        {
+            i = new No(restaurante);
+        }
+        else if ( restaurante.getNome().compareTo(i.elemento.getNome()) > 0 )
+        {
+            i.dir = inserir(i.dir, restaurante);
+        }
+        else if ( restaurante.getNome().compareTo(i.elemento.getNome()) < 0 )
+        {
+            i.esq = inserir(i.esq, restaurante);
         }
 
         return balancear(i);
     }
 
-    public void caminharCentral() 
-	{
-        caminharCentral(raiz);
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param nome nome pesquisado na AVL
+     * @reason Pesquisa um restaurante pelo nome e imprime o caminho percorrido
+     */
+    public void pesquisar( String nome )
+    {
+        pesquisar(raiz, nome, true);
     }
 
-    private void caminharCentral(No i) 
-	{
-        if ( i != null ) 
-		{
+    private void pesquisar( No i, String nome, boolean raizFlag )
+    {
+        if ( i == null )
+        {
+            System.out.println(" NAO");
+        }
+        else
+        {
+            comparacoes++;
+            int cmp = nome.compareTo(i.elemento.getNome());
+
+            if ( raizFlag )
+            {
+                System.out.print("raiz");
+            }
+
+            if ( cmp == 0 )
+            {
+                System.out.println(" SIM");
+            }
+            else if ( cmp > 0 )
+            {
+                System.out.print(" dir");
+                pesquisar(i.dir, nome, false);
+            }
+            else
+            {
+                System.out.print(" esq");
+                pesquisar(i.esq, nome, false);
+            }
+        }
+    }
+
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @reason Mostra os restaurantes em ordem alfabetica pelo nome
+     */
+    public void caminharCentral()
+    {
+        if ( raiz == null )
+        {
+            System.out.println("V");
+        }
+        else
+        {
+            caminharCentral(raiz);
+        }
+    }
+
+    private void caminharCentral( No i )
+    {
+        if ( i != null )
+        {
             caminharCentral(i.esq);
-            //System.out.println(i.elemento + "" + "( " + i.getBalanceamento() + ")");
-            
-            System.out.println(i.elemento + "" + "( " + i.nivel + ")");
+            System.out.println(i.elemento.formatar());
             caminharCentral(i.dir);
         }
     }
 
-    public No rotacionarEsq ( No i )
+    private No rotacionarEsq( No i )
     {
         No noDir = i.dir;
         No noDirEsq = noDir.esq;
@@ -119,14 +169,13 @@ class ArvoreAvl
         noDir.esq = i;
         i.dir = noDirEsq;
 
-        
-		i.setNivel();
-		noDir.setNivel();
+        i.setNivel();
+        noDir.setNivel();
 
         return noDir;
     }
 
-    public No rotacionarDir ( No i )
+    private No rotacionarDir( No i )
     {
         No noEsq = i.esq;
         No noEsqDir = noEsq.dir;
@@ -135,92 +184,97 @@ class ArvoreAvl
         i.esq = noEsqDir;
 
         i.setNivel();
-		noEsq.setNivel();
+        noEsq.setNivel();
 
         return noEsq;
-   }
+    }
 
-   private No balancear ( No i )
-   {
-        // System.out.println ("Cheguei aq balancear");
-        int fator = i.getBalanceamento();
-        
-        if ( fator == 2 )
+    private No balancear( No i )
+    {
+        if ( i != null )
         {
-            int fatorFilhoDir = i.dir.getBalanceamento();
-            
-            if ( fatorFilhoDir < 0 )
+            int fator = i.getBalanceamento();
+
+            if ( fator == 2 )
             {
-                i.dir = rotacionarDir(i.dir);
+                int fatorFilhoDir = i.dir.getBalanceamento();
+
+                if ( fatorFilhoDir < 0 )
+                {
+                    i.dir = rotacionarDir(i.dir);
+                }
+
+                i = rotacionarEsq(i);
+            }
+            else if ( fator == -2 )
+            {
+                int fatorFilhoEsq = i.esq.getBalanceamento();
+
+                if ( fatorFilhoEsq > 0 )
+                {
+                    i.esq = rotacionarEsq(i.esq);
+                }
+
+                i = rotacionarDir(i);
             }
 
-            i = rotacionarEsq(i);
+            i.setNivel();
         }
 
-        else if ( fator == -2 )
-        {
-            int fatorFilhoEsq = i.esq.getBalanceamento(); 
-
-            if ( fatorFilhoEsq > 0 )
-            {
-                i.esq = rotacionarEsq(i.esq);
-            }
-            
-            i = rotacionarDir(i);
-
-        }
-    
-        i.setNivel();
         return i;
-   }        
+    }
 }
 
 public class Questao01
 {
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @reason Insere restaurantes em uma arvore AVL por nome,
+     *         pesquisa chaves e exibe caminhamento em ordem
+     */
+    public static void main( String[] args ) throws Exception
+    {
+        ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
+        Restaurante[] restaurantes = colecao.getRestaurantes();
+        Scanner sc = new Scanner(System.in);
+        ArvoreAvl arvore = new ArvoreAvl();
 
-    public static void main(String[] args) 
-	{
-        ArvoreAvl av = new ArvoreAvl();
-		Scanner sc = new Scanner(System.in);
+        int id = sc.nextInt();
 
-		String palavra;
-		palavra = sc.next();
-		char c = palavra.charAt(0);
+        while ( id != -1 )
+        {
+            for ( int i = 0; i < colecao.getTamanho(); i++ )
+            {
+                if ( restaurantes[i].getID() == id )
+                {
+                    arvore.inserir(restaurantes[i]);
+                    i = colecao.getTamanho();
+                }
+            }
 
-		while ( c != 'S' )
-		{
-			int x = 0;
+            id = sc.nextInt();
+        }
 
-			if ( c == 'I')
-			{
-				x = sc.nextInt();
-				av.inserir(x);
-				System.out.println("Voce inseriu o: " + x);
-			}
+        sc.nextLine();
 
-			if ( c == 'C' )
-			{
-				av.caminharCentral();
-			} 
+        long inicio = System.nanoTime();
+        String nome = sc.nextLine();
 
-			palavra = sc.next();
-			c = palavra.charAt(0);
-		}
+        while ( nome.compareTo("FIM") != 0 )
+        {
+            arvore.pesquisar(nome);
+            nome = sc.nextLine();
+        }
 
-        // av.inserir(4);
-        // av.inserir(35);
-        // av.inserir(10);
-        // av.inserir(13);
-        // av.inserir(3);
-        // av.inserir(30);
-        // av.inserir(15);
-        // av.inserir(12);
-        // av.inserir(7);
-        // av.inserir(40);
-        // av.inserir(20);
+        long fim = System.nanoTime();
+        double tempo = (fim - inicio) / 1000000000.0;
 
-        // av.caminharCentral();
-        // resultado caminhar -> 5, 10, 20, 25, 30, 40, 50
-        // resultado nuvel -> 1, 2, 4, 1, 3, 2, 1
+        arvore.caminharCentral();
+
+        PrintWriter log = new PrintWriter("842527_arvore_avl.txt");
+        log.printf("842527\t%d\t%f%n", arvore.getComparacoes(), tempo);
+        log.close();
+
+        sc.close();
     }
 }

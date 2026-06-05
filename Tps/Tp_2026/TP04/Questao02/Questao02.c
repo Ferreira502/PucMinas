@@ -1,4 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <time.h>
 
 typedef struct Data
 {
@@ -101,7 +105,11 @@ int ler_campo( char *linha, int pos, char *campo )
     }
 
     campo[i] = '\0';
-    pos++;
+
+    if ( linha[pos] != '\0' )
+    {
+        pos++;
+    }
 
     return pos;
 }
@@ -124,25 +132,18 @@ Restaurante ler_restaurante( char *linha )
     int pos = 0;
     int j = 0, k = 0;
 
-    // id
     pos = ler_campo(linha, pos, campo);
     sscanf(campo, "%d", &r.id);
 
-    // nome
     pos = ler_campo(linha, pos, r.nome);
-
-    // cidade
     pos = ler_campo(linha, pos, r.cidade);
 
-    // capacidade
     pos = ler_campo(linha, pos, campo);
     sscanf(campo, "%d", &r.capacidade);
 
-    // avaliacao
     pos = ler_campo(linha, pos, campo);
     sscanf(campo, "%lf", &r.avaliacao);
 
-    // cozinha
     pos = ler_campo(linha, pos, cozinha);
 
     while ( cozinha[j] != ';' )
@@ -151,20 +152,20 @@ Restaurante ler_restaurante( char *linha )
     }
 
     r.tipo1[k] = '\0';
-    j++; k = 0;
+    j++;
+    k = 0;
     
     while ( cozinha[j] != '\0' )
     {
         r.tipo2[k++] = cozinha[j++];
     }
+
     r.tipo2[k] = '\0';
 
-    // faixa preco
     pos = ler_campo(linha, pos, r.faixaPreco);
-
-    // horario
     pos = ler_campo(linha, pos, campo);
-    j = 0; k = 0;
+    j = 0;
+    k = 0;
 
     while ( campo[j] != '-' )
     {
@@ -172,7 +173,8 @@ Restaurante ler_restaurante( char *linha )
     }
 
     horario_abertura[k] = '\0';
-    j++; k = 0;
+    j++;
+    k = 0;
 
     while ( campo[j] != '\0' )
     {
@@ -183,18 +185,15 @@ Restaurante ler_restaurante( char *linha )
     r.horario_abertura = parse_hora(horario_abertura);
     r.horario_fechamento = parse_hora(horario_fechamento);
 
-    // data
     pos = ler_campo(linha, pos, data_str);
     r.data_abertura = parse_data(data_str);
 
-    // aberto
     pos = ler_campo(linha, pos, aberto_str);
 
     if ( aberto_str[0] == 't' )
     {
         r.aberto = 1;
     }
-
     else
     {
         r.aberto = 0;
@@ -223,7 +222,6 @@ void formatar_restaurante( Restaurante *r, char *saida_linha )
     {
         sprintf(aberto_str, "true");
     }
-
     else
     {
         sprintf(aberto_str, "false");
@@ -271,21 +269,6 @@ Restaurante* get_restaurantes( Colecao_restaurante *colecao )
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param colecao objeto Colecao_restaurante
- * @reason Imprime todos os restaurantes da colecao formatados
- */
-void imprimir( Colecao_restaurante *colecao )
-{
-    char saida_linha[500];
-    for ( int i = 0; i < colecao->tamanho; i++ )
-    {
-        formatar_restaurante(&colecao->restaurantes[i], saida_linha);
-        printf("%s\n", saida_linha);
-    }
-}
-
-/**
- * @author Gabriel Ferreira Pereira
  * @reason Le o dataset do arquivo CSV e retorna a colecao de restaurantes
  * @return colecao de restaurantes
  */
@@ -295,23 +278,26 @@ Colecao_restaurante ler_csv()
     colecao.tamanho = 0;
 
     FILE *f = fopen("/tmp/restaurantes.csv", "r");
-    char linha[500];
-    int j = 0;
 
-    // pular cabecalho
+    if ( f == NULL )
+    {
+        f = fopen("restaurante.csv", "r");
+    }
+
+    char linha[500];
     fgets(linha, 500, f);
 
     for ( int i = 0; i < 500; i++ )
     {
+        int j = 0;
         fgets(linha, 500, f);
 
-        // substitui o \n por \0 para encerrar a string
         while ( linha[j] != '\n' && linha[j] != '\0' )
         {
             j++;
         }
+
         linha[j] = '\0';
-        
         Restaurante r = ler_restaurante(linha);
         adicionar(&colecao, r);
     }
@@ -320,17 +306,198 @@ Colecao_restaurante ler_csv()
     return colecao;
 }
 
+typedef struct NoBicolor
+{
+    Restaurante elemento;
+    bool cor;
+    struct NoBicolor *esq, *dir;
+} NoBicolor;
+
+typedef struct ArvoreBicolor
+{
+    NoBicolor *raiz;
+    int comparacoes;
+} ArvoreBicolor;
+
+NoBicolor* novo_no_bicolor( Restaurante r )
+{
+    NoBicolor *novo = (NoBicolor*) malloc(sizeof(NoBicolor));
+    novo->elemento = r;
+    novo->cor = true;
+    novo->esq = NULL;
+    novo->dir = NULL;
+    return novo;
+}
+
+ArvoreBicolor nova_arvore_bicolor()
+{
+    ArvoreBicolor arvore;
+    arvore.raiz = NULL;
+    arvore.comparacoes = 0;
+    return arvore;
+}
+
+NoBicolor* rotacionar_esq( NoBicolor *no )
+{
+    NoBicolor *dir = no->dir;
+    no->dir = dir->esq;
+    dir->esq = no;
+    dir->cor = no->cor;
+    no->cor = true;
+    return dir;
+}
+
+NoBicolor* rotacionar_dir( NoBicolor *no )
+{
+    NoBicolor *esq = no->esq;
+    no->esq = esq->dir;
+    esq->dir = no;
+    esq->cor = no->cor;
+    no->cor = true;
+    return esq;
+}
+
+void trocar_cores( NoBicolor *no )
+{
+    no->cor = !no->cor;
+    no->esq->cor = !no->esq->cor;
+    no->dir->cor = !no->dir->cor;
+}
+
+NoBicolor* balancear( NoBicolor *no )
+{
+    if ( no->dir != NULL && no->dir->cor == true && (no->esq == NULL || no->esq->cor == false) )
+    {
+        no = rotacionar_esq(no);
+    }
+
+    if ( no->esq != NULL && no->esq->cor == true && no->esq->esq != NULL && no->esq->esq->cor == true )
+    {
+        no = rotacionar_dir(no);
+    }
+
+    if ( no->esq != NULL && no->esq->cor == true && no->dir != NULL && no->dir->cor == true )
+    {
+        trocar_cores(no);
+    }
+
+    return no;
+}
+
+NoBicolor* inserir_rec( NoBicolor *no, Restaurante r )
+{
+    if ( no == NULL )
+    {
+        no = novo_no_bicolor(r);
+    }
+    else
+    {
+        int cmp = strcmp(r.nome, no->elemento.nome);
+
+        if ( cmp < 0 )
+        {
+            no->esq = inserir_rec(no->esq, r);
+        }
+        else if ( cmp > 0 )
+        {
+            no->dir = inserir_rec(no->dir, r);
+        }
+    }
+
+    return balancear(no);
+}
+
 /**
  * @author Gabriel Ferreira Pereira
- * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
- *         e exibe na tela a lista de restaurantes selecionados
+ * @param arvore arvore bicolor
+ * @param r restaurante a ser inserido
+ * @reason Insere restaurante usando o nome como chave de pesquisa
+ */
+void inserir( ArvoreBicolor *arvore, Restaurante r )
+{
+    arvore->raiz = inserir_rec(arvore->raiz, r);
+    arvore->raiz->cor = false;
+}
+
+void pesquisar_rec( NoBicolor *no, char *nome, int raiz, int *comparacoes )
+{
+    if ( no == NULL )
+    {
+        printf(" NAO\n");
+    }
+    else
+    {
+        if ( raiz )
+        {
+            printf("raiz");
+        }
+
+        (*comparacoes)++;
+        int cmp = strcmp(nome, no->elemento.nome);
+
+        if ( cmp == 0 )
+        {
+            printf(" SIM\n");
+        }
+        else if ( cmp > 0 )
+        {
+            printf(" dir");
+            pesquisar_rec(no->dir, nome, 0, comparacoes);
+        }
+        else
+        {
+            printf(" esq");
+            pesquisar_rec(no->esq, nome, 0, comparacoes);
+        }
+    }
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param arvore arvore bicolor
+ * @param nome nome pesquisado
+ * @reason Pesquisa restaurante pelo nome e mostra o caminho percorrido
+ */
+void pesquisar( ArvoreBicolor *arvore, char *nome )
+{
+    pesquisar_rec(arvore->raiz, nome, 1, &arvore->comparacoes);
+}
+
+void caminhar_em_rec( NoBicolor *no )
+{
+    if ( no != NULL )
+    {
+        caminhar_em_rec(no->esq);
+        char saida_linha[500];
+        formatar_restaurante(&no->elemento, saida_linha);
+        printf("%s\n", saida_linha);
+        caminhar_em_rec(no->dir);
+    }
+}
+
+void caminhar_em( ArvoreBicolor *arvore )
+{
+    if ( arvore->raiz == NULL )
+    {
+        printf("V\n");
+    }
+    else
+    {
+        caminhar_em_rec(arvore->raiz);
+    }
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Insere restaurantes em arvore bicolor por nome,
+ *         pesquisa chaves e exibe caminhamento em ordem
  */
 int main()
 {
     Colecao_restaurante colecao = ler_csv();
     Restaurante *restaurantes = get_restaurantes(&colecao);
-    char saida_linha[500];
-    int id = 0;
+    ArvoreBicolor arvore = nova_arvore_bicolor();
+    int id;
 
     while ( scanf("%d", &id) && id != -1 )
     {
@@ -338,11 +505,42 @@ int main()
         {
             if ( restaurantes[i].id == id )
             {
-                formatar_restaurante(&restaurantes[i], saida_linha);
-                printf("%s\n", saida_linha);
+                inserir(&arvore, restaurantes[i]);
+                i = get_tamanho(&colecao);
             }
         }
     }
+
+    char nome[100];
+    fgets(nome, 100, stdin);
+
+    clock_t inicio = clock();
+
+    while ( fgets(nome, 100, stdin) != NULL )
+    {
+        int j = 0;
+
+        while ( nome[j] != '\n' && nome[j] != '\r' && nome[j] != '\0' )
+        {
+            j++;
+        }
+
+        nome[j] = '\0';
+        
+        if ( strcmp(nome, "FIM") != 0 )
+        {
+            pesquisar(&arvore, nome);
+        }
+    }
+
+    clock_t fim = clock();
+    double tempo = (double) (fim - inicio) / CLOCKS_PER_SEC;
+
+    caminhar_em(&arvore);
+
+    FILE *log = fopen("842527_arvore_bicolor.txt", "w");
+    fprintf(log, "842527\t%d\t%f\n", arvore.comparacoes, tempo);
+    fclose(log);
 
     return 0;
 }

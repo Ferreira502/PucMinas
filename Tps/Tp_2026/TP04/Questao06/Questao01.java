@@ -1,403 +1,367 @@
-import java.io.File;
-import java.util.*;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-class Restaurante
+class NoAvl
 {
-    private int id;
-    private String nome;
-    private String cidade;
-    private int capacidade;
-    private double avaliacao;
-    private String[] tiposCozinha;
-    private String faixaPreco;
-    private Hora horarioAbertura;
-    private Hora horarioFechamento;
-    private Data dataAbertura;
-    private boolean aberto;
-    
+    Restaurante elemento;
+    int nivel;
+    NoAvl esq, dir;
 
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param id, nome, cidade, capacidade, avaliacao, tiposCozinha, faixaPreco, horarioAbertura, 
-     *          horarioFechamento, dataAbertura, aberto do restaurante
-     * @reason Construtor da classe Restaurante
-     */
-    public Restaurante( int id, String nome, String cidade, int capacidade, double avaliacao, 
-        String[] tiposCozinha, String faixaPreco, Hora horarioAbertura, Hora horarioFechamento, Data dataAbertura, boolean aberto ) 
+    public NoAvl( Restaurante elemento )
     {
-        this.id = id;
-        this.nome = nome;
-        this.cidade = cidade;
-        this.capacidade = capacidade;
-        this.avaliacao = avaliacao;
-        this.tiposCozinha = tiposCozinha;
-        this.faixaPreco = faixaPreco;
-        this.horarioAbertura = horarioAbertura;
-        this.horarioFechamento = horarioFechamento;
-        this.dataAbertura = dataAbertura;
-        this.aberto = aberto;
+        this.elemento = elemento;
+        this.nivel = 1;
+        this.esq = null;
+        this.dir = null;
     }
 
-    // Getters
-
-    public int getID ()
+    public int getNivel( NoAvl no )
     {
-        return this.id;
-    }
+        int resp = 0;
 
-    public String getNome ()
-    {
-        return this.nome;
-    }
-
-    public String getCidade ()
-    {
-        return this.cidade;
-    }
-
-    public int getCapacidade ()
-    {
-        return this.capacidade;
-    }
-
-    public double getAvaliacao ()
-    {
-        return this.avaliacao;
-    }
-
-    public String[] getTiposCozinha ()
-    {
-        return this.tiposCozinha;
-    }
-
-    public String getFaixaPreco ()
-    {
-        return this.faixaPreco;
-    }
-
-    public Hora getHorarioAbertura ()
-    {
-        return this.horarioAbertura;
-    }
-
-    public Hora getHorarioFechamento ()
-    {
-        return this.horarioFechamento;
-    }
-
-    public Data getDataAbertura ()
-    {
-        return this.dataAbertura;
-    }
-
-    public boolean getAberto ()
-    {
-        return this.aberto;
-    }
-    
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param String s
-     * @reason Converte uma String para double manualmente
-     * @return numero real
-     */
-    public static double parseDouble( String s )
-    {
-        int inteiro = 0;
-        int decimal = 0;
-        boolean ponto = false;
-
-        for ( int i = 0; i < s.length(); i++ )
+        if ( no != null )
         {
-            char c = s.charAt(i);
-            if (c == '.')
-            {
-                ponto = true;
-            }
-            
-            else if ( ponto == false) 
-            {
-                inteiro = inteiro * 10 + (c - '0');
-            }
-
-            else
-            {
-                decimal = decimal * 10 + (c - '0');
-            }
+            resp = no.nivel;
         }
 
-        return inteiro + decimal / 10.0;
+        return resp;
     }
 
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param path caminho do arquivo CSV
-     * @reason Le uma linha do CSV e cria um objeto Restaurante
-     * @return Restaurante criado
-     */
-    public static Restaurante ler( String linha ) throws Exception
+    public void setNivel()
     {
-        Scanner sc = new Scanner(linha);
-        sc.useDelimiter(",");
+        int nivelEsq = getNivel(this.esq);
+        int nivelDir = getNivel(this.dir);
 
-        int id = sc.nextInt();
-        String nome = sc.next();
-        String cidade = sc.next();
-        int capacidade = sc.nextInt();
-        double avaliacao = parseDouble(sc.next());
-
-        String cozinhaStr = sc.next();
-        Scanner scCozinha = new Scanner(cozinhaStr);
-        scCozinha.useDelimiter(";");
-        String tipo1 = scCozinha.next();
-        String tipo2 = scCozinha.next();
-        scCozinha.close();
-        String[] tiposCozinha = new String[]{tipo1, tipo2};
-
-        String faixaPreco = sc.next();
-
-        String horario = sc.next();
-        Scanner scHorario = new Scanner(horario);
-
-        scHorario.useDelimiter("-");
-
-        Hora horarioAbertura   = Hora.parseHora(scHorario.next());
-        Hora horarioFechamento = Hora.parseHora(scHorario.next());
-        scHorario.close();
-
-        Data dataAbertura = Data.parseData(sc.next());
-
-        String abertoStr = sc.next();
-        boolean aberto;
-
-        if (abertoStr.charAt(0) == 't')
+        if ( nivelEsq > nivelDir )
         {
-            aberto = true;
+            this.nivel = nivelEsq + 1;
         }
-
         else
         {
-            aberto = false;
-        }
-
-        Restaurante restaurante = new Restaurante(id, nome, cidade, capacidade, avaliacao, tiposCozinha, faixaPreco, horarioAbertura, horarioFechamento, dataAbertura, aberto);
-        return restaurante;    
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Retorna o restaurante formatado como String
-     * @return String com o restaurante formatado
-     */
-    public String formatar()
-    {
-        String tipos = "[" + tiposCozinha[0] + "," + tiposCozinha[1] + "]";
-        String horario = horarioAbertura.formatarHora() + "-" + horarioFechamento.formatarHora();
-        String data = dataAbertura.formatarData();
-    
-        return "[" + id + " ## " + nome + " ## " + cidade + " ## " + capacidade + " ## " + 
-            avaliacao + " ## " + tipos + " ## " + faixaPreco + " ## " + 
-            horario + " ## " + data + " ## " + aberto + "]";
-    }
-
-}
-
-class ColecaoRestaurante 
-{
-
-    private int tamanho;
-    private Restaurante[] restaurantes;
-
-    public ColecaoRestaurante( int tamanho, Restaurante[] restaurantes ) 
-    {
-        this.tamanho = tamanho;
-        this.restaurantes = restaurantes;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Retorna a quantidade de restaurantes da colecao
-     * @return this.tamanho
-     */
-    public int getTamanho() 
-    {
-        return this.tamanho;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param Restaurante r
-     * @reason Adiciona tamanho em ColecaoRestaurante
-     */
-    public void adicionar( Restaurante r )
-    {
-        this.restaurantes[this.tamanho] = r;
-        this.tamanho++;
-    }
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Pega os restaurantes da colecao
-     * @return this.restaurantes
-     */
-    public Restaurante[] getRestaurantes() 
-    {
-        return this.restaurantes;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Imprime todos os restaurantes da colecao
-     */
-    public void imprimir() 
-    {
-        for ( int i = 0; i < this.tamanho; i++ ) 
-        {
-            System.out.println(this.restaurantes[i].formatar());
+            this.nivel = nivelDir + 1;
         }
     }
 
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Le o dataset do arquivo CSV usando Restaurante.ler() e retorna a colecao
-     * @return colecao
-     */
-    public static ColecaoRestaurante lerCsv() throws Exception
+    public int getBalanceamento()
     {
-        ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[500]);
-        Scanner sc = new Scanner(new File("/tmp/restaurantes.csv"));
-        
-        sc.nextLine();
+        return getNivel(this.dir) - getNivel(this.esq);
+    }
+}
 
-        sc.useDelimiter(",|\n");
+class ArvoreAvl
+{
+    private NoAvl raiz;
+    private int comparacoes;
 
-        for ( int i = 0; i < 500; i++ )
+    public ArvoreAvl()
+    {
+        raiz = null;
+        comparacoes = 0;
+    }
+
+    public int getComparacoes()
+    {
+        return comparacoes;
+    }
+
+    public void zerarComparacoes()
+    {
+        comparacoes = 0;
+    }
+
+    public void inserir( Restaurante restaurante )
+    {
+        raiz = inserir(raiz, restaurante);
+    }
+
+    private NoAvl inserir( NoAvl no, Restaurante restaurante )
+    {
+        if ( no == null )
         {
-            colecao.adicionar(Restaurante.ler(sc.nextLine()));
+            no = new NoAvl(restaurante);
         }
-
-        return colecao;
-    }
-}
-
-class Data
-{
-    private int ano;
-    private int mes;
-    private int dia;
-    
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param ano mes e dia da data
-     * @reason Construtor da classe Data
-     */
-    public Data ( int ano, int mes, int dia ) 
-    {
-        this.ano = ano;
-        this.mes = mes;
-        this.dia = dia;    
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param s String no formato YYYY-MM-DD
-     * @reason Converte uma String para um objeto Data
-     * @return objeto Data correspondente
-     */
-    public static Data parseData( String s )
-    {
-        Scanner sc = new Scanner(s);
-        sc.useDelimiter("-");
-        int ano = sc.nextInt();
-        int mes = sc.nextInt();
-        int dia = sc.nextInt();
-
-        Data data = new Data ( ano, mes, dia );
-        
-        return data;
-    }
-    
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Retorna a data no formato DD/MM/YYYY
-     * @return String com a data formatada
-     */
-    public String formatarData ()
-    {
-        String s = String.format("%02d/%02d/%04d", dia,mes,ano);
-        return s;
-    }
-}
-
-class Hora
-{
-    private int hora;
-    private int minuto;
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param hora e minuto da hora
-     * @reason Construtor da classe Hora
-     */
-    public Hora ( int hora, int minuto )
-    {
-        this.hora = hora;
-        this.minuto = minuto;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param s String no formato HH:mm
-     * @reason Converte uma String para um objeto Hora
-     * @return objeto Hora correspondente
-     */
-    public static Hora parseHora ( String s )
-    {
-        Scanner sc = new Scanner(s);
-        sc.useDelimiter(":");
-        int hora1 = sc.nextInt();
-        int minuto = sc.nextInt();
-
-        Hora hora = new Hora(hora1, minuto);
-
-        return hora;
-    }
-    
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Retorna a hora no formato HH:mm
-     * @return String com a hora formatada
-     */
-    public String formatarHora ()
-    {
-        String s = String.format("%02d:%02d", hora, minuto);
-        return s;
-    }
-}
-
-class Questao01
-{
-     /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
-     *         e exibe na tela a lista de restaurantes selecionados
-     */
-    public static void main(String[] args) throws Exception
-    {
-        ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
-        Restaurante[] restaurantes = colecao.getRestaurantes();
-        Scanner sc = new Scanner(System.in);
-        int id = 0;
-
-        while ((id = sc.nextInt()) != -1)
+        else
         {
-            for (int i = 0; i < colecao.getTamanho(); i++)
+            int cmp = restaurante.getNome().compareTo(no.elemento.getNome());
+
+            if ( cmp < 0 )
             {
-                if (restaurantes[i].getID() == id)
+                no.esq = inserir(no.esq, restaurante);
+            }
+            else if ( cmp > 0 )
+            {
+                no.dir = inserir(no.dir, restaurante);
+            }
+        }
+
+        return balancear(no);
+    }
+
+    public Restaurante pesquisar( String nome, ArrayList<String> caminho )
+    {
+        zerarComparacoes();
+        return pesquisar(raiz, nome, caminho, true);
+    }
+
+    private Restaurante pesquisar( NoAvl no, String nome, ArrayList<String> caminho, boolean raizFlag )
+    {
+        Restaurante resp = null;
+
+        if ( no != null )
+        {
+            comparacoes++;
+
+            if ( raizFlag )
+            {
+                caminho.add("raiz");
+            }
+
+            int cmp = nome.compareTo(no.elemento.getNome());
+
+            if ( cmp == 0 )
+            {
+                resp = no.elemento;
+            }
+            else if ( cmp < 0 )
+            {
+                caminho.add("esq");
+                resp = pesquisar(no.esq, nome, caminho, false);
+            }
+            else
+            {
+                caminho.add("dir");
+                resp = pesquisar(no.dir, nome, caminho, false);
+            }
+        }
+
+        return resp;
+    }
+
+    private NoAvl rotacionarEsq( NoAvl no )
+    {
+        NoAvl noDir = no.dir;
+        NoAvl noDirEsq = noDir.esq;
+
+        noDir.esq = no;
+        no.dir = noDirEsq;
+
+        no.setNivel();
+        noDir.setNivel();
+
+        return noDir;
+    }
+
+    private NoAvl rotacionarDir( NoAvl no )
+    {
+        NoAvl noEsq = no.esq;
+        NoAvl noEsqDir = noEsq.dir;
+
+        noEsq.dir = no;
+        no.esq = noEsqDir;
+
+        no.setNivel();
+        noEsq.setNivel();
+
+        return noEsq;
+    }
+
+    private NoAvl balancear( NoAvl no )
+    {
+        if ( no != null )
+        {
+            int fator = no.getBalanceamento();
+
+            if ( fator == 2 )
+            {
+                if ( no.dir.getBalanceamento() < 0 )
                 {
-                    System.out.println(restaurantes[i].formatar());
+                    no.dir = rotacionarDir(no.dir);
+                }
+
+                no = rotacionarEsq(no);
+            }
+            else if ( fator == -2 )
+            {
+                if ( no.esq.getBalanceamento() > 0 )
+                {
+                    no.esq = rotacionarEsq(no.esq);
+                }
+
+                no = rotacionarDir(no);
+            }
+
+            no.setNivel();
+        }
+
+        return no;
+    }
+}
+
+class NoPrimeiroNivel
+{
+    int chave;
+    ArvoreAvl arvore;
+    NoPrimeiroNivel esq, dir;
+
+    public NoPrimeiroNivel( int chave )
+    {
+        this.chave = chave;
+        this.arvore = new ArvoreAvl();
+        this.esq = null;
+        this.dir = null;
+    }
+}
+
+class ArvoreArvore
+{
+    private NoPrimeiroNivel raiz;
+    private int comparacoes;
+
+    public ArvoreArvore()
+    {
+        raiz = null;
+        comparacoes = 0;
+    }
+
+    public int getComparacoes()
+    {
+        return comparacoes;
+    }
+
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param restaurante restaurante a ser inserido
+     * @reason Insere o restaurante na arvore de primeiro nivel pela chave capacidade mod 15
+     *         e na AVL do segundo nivel pelo nome
+     */
+    public void inserir( Restaurante restaurante )
+    {
+        int chave = restaurante.getCapacidade() % 15;
+        raiz = inserirPrimeiroNivel(raiz, chave, restaurante);
+    }
+
+    private NoPrimeiroNivel inserirPrimeiroNivel( NoPrimeiroNivel no, int chave, Restaurante restaurante )
+    {
+        if ( no == null )
+        {
+            no = new NoPrimeiroNivel(chave);
+            no.arvore.inserir(restaurante);
+        }
+        else if ( chave < no.chave )
+        {
+            no.esq = inserirPrimeiroNivel(no.esq, chave, restaurante);
+        }
+        else if ( chave > no.chave )
+        {
+            no.dir = inserirPrimeiroNivel(no.dir, chave, restaurante);
+        }
+        else
+        {
+            no.arvore.inserir(restaurante);
+        }
+
+        return no;
+    }
+
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @param nome nome pesquisado
+     * @reason Pesquisa o nome nas AVLs encontradas durante o percurso pre-ordem da arvore principal
+     */
+    public void pesquisar( String nome )
+    {
+        ArrayList<String> caminho = new ArrayList<String>();
+        caminho.add("RAIZ");
+
+        Restaurante encontrado = pesquisar(raiz, nome, caminho);
+
+        if ( encontrado == null )
+        {
+            caminho.add("NAO");
+            System.out.println(String.join(" ", caminho));
+        }
+        else
+        {
+            caminho.add("SIM");
+            System.out.println(String.join(" ", caminho) + " " + encontrado.formatar());
+        }
+    }
+
+    private Restaurante pesquisar( NoPrimeiroNivel no, String nome, ArrayList<String> caminho )
+    {
+        Restaurante resp = null;
+
+        if ( no != null )
+        {
+            resp = no.arvore.pesquisar(nome, caminho);
+            comparacoes += no.arvore.getComparacoes();
+
+            if ( resp == null )
+            {
+                caminho.add("ESQ");
+                resp = pesquisar(no.esq, nome, caminho);
+
+                if ( resp == null )
+                {
+                    caminho.add("DIR");
+                    resp = pesquisar(no.dir, nome, caminho);
                 }
             }
         }
 
+        return resp;
+    }
+}
+
+public class Questao01
+{
+    /**
+     * @author Gabriel Ferreira Pereira
+     * @reason Cria uma arvore binaria de arvores AVL para armazenar restaurantes,
+     *         usando capacidade mod 15 no primeiro nivel e nome no segundo nivel
+     */
+    public static void main( String[] args ) throws Exception
+    {
+        ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
+        Restaurante[] restaurantes = colecao.getRestaurantes();
+        Scanner sc = new Scanner(System.in);
+        ArvoreArvore arvore = new ArvoreArvore();
+
+        int id = sc.nextInt();
+
+        while ( id != -1 )
+        {
+            for ( int i = 0; i < colecao.getTamanho(); i++ )
+            {
+                if ( restaurantes[i].getID() == id )
+                {
+                    arvore.inserir(restaurantes[i]);
+                    i = colecao.getTamanho();
+                }
+            }
+
+            id = sc.nextInt();
+        }
+
+        sc.nextLine();
+
+        long inicio = System.nanoTime();
+        String nome = sc.nextLine();
+
+        while ( nome.compareTo("FIM") != 0 )
+        {
+            arvore.pesquisar(nome);
+            nome = sc.nextLine();
+        }
+
+        long fim = System.nanoTime();
+        double tempo = (fim - inicio) / 1000000000.0;
+
+        PrintWriter log = new PrintWriter("842527_hibrida_arvore_arvore.txt");
+        log.printf("842527\t%d\t%f%n", arvore.getComparacoes(), tempo);
+        log.close();
+
+        sc.close();
     }
 }
