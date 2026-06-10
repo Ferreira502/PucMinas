@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Hash
 {
    String tabela[];
@@ -44,11 +46,12 @@ class Hash
          resp = false;
       }
 
-      return resp;
+         return resp;
    }
 
    public void inserir ( String chave ) throws Exception
    {
+      // int x = 0;
       int pos = hash(chave);
       // System.out.println("\nInserindo: " + chave);
       // System.out.println("Posicao: " + pos);
@@ -73,7 +76,8 @@ class Hash
             // System.out.println("Inseriu reserva posicao: " + ( m + nr ));
             tabela[m + nr] = chave;
             nr++;
-            // System.out.println("Reserva usada: " + nr + " " + r);
+            // x++;
+            // System.out.println("x: " + x);
          }
 
          else 
@@ -90,13 +94,18 @@ class Hash
       // System.out.println("\nPesquisando: " + chave);
       // System.out.println("Posicao: " + pos);
 
-      if ( tabela[pos] != null && tabela[pos].compareTo(chave) == 0 )
+      if ( tabela[pos] == null )
+      {
+         resp = null;
+      }
+
+      else if ( tabela[pos] != null && tabela[pos].compareTo(chave) == 0 )
       {
          // System.out.println("principal posicao: " + pos);
          resp = tabela[pos];
       }
 
-      else 
+      else if ( tabela[pos].compareTo(chave) != 0 )
       {
          // System.out.println("To aq");
          for ( int i = 0; i < nr; i++ )
@@ -123,7 +132,12 @@ class Hash
       // System.out.println("\nRemovendo: " + chave);
       // System.out.println("Posicao: " + pos);
 
-      if ( tabela[pos] != null && tabela[pos].compareTo(chave) == 0 )
+      if ( tabela[pos] == null )
+      {
+         resp = null;
+      }
+
+      else if ( tabela[pos].compareTo(chave) == 0 )
       {
          // System.out.println("Removeu posicao: " + pos);
          resp = tabela[pos];
@@ -131,22 +145,52 @@ class Hash
 
          for ( int i = 0; i < nr; i++ )
          {
-            if ( tabela[m + i ] != null &)
+           // System.out.println("To aq");
+
+            int x = hash(tabela[m + i]);
+
+            if ( x == pos )
+            {
+               int y = m + i;
+
+               tabela[pos] = tabela[y];
+               
+               for ( int j = y; j < m + nr - 1; j++ )
+               {
+                  tabela[j] = tabela[j + 1];
+               }
+               
+               tabela[m + nr - 1 ] = null;
+
+               nr--;
+               i = nr;
+               // System.out.println("inseriu na posicao: " + tabela[pos]);
+            }
          }
       }
 
-      else
+      else if ( tabela[pos].compareTo(chave) != 0 )
       {
          // System.out.println("To aq");
          for ( int i = 0; i < nr; i++ )
          {
-            if ( tabela[m + i] != null && tabela[m + i].compareTo(chave) == 0 )
+            if ( tabela[m + i].compareTo(chave) == 0 )
             {
                // System.out.println("posicao: " + ( m + i ));
                resp = tabela[m + i];
                tabela[m + i] = null;
 
-               // System.out.println("reserva: " + nr + " " + r);
+               int y = m + i;
+
+               for ( int j = y; j < m + nr - 1; j++ )
+               {
+                  tabela[j] = tabela[j + 1];
+               }
+
+               tabela[m + nr - 1] = null;
+            
+               nr--;
+               i = nr;
             }
          }
       }
@@ -156,27 +200,26 @@ class Hash
       return resp;
    }
 
+
    public void mostrar()
    {
-      System.out.println("Indice\tArea\t\tConteudo");
-
       for ( int i = 0; i < m + r; i++ )
       {
-         System.out.print(i + "\t");
+         System.out.print(i + " ");
 
          if ( i < m )
          {
-            System.out.print("Principal\t");
+            System.out.print("Principal ");
          }
 
          else
          {
-            System.out.print("Reserva\t\t");
+            System.out.print("Reserva ");
          }
 
          if ( tabela[i] == null )
          {
-            System.out.println("--");
+            System.out.println("-");
          }
 
          else
@@ -191,37 +234,71 @@ class Main
 {
    public static void main(String[] args) throws Exception
    {
+      Scanner sc = new Scanner(System.in);
       Hash hash = new Hash(11, 3);
 
-      hash.inserir("Brasil");
-      hash.inserir("Canada");
-      hash.inserir("Franca");
-      hash.inserir("China");
-      hash.inserir("Egito");
-      hash.inserir("Australia");
-      hash.inserir("Alemanha");
-      hash.inserir("Japao");
-      hash.inserir("Mexico");
-      hash.inserir("Marrocos");
+      while ( sc.hasNext())
+      {
+         String palavra;
+         palavra = sc.next();
+         char c = palavra.charAt(0);
+
+         if ( c == 'I')
+         {
+            String palavra2;
+            palavra2 = sc.next();
+
+            try 
+            {
+               hash.inserir(palavra2);    
+            } 
+            catch (Exception e) 
+            {
+               System.out.println("Erro");
+            }
+            
+         }
+
+         if ( c == 'R')
+         {
+            String palavra2;
+            palavra2 = sc.next();
+
+            try 
+            {
+               hash.remover(palavra2);    
+            } 
+            catch (Exception e) 
+            {
+               System.out.println("Erro");
+            }
+            
+         }
+
+         if ( c == 'P')
+         {
+
+            String palavra2;
+            palavra2 = sc.next();
 
 
-      // hash.pesquisar("Brasil");
-      // hash.pesquisar("Canada");
-      // hash.pesquisar("Franca");
-      // hash.pesquisar("China");
-      // hash.pesquisar("Egito");
-      // hash.pesquisar("Australia");
-      // hash.pesquisar("Alemanha");
-      // hash.pesquisar("Japao");
-      // hash.pesquisar("Mexico");
-      // hash.pesquisar("Marrocos");
-      // hash.pesquisar("Estados Unidos");
-      // hash.pesquisar("Argentina");
-      hash.remover("Brasil");
-      hash.remover("China");
-      hash.remover("Alemanha");
-      hash.inserir("Espanha");
+            try 
+            {
+               if ( hash.pesquisar(palavra2).compareTo(palavra2) == 0)
+               {
+                  System.out.println("Sim");
+               }     
+            } 
+            catch (Exception e) 
+            {
+               System.out.println("Nao");
+            }
+         }
 
-      hash.mostrar();
+         if ( c == 'M')
+         {
+            hash.mostrar();
+         }
+      }
    }
 }
