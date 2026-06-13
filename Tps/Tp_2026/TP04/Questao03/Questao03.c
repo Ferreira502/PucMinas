@@ -1,4 +1,10 @@
 #include <stdio.h>
+#include <time.h>
+
+#define MAX_RESTAURANTES 500
+#define TAM_TAB 31
+#define TAM_RESERVA 19
+#define TAM_TOTAL (TAM_TAB + TAM_RESERVA)
 
 typedef struct Data
 {
@@ -32,8 +38,16 @@ typedef struct Restaurante
 typedef struct Colecao_restaurante
 {
     int tamanho;
-    Restaurante restaurantes[500];
+    Restaurante restaurantes[MAX_RESTAURANTES];
 } Colecao_restaurante;
+
+typedef struct Hash
+{
+    Restaurante tabela[TAM_TOTAL];
+    int ocupado[TAM_TOTAL];
+    int reserva_usada;
+    int comparacoes;
+} Hash;
 
 /**
  * @author Gabriel Ferreira Pereira
@@ -92,7 +106,7 @@ void formatar_hora( Hora *hora, char *saida_linha )
 int ler_campo( char *linha, int pos, char *campo )
 {
     int i = 0;
-    
+
     while ( linha[pos] != ',' && linha[pos] != '\0' && linha[pos] != '\n' )
     {
         campo[i] = linha[pos];
@@ -101,7 +115,11 @@ int ler_campo( char *linha, int pos, char *campo )
     }
 
     campo[i] = '\0';
-    pos++;
+
+    if ( linha[pos] == ',' )
+    {
+        pos++;
+    }
 
     return pos;
 }
@@ -145,14 +163,19 @@ Restaurante ler_restaurante( char *linha )
     // cozinha
     pos = ler_campo(linha, pos, cozinha);
 
-    while ( cozinha[j] != ';' )
+    while ( cozinha[j] != ';' && cozinha[j] != '\0' )
     {
         r.tipo1[k++] = cozinha[j++];
     }
-
     r.tipo1[k] = '\0';
-    j++; k = 0;
-    
+
+    if ( cozinha[j] == ';' )
+    {
+        j++;
+    }
+
+    k = 0;
+
     while ( cozinha[j] != '\0' )
     {
         r.tipo2[k++] = cozinha[j++];
@@ -164,22 +187,28 @@ Restaurante ler_restaurante( char *linha )
 
     // horario
     pos = ler_campo(linha, pos, campo);
-    j = 0; k = 0;
+    j = 0;
+    k = 0;
 
-    while ( campo[j] != '-' )
+    while ( campo[j] != '-' && campo[j] != '\0' )
     {
         horario_abertura[k++] = campo[j++];
     }
-
     horario_abertura[k] = '\0';
-    j++; k = 0;
+
+    if ( campo[j] == '-' )
+    {
+        j++;
+    }
+
+    k = 0;
 
     while ( campo[j] != '\0' )
     {
         horario_fechamento[k++] = campo[j++];
     }
-
     horario_fechamento[k] = '\0';
+
     r.horario_abertura = parse_hora(horario_abertura);
     r.horario_fechamento = parse_hora(horario_fechamento);
 
@@ -229,11 +258,12 @@ void formatar_restaurante( Restaurante *r, char *saida_linha )
         sprintf(aberto_str, "false");
     }
 
-    sprintf(saida_linha, "[%d ## %s ## %s ## %d ## %.1f ## [%s,%s] ## %s ## %s-%s ## %s ## %s]",
-        r->id, r->nome, r->cidade, r->capacidade, r->avaliacao,
-        r->tipo1, r->tipo2, r->faixaPreco,
-        horario_abertura, horario_fechamento,
-        data_str, aberto_str);
+    sprintf(saida_linha,
+            "[%d ## %s ## %s ## %d ## %.1f ## [%s,%s] ## %s ## %s-%s ## %s ## %s]",
+            r->id, r->nome, r->cidade, r->capacidade, r->avaliacao,
+            r->tipo1, r->tipo2, r->faixaPreco,
+            horario_abertura, horario_fechamento,
+            data_str, aberto_str);
 }
 
 /**
@@ -271,49 +301,42 @@ Restaurante* get_restaurantes( Colecao_restaurante *colecao )
 
 /**
  * @author Gabriel Ferreira Pereira
- * @param colecao objeto Colecao_restaurante
- * @reason Imprime todos os restaurantes da colecao formatados
- */
-void imprimir( Colecao_restaurante *colecao )
-{
-    char saida_linha[500];
-    for ( int i = 0; i < colecao->tamanho; i++ )
-    {
-        formatar_restaurante(&colecao->restaurantes[i], saida_linha);
-        printf("%s\n", saida_linha);
-    }
-}
-
-/**
- * @author Gabriel Ferreira Pereira
  * @reason Le o dataset do arquivo CSV e retorna a colecao de restaurantes
  * @return colecao de restaurantes
  */
 Colecao_restaurante ler_csv()
 {
     Colecao_restaurante colecao;
+    FILE *f;
+    char linha[500];
+
     colecao.tamanho = 0;
 
-    FILE *f = fopen("/tmp/restaurantes.csv", "r");
-    char linha[500];
-    int j = 0;
+    f = fopen("/tmp/restaurantes.csv", "r");
 
-    // pular cabecalho
+    if ( f == NULL )
+    {
+        f = fopen("restaurante.csv", "r");
+    }
+
+    if ( f == NULL )
+    {
+        return colecao;
+    }
+
     fgets(linha, 500, f);
 
-    for ( int i = 0; i < 500; i++ )
+    while ( colecao.tamanho < MAX_RESTAURANTES && fgets(linha, 500, f) != NULL )
     {
-        fgets(linha, 500, f);
+        int j = 0;
 
-        // substitui o \n por \0 para encerrar a string
-        while ( linha[j] != '\n' && linha[j] != '\0' )
+        while ( linha[j] != '\n' && linha[j] != '\r' && linha[j] != '\0' )
         {
             j++;
         }
         linha[j] = '\0';
-        
-        Restaurante r = ler_restaurante(linha);
-        adicionar(&colecao, r);
+
+        adicionar(&colecao, ler_restaurante(linha));
     }
 
     fclose(f);
@@ -322,26 +345,200 @@ Colecao_restaurante ler_csv()
 
 /**
  * @author Gabriel Ferreira Pereira
- * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
- *         e exibe na tela a lista de restaurantes selecionados
+ * @param hash tabela hash
+ * @reason Inicializa a tabela hash e zera contadores
+ */
+void iniciar_hash( Hash *hash )
+{
+    int i;
+
+    hash->reserva_usada = 0;
+    hash->comparacoes = 0;
+
+    for ( i = 0; i < TAM_TOTAL; i++ )
+    {
+        hash->ocupado[i] = 0;
+    }
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param nome nome do restaurante
+ * @reason Aplica a funcao de transformacao somando os ASCII do nome
+ * @return posicao da area principal da hash
+ */
+int hash_nome( char nome[] )
+{
+    int soma = 0;
+    int i = 0;
+
+    while ( nome[i] != '\0' )
+    {
+        soma += (unsigned char) nome[i];
+        i++;
+    }
+
+    return soma % TAM_TAB;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param hash, nome1, nome2
+ * @reason Compara dois nomes caractere por caractere contando comparacoes
+ * @return 1 se os nomes forem iguais, 0 caso contrario
+ */
+int nomes_iguais( Hash *hash, char nome1[], char nome2[] )
+{
+    int i = 0;
+
+    hash->comparacoes++;
+
+    while ( nome1[i] != '\0' && nome2[i] != '\0' )
+    {
+        if ( nome1[i] != nome2[i] )
+        {
+            return 0;
+        }
+        i++;
+    }
+
+    return nome1[i] == '\0' && nome2[i] == '\0';
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param hash, restaurante
+ * @reason Insere restaurante na hash ou na area de reserva
+ */
+void inserir_hash( Hash *hash, Restaurante restaurante )
+{
+    int pos = hash_nome(restaurante.nome);
+
+    if ( hash->ocupado[pos] == 0 )
+    {
+        hash->tabela[pos] = restaurante;
+        hash->ocupado[pos] = 1;
+    }
+
+    else if ( hash->reserva_usada < TAM_RESERVA )
+    {
+        int pos_reserva = TAM_TAB + hash->reserva_usada;
+        hash->tabela[pos_reserva] = restaurante;
+        hash->ocupado[pos_reserva] = 1;
+        hash->reserva_usada++;
+    }
+    else
+    {
+        printf("%s\n", restaurante.nome);
+    }
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @param hash, nome, encontrado
+ * @reason Pesquisa um restaurante na tabela hash e retorna sua posicao
+ * @return posicao de 0 a 49 ou -1 caso nao encontre
+ */
+int pesquisar_hash( Hash *hash, char nome[], Restaurante *encontrado )
+{
+    int pos = hash_nome(nome);
+    int i;
+
+    if ( hash->ocupado[pos] == 1 && nomes_iguais(hash, hash->tabela[pos].nome, nome) )
+    {
+        *encontrado = hash->tabela[pos];
+        return pos;
+    }
+
+    for ( i = 0; i < hash->reserva_usada; i++ )
+    {
+        int pos_reserva = TAM_TAB + i;
+
+        if ( hash->ocupado[pos_reserva] == 1 &&
+            nomes_iguais(hash, hash->tabela[pos_reserva].nome, nome))
+        {
+            *encontrado = hash->tabela[pos_reserva];
+            return pos_reserva;
+        }
+    }
+
+    return -1;
+}
+
+/**
+ * @author Gabriel Ferreira Pereira
+ * @reason Metodo principal que insere restaurantes por ID na hash,
+ *         pesquisa nomes e salva o arquivo de log
  */
 int main()
 {
     Colecao_restaurante colecao = ler_csv();
     Restaurante *restaurantes = get_restaurantes(&colecao);
+    Hash hash;
+    Restaurante encontrado;
+    char nome[100];
     char saida_linha[500];
-    int id = 0;
+    int id;
+    int i;
+
+    iniciar_hash(&hash);
 
     while ( scanf("%d", &id) && id != -1 )
     {
-        for ( int i = 0; i < get_tamanho(&colecao); i++ )
+        int inserido = 0;
+
+        for ( i = 0; i < get_tamanho(&colecao); i++ )
         {
-            if ( restaurantes[i].id == id )
+            if ( inserido == 0 && restaurantes[i].id == id )
             {
-                formatar_restaurante(&restaurantes[i], saida_linha);
-                printf("%s\n", saida_linha);
+                inserir_hash(&hash, restaurantes[i]);
+                inserido = 1;
             }
         }
+    }
+
+    fgets(nome, 100, stdin);
+
+    clock_t inicio = clock();
+
+    while ( fgets(nome, 100, stdin) != NULL )
+    {
+        int j = 0;
+        int pos;
+
+        while ( nome[j] != '\n' && nome[j] != '\r' && nome[j] != '\0' ) // '\r' trata o Enter do Windows (\r\n), tive que pesquisar esse tratamento, porque estava
+                                                                          //  dando timeout na saida do verde
+        {
+            j++;
+        }
+        nome[j] = '\0';
+
+        if ( nome[0] != 'F' || nome[1] != 'I' || nome[2] != 'M' || nome[3] != '\0' )
+        {
+            pos = pesquisar_hash(&hash, nome, &encontrado);
+
+            if ( pos == -1 )
+            {
+                printf("-1\n");
+            }
+
+            else
+            {
+                formatar_restaurante(&encontrado, saida_linha);
+                printf("%d %s\n", pos, saida_linha);
+            }
+        }
+    }
+
+    clock_t fim = clock();
+    double tempo = (double) (fim - inicio) / CLOCKS_PER_SEC;
+
+    FILE *log = fopen("842527_hash_reserva.txt", "w");
+
+    if ( log != NULL )
+    {
+        fprintf(log, "842527\t%d\t%f\n", hash.comparacoes, tempo);
+        fclose(log);
     }
 
     return 0;
