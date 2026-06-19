@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
+#include <time.h>
 
 typedef struct Data
 {
@@ -276,26 +278,35 @@ Colecao_restaurante ler_csv()
     colecao.tamanho = 0;
 
     FILE *f = fopen("/tmp/restaurantes.csv", "r");
-
     if ( f == NULL )
     {
         f = fopen("restaurante.csv", "r");
     }
 
     char linha[500];
-    fgets(linha, 500, f);
 
-    for ( int i = 0; i < 500; i++ )
+    if ( f == NULL )
+    {
+        return colecao;
+    }
+ 
+    if ( fgets(linha, 500, f) == NULL )
+    {
+        fclose(f);
+        return colecao;
+    }
+
+    for ( int i = 0; i < 500 && fgets(linha, 500, f) != NULL; i++ )
     {
         int j = 0;
-        fgets(linha, 500, f);
 
-        while ( linha[j] != '\n' && linha[j] != '\0' )
+        while ( linha[j] != '\n' && linha[j] != '\r' && linha[j] != '\0' )
         {
             j++;
         }
-
         linha[j] = '\0';
+
+
         Restaurante r = ler_restaurante(linha);
         adicionar(&colecao, r);
     }
@@ -314,42 +325,9 @@ typedef struct NoBicolor
 typedef struct ArvoreBicolor
 {
     NoBicolor *raiz;
+    int comparacoes;
+    int movimentacoes;
 } ArvoreBicolor;
-
-int comparar_nomes( char *a, char *b )
-{
-    int i = 0;
-
-    while ( a[i] != '\0' && b[i] != '\0' )
-    {
-        if ( a[i] > b[i] )
-        {
-            return 1;
-        }
-        else if ( a[i] < b[i] )
-        {
-            return -1;
-        }
-
-        i++;
-    }
-
-    if ( a[i] == '\0' && b[i] == '\0' )
-    {
-        return 0;
-    }
-    else if ( a[i] == '\0' )
-    {
-        return -1;
-    }
-
-    return 1;
-}
-
-int is_fim( char *nome )
-{
-    return nome[0] == 'F' && nome[1] == 'I' && nome[2] == 'M' && nome[3] == '\0';
-}
 
 NoBicolor* novo_no_bicolor( Restaurante r )
 {
@@ -365,13 +343,14 @@ ArvoreBicolor nova_arvore_bicolor()
 {
     ArvoreBicolor arvore;
     arvore.raiz = NULL;
+    arvore.comparacoes = 0;
+    arvore.movimentacoes = 0;
     return arvore;
 }
 
 bool is_no_tipo_quatro( NoBicolor *no )
 {
-    return no != NULL && no->esq != NULL && no->dir != NULL &&
-           no->esq->cor == true && no->dir->cor == true;
+    return no != NULL && no->esq != NULL && no->dir != NULL && no->esq->cor == true && no->dir->cor == true;
 }
 
 void fragmentar( ArvoreBicolor *arvore, NoBicolor *no )
@@ -381,100 +360,119 @@ void fragmentar( ArvoreBicolor *arvore, NoBicolor *no )
         no->cor = false;
         no->esq->cor = false;
         no->dir->cor = false;
+        arvore->movimentacoes += 3;
     }
+
     else
     {
         no->cor = true;
         no->esq->cor = false;
         no->dir->cor = false;
+        arvore->movimentacoes += 3;
     }
 }
 
-NoBicolor* rotacionar_simples_esq( NoBicolor *no )
+NoBicolor* rotacionar_simples_esq( ArvoreBicolor *arvore, NoBicolor *no )
 {
-    NoBicolor *dir = no->dir;
-    NoBicolor *dir_esq = dir->esq;
-    dir->esq = no;
-    no->dir = dir_esq;
-    return dir;
+    NoBicolor *no_Dir = no->dir;
+    NoBicolor *no_Dir_esq = no_Dir->esq;
+    no_Dir->esq = no;
+    no->dir = no_Dir_esq;
+    arvore->movimentacoes += 2;
+
+    return no_Dir;
 }
 
-NoBicolor* rotacionar_simples_dir( NoBicolor *no )
+NoBicolor* rotacionar_simples_dir( ArvoreBicolor *arvore, NoBicolor *no )
 {
-    NoBicolor *esq = no->esq;
-    NoBicolor *esq_dir = esq->dir;
-    esq->dir = no;
-    no->esq = esq_dir;
-    return esq;
+    NoBicolor *no_Esq = no->esq;
+    NoBicolor *no_Esq_dir = no_Esq->dir;
+    no_Esq->dir = no;
+    no->esq = no_Esq_dir;
+    arvore->movimentacoes += 2;
+
+    return no_Esq;
 }
 
-NoBicolor* rotacionar_dir_esq( NoBicolor *no )
+NoBicolor* rotacionar_dir_esq( ArvoreBicolor *arvore, NoBicolor *no )
 {
-    no->dir = rotacionar_simples_dir(no->dir);
-    return rotacionar_simples_esq(no);
+    no->dir = rotacionar_simples_dir(arvore, no->dir);
+    arvore->movimentacoes++;
+    return rotacionar_simples_esq(arvore, no);
 }
 
-NoBicolor* rotacionar_esq_dir( NoBicolor *no )
+NoBicolor* rotacionar_esq_dir( ArvoreBicolor *arvore, NoBicolor *no )
 {
-    no->esq = rotacionar_simples_esq(no->esq);
-    return rotacionar_simples_dir(no);
+    no->esq = rotacionar_simples_esq(arvore, no->esq);
+    arvore->movimentacoes++;
+    return rotacionar_simples_dir(arvore, no);
 }
 
-void balancear( ArvoreBicolor *arvore, NoBicolor *bisavo, NoBicolor *avo,
-    NoBicolor *pai, NoBicolor *i )
+void balancear( ArvoreBicolor *arvore, NoBicolor *bisavo, NoBicolor *avo, NoBicolor *pai, NoBicolor *i )
 {
     NoBicolor *nova_raiz = NULL;
+    int cmp_pai_avo = strcmp(pai->elemento.nome, avo->elemento.nome);
+    int cmp_i_pai = strcmp(i->elemento.nome, pai->elemento.nome);
+    arvore->comparacoes += 2;
 
-    if ( comparar_nomes(pai->elemento.nome, avo->elemento.nome) > 0 &&
-         comparar_nomes(i->elemento.nome, pai->elemento.nome) > 0 )
+    if ( cmp_pai_avo > 0 && cmp_i_pai > 0 )
     {
-        nova_raiz = rotacionar_simples_esq(avo);
+        nova_raiz = rotacionar_simples_esq(arvore, avo);
     }
-    else if ( comparar_nomes(pai->elemento.nome, avo->elemento.nome) > 0 &&
-              comparar_nomes(i->elemento.nome, pai->elemento.nome) < 0 )
+
+    else if ( cmp_pai_avo > 0 && cmp_i_pai < 0 )
     {
-        nova_raiz = rotacionar_dir_esq(avo);
+        nova_raiz = rotacionar_dir_esq(arvore, avo);
     }
-    else if ( comparar_nomes(pai->elemento.nome, avo->elemento.nome) < 0 &&
-              comparar_nomes(i->elemento.nome, pai->elemento.nome) < 0 )
+
+    else if ( cmp_pai_avo < 0 && cmp_i_pai < 0 )
     {
-        nova_raiz = rotacionar_simples_dir(avo);
+        nova_raiz = rotacionar_simples_dir(arvore, avo);
     }
-    else if ( comparar_nomes(pai->elemento.nome, avo->elemento.nome) < 0 &&
-              comparar_nomes(i->elemento.nome, pai->elemento.nome) > 0 )
+    
+    else if ( cmp_pai_avo < 0 && cmp_i_pai > 0 )
     {
-        nova_raiz = rotacionar_esq_dir(avo);
+        nova_raiz = rotacionar_esq_dir(arvore, avo);
     }
 
     if ( bisavo != NULL )
     {
-        if ( comparar_nomes(bisavo->elemento.nome, nova_raiz->elemento.nome) > 0 )
+        arvore->comparacoes++;
+
+        if ( strcmp(bisavo->elemento.nome, nova_raiz->elemento.nome) > 0 )
         {
             bisavo->esq = nova_raiz;
         }
+
         else
         {
             bisavo->dir = nova_raiz;
         }
+
+        arvore->movimentacoes++;
     }
+
     else
     {
         arvore->raiz = nova_raiz;
+        arvore->movimentacoes++;
     }
 
     nova_raiz->cor = false;
     nova_raiz->esq->cor = true;
     nova_raiz->dir->cor = true;
+    arvore->movimentacoes += 3;
 }
 
-void inserir_rec( ArvoreBicolor *arvore, Restaurante r, NoBicolor *bisavo,
-    NoBicolor *avo, NoBicolor *pai, NoBicolor *i )
+void inserir_rec( ArvoreBicolor *arvore, Restaurante r, NoBicolor *bisavo, NoBicolor *avo, NoBicolor *pai, NoBicolor *i )
 {
     if ( i == NULL )
     {
         i = novo_no_bicolor(r);
+        arvore->movimentacoes++;
+        arvore->comparacoes++;
 
-        if ( comparar_nomes(r.nome, pai->elemento.nome) < 0 )
+        if ( strcmp(r.nome, pai->elemento.nome) < 0 )
         {
             pai->esq = i;
         }
@@ -482,6 +480,8 @@ void inserir_rec( ArvoreBicolor *arvore, Restaurante r, NoBicolor *bisavo,
         {
             pai->dir = i;
         }
+
+        arvore->movimentacoes++;
 
         if ( pai->cor == true )
         {
@@ -500,11 +500,15 @@ void inserir_rec( ArvoreBicolor *arvore, Restaurante r, NoBicolor *bisavo,
             }
         }
 
-        if ( comparar_nomes(r.nome, i->elemento.nome) > 0 )
+        int cmp = strcmp(r.nome, i->elemento.nome);
+        arvore->comparacoes++;
+
+        if ( cmp > 0 )
         {
             inserir_rec(arvore, r, avo, pai, i, i->dir);
         }
-        else if ( comparar_nomes(r.nome, i->elemento.nome) < 0 )
+
+        else if ( cmp < 0 )
         {
             inserir_rec(arvore, r, avo, pai, i, i->esq);
         }
@@ -522,16 +526,20 @@ void inserir( ArvoreBicolor *arvore, Restaurante r )
     if ( arvore->raiz == NULL )
     {
         arvore->raiz = novo_no_bicolor(r);
+        arvore->movimentacoes++;
         arvore->raiz->cor = false;
+        arvore->movimentacoes++;
     }
+
     else
     {
         inserir_rec(arvore, r, NULL, NULL, NULL, arvore->raiz);
         arvore->raiz->cor = false;
+        arvore->movimentacoes++;
     }
 }
 
-void pesquisar_rec( NoBicolor *no, char *nome, int raiz )
+void pesquisar_rec( ArvoreBicolor *arvore, NoBicolor *no, char *nome, int raiz )
 {
     if ( no == NULL )
     {
@@ -544,7 +552,8 @@ void pesquisar_rec( NoBicolor *no, char *nome, int raiz )
             printf("raiz");
         }
 
-        int cmp = comparar_nomes(nome, no->elemento.nome);
+        int cmp = strcmp(nome, no->elemento.nome);
+        arvore->comparacoes++;
 
         if ( cmp == 0 )
         {
@@ -553,12 +562,12 @@ void pesquisar_rec( NoBicolor *no, char *nome, int raiz )
         else if ( cmp > 0 )
         {
             printf(" dir");
-            pesquisar_rec(no->dir, nome, 0);
+            pesquisar_rec(arvore, no->dir, nome, 0);
         }
         else
         {
             printf(" esq");
-            pesquisar_rec(no->esq, nome, 0);
+            pesquisar_rec(arvore, no->esq, nome, 0);
         }
     }
 }
@@ -571,7 +580,7 @@ void pesquisar_rec( NoBicolor *no, char *nome, int raiz )
  */
 void pesquisar( ArvoreBicolor *arvore, char *nome )
 {
-    pesquisar_rec(arvore->raiz, nome, 1);
+    pesquisar_rec(arvore, arvore->raiz, nome, 1);
 }
 
 void caminhar_em_rec( NoBicolor *no )
@@ -579,23 +588,20 @@ void caminhar_em_rec( NoBicolor *no )
     if ( no != NULL )
     {
         caminhar_em_rec(no->esq);
+
         char saida_linha[500];
+
         formatar_restaurante(&no->elemento, saida_linha);
+        
         printf("%s\n", saida_linha);
+
         caminhar_em_rec(no->dir);
     }
 }
 
 void caminhar_em( ArvoreBicolor *arvore )
 {
-    if ( arvore->raiz == NULL )
-    {
-        printf("V\n");
-    }
-    else
-    {
-        caminhar_em_rec(arvore->raiz);
-    }
+    caminhar_em_rec(arvore->raiz);
 }
 
 /**
@@ -608,7 +614,9 @@ int main()
     Colecao_restaurante colecao = ler_csv();
     Restaurante *restaurantes = get_restaurantes(&colecao);
     ArvoreBicolor arvore = nova_arvore_bicolor();
-    int id;
+    int id = 0;
+    clock_t inicio, fim;
+    double total = 0.0;
 
     while ( scanf("%d", &id) && id != -1 )
     {
@@ -625,28 +633,40 @@ int main()
     char nome[100];
     
     fgets(nome, 100, stdin);
+    inicio = clock();
 
     while ( fgets(nome, 100, stdin) != NULL )
     {
         int j = 0;
 
-        while ( nome[j] != '\n' && nome[j] != '\0' )
+        while ( nome[j] != '\n' && nome[j] != '\0' && nome[j] != '\r')
         {
             j++;
         }
 
         nome[j] = '\0';
         
-        if ( is_fim(nome) == 0 )
+        if ( strcmp(nome, "FIM") != 0 )
         {
             pesquisar(&arvore, nome);
         }
+        
     }
+
+    fim = clock();
+    total = ((fim - inicio) / (double)CLOCKS_PER_SEC);
 
     caminhar_em(&arvore);
 
     FILE *log = fopen("842527_arvore_bicolor.txt", "w");
-    fclose(log);
+
+    if ( log != NULL )
+    {
+        fprintf(log, "Comparacoes: %d\n", arvore.comparacoes);
+        fprintf(log, "Movimentacoes: %d\n", arvore.movimentacoes);
+        fprintf(log, "Total: %f\n", total);
+        fclose(log);
+    }
 
     return 0;
 }
