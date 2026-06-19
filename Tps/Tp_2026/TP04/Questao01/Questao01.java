@@ -225,6 +225,7 @@ class No
     public Restaurante elemento;
     public int nivel;
     public No esq, dir;
+    public No raiz;
 
     public No( Restaurante elemento )
     {
@@ -232,6 +233,7 @@ class No
         this.nivel = 1;
         this.esq = null;
         this.dir = null;
+        this.raiz = null;
     }
 
     public int getNivel( No i )
@@ -249,6 +251,7 @@ class No
     public void setNivel()
     {
         int x = 1;
+
         int nivelEsq = getNivel(this.esq);
         int nivelDir = getNivel(this.dir);
 
@@ -256,6 +259,7 @@ class No
         {
             x = nivelEsq + x;
         }
+
         else
         {
             x = nivelDir + x;
@@ -276,15 +280,30 @@ class No
 class ArvoreAvl
 {
     public No raiz;
+    private int comparacoes;
+    private int movimentacoes;
 
     public ArvoreAvl()
     {
         raiz = null;
+        comparacoes = 0;
+        movimentacoes = 0;
+    }
+
+    public int getComparacoes()
+    {
+        return comparacoes;
+    }
+
+    public int getMovimentacoes()
+    {
+        return movimentacoes;
     }
 
     public void inserir( Restaurante restaurante )
     {
         raiz = inserir(raiz, restaurante);
+        movimentacoes++;
     }
 
     private No inserir( No i, Restaurante restaurante )
@@ -292,14 +311,23 @@ class ArvoreAvl
         if ( i == null )
         {
             i = new No(restaurante);
+            movimentacoes++;
         }
-        else if ( i.elemento.getNome().compareTo(restaurante.getNome()) < 0 )
+        else
         {
-            i.dir = inserir(i.dir, restaurante);
-        }
-        else if ( i.elemento.getNome().compareTo(restaurante.getNome()) > 0 )
-        {
-            i.esq = inserir(i.esq, restaurante);
+            int cmp = i.elemento.getNome().compareTo(restaurante.getNome());
+            comparacoes++;
+
+            if ( cmp < 0 )
+            {
+                i.dir = inserir(i.dir, restaurante);
+                movimentacoes++;
+            }
+            else if ( cmp > 0 )
+            {
+                i.esq = inserir(i.esq, restaurante);
+                movimentacoes++;
+            }
         }
 
         return balancear(i);
@@ -318,18 +346,19 @@ class ArvoreAvl
         }
         else
         {
-            int cmp = nome.compareTo(i.elemento.getNome());
+            int op = nome.compareTo(i.elemento.getNome());
+            comparacoes++;
 
             if ( raizFlag )
             {
                 System.out.print("raiz");
             }
 
-            if ( cmp == 0 )
+            if ( op == 0 )
             {
                 System.out.println(" SIM");
             }
-            else if ( cmp > 0 )
+            else if ( op > 0 )
             {
                 System.out.print(" dir");
                 pesquisar(i.dir, nome, false);
@@ -344,14 +373,7 @@ class ArvoreAvl
 
     public void caminharCentral()
     {
-        if ( raiz == null )
-        {
-            System.out.println("V");
-        }
-        else
-        {
-            caminharCentral(raiz);
-        }
+        caminharCentral(raiz);
     }
 
     private void caminharCentral( No i )
@@ -371,6 +393,7 @@ class ArvoreAvl
 
         noDir.esq = i;
         i.dir = noDirEsq;
+        movimentacoes += 2;
 
         i.setNivel();
         noDir.setNivel();
@@ -385,6 +408,7 @@ class ArvoreAvl
 
         noEsq.dir = i;
         i.esq = noEsqDir;
+        movimentacoes += 2;
 
         i.setNivel();
         noEsq.setNivel();
@@ -394,35 +418,36 @@ class ArvoreAvl
 
     private No balancear( No i )
     {
-        if ( i != null )
+        int fator = i.getBalanceamento();
+
+        if ( fator == 2 )
         {
-            int fator = i.getBalanceamento();
+            int fatorFilhoDir = i.dir.getBalanceamento();
 
-            if ( fator == 2 )
+            if ( fatorFilhoDir < 0 )
             {
-                int fatorFilhoDir = i.dir.getBalanceamento();
-
-                if ( fatorFilhoDir < 0 )
-                {
-                    i.dir = rotacionarDir(i.dir);
-                }
-
-                i = rotacionarEsq(i);
-            }
-            else if ( fator == -2 )
-            {
-                int fatorFilhoEsq = i.esq.getBalanceamento();
-
-                if ( fatorFilhoEsq > 0 )
-                {
-                    i.esq = rotacionarEsq(i.esq);
-                }
-
-                i = rotacionarDir(i);
+                i.dir = rotacionarDir(i.dir);
+                movimentacoes++;
             }
 
-            i.setNivel();
+            i = rotacionarEsq(i);
+            movimentacoes++;
         }
+        else if ( fator == -2 )
+        {
+            int fatorFilhoEsq = i.esq.getBalanceamento();
+
+            if ( fatorFilhoEsq > 0 )
+            {
+                i.esq = rotacionarEsq(i.esq);
+                movimentacoes++;
+            }
+
+            i = rotacionarDir(i);
+            movimentacoes++;
+        }
+
+        i.setNivel();
 
         return i;
     }
@@ -432,9 +457,9 @@ public class Questao01
 {
     public static void main( String[] args ) throws Exception
     {
+        Scanner sc = new Scanner( System.in );
         ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
         Restaurante[] restaurantes = colecao.getRestaurantes();
-        Scanner sc = new Scanner(System.in);
         ArvoreAvl arvore = new ArvoreAvl();
 
         int id = sc.nextInt();
@@ -456,6 +481,8 @@ public class Questao01
         sc.nextLine();
         String nome = sc.nextLine();
 
+        long inicio = System.currentTimeMillis();
+
         while ( nome.compareTo("FIM") != 0 )
         {
             arvore.pesquisar(nome);
@@ -464,7 +491,11 @@ public class Questao01
 
         arvore.caminharCentral();
 
+        long fim = System.currentTimeMillis();
         PrintWriter log = new PrintWriter("842527_arvore_avl.txt");
+        log.println("Tempo: " + (fim - inicio) / 1000.0 + " s");
+        log.println("Comparacoes: " + arvore.getComparacoes());
+        log.println("Movimentacoes: " + arvore.getMovimentacoes());
         log.close();
 
         sc.close();

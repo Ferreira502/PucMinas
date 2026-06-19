@@ -623,13 +623,14 @@ int main()
     }
 
     char nome[100];
+    
     fgets(nome, 100, stdin);
 
     while ( fgets(nome, 100, stdin) != NULL )
     {
         int j = 0;
 
-        while ( nome[j] != '\n' && nome[j] != '\r' && nome[j] != '\0' )
+        while ( nome[j] != '\n' && nome[j] != '\0' )
         {
             j++;
         }

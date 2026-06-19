@@ -1,0 +1,3 @@
+Tempo: 0.083 s.
+Comparacoes: 768
+Movimentacoes: 391
