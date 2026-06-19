@@ -375,12 +375,110 @@ class Hora
     }
 }
 
+class NoBinario
+{
+    No elemento;
+    NoBinario esq, dir;
+
+    public NoBinario( No elemento )
+    {
+        this.elemento = elemento;
+        esq = dir = null;
+    }
+}
+
+class ArvoreBinaria
+{
+    private NoBinario raiz;
+
+    public ArvoreBinaria()
+    {
+        raiz = null;
+    }
+
+    public No getFilho( char c )
+    {
+        return getFilho(c, raiz);
+    }
+
+    private No getFilho( char c, NoBinario i )
+    {
+        No resp = null;
+
+        if ( i == null )
+        {
+            resp = null;
+        }
+
+        else if ( c == i.elemento.letra )
+        {
+            resp = i.elemento;
+        }
+
+        else if ( c < i.elemento.letra )
+        {
+            resp = getFilho(c, i.esq);
+        }
+
+        else
+        {
+            resp = getFilho(c, i.dir);
+        }
+
+        return resp;
+    }
+
+    public void setFilho( No filho ) throws Exception
+    {
+        raiz = setFilho(filho, raiz);
+    }
+
+    private NoBinario setFilho( No filho, NoBinario i ) throws Exception
+    {
+        if ( i == null )
+        {
+            i = new NoBinario(filho);
+        }
+
+        else if ( filho.letra < i.elemento.letra )
+        {
+            i.esq = setFilho(filho, i.esq);
+        }
+
+        else if ( filho.letra > i.elemento.letra )
+        {
+            i.dir = setFilho(filho, i.dir);
+        }
+
+        else
+        {
+            throw new Exception("Erro");
+        }
+
+        return i;
+    }
+
+    public void mostrar( String s )
+    {
+        mostrar(s, raiz);
+    }
+
+    private void mostrar( String s, NoBinario i )
+    {
+        if ( i != null )
+        {
+            mostrar(s, i.esq);
+            i.elemento.mostrar(s);
+            mostrar(s, i.dir);
+        }
+    }
+}
+
 class No 
 {
-    public int tamanho = 256;
     public char letra;
     public Restaurante elemento;
-    public No[] prox;
+    public ArvoreBinaria prox;
     public boolean folha;
     
     public No ()
@@ -392,41 +490,37 @@ class No
     {
         this.letra = letra;
         this.elemento = null;
-        prox = new No [tamanho];
-
-        for ( int i = 0; i < tamanho; i++ )
-        {
-            prox[i] = null;
-        }
-
+        prox = new ArvoreBinaria();
         folha = false;
     }
 
     public No getFilho( char c )
     {
-        int pos = hash(c);
-        No filho = prox[pos];
+        No filho = prox.getFilho(c);
 
         return filho;
     }
 
-    public void setFilho ( No filho )
+    public void setFilho ( No filho ) throws Exception
     {
-        int pos = hash(filho.letra);
-        prox[pos] = filho;
+        prox.setFilho(filho);
     }
 
-    public No[] getFilho()
+    public ArvoreBinaria getFilho()
     {
         return prox;
     }
 
-    public static int hash (char x)
+    public void mostrar( String s )
     {
-        return (int)x;
+        if ( folha == true )
+        {
+            System.out.println((s + letra) + " " + elemento.formatar());
+        }
+
+        prox.mostrar(s + letra);
     }
 }
-
 
 class ArvoreTrie 
 {
@@ -548,18 +642,7 @@ class ArvoreTrie
             System.out.println((s + no.letra) + " " + no.elemento.formatar());
         }
     
-        No[] filho = no.getFilho();
-        int i = 0;
-
-        while ( i < filho.length ) 
-        {
-            if ( filho[i] != null )
-            {
-                mostrar( s + no.letra, filho[i] );
-            }   
-
-            i++; 
-        }
+        no.getFilho().mostrar(s + no.letra);
     }
 
 }
@@ -607,7 +690,7 @@ class Questao10
 
         long fim = System.currentTimeMillis();
 
-        PrintWriter log = new PrintWriter("842527_arvore_trie_hash.txt");
+        PrintWriter log = new PrintWriter("842527_arvore_trie_arvore.txt");
         log.println("Tempo: " + (fim - inicio) / 1000.0 + " s");
         log.println("Comparacoes: " + arvore.getComparacoes());
         log.close();

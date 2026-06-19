@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 typedef struct Data
 {
@@ -295,23 +298,32 @@ Colecao_restaurante ler_csv()
     colecao.tamanho = 0;
 
     FILE *f = fopen("/tmp/restaurantes.csv", "r");
+
     char linha[500];
-    int j = 0;
 
-    // pular cabecalho
-    fgets(linha, 500, f);
-
-    for ( int i = 0; i < 500; i++ )
+    if ( f == NULL )
     {
-        fgets(linha, 500, f);
+        return colecao;
+    }
+ 
+    if ( fgets(linha, 500, f) == NULL )
+    {
+        fclose(f);
+        return colecao;
+    }
 
-        // substitui o \n por \0 para encerrar a string
-        while ( linha[j] != '\n' && linha[j] != '\0' )
+    for ( int i = 0; i < 500 && fgets(linha, 500, f) != NULL; i++ )
+    {
+        int j = 0;
+
+        while ( linha[j] != '\n' && linha[j] != '\r' && linha[j] != '\0' )
         {
             j++;
         }
-        linha[j] = '\0';
         
+        linha[j] = '\0';
+
+
         Restaurante r = ler_restaurante(linha);
         adicionar(&colecao, r);
     }
@@ -320,17 +332,214 @@ Colecao_restaurante ler_csv()
     return colecao;
 }
 
+typedef struct No
+{
+    char letra;
+    Restaurante elemento;
+    struct Celula *primeiro;
+    struct Celula *ultimo;
+    int folha;
+} No;
+
+typedef struct Celula
+{
+    No *elemento;
+    struct Celula *prox;
+} Celula;
+
+typedef struct Arvore_trie
+{
+    No *raiz;
+    int comparacoes;
+} Arvore_trie;
+
+Celula* nova_celula( No *elemento )
+{
+    Celula *nova = (Celula*) malloc(sizeof(Celula));
+    nova->elemento = elemento;
+    nova->prox = NULL;
+
+    return nova;
+}
+
+No* novo_no( char letra )
+{
+    No *no = (No*) malloc(sizeof(No));
+    no->letra = letra;
+    no->folha = 0;
+    no->primeiro = nova_celula(NULL);
+    no->ultimo = no->primeiro;
+
+    return no;
+}
+
+void iniciar_arvore( Arvore_trie *arvore )
+{
+    arvore->raiz = novo_no(' ');
+    arvore->comparacoes = 0;
+}
+
+No* get_filho( No *no, char c )
+{
+    No *filho = NULL;
+    Celula *i;
+
+    for ( i = no->primeiro->prox; i != NULL && filho == NULL; i = i->prox )
+    {
+        if ( i->elemento->letra == c )
+        {
+            filho = i->elemento;
+        }
+    }
+
+    return filho;
+}
+
+void set_filho( No *no, No *filho )
+{
+    no->ultimo->prox = nova_celula(filho);
+    no->ultimo = no->ultimo->prox;
+}
+
+
+void inserir_rec( Restaurante restaurante, char nome[], No *i, int j )
+{
+    char c = nome[j];
+    No *filho = get_filho(i, c);
+
+    if ( filho == NULL )
+    {
+        filho = novo_no(c);
+        set_filho(i, filho);
+
+        if ( j == (int)strlen(nome) - 1 )
+        {
+            filho->folha = 1;
+            filho->elemento = restaurante;
+        }
+
+        else
+        {
+            inserir_rec(restaurante, nome, filho, j + 1);
+        }
+    }
+
+    else if ( j < (int)strlen(nome) - 1 )
+    {
+        inserir_rec(restaurante, nome, filho, j + 1);
+    }
+
+    else if ( filho->folha == 0 )
+    {
+        filho->folha = 1;
+        filho->elemento = restaurante;
+    }
+}
+
+void inserir_arvore( Arvore_trie *arvore, Restaurante restaurante )
+{
+    inserir_rec(restaurante, restaurante.nome, arvore->raiz, 0);
+}
+
+Restaurante* pesquisar_rec( Arvore_trie *arvore, char nome[], No *no, int j )
+{
+    Restaurante *resp = NULL;
+    char c = nome[j];
+    No *filho = get_filho(no, c);
+    arvore->comparacoes++;
+
+    if ( filho == NULL )
+    {
+        resp = NULL;
+    }
+
+    else
+    {
+        printf("%c ", c);
+
+        if ( j == (int)strlen(nome) - 1 )
+        {
+            if ( filho->folha == 1 )
+            {
+                resp = &filho->elemento;
+            }
+        }
+
+        else
+        {
+            resp = pesquisar_rec(arvore, nome, filho, j + 1);
+        }
+    }
+
+    return resp;
+}
+
+void pesquisar_arvore( Arvore_trie *arvore, char nome[] )
+{
+    char saida_linha[500];
+    Restaurante *resp = pesquisar_rec(arvore, nome, arvore->raiz, 0);
+
+    if ( resp == NULL )
+    {
+        printf("NAO\n");
+    }
+
+    else
+    {
+        formatar_restaurante(resp, saida_linha);
+        printf("SIM %s\n", saida_linha);
+    }
+}
+
+void mostrar_rec( char s[], No *no )
+{
+    char nova[500];
+    strcpy(nova, s);
+    int tam = strlen(nova);
+    nova[tam] = no->letra;
+    nova[tam + 1] = '\0';
+
+    if ( no->folha == 1 )
+    {
+        char saida_linha[500];
+        formatar_restaurante(&no->elemento, saida_linha);
+        printf("%s %s\n", nova, saida_linha);
+    }
+
+    Celula *i;
+
+    for ( i = no->primeiro->prox; i != NULL; i = i->prox )
+    {
+        mostrar_rec(nova, i->elemento);
+    }
+}
+
+void mostrar( Arvore_trie *arvore )
+{
+    Celula *i;
+
+    for ( i = arvore->raiz->primeiro->prox; i != NULL; i = i->prox )
+    {
+        mostrar_rec("", i->elemento);
+    }
+}
+
 /**
  * @author Gabriel Ferreira Pereira
  * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
  *         e exibe na tela a lista de restaurantes selecionados
  */
+
 int main()
 {
     Colecao_restaurante colecao = ler_csv();
     Restaurante *restaurantes = get_restaurantes(&colecao);
+    Restaurante *encontrado;
     char saida_linha[500];
+    Arvore_trie arvore;
     int id = 0;
+
+    iniciar_arvore(&arvore);
 
     while ( scanf("%d", &id) && id != -1 )
     {
@@ -338,11 +547,55 @@ int main()
         {
             if ( restaurantes[i].id == id )
             {
-                formatar_restaurante(&restaurantes[i], saida_linha);
-                printf("%s\n", saida_linha);
+                inserir_arvore(&arvore, restaurantes[i]);
+                i = get_tamanho(&colecao);
             }
         }
     }
 
-    return 0;
+    char nome[100];
+    fgets(nome, 100, stdin);
+
+    clock_t inicio = clock();
+
+    while ( fgets(nome, 100, stdin) != NULL )
+    {
+        int j = 0;
+
+        while ( nome[j] != '\n' && nome[j] != '\r' && nome[j] != '\0' )
+        {
+            j++;
+        }
+
+        nome[j] = '\0';
+
+        if ( strcmp(nome, "FIM") == 0 )
+        {
+            break;
+        }
+
+        else
+        {
+            encontrado = pesquisar_rec(&arvore, nome, arvore.raiz, 0);
+
+            if ( encontrado == NULL )
+            {
+                printf("NAO\n");
+            }
+            else
+            {
+                formatar_restaurante(encontrado, saida_linha);
+                printf("SIM %s\n", saida_linha);
+            }
+        }
+    }
+
+    clock_t fim = clock();
+    double total = (double) (fim - inicio) / CLOCKS_PER_SEC;
+
+    FILE *log = fopen("842527_arvore_trie_lista.txt", "w");
+
+    fprintf(log, "Comparacoes: %d\n", arvore.comparacoes);
+    fprintf(log, "Total: %f\n", total);
+    fclose(log);   
 }

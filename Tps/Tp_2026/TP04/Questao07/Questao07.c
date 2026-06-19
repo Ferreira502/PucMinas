@@ -305,7 +305,6 @@ Colecao_restaurante ler_csv()
     {
         fgets(linha, 500, f);
 
-        // substitui o \n por \0 para encerrar a string
         while ( linha[j] != '\n' && linha[j] != '\0' )
         {
             j++;
