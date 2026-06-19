@@ -207,15 +207,16 @@ class ColecaoRestaurante
     {
         ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[500]);
         Scanner sc = new Scanner(new File("/tmp/restaurantes.csv"));
-
+        
         sc.nextLine();
+
+        sc.useDelimiter(",|\n");
 
         for ( int i = 0; i < 500; i++ )
         {
             colecao.adicionar(Restaurante.ler(sc.nextLine()));
         }
 
-        sc.close();
         return colecao;
     }
 }

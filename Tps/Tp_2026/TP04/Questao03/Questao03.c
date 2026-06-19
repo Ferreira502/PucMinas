@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 
 #define MAX_RESTAURANTES 500
 #define TAM_TAB 31
@@ -307,26 +308,24 @@ Restaurante* get_restaurantes( Colecao_restaurante *colecao )
 Colecao_restaurante ler_csv()
 {
     Colecao_restaurante colecao;
-    FILE *f;
-    char linha[500];
-
     colecao.tamanho = 0;
 
-    f = fopen("/tmp/restaurantes.csv", "r");
+    FILE *f = fopen("/tmp/restaurantes.csv", "r");
 
-    if ( f == NULL )
-    {
-        f = fopen("restaurante.csv", "r");
-    }
+    char linha[500];
 
     if ( f == NULL )
     {
         return colecao;
     }
+ 
+    if ( fgets(linha, 500, f) == NULL )
+    {
+        fclose(f);
+        return colecao;
+    }
 
-    fgets(linha, 500, f);
-
-    while ( colecao.tamanho < MAX_RESTAURANTES && fgets(linha, 500, f) != NULL )
+    for ( int i = 0; i < 500 && fgets(linha, 500, f) != NULL; i++ )
     {
         int j = 0;
 
@@ -336,7 +335,9 @@ Colecao_restaurante ler_csv()
         }
         linha[j] = '\0';
 
-        adicionar(&colecao, ler_restaurante(linha));
+
+        Restaurante r = ler_restaurante(linha);
+        adicionar(&colecao, r);
     }
 
     fclose(f);
@@ -369,16 +370,30 @@ void iniciar_hash( Hash *hash )
  */
 int hash_nome( char nome[] )
 {
-    int soma = 0;
+    int x = 0;
     int i = 0;
 
     while ( nome[i] != '\0' )
     {
-        soma += (unsigned char) nome[i];
+        x += nome[i];
         i++;
     }
 
-    return soma % TAM_TAB;
+    x = x % TAM_TAB;
+
+    return x;
+}
+
+int is_posicao_livre( Hash *hash, int pos )
+{
+    int resp = 1;
+
+    if ( hash->ocupado[pos] != 0 )
+    {
+        resp = 0;
+    }
+
+    return resp;
 }
 
 /**
@@ -399,11 +414,14 @@ int nomes_iguais( Hash *hash, char nome1[], char nome2[] )
         {
             return 0;
         }
+        
         i++;
     }
 
     return nome1[i] == '\0' && nome2[i] == '\0';
 }
+
+int pesquisar_hash( Hash *hash, char nome[], Restaurante *encontrado );
 
 /**
  * @author Gabriel Ferreira Pereira
@@ -414,7 +432,7 @@ void inserir_hash( Hash *hash, Restaurante restaurante )
 {
     int pos = hash_nome(restaurante.nome);
 
-    if ( hash->ocupado[pos] == 0 )
+    if ( is_posicao_livre(hash, pos) == 1 )
     {
         hash->tabela[pos] = restaurante;
         hash->ocupado[pos] = 1;
@@ -442,27 +460,33 @@ void inserir_hash( Hash *hash, Restaurante restaurante )
 int pesquisar_hash( Hash *hash, char nome[], Restaurante *encontrado )
 {
     int pos = hash_nome(nome);
-    int i;
+    int resp = -1;
 
-    if ( hash->ocupado[pos] == 1 && nomes_iguais(hash, hash->tabela[pos].nome, nome) )
+    if ( hash->ocupado[pos] == 0 )
+    {
+        resp = -1;
+    }
+    else if ( hash->ocupado[pos] == 1 && nomes_iguais(hash, hash->tabela[pos].nome, nome) )
     {
         *encontrado = hash->tabela[pos];
-        return pos;
+        resp = pos;
     }
-
-    for ( i = 0; i < hash->reserva_usada; i++ )
+    else
     {
-        int pos_reserva = TAM_TAB + i;
-
-        if ( hash->ocupado[pos_reserva] == 1 &&
-            nomes_iguais(hash, hash->tabela[pos_reserva].nome, nome))
+        for ( int i = 0; i < hash->reserva_usada; i++ )
         {
-            *encontrado = hash->tabela[pos_reserva];
-            return pos_reserva;
+            int pos_reserva = TAM_TAB + i;
+
+            if ( hash->ocupado[pos_reserva] == 1 && nomes_iguais(hash, hash->tabela[pos_reserva].nome, nome) )
+            {
+                *encontrado = hash->tabela[pos_reserva];
+                resp = pos_reserva;
+                i = hash->reserva_usada;
+            }
         }
     }
 
-    return -1;
+    return resp;
 }
 
 /**
@@ -506,13 +530,13 @@ int main()
         int j = 0;
         int pos;
 
-        while ( nome[j] != '\n' && nome[j] != '\0' )                                                        
+        while ( nome[j] != '\n' && nome[j] != '\r' && nome[j] != '\0' )
         {
             j++;
         }
         nome[j] = '\0';
 
-        if ( nome[0] != 'F' || nome[1] != 'I' || nome[2] != 'M' || nome[3] != '\0' )
+        if ( strcmp(nome, "FIM") != 0 )
         {
             pos = pesquisar_hash(&hash, nome, &encontrado);
 
@@ -530,13 +554,14 @@ int main()
     }
 
     clock_t fim = clock();
-    double tempo = (double) (fim - inicio) / CLOCKS_PER_SEC;
+    double total = (double) (fim - inicio) / CLOCKS_PER_SEC;
 
     FILE *log = fopen("842527_hash_reserva.txt", "w");
 
     if ( log != NULL )
     {
-        fprintf(log, "842527\t%d\t%f\n", hash.comparacoes, tempo);
+        fprintf(log, "%d\n", hash.comparacoes);
+        fprintf(log, "%f\n", total);
         fclose(log);
     }
 

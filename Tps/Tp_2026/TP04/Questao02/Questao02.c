@@ -278,10 +278,6 @@ Colecao_restaurante ler_csv()
     colecao.tamanho = 0;
 
     FILE *f = fopen("/tmp/restaurantes.csv", "r");
-    if ( f == NULL )
-    {
-        f = fopen("restaurante.csv", "r");
-    }
 
     char linha[500];
 
