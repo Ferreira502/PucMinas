@@ -1,5 +1,224 @@
+import java.io.File;
 import java.io.PrintWriter;
 import java.util.Scanner;
+
+class Data
+{
+    private int ano;
+    private int mes;
+    private int dia;
+
+    public Data( int ano, int mes, int dia )
+    {
+        this.ano = ano;
+        this.mes = mes;
+        this.dia = dia;
+    }
+
+    public static Data parseData( String s )
+    {
+        Scanner sc = new Scanner(s);
+        sc.useDelimiter("-");
+        int ano = sc.nextInt();
+        int mes = sc.nextInt();
+        int dia = sc.nextInt();
+        sc.close();
+        return new Data(ano, mes, dia);
+    }
+
+    public String formatarData()
+    {
+        return String.format("%02d/%02d/%04d", dia, mes, ano);
+    }
+}
+
+class Hora
+{
+    private int hora;
+    private int minuto;
+
+    public Hora( int hora, int minuto )
+    {
+        this.hora = hora;
+        this.minuto = minuto;
+    }
+
+    public static Hora parseHora( String s )
+    {
+        Scanner sc = new Scanner(s);
+        sc.useDelimiter(":");
+        int hora = sc.nextInt();
+        int minuto = sc.nextInt();
+        sc.close();
+        return new Hora(hora, minuto);
+    }
+
+    public String formatarHora()
+    {
+        return String.format("%02d:%02d", hora, minuto);
+    }
+}
+
+class Restaurante
+{
+    private int id;
+    private String nome;
+    private String cidade;
+    private int capacidade;
+    private double avaliacao;
+    private String[] tiposCozinha;
+    private String faixaPreco;
+    private Hora horarioAbertura;
+    private Hora horarioFechamento;
+    private Data dataAbertura;
+    private boolean aberto;
+
+    public Restaurante( int id, String nome, String cidade, int capacidade, double avaliacao,
+        String[] tiposCozinha, String faixaPreco, Hora horarioAbertura,
+        Hora horarioFechamento, Data dataAbertura, boolean aberto )
+    {
+        this.id = id;
+        this.nome = nome;
+        this.cidade = cidade;
+        this.capacidade = capacidade;
+        this.avaliacao = avaliacao;
+        this.tiposCozinha = tiposCozinha;
+        this.faixaPreco = faixaPreco;
+        this.horarioAbertura = horarioAbertura;
+        this.horarioFechamento = horarioFechamento;
+        this.dataAbertura = dataAbertura;
+        this.aberto = aberto;
+    }
+
+    public int getID()
+    {
+        return this.id;
+    }
+
+    public String getNome()
+    {
+        return this.nome;
+    }
+
+    public static double parseDouble( String s )
+    {
+        int inteiro = 0;
+        int decimal = 0;
+        boolean ponto = false;
+
+        for ( int i = 0; i < s.length(); i++ )
+        {
+            char c = s.charAt(i);
+
+            if ( c == '.' )
+            {
+                ponto = true;
+            }
+            else if ( ponto == false )
+            {
+                inteiro = inteiro * 10 + (c - '0');
+            }
+            else
+            {
+                decimal = decimal * 10 + (c - '0');
+            }
+        }
+
+        return inteiro + decimal / 10.0;
+    }
+
+    public static Restaurante ler( String linha ) throws Exception
+    {
+        Scanner sc = new Scanner(linha);
+        sc.useDelimiter(",");
+
+        int id = sc.nextInt();
+        String nome = sc.next();
+        String cidade = sc.next();
+        int capacidade = sc.nextInt();
+        double avaliacao = parseDouble(sc.next());
+
+        String cozinhaStr = sc.next();
+        Scanner scCozinha = new Scanner(cozinhaStr);
+        scCozinha.useDelimiter(";");
+        String tipo1 = scCozinha.next();
+        String tipo2 = scCozinha.next();
+        scCozinha.close();
+        String[] tiposCozinha = new String[]{tipo1, tipo2};
+
+        String faixaPreco = sc.next();
+
+        String horario = sc.next();
+        Scanner scHorario = new Scanner(horario);
+        scHorario.useDelimiter("-");
+        Hora horarioAbertura = Hora.parseHora(scHorario.next());
+        Hora horarioFechamento = Hora.parseHora(scHorario.next());
+        scHorario.close();
+
+        Data dataAbertura = Data.parseData(sc.next());
+        String abertoStr = sc.next();
+        boolean aberto = abertoStr.charAt(0) == 't';
+
+        sc.close();
+
+        return new Restaurante(id, nome, cidade, capacidade, avaliacao, tiposCozinha, faixaPreco, horarioAbertura, horarioFechamento, dataAbertura, aberto);
+    }
+
+    public String formatar()
+    {
+        String tipos = "[" + tiposCozinha[0] + "," + tiposCozinha[1] + "]";
+        String horario = horarioAbertura.formatarHora() + "-" + horarioFechamento.formatarHora();
+        String data = dataAbertura.formatarData();
+
+        return "[" + id + " ## " + nome + " ## " + cidade + " ## " + capacidade + " ## "
+            + avaliacao + " ## " + tipos + " ## " + faixaPreco + " ## "
+            + horario + " ## " + data + " ## " + aberto + "]";
+    }
+}
+
+class ColecaoRestaurante
+{
+    private int tamanho;
+    private Restaurante[] restaurantes;
+
+    public ColecaoRestaurante( int tamanho, Restaurante[] restaurantes )
+    {
+        this.tamanho = tamanho;
+        this.restaurantes = restaurantes;
+    }
+
+    public int getTamanho()
+    {
+        return this.tamanho;
+    }
+
+    public void adicionar( Restaurante restaurante )
+    {
+        this.restaurantes[this.tamanho] = restaurante;
+        this.tamanho++;
+    }
+
+    public Restaurante[] getRestaurantes()
+    {
+        return this.restaurantes;
+    }
+
+    public static ColecaoRestaurante lerCsv() throws Exception
+    {
+        ColecaoRestaurante colecao = new ColecaoRestaurante(0, new Restaurante[500]);
+        Scanner sc = new Scanner(new File("/tmp/restaurantes.csv"));
+
+        sc.nextLine();
+
+        for ( int i = 0; i < 500; i++ )
+        {
+            colecao.adicionar(Restaurante.ler(sc.nextLine()));
+        }
+
+        sc.close();
+        return colecao;
+    }
+}
 
 class No
 {
@@ -17,58 +236,52 @@ class No
 
     public int getNivel( No i )
     {
-        int resp = 0;
+        int x = 0;
 
         if ( i != null )
         {
-            resp = i.nivel;
+            x = i.nivel;
         }
 
-        return resp;
+        return x;
     }
 
     public void setNivel()
     {
+        int x = 1;
         int nivelEsq = getNivel(this.esq);
         int nivelDir = getNivel(this.dir);
 
         if ( nivelEsq > nivelDir )
         {
-            this.nivel = nivelEsq + 1;
+            x = nivelEsq + x;
         }
         else
         {
-            this.nivel = nivelDir + 1;
+            x = nivelDir + x;
         }
+
+        this.nivel = x;
     }
 
     public int getBalanceamento()
     {
-        return getNivel(this.dir) - getNivel(this.esq);
+        int nivelEsq = getNivel(this.esq);
+        int nivelDir = getNivel(this.dir);
+
+        return nivelDir - nivelEsq;
     }
 }
 
 class ArvoreAvl
 {
-    private No raiz;
-    private int comparacoes;
+    public No raiz;
 
     public ArvoreAvl()
     {
         raiz = null;
-        comparacoes = 0;
     }
 
-    public int getComparacoes()
-    {
-        return comparacoes;
-    }
-
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param restaurante restaurante a ser inserido
-     * @reason Insere um restaurante na AVL usando o nome como chave
-     */
     public void inserir( Restaurante restaurante )
     {
         raiz = inserir(raiz, restaurante);
@@ -80,11 +293,11 @@ class ArvoreAvl
         {
             i = new No(restaurante);
         }
-        else if ( restaurante.getNome().compareTo(i.elemento.getNome()) > 0 )
+        else if ( i.elemento.getNome().compareTo(restaurante.getNome()) < 0 )
         {
             i.dir = inserir(i.dir, restaurante);
         }
-        else if ( restaurante.getNome().compareTo(i.elemento.getNome()) < 0 )
+        else if ( i.elemento.getNome().compareTo(restaurante.getNome()) > 0 )
         {
             i.esq = inserir(i.esq, restaurante);
         }
@@ -92,11 +305,6 @@ class ArvoreAvl
         return balancear(i);
     }
 
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @param nome nome pesquisado na AVL
-     * @reason Pesquisa um restaurante pelo nome e imprime o caminho percorrido
-     */
     public void pesquisar( String nome )
     {
         pesquisar(raiz, nome, true);
@@ -110,7 +318,6 @@ class ArvoreAvl
         }
         else
         {
-            comparacoes++;
             int cmp = nome.compareTo(i.elemento.getNome());
 
             if ( raizFlag )
@@ -135,10 +342,6 @@ class ArvoreAvl
         }
     }
 
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Mostra os restaurantes em ordem alfabetica pelo nome
-     */
     public void caminharCentral()
     {
         if ( raiz == null )
@@ -161,7 +364,7 @@ class ArvoreAvl
         }
     }
 
-    private No rotacionarEsq( No i )
+    public No rotacionarEsq( No i )
     {
         No noDir = i.dir;
         No noDirEsq = noDir.esq;
@@ -175,7 +378,7 @@ class ArvoreAvl
         return noDir;
     }
 
-    private No rotacionarDir( No i )
+    public No rotacionarDir( No i )
     {
         No noEsq = i.esq;
         No noEsqDir = noEsq.dir;
@@ -227,11 +430,6 @@ class ArvoreAvl
 
 public class Questao01
 {
-    /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Insere restaurantes em uma arvore AVL por nome,
-     *         pesquisa chaves e exibe caminhamento em ordem
-     */
     public static void main( String[] args ) throws Exception
     {
         ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
@@ -256,8 +454,6 @@ public class Questao01
         }
 
         sc.nextLine();
-
-        long inicio = System.nanoTime();
         String nome = sc.nextLine();
 
         while ( nome.compareTo("FIM") != 0 )
@@ -266,13 +462,9 @@ public class Questao01
             nome = sc.nextLine();
         }
 
-        long fim = System.nanoTime();
-        double tempo = (fim - inicio) / 1000000000.0;
-
         arvore.caminharCentral();
 
         PrintWriter log = new PrintWriter("842527_arvore_avl.txt");
-        log.printf("842527\t%d\t%f%n", arvore.getComparacoes(), tempo);
         log.close();
 
         sc.close();

@@ -393,7 +393,6 @@ class Questao01
             {
                 comparacoes[0]++; // avanca comparacoes
                 
-                //if ( comparar_nome(selecionados[menor].nome, selecionados[j].nome) > 0 )
                 if ( selecionados[menor].getNome().compareTo(selecionados[j].getNome()) > 0)
                 {
                     menor = j;
@@ -447,7 +446,6 @@ class Questao01
             }
         }
   
-        // Execucao do algoritmo de ordenacao
         int[] contadores = new int[]{0, 0};
         
         inicio = System.currentTimeMillis();
@@ -468,9 +466,9 @@ class Questao01
             }
         }
         
-        //Mostrar o conjunto ordenado, tempo de execucao e status da ordenacao
-		//algoritmo.mostrar();
-        // Salvar tempo e status em arquivo
+        // mostrar o conjunto ordenado, tempo de execucao e status da ordenacao
+		// algoritmo.mostrar();
+        // salvar tempo e status em arquivo
         PrintWriter log = new PrintWriter("842527_selecao_parcial.txt");
         log.println("Tempo para ordenar: " + (fim - inicio) / 1000.0 + " s.");
         log.println("isOrdenado: " + ordenado);

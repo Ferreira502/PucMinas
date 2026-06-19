@@ -506,8 +506,7 @@ int main()
         int j = 0;
         int pos;
 
-        while ( nome[j] != '\n' && nome[j] != '\r' && nome[j] != '\0' ) // '\r' trata o Enter do Windows (\r\n), tive que pesquisar esse tratamento, porque estava
-                                                                          //  dando timeout na saida do verde
+        while ( nome[j] != '\n' && nome[j] != '\0' )                                                        
         {
             j++;
         }
