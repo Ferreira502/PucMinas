@@ -1,1 +1,3 @@
-842527	2760	0.149043
+Tempo: 0.072 s
+Comparacoes: 7072
+Movimentacoes: 103

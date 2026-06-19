@@ -320,7 +320,6 @@ Colecao_restaurante ler_csv()
         {
             j++;
         }
-        
         linha[j] = '\0';
 
 
@@ -331,6 +330,7 @@ Colecao_restaurante ler_csv()
     fclose(f);
     return colecao;
 }
+
 
 typedef struct No
 {
@@ -401,8 +401,19 @@ void set_filho( No *no, No *filho )
     no->ultimo = no->ultimo->prox;
 }
 
+int tamanho_string( char s[] )
+{
+    int tam = 0;
 
-void inserir_rec( Restaurante restaurante, char nome[], No *i, int j )
+    while ( s[tam] != '\0' )
+    {
+        tam++;
+    }
+
+    return tam;
+}
+
+void inserir_rec( Restaurante restaurante, char nome[], No *i, int j, int tam )
 {
     char c = nome[j];
     No *filho = get_filho(i, c);
@@ -412,7 +423,7 @@ void inserir_rec( Restaurante restaurante, char nome[], No *i, int j )
         filho = novo_no(c);
         set_filho(i, filho);
 
-        if ( j == (int)strlen(nome) - 1 )
+        if ( j == tam - 1 )
         {
             filho->folha = 1;
             filho->elemento = restaurante;
@@ -420,13 +431,13 @@ void inserir_rec( Restaurante restaurante, char nome[], No *i, int j )
 
         else
         {
-            inserir_rec(restaurante, nome, filho, j + 1);
+            inserir_rec(restaurante, nome, filho, j + 1, tam);
         }
     }
 
-    else if ( j < (int)strlen(nome) - 1 )
+    else if ( j < tam - 1 )
     {
-        inserir_rec(restaurante, nome, filho, j + 1);
+        inserir_rec(restaurante, nome, filho, j + 1, tam);
     }
 
     else if ( filho->folha == 0 )
@@ -438,10 +449,11 @@ void inserir_rec( Restaurante restaurante, char nome[], No *i, int j )
 
 void inserir_arvore( Arvore_trie *arvore, Restaurante restaurante )
 {
-    inserir_rec(restaurante, restaurante.nome, arvore->raiz, 0);
+    int tam = tamanho_string(restaurante.nome);
+    inserir_rec(restaurante, restaurante.nome, arvore->raiz, 0, tam);
 }
 
-Restaurante* pesquisar_rec( Arvore_trie *arvore, char nome[], No *no, int j )
+Restaurante* pesquisar_rec( Arvore_trie *arvore, char nome[], No *no, int j, int tam )
 {
     Restaurante *resp = NULL;
     char c = nome[j];
@@ -457,7 +469,7 @@ Restaurante* pesquisar_rec( Arvore_trie *arvore, char nome[], No *no, int j )
     {
         printf("%c ", c);
 
-        if ( j == (int)strlen(nome) - 1 )
+        if ( j == tam - 1 )
         {
             if ( filho->folha == 1 )
             {
@@ -467,7 +479,7 @@ Restaurante* pesquisar_rec( Arvore_trie *arvore, char nome[], No *no, int j )
 
         else
         {
-            resp = pesquisar_rec(arvore, nome, filho, j + 1);
+            resp = pesquisar_rec(arvore, nome, filho, j + 1, tam);
         }
     }
 
@@ -477,7 +489,8 @@ Restaurante* pesquisar_rec( Arvore_trie *arvore, char nome[], No *no, int j )
 void pesquisar_arvore( Arvore_trie *arvore, char nome[] )
 {
     char saida_linha[500];
-    Restaurante *resp = pesquisar_rec(arvore, nome, arvore->raiz, 0);
+    int tam = tamanho_string(nome);
+    Restaurante *resp = pesquisar_rec(arvore, nome, arvore->raiz, 0, tam);
 
     if ( resp == NULL )
     {
@@ -495,7 +508,7 @@ void mostrar_rec( char s[], No *no )
 {
     char nova[500];
     strcpy(nova, s);
-    int tam = strlen(nova);
+    int tam = tamanho_string(nova);
     nova[tam] = no->letra;
     nova[tam + 1] = '\0';
 
@@ -538,6 +551,7 @@ int main()
     char saida_linha[500];
     Arvore_trie arvore;
     int id = 0;
+    char nome[100];
 
     iniciar_arvore(&arvore);
 
@@ -553,7 +567,6 @@ int main()
         }
     }
 
-    char nome[100];
     fgets(nome, 100, stdin);
 
     clock_t inicio = clock();
@@ -569,14 +582,10 @@ int main()
 
         nome[j] = '\0';
 
-        if ( strcmp(nome, "FIM") == 0 )
+        if ( strcmp(nome, "FIM") != 0 )
         {
-            break;
-        }
-
-        else
-        {
-            encontrado = pesquisar_rec(&arvore, nome, arvore.raiz, 0);
+            int tam = tamanho_string(nome);
+            encontrado = pesquisar_rec(&arvore, nome, arvore.raiz, 0, tam);
 
             if ( encontrado == NULL )
             {
