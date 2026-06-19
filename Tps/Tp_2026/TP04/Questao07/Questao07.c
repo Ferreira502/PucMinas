@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
 
 typedef struct Data
 {
@@ -34,6 +37,26 @@ typedef struct Colecao_restaurante
     int tamanho;
     Restaurante restaurantes[500];
 } Colecao_restaurante;
+
+typedef struct Celula
+{
+    Restaurante *restaurante;
+    struct Celula *prox;
+} Celula;
+
+typedef struct No
+{
+    char letra;
+    Celula *primeiro;
+    struct No *esq;
+    struct No *dir;
+} No;
+
+typedef struct ArvoreLista
+{
+    No *raiz;
+    int comparacoes;
+} ArvoreLista;
 
 /**
  * @author Gabriel Ferreira Pereira
@@ -124,25 +147,18 @@ Restaurante ler_restaurante( char *linha )
     int pos = 0;
     int j = 0, k = 0;
 
-    // id
     pos = ler_campo(linha, pos, campo);
     sscanf(campo, "%d", &r.id);
 
-    // nome
     pos = ler_campo(linha, pos, r.nome);
-
-    // cidade
     pos = ler_campo(linha, pos, r.cidade);
 
-    // capacidade
     pos = ler_campo(linha, pos, campo);
     sscanf(campo, "%d", &r.capacidade);
 
-    // avaliacao
     pos = ler_campo(linha, pos, campo);
     sscanf(campo, "%lf", &r.avaliacao);
 
-    // cozinha
     pos = ler_campo(linha, pos, cozinha);
 
     while ( cozinha[j] != ';' )
@@ -151,7 +167,8 @@ Restaurante ler_restaurante( char *linha )
     }
 
     r.tipo1[k] = '\0';
-    j++; k = 0;
+    j++;
+    k = 0;
     
     while ( cozinha[j] != '\0' )
     {
@@ -159,12 +176,10 @@ Restaurante ler_restaurante( char *linha )
     }
     r.tipo2[k] = '\0';
 
-    // faixa preco
     pos = ler_campo(linha, pos, r.faixaPreco);
-
-    // horario
     pos = ler_campo(linha, pos, campo);
-    j = 0; k = 0;
+    j = 0;
+    k = 0;
 
     while ( campo[j] != '-' )
     {
@@ -172,7 +187,8 @@ Restaurante ler_restaurante( char *linha )
     }
 
     horario_abertura[k] = '\0';
-    j++; k = 0;
+    j++;
+    k = 0;
 
     while ( campo[j] != '\0' )
     {
@@ -183,11 +199,9 @@ Restaurante ler_restaurante( char *linha )
     r.horario_abertura = parse_hora(horario_abertura);
     r.horario_fechamento = parse_hora(horario_fechamento);
 
-    // data
     pos = ler_campo(linha, pos, data_str);
     r.data_abertura = parse_data(data_str);
 
-    // aberto
     pos = ler_campo(linha, pos, aberto_str);
 
     if ( aberto_str[0] == 't' )
@@ -295,28 +309,182 @@ Colecao_restaurante ler_csv()
     colecao.tamanho = 0;
 
     FILE *f = fopen("/tmp/restaurantes.csv", "r");
+
     char linha[500];
-    int j = 0;
 
-    // pular cabecalho
-    fgets(linha, 500, f);
-
-    for ( int i = 0; i < 500; i++ )
+    if ( f == NULL )
     {
-        fgets(linha, 500, f);
+        return colecao;
+    }
+ 
+    if ( fgets(linha, 500, f) == NULL )
+    {
+        fclose(f);
+        return colecao;
+    }
 
-        while ( linha[j] != '\n' && linha[j] != '\0' )
+    for ( int i = 0; i < 500 && fgets(linha, 500, f) != NULL; i++ )
+    {
+        int j = 0;
+
+        while ( linha[j] != '\n' && linha[j] != '\r' && linha[j] != '\0' )
         {
             j++;
         }
         linha[j] = '\0';
-        
+
+
         Restaurante r = ler_restaurante(linha);
         adicionar(&colecao, r);
     }
 
     fclose(f);
     return colecao;
+}
+
+Celula *nova_celula( Restaurante *restaurante )
+{
+    Celula *nova = (Celula*) malloc(sizeof(Celula));
+    nova->restaurante = restaurante;
+    nova->prox = NULL;
+    return nova;
+}
+
+No *novo_no( char letra )
+{
+    No *novo = (No*) malloc(sizeof(No));
+    novo->letra = letra;
+    novo->primeiro = nova_celula(NULL);
+    novo->esq = NULL;
+    novo->dir = NULL;
+    return novo;
+}
+
+void iniciar_arvore_lista( ArvoreLista *arvore )
+{
+    arvore->raiz = NULL;
+    arvore->comparacoes = 0;
+}
+
+void inserir_na_lista( No *no, Restaurante *restaurante, int *comparacoes )
+{
+    Celula *ant = no->primeiro;
+    Celula *i = ant->prox;
+
+    while ( i != NULL && strcmp(i->restaurante->nome, restaurante->nome) < 0 )
+    {
+        (*comparacoes)++;
+        ant = i;
+        i = i->prox;
+    }
+
+    if ( i != NULL )
+    {
+        (*comparacoes)++;
+    }
+
+    Celula *nova = nova_celula(restaurante);
+    nova->prox = i;
+    ant->prox = nova;
+}
+
+No *inserir_no( No *i, Restaurante *restaurante, int *comparacoes )
+{
+    char letra = restaurante->nome[0];
+
+    if ( i == NULL )
+    {
+        i = novo_no(letra);
+        inserir_na_lista(i, restaurante, comparacoes);
+    }
+
+    else if ( letra < i->letra )
+    {
+        (*comparacoes)++;
+        i->esq = inserir_no(i->esq, restaurante, comparacoes);
+    }
+
+    else if ( letra > i->letra )
+    {
+        (*comparacoes)++;
+        i->dir = inserir_no(i->dir, restaurante, comparacoes);
+    }
+
+    else
+    {
+        (*comparacoes)++;
+        inserir_na_lista(i, restaurante, comparacoes);
+    }
+
+    return i;
+}
+
+void inserir_arvore_lista( ArvoreLista *arvore, Restaurante *restaurante )
+{
+    arvore->raiz = inserir_no(arvore->raiz, restaurante, &arvore->comparacoes);
+}
+
+int pesquisar_lista( No *no, char *nome, Restaurante *encontrado, int *comparacoes )
+{
+    int resp = 0;
+    Celula *i = no->primeiro->prox;
+
+    while ( i != NULL && strcmp(i->restaurante->nome, nome) < 0 )
+    {
+        (*comparacoes)++;
+        printf("%s ", i->restaurante->nome);
+        i = i->prox;
+    }
+
+    if ( i != NULL )
+    {
+        (*comparacoes)++;
+        if ( strcmp(i->restaurante->nome, nome) == 0 )
+        {
+            *encontrado = *(i->restaurante);
+            resp = 1;
+        }
+    }
+
+    return resp;
+}
+
+int pesquisar_no( No *i, char *nome, Restaurante *encontrado, int *comparacoes )
+{
+    int resp = 0;
+    char letra = nome[0];
+
+    if ( i != NULL )
+    {
+        (*comparacoes)++;
+
+        if ( letra < i->letra )
+        {
+            printf("ESQ ");
+            resp = pesquisar_no(i->esq, nome, encontrado, comparacoes);
+        }
+
+        else if ( letra > i->letra )
+        {
+            printf("DIR ");
+            resp = pesquisar_no(i->dir, nome, encontrado, comparacoes);
+        }
+
+        else
+        {
+            resp = pesquisar_lista(i, nome, encontrado, comparacoes);
+        }
+    }
+
+    return resp;
+}
+
+int pesquisar_arvore_lista( ArvoreLista *arvore, char *nome, Restaurante *encontrado )
+{
+    int resp = 0;
+    printf("RAIZ ");
+    resp = pesquisar_no(arvore->raiz, nome, encontrado, &arvore->comparacoes);
+    return resp;
 }
 
 /**
@@ -328,8 +496,12 @@ int main()
 {
     Colecao_restaurante colecao = ler_csv();
     Restaurante *restaurantes = get_restaurantes(&colecao);
+    ArvoreLista arvore;
+    Restaurante encontrado;
     char saida_linha[500];
     int id = 0;
+
+    iniciar_arvore_lista(&arvore);
 
     while ( scanf("%d", &id) && id != -1 )
     {
@@ -337,11 +509,51 @@ int main()
         {
             if ( restaurantes[i].id == id )
             {
-                formatar_restaurante(&restaurantes[i], saida_linha);
-                printf("%s\n", saida_linha);
+                inserir_arvore_lista(&arvore, &restaurantes[i]);
+                i = get_tamanho(&colecao);
             }
         }
     }
 
-    return 0;
+    char nome[100];
+    fgets(nome, 100, stdin);
+
+    clock_t inicio = clock();
+
+    while ( fgets(nome, 100, stdin) != NULL )
+    {
+        int j = 0;
+
+        while ( nome[j] != '\n' && nome[j] != '\r' && nome[j] != '\0' )
+        {
+            j++;
+        }
+
+        nome[j] = '\0';
+
+        if ( strcmp(nome, "FIM") != 0 )
+        {
+            int resp = pesquisar_arvore_lista(&arvore, nome, &encontrado);
+
+            if ( resp == 0 )
+            {
+                printf("NAO\n");
+            }
+            else
+            {
+                formatar_restaurante(&encontrado, saida_linha);
+                printf("SIM %s\n", saida_linha);
+            }
+        }
+    }
+
+    clock_t fim = clock();
+    double total = (double) (fim - inicio) / CLOCKS_PER_SEC;
+
+    FILE *log = fopen("842527_hibrida_arvore_lista.txt", "w");
+
+    fprintf(log, "Comparacoes: %d\n", arvore.comparacoes);
+    fprintf(log, "Total: %f\n", total);
+    fclose(log);
+    
 }
