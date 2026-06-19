@@ -333,6 +333,7 @@ Colecao_restaurante ler_csv()
         {
             j++;
         }
+        
         linha[j] = '\0';
 
 
@@ -396,31 +397,6 @@ int is_posicao_livre( Hash *hash, int pos )
     return resp;
 }
 
-/**
- * @author Gabriel Ferreira Pereira
- * @param hash, nome1, nome2
- * @reason Compara dois nomes caractere por caractere contando comparacoes
- * @return 1 se os nomes forem iguais, 0 caso contrario
- */
-int nomes_iguais( Hash *hash, char nome1[], char nome2[] )
-{
-    int i = 0;
-
-    hash->comparacoes++;
-
-    while ( nome1[i] != '\0' && nome2[i] != '\0' )
-    {
-        if ( nome1[i] != nome2[i] )
-        {
-            return 0;
-        }
-        
-        i++;
-    }
-
-    return nome1[i] == '\0' && nome2[i] == '\0';
-}
-
 int pesquisar_hash( Hash *hash, char nome[], Restaurante *encontrado );
 
 /**
@@ -466,22 +442,32 @@ int pesquisar_hash( Hash *hash, char nome[], Restaurante *encontrado )
     {
         resp = -1;
     }
-    else if ( hash->ocupado[pos] == 1 && nomes_iguais(hash, hash->tabela[pos].nome, nome) )
-    {
-        *encontrado = hash->tabela[pos];
-        resp = pos;
-    }
     else
     {
-        for ( int i = 0; i < hash->reserva_usada; i++ )
-        {
-            int pos_reserva = TAM_TAB + i;
+        hash->comparacoes++;
 
-            if ( hash->ocupado[pos_reserva] == 1 && nomes_iguais(hash, hash->tabela[pos_reserva].nome, nome) )
+        if ( strcmp(hash->tabela[pos].nome, nome) == 0 )
+        {
+            *encontrado = hash->tabela[pos];
+            resp = pos;
+        }
+        else
+        {
+            for ( int i = 0; i < hash->reserva_usada; i++ )
             {
-                *encontrado = hash->tabela[pos_reserva];
-                resp = pos_reserva;
-                i = hash->reserva_usada;
+                int pos_reserva = TAM_TAB + i;
+
+                if ( hash->ocupado[pos_reserva] == 1 )
+                {
+                    hash->comparacoes++;
+
+                    if ( strcmp(hash->tabela[pos_reserva].nome, nome) == 0 )
+                    {
+                        *encontrado = hash->tabela[pos_reserva];
+                        resp = pos_reserva;
+                        i = hash->reserva_usada;
+                    }
+                }
             }
         }
     }
@@ -557,13 +543,10 @@ int main()
     double total = (double) (fim - inicio) / CLOCKS_PER_SEC;
 
     FILE *log = fopen("842527_hash_reserva.txt", "w");
-
-    if ( log != NULL )
-    {
-        fprintf(log, "%d\n", hash.comparacoes);
-        fprintf(log, "%f\n", total);
-        fclose(log);
-    }
+    
+    fprintf(log, "Comparacoes: %d\n", hash.comparacoes);
+    fprintf(log, "Total: %f\n", total);
+    fclose(log);
 
     return 0;
 }

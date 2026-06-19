@@ -1,4 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#define TAM_TAB 31
+
 
 typedef struct Data
 {
@@ -295,29 +300,157 @@ Colecao_restaurante ler_csv()
     colecao.tamanho = 0;
 
     FILE *f = fopen("/tmp/restaurantes.csv", "r");
+
     char linha[500];
-    int j = 0;
 
-    // pular cabecalho
-    fgets(linha, 500, f);
-
-    for ( int i = 0; i < 500; i++ )
+    if ( f == NULL )
     {
-        fgets(linha, 500, f);
+        return colecao;
+    }
+ 
+    if ( fgets(linha, 500, f) == NULL )
+    {
+        fclose(f);
+        return colecao;
+    }
 
-        // substitui o \n por \0 para encerrar a string
-        while ( linha[j] != '\n' && linha[j] != '\0' )
+    for ( int i = 0; i < 500 && fgets(linha, 500, f) != NULL; i++ )
+    {
+        int j = 0;
+
+        while ( linha[j] != '\n' && linha[j] != '\r' && linha[j] != '\0' )
         {
             j++;
         }
         linha[j] = '\0';
-        
+
+
         Restaurante r = ler_restaurante(linha);
         adicionar(&colecao, r);
     }
 
     fclose(f);
     return colecao;
+}
+
+
+typedef struct Celula 
+{
+	Restaurante elemento; // Elemento inserido na celula.
+	struct Celula* prox;  // Aponta a celula prox.
+} Celula;
+
+Celula* novaCelula(Restaurante elemento) 
+{
+   Celula* nova = (Celula*) malloc(sizeof(Celula));
+   nova->elemento = elemento;
+   nova->prox = NULL;
+   return nova;
+}
+
+typedef struct Lista 
+{
+   Celula* primeiro;
+   Celula* ultimo;
+} Lista;
+
+typedef struct Hash 
+{
+   Lista tabela[TAM_TAB];
+   int tamanho;
+   int comparacoes;
+} Hash;
+
+void start ( Lista *lista ) 
+{
+   Restaurante vazio;
+   lista->primeiro = novaCelula(vazio);
+   lista->ultimo = lista->primeiro;
+}
+
+
+/**
+ * Insere elemento na lista.
+ * @param x Restaurante Elemento a inserir.
+ */
+void inserir( Lista *lista, Restaurante x ) 
+{
+   lista->ultimo->prox = novaCelula(x);
+   lista->ultimo = lista->ultimo->prox;
+}
+
+
+int pesquisar_lista( Lista *lista, char nome[], Restaurante *encontrado, int *comparacoes ) 
+{
+    int resp = 0;
+    Celula* i;
+
+    for (i = lista->primeiro->prox; i != NULL && resp == 0; i = i->prox) 
+    {
+        (*comparacoes)++;
+
+        if (strcmp(i->elemento.nome, nome) == 0) 
+        {
+            *encontrado = i->elemento;
+            resp = 1;
+        }
+    }
+
+    return resp;
+}
+
+
+void mostrar( Lista *lista )
+{
+    Celula* i;
+    printf("[ ");
+    for (i = lista->primeiro->prox; i != NULL; i = i->prox) 
+    {
+        printf("%s ", i->elemento.nome);
+    }
+    printf("] \n");
+}
+
+void iniciar_hash( Hash *hash ) 
+{
+    hash->tamanho = TAM_TAB;
+    hash->comparacoes = 0;
+
+    for ( int i = 0; i < TAM_TAB; i++ ) 
+    {
+        start(&hash->tabela[i]);
+    }
+}
+
+int h( char nome[] ) 
+{
+    int x = 0;
+
+    for ( int i = 0; nome[i] != '\0'; i++ ) 
+    {
+        x += nome[i];
+    }
+
+   return x % TAM_TAB;
+}
+
+void inserir_hash( Hash *hash, Restaurante restaurante ) 
+{
+    int pos = h(restaurante.nome);
+    inserir(&hash->tabela[pos], restaurante);
+}
+
+int pesquisar_hash( Hash *hash, char nome[], Restaurante *encontrado ) 
+{
+    int pos = h(nome);
+    int resp = -1;
+
+    if ( pesquisar_lista(&hash->tabela[pos], nome, encontrado, &hash->comparacoes) == 1 ) 
+    {
+        resp = pos;
+    }
+
+    return resp;
 }
 
 /**
@@ -329,8 +462,12 @@ int main()
 {
     Colecao_restaurante colecao = ler_csv();
     Restaurante *restaurantes = get_restaurantes(&colecao);
+    Hash hash;
+    Restaurante encontrado;
     char saida_linha[500];
     int id = 0;
+
+    iniciar_hash(&hash);
 
     while ( scanf("%d", &id) && id != -1 )
     {
@@ -338,11 +475,51 @@ int main()
         {
             if ( restaurantes[i].id == id )
             {
-                formatar_restaurante(&restaurantes[i], saida_linha);
-                printf("%s\n", saida_linha);
+                inserir_hash(&hash, restaurantes[i]);
+                i = get_tamanho(&colecao);
             }
         }
     }
 
-    return 0;
+    char nome[100];
+    fgets(nome, 100, stdin);
+
+    clock_t inicio = clock();
+
+    while ( fgets(nome, 100, stdin) != NULL )
+    {
+        int j = 0;
+
+        while ( nome[j] != '\n' && nome[j] != '\r' && nome[j] != '\0' )
+        {
+            j++;
+        }
+
+        nome[j] = '\0';
+
+        if ( strcmp(nome, "FIM") != 0 )
+        {
+            int pos = pesquisar_hash(&hash, nome, &encontrado);
+
+            if ( pos == -1 )
+            {
+                printf("-1\n");
+            }
+            else
+            {
+                formatar_restaurante(&encontrado, saida_linha);
+                printf("%d %s\n", pos, saida_linha);
+            }
+        }
+    }
+
+    clock_t fim = clock();
+    double total = (double) (fim - inicio) / CLOCKS_PER_SEC;
+
+    FILE *log = fopen("842527_hash_indireta.txt", "w");
+
+    fprintf(log, "Comparacoes: %d\n", hash.comparacoes);
+    fprintf(log, "Total: %f\n", total);
+    fclose(log);
+    
 }

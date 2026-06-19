@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.*;
 
 class Restaurante
@@ -374,30 +375,215 @@ class Hora
     }
 }
 
-class Questao01
+class Hash
 {
-     /**
-     * @author Gabriel Ferreira Pereira
-     * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
-     *         e exibe na tela a lista de restaurantes selecionados
-     */
-    public static void main(String[] args) throws Exception
-    {
-        ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
-        Restaurante[] restaurantes = colecao.getRestaurantes();
-        Scanner sc = new Scanner(System.in);
-        int id = 0;
+    Restaurante tabela[];
+    int m;
+    int comparacoes;
 
-        while ((id = sc.nextInt()) != -1)
+    public Hash()
+    {
+        this(83);
+    }
+
+    public Hash( int m )
+    {
+        this.m = m;
+        this.comparacoes = 0;
+        this.tabela = new Restaurante[m];
+    }
+
+    public int h( String chave )
+    {
+        int x = 0;
+
+        for ( int i = 0; i < chave.length(); i++ )
         {
-            for (int i = 0; i < colecao.getTamanho(); i++)
+            char caractere = chave.charAt(i);
+            x += caractere;
+        }
+
+        x = x % m;
+
+        return x;
+    }
+
+    public int reh( String chave )
+    {
+        int x = 0;
+
+        for ( int i = 0; i < chave.length(); i++ )
+        {
+            char caractere = chave.charAt(i);
+            x += caractere;
+        }
+
+        x = (x + 1) % m;
+
+        return x;
+    }
+
+    private boolean isPosicaoLivre( int pos )
+    {
+        boolean resp = true;
+
+        if ( tabela[pos] != null )
+        {
+            resp = false;
+        }
+
+        return resp;
+    }
+
+    public int getComparacoes()
+    {
+        return comparacoes;
+    }
+
+    public boolean inserir( Restaurante restaurante )
+    {
+        boolean resp = false;
+
+        if ( restaurante != null )
+        {
+            int pos = h(restaurante.getNome());
+
+            if ( tabela[pos] == null )
             {
-                if (restaurantes[i].getID() == id)
+                tabela[pos] = restaurante;
+                resp = true;
+            }
+
+            else
+            {
+                pos = reh(restaurante.getNome());
+
+                if ( tabela[pos] == null )
                 {
-                    System.out.println(restaurantes[i].formatar());
+                    tabela[pos] = restaurante;
+                    resp = true;
                 }
             }
         }
 
+        return resp;
+    }
+
+    private int pesquisarPosicao( String nome, Restaurante[] encontrado, boolean contar )
+    {
+        int pos = h(nome);
+        int resp = -1;
+
+        if ( tabela[pos] != null )
+        {
+            if ( contar == true )
+            {
+                comparacoes++;
+            }
+
+            if ( tabela[pos].getNome().compareTo(nome) == 0 )
+            {
+                encontrado[0] = tabela[pos];
+                resp = pos;
+            }
+            else
+            {
+                pos = reh(nome);
+
+                if ( tabela[pos] != null )
+                {
+                    if ( contar == true )
+                    {
+                        comparacoes++;
+                    }
+
+                    if ( tabela[pos].getNome().compareTo(nome) == 0 )
+                    {
+                        encontrado[0] = tabela[pos];
+                        resp = pos;
+                    }
+                }
+            }
+        }
+
+        return resp;
+    }
+
+    public boolean pesquisar( String nome, Restaurante[] encontrado )
+    {
+        boolean resp = false;
+
+        if ( pesquisarPosicao(nome, encontrado, true) != -1 )
+        {
+            resp = true;
+        }
+
+        return resp;
+    }
+
+    public int getPosicao( String nome )
+    {
+        Restaurante[] encontrado = new Restaurante[1];
+        return pesquisarPosicao(nome, encontrado, false);
+    }
+}
+
+class Questao04
+{
+    public static void main( String[] args ) throws Exception
+    {
+        Scanner sc = new Scanner( System.in );
+        ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
+        Restaurante[] restaurantes = colecao.getRestaurantes();
+        Hash hash = new Hash(83);
+
+        int id = sc.nextInt();
+
+        while ( id != -1 )
+        {
+            for ( int i = 0; i < colecao.getTamanho(); i++ )
+            {
+                if ( restaurantes[i].getID() == id )
+                {
+                    if ( hash.inserir(restaurantes[i]) == false )
+                    {
+                        System.out.println(restaurantes[i].getNome());
+                    }
+
+                    i = colecao.getTamanho();
+                }
+            }
+
+            id = sc.nextInt();
+        }
+
+        sc.nextLine();
+        String nome = sc.nextLine();
+
+        long inicio = System.currentTimeMillis();
+
+        while ( nome.compareTo("FIM") != 0 )
+        {
+            Restaurante[] encontrado = new Restaurante[1];
+
+            if ( hash.pesquisar(nome, encontrado) == false )
+            {
+                System.out.println("-1");
+            }
+
+            else
+            {
+                int pos = hash.getPosicao(nome);
+                System.out.println(pos + " " + encontrado[0].formatar());
+            }
+
+            nome = sc.nextLine();
+        }
+
+        long fim = System.currentTimeMillis();
+        PrintWriter log = new PrintWriter("842527_hash_rehash.txt");
+        log.println("Tempo: " + (fim - inicio) / 1000.0 + " s");
+        log.println("Comparacoes: " + hash.getComparacoes());
+        log.close();
     }
 }

@@ -454,7 +454,7 @@ class ArvoreAvl
     }
 }
 
-public class Questao01
+class Questao01
 {
     public static void main( String[] args ) throws Exception
     {
@@ -498,7 +498,5 @@ public class Questao01
         log.println("Comparacoes: " + arvore.getComparacoes());
         log.println("Movimentacoes: " + arvore.getMovimentacoes());
         log.close();
-
-        sc.close();
     }
 }

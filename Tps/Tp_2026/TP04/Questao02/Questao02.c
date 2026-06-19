@@ -656,13 +656,11 @@ int main()
 
     FILE *log = fopen("842527_arvore_bicolor.txt", "w");
 
-    if ( log != NULL )
-    {
-        fprintf(log, "Comparacoes: %d\n", arvore.comparacoes);
-        fprintf(log, "Movimentacoes: %d\n", arvore.movimentacoes);
-        fprintf(log, "Total: %f\n", total);
-        fclose(log);
-    }
+    fprintf(log, "Comparacoes: %d\n", arvore.comparacoes);
+    fprintf(log, "Movimentacoes: %d\n", arvore.movimentacoes);
+    fprintf(log, "Total: %f\n", total);
+    fclose(log);
+    
 
     return 0;
 }
