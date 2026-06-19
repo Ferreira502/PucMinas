@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.*;
 
 class Restaurante
@@ -374,30 +375,241 @@ class Hora
     }
 }
 
-class Questao01
+class No 
+{
+    public int tamanho = 256;
+    public char letra;
+    public Restaurante elemento;
+    public No[] prox;
+    public boolean folha;
+    
+    public No ()
+    {
+        this(' ');
+    }
+
+    public No ( char letra )
+    {
+        this.letra = letra;
+        this.elemento = null;
+        prox = new No [tamanho];
+
+        for ( int i = 0; i < tamanho; i++ )
+        {
+            prox[i] = null;
+        }
+
+        folha = false;
+    }
+
+    public No getFilho( char c )
+    {
+        int pos = hash(c);
+        No filho = prox[pos];
+
+        return filho;
+    }
+
+    public void setFilho ( No filho )
+    {
+        int pos = hash(filho.letra);
+        prox[pos] = filho;
+    }
+
+    public No[] getFilho()
+    {
+        return prox;
+    }
+
+    public static int hash (char x)
+    {
+        return (int)x;
+    }
+}
+
+
+class ArvoreTrie 
+{
+    private No raiz;
+    private int comparacoes;
+
+    public ArvoreTrie()
+    {
+        raiz = new No();
+        comparacoes = 0;
+    }
+
+    public int getComparacoes()
+    {
+        return comparacoes;
+    }
+
+
+    public void pesquisar( String s ) throws Exception
+    {
+        Restaurante resp = pesquisar(s, raiz, 0);
+
+        if ( resp == null )
+        {
+            System.out.println("NAO");
+        }
+
+        else
+        {
+            System.out.println("SIM " + resp.formatar());
+        }
+    }
+
+    public Restaurante pesquisar( String s, No no, int j ) throws Exception
+    {
+        Restaurante resp = null;
+        char c = s.charAt(j);
+
+        No filho = no.getFilho(c);
+        comparacoes++;
+
+        if ( filho == null )
+        {
+            resp = null;
+        }
+        else
+        {
+            System.out.print(c + " ");
+
+            if ( j == s.length() - 1 )
+            {
+                if ( filho.folha == true )
+                {
+                    resp = filho.elemento;
+                }
+            }
+            else
+            {
+                resp = pesquisar(s, filho, j + 1);
+            }
+        }
+
+        return resp;
+    }
+
+    public void inserir( Restaurante restaurante ) throws Exception
+    {
+        inserir(restaurante, restaurante.getNome(), raiz, 0);
+    }
+
+    private void inserir ( Restaurante restaurante, String s, No i, int j ) throws Exception
+    {
+        char c = s.charAt(j);
+        No filho = i.getFilho(c);
+
+        if ( filho == null )
+        {
+            filho = new No(c);
+            i.setFilho(filho);
+
+            if ( j == s.length() - 1 )
+            {
+                filho.folha = true;
+                filho.elemento = restaurante;
+            }
+
+            else
+            {
+                inserir(restaurante, s, filho, j + 1);
+            }
+        }
+
+        else if ( j < s.length() - 1 )
+        {
+            inserir(restaurante, s, filho, j + 1);
+        }
+
+        else if ( filho.folha == false )
+        {
+            filho.folha = true;
+            filho.elemento = restaurante;
+        }
+
+        else
+        {
+            throw new Exception("Erro");
+        }
+    }
+
+    public void mostrar()
+    {
+        mostrar("", raiz);
+    }
+
+    private void mostrar ( String s, No no )
+    {
+        if ( no.folha == true )
+        {
+            System.out.println((s + no.letra) + " " + no.elemento.formatar());
+        }
+    
+        No[] filho = no.getFilho();
+        int i = 0;
+
+        while ( i < filho.length ) 
+        {
+            if ( filho[i] != null )
+            {
+                mostrar( s + no.letra, filho[i] );
+            }   
+
+            i++; 
+        }
+    }
+
+}
+
+class Questao08
 {
      /**
      * @author Gabriel Ferreira Pereira
      * @reason Metodo principal que busca e formata o restaurante com o ID fornecido
      *         e exibe na tela a lista de restaurantes selecionados
      */
-    public static void main(String[] args) throws Exception
+    public static void main( String[] args ) throws Exception
     {
         ColecaoRestaurante colecao = ColecaoRestaurante.lerCsv();
         Restaurante[] restaurantes = colecao.getRestaurantes();
         Scanner sc = new Scanner(System.in);
-        int id = 0;
+        ArvoreTrie arvore = new ArvoreTrie();
 
-        while ((id = sc.nextInt()) != -1)
+        int id = sc.nextInt();
+
+        while ( id != -1 )
         {
-            for (int i = 0; i < colecao.getTamanho(); i++)
+            for ( int i = 0; i < colecao.getTamanho(); i++ )
             {
-                if (restaurantes[i].getID() == id)
+                if ( restaurantes[i].getID() == id )
                 {
-                    System.out.println(restaurantes[i].formatar());
+                    arvore.inserir(restaurantes[i]);
+                    i = colecao.getTamanho();
                 }
             }
+
+            id = sc.nextInt();
         }
 
+        sc.nextLine();
+
+        long inicio = System.currentTimeMillis();
+        String nome = sc.nextLine();
+
+        while ( nome.compareTo("FIM") != 0 )
+        {
+            arvore.pesquisar(nome);
+            nome = sc.nextLine();
+        }
+
+        long fim = System.currentTimeMillis();
+
+        PrintWriter log = new PrintWriter("842527_arvore_trie_hash.txt");
+        log.println("Tempo: " + (fim - inicio) / 1000.0 + " s");
+        log.println("Comparacoes: " + arvore.getComparacoes());
+        log.close();
     }
 }
