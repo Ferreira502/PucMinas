@@ -294,22 +294,36 @@ class Hora
 
 class NoAvl
 {
-    Restaurante elemento;
-    NoAvl esq, dir;
-    int nivel;
+    public Restaurante elemento;
+    public int nivel;
+    public NoAvl esq, dir;
 
     public NoAvl( Restaurante elemento )
     {
         this.elemento = elemento;
-        this.esq = this.dir = null;
         this.nivel = 1;
+        this.esq = null;
+        this.dir = null;
+    }
+
+    public int getNivel( NoAvl i )
+    {
+        int x = 0;
+
+        if ( i != null )
+        {
+            x = i.nivel;
+        }
+
+        return x;
     }
 
     public void setNivel()
     {
         int x = 1;
-        int nivelEsq = getNivel(esq);
-        int nivelDir = getNivel(dir);
+
+        int nivelEsq = getNivel(this.esq);
+        int nivelDir = getNivel(this.dir);
 
         if ( nivelEsq > nivelDir )
         {
@@ -321,19 +335,7 @@ class NoAvl
             x = nivelDir + x;
         }
 
-        nivel = x;
-    }
-
-    public static int getNivel( NoAvl no )
-    {
-        int resp = 0;
-
-        if ( no != null )
-        {
-            resp = no.nivel;
-        }
-
-        return resp;
+        this.nivel = x;
     }
 
     public int getBalanceamento()
@@ -347,7 +349,7 @@ class NoAvl
 
 class ArvoreAvl
 {
-    private NoAvl raiz;
+    public NoAvl raiz;
     private int comparacoes;
     private int movimentacoes;
 
@@ -368,156 +370,138 @@ class ArvoreAvl
         return movimentacoes;
     }
 
-    public void inserir( Restaurante restaurante ) throws Exception
+    public void inserir( Restaurante restaurante )
     {
-        raiz = inserir(restaurante, raiz);
+        raiz = inserir(raiz, restaurante);
     }
 
-    private NoAvl inserir( Restaurante restaurante, NoAvl no ) throws Exception
+    private NoAvl inserir( NoAvl i, Restaurante restaurante )
     {
-        if ( no == null )
+        if ( i == null )
         {
-            no = new NoAvl(restaurante);
+            i = new NoAvl(restaurante);
             movimentacoes++;
         }
 
-        else if ( restaurante.getNome().compareTo(no.elemento.getNome()) < 0 )
+        else if ( i.elemento.getNome().compareTo(restaurante.getNome()) < 0 )
         {
             comparacoes++;
-            no.esq = inserir(restaurante, no.esq);
+            i.dir = inserir(i.dir, restaurante);
         }
 
-        else if ( restaurante.getNome().compareTo(no.elemento.getNome()) > 0 )
+        else if ( i.elemento.getNome().compareTo(restaurante.getNome()) > 0 )
         {
             comparacoes += 2;
-            no.dir = inserir(restaurante, no.dir);
+            i.esq = inserir(i.esq, restaurante);
         }
 
         else
         {
             comparacoes += 2;
-            throw new Exception("Erro");
         }
 
-        no = balancear(no);
-        return no;
+        return balancear(i);
     }
 
-    private NoAvl balancear( NoAvl no ) throws Exception
+    public NoAvl rotacionarEsq( NoAvl i )
     {
-        int fator = no.getBalanceamento();
-
-        if ( fator == 2 )
-        {
-            int fatorFilhoDir = no.dir.getBalanceamento();
-
-            if ( fatorFilhoDir < 0 )
-            {
-                no.dir = rotacionarDir(no.dir);
-                movimentacoes++;
-            }
-
-            no = rotacionarEsq(no);
-            movimentacoes++;
-        }
-
-        else if ( fator == -2 )
-        {
-            int fatorFilhoEsq = no.esq.getBalanceamento();
-
-            if ( fatorFilhoEsq > 0 )
-            {
-                no.esq = rotacionarEsq(no.esq);
-                movimentacoes++;
-            }
-
-            no = rotacionarDir(no);
-            movimentacoes++;
-        }
-
-        no.setNivel();
-
-        return no;
-    }
-
-    private NoAvl rotacionarDir( NoAvl no )
-    {
-        NoAvl noEsq = no.esq;
-        NoAvl noEsqDir = noEsq.dir;
-
-        noEsq.dir = no;
-        no.esq = noEsqDir;
-        no.setNivel();
-        noEsq.setNivel();
-        movimentacoes += 2;
-
-        return noEsq;
-    }
-
-    private NoAvl rotacionarEsq( NoAvl no )
-    {
-        NoAvl noDir = no.dir;
+        NoAvl noDir = i.dir;
         NoAvl noDirEsq = noDir.esq;
 
-        noDir.esq = no;
-        no.dir = noDirEsq;
-        no.setNivel();
+        noDir.esq = i;
+        i.dir = noDirEsq;
+
+        i.setNivel();
         noDir.setNivel();
         movimentacoes += 2;
 
         return noDir;
     }
 
-    public Restaurante pesquisar( String nome )
+    public NoAvl rotacionarDir( NoAvl i )
     {
-        return pesquisar(nome, raiz, true);
+        NoAvl noEsq = i.esq;
+        NoAvl noEsqDir = noEsq.dir;
+
+        noEsq.dir = i;
+        i.esq = noEsqDir;
+
+        i.setNivel();
+        noEsq.setNivel();
+        movimentacoes += 2;
+
+        return noEsq;
     }
 
-    private Restaurante pesquisar( String nome, NoAvl no, boolean raizPesquisa )
+    private NoAvl balancear( NoAvl i )
+    {
+        int fator = i.getBalanceamento();
+        
+        if ( fator == 2 )
+        {
+            int fatorFilhoDir = i.dir.getBalanceamento();
+            
+            if ( fatorFilhoDir < 0 )
+            {
+                i.dir = rotacionarDir(i.dir);
+                movimentacoes++;
+            }
+
+            i = rotacionarEsq(i);
+        }
+
+        else if ( fator == -2 )
+        {
+            int fatorFilhoEsq = i.esq.getBalanceamento(); 
+
+            if ( fatorFilhoEsq > 0 )
+            {
+                i.esq = rotacionarEsq(i.esq);
+                movimentacoes++;
+            }
+            
+            i = rotacionarDir(i);
+        }
+    
+        i.setNivel();
+        return i;
+    }
+
+    public Restaurante pesquisar( String nome )
+    {
+        return pesquisar(raiz, nome, true);
+    }
+
+    private Restaurante pesquisar( NoAvl i, String nome, boolean primeira )
     {
         Restaurante resp = null;
 
-        if ( no == null )
+        if ( i != null )
         {
-            resp = null;
-        }
-
-        else if ( nome.compareTo(no.elemento.getNome()) == 0 )
-        {
-            comparacoes++;
-
-            if ( raizPesquisa == true )
+            if ( primeira == true )
             {
                 System.out.print("raiz ");
             }
 
-            resp = no.elemento;
-        }
-
-        else if ( nome.compareTo(no.elemento.getNome()) < 0 )
-        {
-            comparacoes += 2;
-
-            if ( raizPesquisa == true )
+            if ( nome.compareTo(i.elemento.getNome()) == 0 )
             {
-                System.out.print("raiz ");
+                comparacoes++;
+                resp = i.elemento;
             }
 
-            System.out.print("esq ");
-            resp = pesquisar(nome, no.esq, false);
-        }
-
-        else
-        {
-            comparacoes += 2;
-
-            if ( raizPesquisa == true )
+            else if ( nome.compareTo(i.elemento.getNome()) < 0 )
             {
-                System.out.print("raiz ");
+                comparacoes += 2;
+                System.out.print("esq ");
+                resp = pesquisar(i.esq, nome, false);
             }
 
-            System.out.print("dir ");
-            resp = pesquisar(nome, no.dir, false);
+            else
+            {
+                comparacoes += 2;
+                System.out.print("dir ");
+                resp = pesquisar(i.dir, nome, false);
+            }
         }
 
         return resp;
