@@ -24,16 +24,23 @@ public class Hash {
       return ++elemento % m;
    }
 
-   public boolean inserir(int elemento) {
+   public boolean inserir(int elemento) 
+   {
       boolean resp = false;
-      if (elemento != NULO) {
+      if (elemento != NULO) 
+      {
          int pos = h(elemento);
-         if (tabela[pos] == NULO) {
+         
+         if (tabela[pos] == NULO) 
+         {
             tabela[pos] = elemento;
             resp = true;
-         } else {
+         } 
+         else 
+         {
             pos = reh(elemento);
-            if (tabela[pos] == NULO) {
+            if (tabela[pos] == NULO) 
+            {
                tabela[pos] = elemento;
                resp = true;
             }

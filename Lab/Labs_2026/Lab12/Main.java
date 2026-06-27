@@ -87,6 +87,36 @@ class Hash
       }
    }
 
+   //    public void inserir(String chave) throws Exception 
+   //    {
+   //       int pos = hash(chave);
+
+   //       if (tabela[pos] != null && tabela[pos].compareTo(chave) == 0) 
+   //       {
+   //          throw new Exception("repetido");
+   //       }
+
+   //       for (int i = 0; i < nr; i++) 
+   //       {
+   //          if (tabela[m + i] != null && tabela[m + i].compareTo(chave) == 0) 
+   //          {
+   //             throw new Exception("repetido");
+   //          }
+   //       }
+
+   //       if (isPosicaoLivre(pos) == true) 
+   //       {
+   //          tabela[pos] = chave;
+   //       } else {
+   //          if (nr < r) {
+   //             tabela[m + nr] = chave;
+   //             nr++;
+   //          } else {
+   //             throw new Exception("ta cheia");
+   //          }
+   //       }
+   //    }
+
    public String pesquisar ( String chave )
    {
       int pos = hash(chave);
@@ -199,7 +229,6 @@ class Hash
 
       return resp;
    }
-
 
    public void mostrar()
    {
