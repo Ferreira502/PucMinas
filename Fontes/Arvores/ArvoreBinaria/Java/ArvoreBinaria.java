@@ -79,7 +79,7 @@ class ArvoreBinaria
 			System.out.println("V");
 		}
 
-		else 
+		else  
 		{
 			caminharCentral(raiz);
 			System.out.println();
