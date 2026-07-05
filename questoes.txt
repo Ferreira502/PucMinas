@@ -1114,3 +1114,60 @@ A resposta deve deixar claro:
 - como inserir ordenado na lista de `T3`.
 
 Valor: 8 pontos.
+
+
+
+
+
+
+typedef struct CelulaDupla {
+    int elemento;
+    struct CelulaDupla* prox;
+    struct CelulaDupla* ant;
+} CelulaDupla;
+
+CelulaDupla* primeiro;
+
+void swap(CelulaDupla* a, CelulaDupla* b) {
+    int tmp = a->elemento;
+    a->elemento = b->elemento;
+    b->elemento = tmp;
+}
+
+CelulaDupla* particionar(CelulaDupla* esq, CelulaDupla* dir) {
+    int pivo = dir->elemento;
+    CelulaDupla* i = esq->ant;
+
+    for (CelulaDupla* j = esq; j != dir; j = j->prox) {
+        if (j->elemento <= pivo) {
+            if (i == esq->ant)
+                i = esq;
+            else
+                i = i->prox;
+
+            swap(i, j);
+        }
+    }
+
+    if (i == esq->ant)
+        i = esq;
+    else
+        i = i->prox;
+
+    swap(i, dir);
+    return i;
+}
+
+void quicksortRec(CelulaDupla* esq, CelulaDupla* dir) {
+    if (esq != dir && esq != dir->prox) {
+        CelulaDupla* p = particionar(esq, dir);
+        quicksortRec(esq, p->ant);
+        quicksortRec(p->prox, dir);
+    }
+}
+
+void quicksort() {
+    if (primeiro != NULL && primeiro->prox != primeiro && primeiro->prox != primeiro->ant) {
+        quicksortRec(primeiro->prox, primeiro->ant);
+    }
+}
