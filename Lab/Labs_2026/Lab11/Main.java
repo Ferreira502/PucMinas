@@ -203,6 +203,52 @@ class ArvoreBicolor
 			caminharCentral(i.dir);
 		}
 	}
+
+	public boolean isArvoreBicolor()
+	{
+		if (raiz == null)
+		{
+			return true;
+		}
+
+		if (raiz.cor == true)
+		{
+			return false;
+		}
+
+		return verificarBicolor(raiz, null, null) != -1;
+	}
+
+	private int verificarBicolor(No i, Integer min, Integer max)
+	{
+		if (i == null)
+		{
+			return 1;
+		}
+
+		if ((min != null && i.elemento <= min) || (max != null && i.elemento >= max))
+		{
+			return -1;
+		}
+
+		if (i.cor == true)
+		{
+			if ((i.esq != null && i.esq.cor == true) || (i.dir != null && i.dir.cor == true))
+			{
+				return -1;
+			}
+		}
+
+		int alturaPretaEsq = verificarBicolor(i.esq, min, i.elemento);
+		int alturaPretaDir = verificarBicolor(i.dir, i.elemento, max);
+
+		if (alturaPretaEsq == -1 || alturaPretaDir == -1 || alturaPretaEsq != alturaPretaDir)
+		{
+			return -1;
+		}
+
+		return alturaPretaEsq + (i.cor == false ? 1 : 0);
+	}
 }
 
 class Main

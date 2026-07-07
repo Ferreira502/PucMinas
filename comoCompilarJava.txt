@@ -1,30 +1,6 @@
-javac --version                   //Mostrar Versao do Java
-javac NOMEDOARQUIVO.java          //Compilar o Java
-java  NOMEDOARQUIVO               //Executar o Java
-java  NOMEDOARQUIVO < pub.in      //Executa as entradas do pub.in
-vim   NOMEDOARQUIVO               //Printar o conteudo que tem no txt
-diff  NOMEDOARQUIVO               //Compara 2 arquivos
-
-
-
-         
-
-         // System.out.println("To aq");
-         for ( int i = 0; i < nr; i++ )
-         {
-            // System.out.println("reserva posicao: " + m + i);
-            if ( tabela[m + i] != null && tabela[m + i].compareTo(chave) == 0 )
-            {
-               // System.out.println("posicao: " + (m + i));
-               resp = tabela[m + i];
-               for ( int j = i; j < nr - 1; j++ )
-               {
-                  tabela[m + j] = tabela[m + j + 1];
-               }
-
-               tabela[m + nr - 1] = null;
-               nr--;
-               // System.out.println("reserva: " + nr + "/" + r);
-               i = nr;
-            }
-         }
+javac --version                   // Mostrar Versao do Java
+javac NOMEDOARQUIVO.java          // Compilar o Java
+java  NOMEDOARQUIVO               // Executar o Java
+java  NOMEDOARQUIVO < pub.in      // Executa as entradas do pub.in
+vim   NOMEDOARQUIVO               // Printar o conteudo que tem no txt
+diff  NOMEDOARQUIVO               // Compara 2 arquivos

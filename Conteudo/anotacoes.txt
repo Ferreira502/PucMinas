@@ -1,1 +1,0 @@
-Local para ver visualização de estruturas de dados: https://www.cs.usfca.edu/~galles/visualization/Algorithms.html

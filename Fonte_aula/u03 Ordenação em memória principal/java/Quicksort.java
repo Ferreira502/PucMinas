@@ -38,6 +38,7 @@ class Quicksort extends Geracao {
     private void quicksort(int esq, int dir) {
         int i = esq, j = dir;
         int pivo = array[(dir+esq)/2];
+        
         while (i <= j) {
             while (array[i] < pivo) i++;
             while (array[j] > pivo) j--;
