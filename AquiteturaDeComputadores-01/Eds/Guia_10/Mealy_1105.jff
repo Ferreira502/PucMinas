@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<structure>
+  <type>pda</type>
+  <automaton>
+
+    <state id="0" name="q0">
+      <x>100</x><y>100</y>
+      <initial/>
+      <final/>
+    </state>
+
+    <state id="1" name="q1">
+      <x>250</x><y>50</y>
+    </state>
+
+    <state id="2" name="q2">
+      <x>250</x><y>150</y>
+    </state>
+
+    <state id="3" name="q3">
+      <x>400</x><y>100</y>
+    </state>
+
+    <transition>
+      <from>0</from><to>1</to>
+      <read>0</read>
+      <pop>Z</pop><push>Z</push>
+    </transition>
+    <transition>
+      <from>0</from><to>1</to>
+      <read>0</read>
+      <pop>1</pop><push>1</push>
+    </transition>
+
+    <transition>
+      <from>0</from><to>0</to>
+      <read>1</read>
+      <pop>Z</pop><push>Z</push>
+    </transition>
+    <transition>
+      <from>0</from><to>0</to>
+      <read>1</read>
+      <pop>1</pop><push>1</push>
+    </transition>
+
+    <transition>
+      <from>1</from><to>1</to>
+      <read>0</read>
+      <pop>Z</pop><push>Z</push>
+    </transition>
+    <transition>
+      <from>1</from><to>1</to>
+      <read>0</read>
+      <pop>1</pop><push>1</push>
+    </transition>
+
+    <transition>
+      <from>1</from><to>2</to>
+      <read>1</read>
+      <pop>Z</pop><push>Z</push>
+    </transition>
+    <transition>
+      <from>1</from><to>2</to>
+      <read>1</read>
+      <pop>1</pop><push>1</push>
+    </transition>
+
+    <transition>
+      <from>2</from><to>3</to>
+      <read>1</read>
+      <pop>Z</pop><push>Z</push>
+    </transition>
+    <transition>
+      <from>2</from><to>3</to>
+      <read>1</read>
+      <pop>1</pop><push>1</push>
+    </transition>
+
+    <transition>
+      <from>2</from><to>1</to>
+      <read>0</read>
+      <pop>Z</pop><push>Z</push>
+    </transition>
+    <transition>
+      <from>2</from><to>1</to>
+      <read>0</read>
+      <pop>1</pop><push>1</push>
+    </transition>
+
+    <transition>
+      <from>3</from><to>1</to>
+      <read>0</read>
+      <pop>Z</pop><push>1Z</push>
+    </transition>
+    <transition>
+      <from>3</from><to>1</to>
+      <read>0</read>
+      <pop>1</pop><push>11</push>
+    </transition>
+
+    <transition>
+      <from>3</from><to>0</to>
+      <read>1</read>
+      <pop>Z</pop><push>Z</push>
+    </transition>
+    <transition>
+      <from>3</from><to>0</to>
+      <read>1</read>
+      <pop>1</pop><push>1</push>
+    </transition>
+
+  </automaton>
+</structure>

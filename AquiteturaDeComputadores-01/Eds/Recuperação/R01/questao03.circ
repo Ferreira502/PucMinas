@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="2.16.2.0.jar" version="1.0">
+  This file is intended to be loaded by Logisim http://logisim.altervista.org
+
+  <lib desc="#Wiring" name="0"/>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#TTL" name="2"/>
+  <lib desc="#Plexers" name="3">
+    <tool name="Multiplexer">
+      <a name="enable" val="false"/>
+    </tool>
+    <tool name="Demultiplexer">
+      <a name="enable" val="false"/>
+    </tool>
+    <tool name="Decoder">
+      <a name="enable" val="false"/>
+    </tool>
+  </lib>
+  <lib desc="#Arithmetic" name="4"/>
+  <lib desc="#Memory" name="5"/>
+  <lib desc="#I/O" name="6"/>
+  <lib desc="#Base" name="7">
+    <tool name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="Dialog plain 12"/>
+      <a name="color" val="#000000"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+  </lib>
+  <main name="main"/>
+  <options>
+    <a name="gateUndefined" val="ignore"/>
+    <a name="simlimit" val="1000"/>
+    <a name="simrand" val="0"/>
+  </options>
+  <mappings>
+    <tool lib="7" map="Button2" name="Poke Tool"/>
+    <tool lib="7" map="Button3" name="Menu Tool"/>
+    <tool lib="7" map="Ctrl Button1" name="Menu Tool"/>
+  </mappings>
+  <toolbar>
+    <tool lib="7" name="Poke Tool"/>
+    <tool lib="7" name="Edit Tool"/>
+    <sep/>
+    <tool lib="7" name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="Dialog plain 12"/>
+      <a name="color" val="#000000"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+    <tool lib="0" name="Pin">
+      <a name="tristate" val="false"/>
+    </tool>
+    <tool lib="0" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+    </tool>
+    <tool lib="1" name="NOT Gate"/>
+    <tool lib="1" name="AND Gate"/>
+    <tool lib="1" name="OR Gate"/>
+  </toolbar>
+  <circuit name="main">
+    <a name="circuit" val="main"/>
+    <a name="clabel" val=""/>
+    <a name="clabelup" val="east"/>
+    <a name="clabelfont" val="Dialog plain 12"/>
+    <a name="clabelcolor" val="#000000"/>
+    <wire from="(130,70)" to="(210,70)"/>
+    <wire from="(270,70)" to="(270,100)"/>
+    <wire from="(230,70)" to="(270,70)"/>
+    <wire from="(270,100)" to="(310,100)"/>
+    <wire from="(190,120)" to="(190,180)"/>
+    <wire from="(130,180)" to="(190,180)"/>
+    <wire from="(190,180)" to="(210,180)"/>
+    <wire from="(130,120)" to="(190,120)"/>
+    <wire from="(190,120)" to="(210,120)"/>
+    <wire from="(280,120)" to="(280,180)"/>
+    <wire from="(230,180)" to="(280,180)"/>
+    <wire from="(280,120)" to="(310,120)"/>
+    <wire from="(230,120)" to="(280,120)"/>
+    <comp lib="7" loc="(112,122)" name="Text">
+      <a name="text" val="b"/>
+    </comp>
+    <comp lib="1" loc="(230,180)" name="NOT Gate"/>
+    <comp lib="7" loc="(114,177)" name="Text">
+      <a name="text" val="c"/>
+    </comp>
+    <comp lib="1" loc="(340,110)" name="OR Gate"/>
+    <comp lib="1" loc="(230,70)" name="NOT Gate"/>
+    <comp lib="7" loc="(111,72)" name="Text">
+      <a name="text" val="a"/>
+    </comp>
+    <comp lib="1" loc="(230,120)" name="NOT Gate"/>
+  </circuit>
+</project>

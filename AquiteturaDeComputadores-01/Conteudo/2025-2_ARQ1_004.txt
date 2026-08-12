@@ -1,0 +1,383 @@
+PUC-Minas - ICEI - Ciência da Computação
+Arquitetura de Computadores I - Aula 2025-2_004
+Anotações
+___
+
+Resumo da semana
+
+Revisão
+
+Operações em binário
+
+Exemplo 1:
+
+      45 (10) - 3C (16)       = X(2)
+
+  10 1101 (2) - 0011 1100 (2) = X(2)
+
+0010 1101 (2) - 0011 1100 (2) = X(2)
+    x               y         =  z
+    
+    x         -     y         =  z
+    
+    x         +  C2(y)        =  z
+    
+    x         + (C1(y) + 1)   =  z
+
+    x         + (C1(y) + 0000 0001)  =  z
++                   +              + 
+0 0010 1101   + C1 (0 0011 1100) + 0 0000 0001 = X(2)
++                   -              +
+0 0010 1101   +     1 1100 0011  + 0 0000 0001 = X(2)
+
+     1 1 
+0 0010 1101   -> 45
+1 1100 0100 + -> C2(60) = 2**9-60     = 452
+___________
+1 1111 0001   -> (-X)   = 0 0000 1111 =  15 
+
+ 3C (16) = 3*16**1 + 12*16**0     
+         =  48+ 12   =  60
+1C4 (16) = 1*16**2 + 12*16**1 + 4 
+         = 256+192+4 = 452 -> (452-512) = (-60)
+1F1 (16) = 1*16**2 + 15*16**1 + 1 
+         = 256+240+1 = 497 -> (497-512) = (-15)
+
+Exemplo 2:
+
+        45 (10) -   C3 (16)       = X(2)
+
+    10 1101 (2) - 0 1100 0011 (2) = X(2)
++                 -
+0 0010 1101 (2) + 1 0011 1101 (2) = X(2)
+    
+        111 1 1
+     0 0010 1101 +
+     1 0011 1101
+    ____________ 
+     1 0110 1010   <- NEGATIVO = 45 - 195 = -150 (10)
+    
+C2-> 0 1001 0110   <- 96 (16)  = 150 (10)
+
+Exemplo 3:
+
+      45 (10) - 3C (16)       = X(2)  
+    (representação com tamanho fixo)
+
+  10 1101 (2) - 0011 1100 (2) = X(2)
++               +
+0010 1101 (2) - 0011 1100 (2) = X(2)
+
+0010 1101 (2) + 1100 0100 (2) = X(2)
+
+     0010 1101+
+     1100 0100
+    __________
+     1111 0001   <- NEGATIVO = 45 - 60 = -15 (10)
+     
+C2-> 0000 1111   <- 15 (10)
+     
+Exemplo 4:
+
+      45 (10)     - C3 (16)       = X(2)  
+        (representação com tamanho fixo)
+
+      10 1101 (2) - 1100 0011 (2) = X(2)
+    +               +
+    0010 1101 (2) + 0011 1101 (2) = X(2)
+    
+      111 1 1
+     0010 1101 +
+     0011 1101
+    ___________ 
+     0110 1010    <- POSITIVO = 45 + 61 = +106 (10)
+    
+___
+    
+    
+Álgebra Booleana (George Boole)
+    
+Funções lógicas
+
+     n
+{0,1}  - grupo de sequências de n-bits
+                              n          k
+boolean_function ::= f : {0,1} ---> {0,1}
+         n = tamanho da entrada ("fan-in ")
+         k = tamanho da saída   ("fan-out")
+
+gate   = consistente com uma função lógica 
+         dependente do tempo
+
+y(t)   = f (x1(t), x2(t))         
+         x1,x2 estáveis em [t1:t2]
+
+                              2          1
+boolean_gate     ::= f : {0,1} ---> {0,1}
+                                tp      intervalo [t1+tp:t2]
+         tp = tempo de propagação
+
+         Nota: 
+         tc = tempo de contaminação
+            = tempo em que a saída permanecer consistente,
+              após as entradas deixarem de ser estáveis
+
+___
+
+Teoria dos reticulados
+
+a /\ b - meet -> conjunção    ->    ~(~a \/ ~b)
+         /  \                           /  \ 
+        a    b             negação    ~a    ~b
+         \  /                           \  /
+a \/ b - join -> disjunção    ->    ~(~a /\ ~b)
+
+___
+ 
+ Verificação de propriedades
+ 
+ Distributiva
+ 
+ a.(b+c) = (a.b) + (a.c)
+ 
+            w1      w1     w2    w3    w2   w3
+ m a b c  (b+c) a.(b+c)  (a.b) (a.c) (a.b)+(a.c)
+ 0 0 0 0    0    0         0     0        0
+ 1 0 0 1    1    0         0     0        0
+ 2 0 1 0    1    0         0     0        0
+ 3 0 1 1    1    0         0     0        0
+ 4 1 0 0    0    0         0     0        0
+ 5 1 0 1    1    1         0     1        1      <- m5
+ 6 1 1 0    1    1         1     0        1      <- m6
+ 7 1 1 1    1    1         1     1        1      <- m7
+                 ^                        ^
+                 |________________________|
+
+ SoP (5,6,7) = m5     + m6     + m7 
+             = a.b'.c + a.b.c' + a.b.c
+               [m5,m7]        [m6,m7]   - distributiva
+             = (a.c).(b'+b) + (a.b).(c'+c)
+                                        - tautologia
+             = (a.c).   1   + (a.b).   1
+                                        - identidade
+             = (a.c)        + (a.b)
+                                        - comutativa
+             = (a.b)        + (a.c)
+                                        - distributiva
+             =  a . ( b     +    c)
+
+___
+
+ Ao aplicar dupla negação para usar apenas portas NAND:
+
+ SoP (5,6,7) = ( (a.b'.c   +  a.b.c'   +  a.b.c)' )'
+             = ( (a.b'.c)' . (a.b.c')' . (a.b.c)' )'
+
+ A negação também poderá ser substituída por porta NAND:
+
+ b' = (b.b)'
+
+ SoP (5,6,7) = ( (a.(b.b)'.  c   )'
+                .(a.  b   .(c.c)')'
+                .(a.  b   .  c   )' )'
+___
+ 
+ A+(B.C) = (A+B) . (A+C)
+ 
+            W1   W2        W3    W4       W5
+ M A B C  (B.C) A+(B.C)  (A+B) (A+C) (A+B).(A+C)
+ 0 0 0 0    0    0         0     0        0      <- M0
+ 1 0 0 1    0    0         0     1        0      <- M1
+ 2 0 1 0    0    0         1     0        0      <- M2
+ 3 0 1 1    1    1         1     1        1
+ 4 1 0 0    0    1         1     1        1
+ 5 1 0 1    0    1         1     1        1
+ 6 1 1 0    0    1         1     1        1
+ 7 1 1 1    1    1         1     1        1
+                 ^                        ^
+                 |________________________|
+ 
+ PoS (0,1,2) =  M0    . M1     . M2 
+             = (A+B+C).(A+B+C').(A+B'+C)
+                [M0,M1]      [M0,M2]   - distributiva
+             = (A+B).(C+C').(A+C).(B+B')
+                                       - tautologia
+             = (A+B).  1   .(A+C).  1
+                                       - identidade
+             = (A+B)       .(A+C)
+                                       - distributiva
+             =  A.A + A.C + B.A + B.C
+                                       - idempotência
+             =  A   + A.C + B.A + B.C
+                                       - identidade
+             =  A.1 + A.C + B.A + B.C
+                                       - identidade
+             =  A.(1 +  C + B)  + B.C
+                                       - tautologia
+             =  A. 1            + B.C
+                                       - identidade  
+             =  A + ( B    .   C)
+
+___
+
+___
+
+ Ao aplicar dupla negação para usar apenas portas NOR:
+
+ PoS (0,1,2) = ( ((A+B+C)  . (A+B+C')  . (A+B'+C))' )'
+             = (  (A+B+C)' + (A+B+C')' + (A+B'+C)'  )'
+
+ A negação também poderá ser substituída por porta NOR:
+
+ B' = (B+B)'
+
+ PoS (0,1,2) = ( (A+  B   +  C   )'
+                +(A+  B   +(C+C)')'
+                +(A+(B+B)'+  C   )' )'
+___
+
+___
+                        
+De Morgan
+
+(a+b)' = a' . b'
+
+          w1  w2=w1'            w3
+ m a b  (a+b) (a+b)'  a' b'  (a'.b')
+ 0 0 0    0     1     1  1      1   <- m0
+ 1 0 1    1     0     1  0      0
+ 2 1 0    1     0     0  1      0
+ 3 1 1    1     0     0  0      0
+                ^               ^
+                |_______________|
+ 
+ SoP (  0  ) =    m0    = a'.b'
+
+ PoS (1,2,3) =  M1   . M2   . M3 
+ 
+             = (A+B').(A'+B).(A'+B')
+                                       - distributiva
+             = [(A.B)+(B'.A')].(A'+B')
+                                       - distributiva
+             = (B'.A')+(B'.A')           
+                                       - idempotência
+             = (B'.A')
+                                       - comutativa
+             =  A'.B'
+                        
+(a.b)' = a' + b'
+
+          w1  w2=w1'            w3
+ m a b  (a.b) (a.b)'  a' b'  (a'+b')
+ 0 0 0    0     1     1  1      1   <- m0
+ 1 0 1    0     1     1  0      1   <- m1
+ 2 1 0    0     1     0  1      1   <- m2
+ 3 1 1    1     0     0  0      0
+                ^               ^
+                |_______________|
+
+ SoP (0,1,2) = m0    + m1   + m2 
+ 
+             = a'.b' + a'.b + a.b'
+               [m0,m1]    [m0,m2]   - distributiva
+             = a'.(b'+b)+b'.(a'+a)
+                                    - tautologia
+             = a'.   1  +b'.   1
+                                    - identidade
+             = a'       +b'
+
+ PoS (  3  ) =    M3    = A'+B'
+
+___
+ 
+Dualidade
+
+ (~x & y   | x   & ~y )             => 0110 (mintermos={1,2})
+  
+                                    -  distributiva 
+ (((~x & y)|x) & (~x & y)|~y)
+                                    -  distributiva 
+ (~x|x)&(y|x) &  (~x|~y)&(y|~y)
+                                    -  tautologia
+ (  1 )&(y|x) &  (~x|~y)&( 1  )
+                                    -  identidade
+     (y|x)    &  (~x|~y) 
+                                    -  comutativa
+    (~x|~y)   &  ( y|x)     
+                                    -  comutativa
+    (~x|~y)   &  ( x|y )     
+       |            |               -  maiúsculas para MAXTERMOS
+       v            v         
+   (~X |~Y )  & ( X | Y )           => 0110 (MAXTERMOS={0,3})
+ 
+ 
+Complementaridade
+
+ ~(~x & y   |   x & ~y )            => 0110 (mintermos={1,2})
+ 
+                                    -  de Morgan
+  ( x | ~y) & (~x |  y )    
+                                    -  distributiva
+(x|~y)&~x   | (x|~y)&y
+                                    -  distributiva
+(x&~x) | (~y&~x) | (x&y) | (~y&y)                          
+                                    -  contradição
+( 0  ) | (~y&~x) | (x&y) | (  0 )
+                                    -  identidade
+         (~y&~x) | (x&y)    
+            |        |              -  comutativa
+            v        v       
+         (~x&~y) | (x&y)            => 1001 (mintermos={0,3})
+ 
+___
+
+Outro exemplo
+
+     mintermos                     MAXTERMOS 
+SoP ( 1,3,6,7 ) = 1     e     PoS ( 0,2,4,5 ) = 0
+
+      m1     +     m3    +     m6      +    m7
+      001    +     011   +     110     +    111
+  a'.  b'. c +  a'. b . c + a . b .  c'+ a . b . c
+(~a & ~b & c)|(~a & b & c)|(a & b & ~c)|(a & b & c)
+
+     M0      .      M2      .      M4      .      M5
+     000     .      010     .      100     .      101
+( A + B + C) . (A +  B'+ C) . ( A'| B | C) . ( A'| B |  C')     
+( A | B | C) & (A | ~B | C) & (~A | B | C) & (~A | B | ~C )
+
+Tabela-verdade
+m a b c  s
+0 0 0 0  0    
+1 0 0 1  1  <- m1
+2 0 1 0  0    
+3 0 1 1  1  <- m3
+4 1 0 0  0   
+5 1 0 1  0   
+6 1 1 0  1  <- m6
+7 1 1 1  1  <- m7
+
+Mais outro exemplo
+
+     MAXTERMOS                     mintermos 
+PoS ( 1,3,6,7 ) = 0      e     SoP ( 0,2,4,5 ) = 1
+
+   M1   .   M3    .   M6    .   M7
+  (001) .  (011)  .  (110)  .  (111)
+(A+B+C').(A+B'+C').(A'+B'+C).(A'+B'+C')
+
+Tabela-verdade
+M A B C  S
+0 0 0 0  1    
+1 0 0 1  0  <- M1
+2 0 1 0  1    
+3 0 1 1  0  <- M3
+4 1 0 0  1    
+5 1 0 1  1    
+6 1 1 0  0  <- M6
+7 1 1 1  0  <- M7
+
+
+___
+
+

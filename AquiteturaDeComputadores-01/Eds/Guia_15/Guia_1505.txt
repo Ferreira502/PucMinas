@@ -1,0 +1,65 @@
+// Guia_1505.txt
+// Calculo: dado03 = dado01 * 4 + dado02 / 2
+// Uso apenas de somas e comparacoes (sem shifts)
+
+        ---------------------------------------
+        ; 1) Calcular dado01 * 4
+
+        LXI  H, dado01
+        MOV  A, M          ; A = dado01
+
+        MOV  B, A          ; B = dado01
+        ADD  B             ; A = dado01 * 2
+        ADD  B             ; A = dado01 * 3
+        ADD  B             ; A = dado01 * 4
+
+        ; A contem 4*dado01 → guardar parcial
+        MOV  D, A          ; D = parcial
+
+
+        ---------------------------------------
+        ; 2) Calcular dado02 / 2 (divisao por subtracoes)
+
+        INX H              ; agora HL → dado02
+        MOV  B, M          ; B = dado02
+
+        MVI  E, 00h        ; E = resultado = 0
+
+div_loop:
+        CPI  02h           ; A nao e usado aqui → devemos usar B
+                          ; entao compare B com 2:
+        MOV  A, B
+        CPI  02h           ; se B < 2, parar
+        JC   fim_div
+
+        SUI  02h           ; A = B - 2
+        MOV  B, A          ; B = novo valor
+
+        INR  E             ; E = E + 1  (conta quantas vezes subtraiu 2)
+        JMP  div_loop
+
+fim_div:
+        ; E contem dado02/2
+
+
+        ---------------------------------------
+        ; 3) Somar (dado01*4) + (dado02/2)
+
+        MOV  A, D          ; A = parcial (4*dado01)
+        ADD  E             ; A = 4*dado01 + dado02/2
+
+
+        ---------------------------------------
+        ; 4) Armazenar resultado
+
+        STA  dado03
+
+        HLT
+
+
+---------------------------------------
+; area de dados (exemplo)
+
+dado01:  03h     ; exemplo: 3  → 3*4 = 12
+dado02:  08h     ; exemplo: 8  → 8/2 = 4
+dado03:  00h     ; resultado: 12 + 4 = 16

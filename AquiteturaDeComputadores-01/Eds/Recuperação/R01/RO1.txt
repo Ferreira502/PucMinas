@@ -1,0 +1,329 @@
+/*
+ RO1.txt
+ 842527 - Gabriel Ferreira Pereira
+*/
+
+Questão 01)
+a)
+
+| n (hex) | m (dec) | f(a,b,c,d) |
+| ------- | ------- | ---------- |
+| 2       | 2       | 1          |
+| 3       | 3       | 1          |
+| 5       | 5       | 1          |
+| 7       | 7       | 1          |
+| 9       | 9       | 1          |
+| A       | 10      | 1          |
+| D       | 13      | 1          |
+
+
+os mintermos com saída 1 são:
+
+m(2,3,5,7,9,10,13)
+
+f(a,b,c,d) = Σm(2,3,5,7,9,10,13)
+
+
+
+| m  | Binário | Mintermo  |
+| -- | ------- | --------- |
+| 2  | 0010    | (a'b'cd') |
+| 3  | 0011    | (a'b'cd)  |
+| 5  | 0101    | (a'bc'd)  |
+| 7  | 0111    | (a'bcd)   |
+| 9  | 1001    | (ab'c'd)  |
+| 10 | 1010    | (ab'cd')  |
+| 13 | 1101    | (abc'd)   |
+
+f(a,b,c,d) = a′b′cd′+a′b′cd+a′bc′d+a′bcd+ab′c′d+ab′cd′+abc′d
+
+Expressão canônica SoP(a,b,c,d):
+
+f(a,b,c,d)=Σm(2,3,5,7,9,10,13)
+
+Forma expandida:
+
+f(a,b,c,d)=a′b′cd′+a′b′cd+a′bc′d+a′bcd+ab′c′d+ab′cd′+abc′d
+
+b)
+
+f(A,B,C,D)=(A+B+C+D)(A+B+C+D′)(A+B′+C+D)(A+B′+C′+D)(A′+B+C+D)(A′+B+C′+D′)(A′+B′+C+D)(A′+B′+C′+D)(A′+B′+C′+D′)
+
+c)
+Simplificação pelos mintermos (SOP)
+
+Mintermos: m = {2,3,5,7,9,10,11,13}
+
+Grupo de 4: b′= 1, c = 1b′ = 1, c=1 → termo c (cobre 2,3,10,11)
+
+Grupo de 2: a=1,c′=1,d=1 → termo adc′(cobre 9,13)
+
+Grupo de 2: a′ = 1, b = 1, d = 1 → termo a′bda′bd (cobre 5,7)
+
+Expressão simplificada (SOP) — forma mínima:
+
+f(a,b,c,d)= b′c + adc′ + a′bd
+
+d)
+
+Simplificação pelos maxtermos (POS)
+
+f(a,b,c,d)=(b+c′)(a+b′+d′)(c+a′+d′)
+	​
+onde cada soma é um termo (maxtermo) simplificado:
+
+b+c′
+
+a+b′+d′
+
+c+a′+d′
+
+e) 
+
+Expressão SoP equivalente com portas NAND de 2 entradas
+
+Temos da simplificação (c):
+
+f = b′c+adc′+a′bd
+
+Colocar em forma AND–OR
+
+f = (b′c)+(adc′)+(a′bd)
+
+Aplicar a equivalência:
+     __________________
+f = (b′c)+(adc′)+(a′bd)​​
+
+e usando a propriedade de De Morgan:
+___________________   ____ ____  _____
+(b′c)+(adc′)+(a′bd) ​= (b′c)(adc′)(a′bd)
+
+f=NAND(NAND(b′,c),NAND(a,d,c′),NAND(a′,b,d))
+
+NAND(a,d,c′)=NAND(NAND(a,d),c′)
+
+Expressão final apenas com NAND:
+
+f=NAND(NAND(b′,c),NAND(NAND(a,d),c′),NAND(NAND(a′,b),d))
+
+f)
+
+Expressão PoS equivalente com portas NOR de 2 entradas
+
+Forma OR–AND (PoS)
+
+f=(b+c′)(a+b′+d′)(c+a′+d′)
+
+Aplicar dupla negação:
+   _______________________
+f=(b+c′)(a+b′+d′)(c+a′+d′)​​
+
+Aplicando De Morgan:
+________________________   _____  ________  _________
+(b+c′)(a+b′+d′)(c+a′+d′) ​= (b+c′​)+(a+b′+d′​)+(c+a′+d′​)
+
+Forma NOR–NOR (2 entradas):
+
+f=NOR(NOR(b,c′),NOR(NOR(a,b′),d′),NOR(NOR(c,a′),d′))
+
+Expressão final apenas com NOR (2 entradas):
+
+f=NOR(NOR(b,c′),NOR(NOR(a,b′),d′),NOR(NOR(c,a′),d′))
+
+Questao 02)
+a)
+
+Simplificação da expressão
+
+s = ac′+ab′c
+
+Fatorando a:
+
+s = a(c′+b′c)
+
+Simplificando c′+b′c:
+
+c′+b′c=(b′+c′)
+
+a expressão simplificada é:
+
+s=a(b′+c′)
+
+b)
+
+SoP simplificada e implementada com NAND
+
+s=a(b′+c′)
+
+      ____  __
+b′+c′=b′+c′=bc
+
+Implementação completa em NAND:
+s = a⋅bc -> s = NAND(NAND(a,NAND(b,c)),NAND(a,NAND(b,c)))
+
+
+c)
+
+Expressão PoS simplificada
+
+s = a(b′+c′)
+
+Convertendo para PoS: 
+b′+c′=(bc)′
+
+Em forma de PoS canônica:
+
+s=(a+b′)(a+c′)
+
+Expressão PoS simplificada:
+
+s=(a+b′)(a+c′)
+	​
+
+d)
+
+Expressão com multiplexadores
+
+s=mux(mux(a,b′,a),mux(a,c′,a),b)
+
+m1=mux(a,b′,a)=a′b′+aa=a′b′+a=a+b′
+
+m2 = mux(a,c′,a) = a′c′+a = a+c′
+
+s=mux(m1,m2,b)=b′m2+bm1=b′(a+c′)+b(a+b′)
+
+s=b′a+b′c′+ba+bb′=a(b′+b)+b′c′=a+b′c′
+
+s=a+b′c′
+	​
+Questao_04)
+
+Converter para binário
+
+18.625(10) = 10010.101(2)
+	​
+Normalizar
+
+10010.101(2) ​= 1.0010101(2) ​× 2 ^ 4
+
+Determinar campos IEEE-754
+
+mantissa (23 bits) = 00101010000000000000000
+
+S | Exponent (8) | Mantissa (23)
+0  10000011       00101010000000000000000
+
+01000001100101010000000000000000
+
+0100 0001 1001 0101 0000 0000 0000 0000
+
+Hex: 0x41950000
+
+Questao_05)
+
+a)
+Converter FACE₁₆ para decimal
+
+FACE₁₆ → F = 15, A = 10, C = 12, E = 14
+
+FACE(16)​ = (15×4096) + (10×256) + (12×16) + 14 = 64206(10)​
+
+64206 ÷ 4 = 16051.5
+
+-> parte inteira = 16051
+
+Converter 16051 para hexadecimal
+
+16051(10) = 3EB3(16)
+
+Em binário (16 bits):
+
+FACE = 1111 1010 1100 1110
+3EB3 = 0011 1110 1011 0011
+
+3EB3(16) = 0011 1110 1011 0011(2)
+
+b)
+
+Calcular o quociente e o resto de
+235(8) ​÷ 17(16)​
+
+235(8) -> decimal
+
+2×8^2 + 3×8^1 + 5×8^0 = 128+24+5 = 157(10)​
+
+17(16) -> decimal
+
+1×16^1 + 7×16^0 = 16+7= 23(10)
+
+Dividir em decimal
+
+157÷23 = 6 (quociente), resto = 157−(23×6) = 157−138 = 19
+
+​Representar em bases originais
+
+Quociente (6)
+
+6(10)​ = 6(8) ​= 6(16)
+
+Resto (19)
+
+19(10) ​= 23(8) ​= 13(16​​)
+
+235(8)​÷17(16) ​= 6(10)​ com resto 19(10)​ -> Q=6, R=19
+
+c)
+
+a^b = 5^3 = 5⋅5⋅5 = 125
+
+125(10) = 01111101(2)
+	​
+(−a)^−b
+
+(−a)^−b = 1/(−a)^b​ = 1/(−5)^3 ​= 1/-125​
+
+(−5)^3 = −125
+
+(−5)−3 = −1/125 ≈ −0,008
+
+d)
+
+∣11∣(10) = 1011(2)
+	​
+7 bits
+
+11(10) ​= 0001011(2)​
+
+Complemento de 2 para -11:
+
+Inverte os bits: 
+0001011 -> 1110100
+
+Soma 1: 
+1110100+1 = 1110101
+
+
+(−11)10​ = 11101012​
+
+6 bits
+
+11 em 6 bits: 
+
+11(10) = 001011(2)
+	​
+Inverter bits: 110100
+
+Soma 1: 110100 + 1 = 110101
+
+(−11)(10) = 110101(2)
+	​
+5 bits
+
+
+11(10) = 01011 (2)
+
+Inverte bits: 10100
+	​
+Soma 1: 10100+1 = 10101
+
+(−11)(10) ​= 10101(2)​

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<structure>
+  <type>turing</type>
+  <automaton>
+    <state id="0" name="q0">
+      <initial/>
+    </state>
+
+    <state id="1" name="q1"/>
+    <state id="2" name="q2"/>
+    <state id="3" name="q3"/>
+    <state id="4" name="q4"/>
+    <state id="5" name="q_accept">
+      <final/>
+    </state>
+
+    <!-- q0 expects 0 -->
+    <transition>
+      <from>0</from>
+      <to>1</to>
+      <read>0</read>
+      <write>0</write>
+      <move>R</move>
+    </transition>
+
+    <!-- q1 expects 1 -->
+    <transition>
+      <from>1</from>
+      <to>2</to>
+      <read>1</read>
+      <write>1</write>
+      <move>R</move>
+    </transition>
+
+    <!-- q2 expects 1 -->
+    <transition>
+      <from>2</from>
+      <to>3</to>
+      <read>1</read>
+      <write>1</write>
+      <move>R</move>
+    </transition>
+
+    <!-- q3 expects 0 -->
+    <transition>
+      <from>3</from>
+      <to>4</to>
+      <read>0</read>
+      <write>0</write>
+      <move>R</move>
+    </transition>
+
+    <!-- q4: after matching 0110, accept on blank -->
+    <transition>
+      <from>4</from>
+      <to>5</to>
+      <read>_</read>
+      <write>_</write>
+      <move>R</move>
+    </transition>
+
+  </automaton>
+</structure>

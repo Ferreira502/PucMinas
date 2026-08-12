@@ -1,0 +1,496 @@
+PUC-Minas - ICEI - Ciência da Computação
+Arquitetura de Computadores I - Aula 2025-2_001
+Anotações
+___
+
+Resumo da semana
+
+Apresentação da disciplina
+
+    Ementa
+    Plano de ensino (provisório) -> Monitoramento
+    Cronograma      (provisório)
+    Materiais / Ferramentas      -> 2025-1_arq1.zip
+      Verilog       (variável de ambiente PATH)
+      Java          (ambiente)
+        Logisim
+        JFLAP
+        CPUSim
+        8085
+    Rotinas
+      Preparação para os  guias  -> Estudos Dirigidos
+      Aulas
+      Desenvolvimento dos guias  -> Tarefas (Canvas)
+    Avaliação
+        Teoria     Prática+ADA      Reavaliação
+      (25+25+25) +   (20+05)        substituir (menor)
+___
+
+PUCMinas - ICEI - DCC - Horário - Disponibilidade
+                                                        
+        Segunda    Terça     Quarta     Quinta    Sexta 
+07:00    ______    ______    ______     ______     [DCC]
+08:40                                                   
+                                                        
+08:50   AED1 (T2) ARQ1 (T1)  AED1 (T2)  ARQ1 (T1)  [DCC]
+10:30    Teoria    Teoria     Teoria     Teoria         
+                                                        
+10:40   AED1 (T2) AED1 (T2)  AED1 (T2)  AED1 (T2)  [DCC]
+12:20    T2-G1     T2-G2      T2-G3      T2-G4          
+						        
+13:30    ______    ______     ______     ______   ______
+15:10                                                   
+                                                        
+15:20   AED1 (T1) ARQ1 (T1)   AED1 (T1) ARQ1 (T1) ______
+17:00    Teoria    Teoria      Teoria    Teoria         
+							
+17:10   AED1 (T2) AED1 (T2)   AED1 (T1)  ______   ______
+18:50    T1-G1     T1-G3       T1-G2                   
+							
+___
+
+Canvas
+
+1658100 - Manhã
+
+https://pucminas.instructure.com/courses/242510
+
+1660100 - Tarde
+
+https://pucminas.instructure.com/courses/242511
+
+___
+
+Microsoft Teams
+
+1658100 - Manhã
+
+https://teams.microsoft.com/l/meetup-join/19%3aeAwdTu9FYW5CPTAz9lxH-N6baOftziWdoltZxAx30Us1%40thread.tacv2/1691018178858?context=%7b%22Tid%22%3a%2214cbd5a7-ec94-46ba-b314-cc0fc972a161%22%2c%22Oid%22%3a%22839d8b09-6335-4e66-9369-1083f1bed482%22%7d
+
+1660100 - Tarde
+
+https://teams.microsoft.com/l/meetup-join/19%3aQ4k5orGD63AEhb9CFMr4R-inhrHLb9T6yhhSlkB-fxc1%40thread.tacv2/1691018270667?context=%7b%22Tid%22%3a%2214cbd5a7-ec94-46ba-b314-cc0fc972a161%22%2c%22Oid%22%3a%22839d8b09-6335-4e66-9369-1083f1bed482%22%7d
+
+___
+
+Monitoria
+
+https://teams.microsoft.com/l/team/19%3a661bb1a5edde4a549732770e3f11c507%40thread.tacv2/conversations?groupId=c33fc4dd-c1ee-402b-b743-d4f295deb385&tenantId=14cbd5a7-ec94-46ba-b314-cc0fc972a161
+
+___
+
+Servidor de desenvolvimento
+
+https://dev.icei.pucminas.br
+
+___
+
+Ambientes locais
+
+Verilog / GTKWave
+
+Para configurar a variável de ambiente PATH 
+
+Windows
+
+Start Menu / Menu Iniciar
+|_ Settings / Configurações
+|  |_ Environment variables / Variáveis de Ambiente
+|  |  |_ Path
+|  |  |_ Edit / Editar
+|  |  |  |_ New / Novo
+|  |  |  |_ Browse
+|  |  |  |  |_ C:\Icarus_Verilog\bin
+|  |  |  |_ OK
+|  |  |  |_ New / Novo
+|  |  |  |_ Browse
+|  |  |  |  |_ C:\Icarus_Verilog\gtkwave\bin
+|  |  |  |_ OK
+|  |  |
+
+___
+
+Windows - WSL
+
+Adicionar o repositório
+
+sudo add-apt-repository 'deb http://archive.ubuntu.com/ubuntu/ edgy universe'
+
+Proceder a instalação (apenas console)
+
+sudo apt     install    iverilog
+
+___
+           
+Linux (terminal e interface gráfica)
+
+sudo apt     install    iverilog gtkwave
+sudo apt     install -y iverilog gtkwave
+
+___
+
+MacOs
+
+Para instalar Verilog:
+
+https://brew.sh
+
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+brew install icarus-verilog
+brew cask install scansion
+
+Para instalar GTKWave:
+
+https://gtkwave.sourceforge.net/
+
+Link do vídeo sobre a instalação:
+
+https://www.youtube.com/watch?v=jUYkYoYr8hs
+
+___
+
+Compiladores online
+
+https://www.tutorialspoint.com/compile_verilog_online.php
+https://www.jdoodle.com/execute-verilog-online/
+
+https://www.edaplayground.com
+// necessário cadastrar-se
+
+___
+___
+
+Compilar (console/terminal) 
+
+iverilog -o programa.vvp programa.v
+
+___
+
+Executar (console/terminal)
+
+vvp programa.vvp
+
+___
+
+Tutorial sobre Verilog
+
+http://www.asic-world.com/verilog/veritut.html
+
+___
+
+Para entregar atividades/tarefas/exercícios
+
+999999_Xxx_Yyy_Zzzz     <- nome de pasta (matrícula_nome)
+|                       
+|_ Guia_01.txt          
+|_ Guia_0101.v          
+|_ Guia_0101.vvp        
+|_ ...                  
+|_ README.txt           
+                        
+999999_Xxx_Yyy_Zzzz.zip -> Canvas (Tarefa 2024-2_ARQ1_G01)
+
+OBS.: Não usar em nomes de pastas e arquivos:
+      espaços em branco, acentos ou cedilha.
+
+___
+___
+
+Modelos e Representações de Dados
+
+                       Interpretação
+                             +
+                            / \
+                           /   \
+                          /     \
+                         / signo \
+                        /         \
+                       /           \
+                      +-------------+
+        Representação       -->       Objeto
+
+
+                  int                 int        
+                   0                   1         
+                 /   \               /   \       
+        00000000 --- false   00000001 --- true   
+          byte      boolean    byte      boolean 
+
+                  int                 int        
+                   0                   1         
+                 /   \               /   \       
+        00000000 --- '\0'   00000001 --- '\1'    
+          byte       char     byte        char   
+
+                  int                 int       
+                   48                  49         
+                 /   \               /   \       
+        00110000  --- '0'   00110001  --- '1'   (ASCII)
+          byte        char    byte        char   
+
+                  int                 int                        
+                   65                  97         
+                 /   \               /   \       
+        01000001  --- 'A'   01100001  --- 'a'   (ASCII)
+          byte        char    byte        char   
+
+___
+
+Notações 
+ 
+Decimal
+              | | | | | | | | | |        | | |
+
+            { | | | | | | | | | | }      | | |
+                    1 grupo com 10   + 3 unidades
+                     
+                        Notação posicional
+                         (Forma canônica)            
+        13  (10) -> 1*10**1          + 3*10**0 = 10+3  = 13
+
+Binário                
+              | |   | |     | |   | |      | |   | |       |
+             {| |} {| |}   {| |} {| |}    {| |} {| |}      |
+                            grupos de 2                + 1 unidade
+                                
+              | |   | |     | |   | |      | |   | |       |
+             {| |} {| |}   {| |} {| |}    {| |} {| |}      |
+            {{| |} {| |}} {{| |} {| |}}  {{| |} {| |}}     |
+                            grupos de 4                + 1 unidade
+
+              | |   | |     | |   | |      | |   | |       |
+             {| |} {| |}   {| |} {| |}    {| |} {| |}      |
+            {{| |} {| |}} {{| |} {| |}}  {{| |} {| |}}     |
+           {{{| |} {| |}} {{| |} {| |}}} {{| |} {| |}}     |
+                   1 grupo de 8         + 1 grupo de 4 + 1 unidade
+
+       13  (10) -> 1*2**3               +     1*2**2   + 1*2**0
+            
+                             Notação posicional
+                                    
+       13  (10) -> 1*2**3  +  1*2**2  +  0*2**1  +  1*2**0
+       13  (10) -> 1          1          0          1     (2)
+___       
+
+Orientações ( "endianess" )
+
+                                                      maior no fim
+"big   endian"   1011 (2) -> 1*2**0+0*2**1+1*2**2+1*2**3 = 1+0+4+8 = 13
+( -> )             0  ->  7
+                 { 10110000 } byte
+   C              
+                                   0                           7   
+     unsigned int  int_8   [8] = { 1 , 0 , 1,  1,  0,  0,  0,  0 };
+                                   0                           7
+     unsigned char binary_8[8] = {'1','0','1','1','0','0','0','0'};
+                                   0                           7
+     unsigned char binary_9[9] = {'1','0','1','1','0','0','0','0','\0'};
+                                   OBS.: '\0' encerra a representação 
+Outro caso:
+   
+   C++
+                                   0      7   // posição
+     std::string  s_binary     =  "00001101";
+                                   76543210   // potência
+
+     Nota: Nesse caso, a menor potência está no fim.
+           A relação entre potência e posição é invertida.
+           
+                                                      menor no fim
+"little endian"  1101 (2) -> 1*2**3+1*2**2+0*2**1+1*2**0 = 8+4+0+1 = 13
+( <- )             7  ->  0
+                 { 00001101 } byte
+
+Mais outro caso:
+                 
+"bi-endian"
+( <- | -> )
+  Verilog
+                           7      0 
+          reg [7:0] a = 8'b00001101; // "little-endian" -> number
+          
+                           0      7
+          reg [0:7] b = 8'b11010000; // "big-endian"    -> array
+
+___
+                        
+Conversões entre bases de sistemas de numeração
+
+13 (10) = X (2)  -> X (2) = 1101 (2) -> "little-endian"
+                          = 00001101 -> byte
+                          
+1. Conversão por divisões sucessivas
+
+13 |_2_
+ 1   6 |_2_
+(a)  0   3 |_2_
+    (b)  1   1 |_2_ 
+        (c)  1   0
+            (d)
+
+inverter restos
+big      little endian
+abcd --> dcba            Forma canônica ("little endian")
+1011     1101   = 1*2**3+1*2**2+0*2**1+1*2**0 = 8+4+0+1 = 13       
+             
+                             Arranjo    (  "big endian" )
+                         [ 1, 0, 1, 1 ]
+                = 1*2**0+0*2**1+1*2**2+1*2**3 = 1+0+4+8 = 13
+
+___                
+
+Outra forma de converter
+               
+       2  restos  
+_________ ______
+      13 |
+         |      
+quociente
+
+       2  restos  
+_________ ______
+      13 |  _
+       6 |  1
+quociente
+
+       2  restos  
+_________ ______
+      13 |  _ 
+       6 |  1
+       3 |  10
+quociente
+
+       2  restos  
+_________ ______
+      13 |  _ 
+       6 |  1
+       3 |  10
+       1 |  101
+quociente
+
+       2  restos  
+_________ ______
+      13 |  _ 
+       6 |  1
+       3 |  10
+       1 |  101
+       0 |  1011 ->
+quociente
+
+E com outra orientação
+ 
+ restos     2  
+_________ ______
+<- _     | 13
+         |  
+          quociente
+          
+ restos     2  
+_________ ______
+<-    _  | 13
+      1  |  6
+          quociente
+ 
+ restos     2  
+_________ ______
+<-    _  | 13
+      1  |  6
+     01  |  3
+          quociente
+ 
+ restos     2  
+_________ ______
+<-    _  | 13
+      1  |  6
+     01  |  3
+    101  |  1
+          quociente
+
+ restos     2  
+_________ ______
+<-    _  | 13
+      1  |  6
+     01  |  3
+    101  |  1
+   1101  |  0
+          quociente
+
+Outro exemplo, com conversão para a base 4:
+
+       4  restos                                   "big endian"
+_________ ______
+      13 |      ->    1*4**0+3*4**1 = 1+12 = 13 ->  13 (4)
+       3 | 1                                       /  \   
+       0 | 13                                    [ 1][ 3] (4)
+         |                                       [10][11] (2)
+ 
+  restos    4                                      "little endian"
+_________ ___
+<-       | 13         3*4**1+1*4**0 = 12+1 = 13 ->  31 (4)
+       1 |  3                                       /  \   
+      31 |  0                                    [ 3][ 1] (4)
+         |                                       [11][01] (2)
+
+Mais outro exemplo, com conversão para a base 8:
+
+       8  restos                                   "big endian"
+_________ ______
+      13 |      ->    5*8**0+1*8**1 =  5+8 = 13 ->  51 (8)
+       1 | 5                                       /  \   
+       0 | 5 1                                  [ 5 ][ 1 ] (8)
+         |                                      [101][100] (2)
+ 
+  restos    8                                      "little endian"
+_________ ___
+<-       | 13         1*8**1+5*8**0 =  8+5 = 13 ->  15 (8)
+       5 |  1                                      /  \
+     15  |  0                                   [ 1 ][ 5 ] (8)
+         |                                      [001][101] (2)
+         |
+         
+___
+         
+2. Tabela
+
+        7  6  5  4  3  2  1  0 <- expoente
+      128 64 32 16  8  4  2  1 <- potências de 2
+
+                                      Algoritmo      
+ 13     0  0  0  0  1          <- é possível subtrair?
+                  13-8
+                    5          <- diferenças (sobras)
+                    
+ 13     0  0  0  0  1  1       <- é possível subtrair?
+                      5-4
+                    5  1       <- diferenças (sobras)
+
+ 13     0  0  0  0  1  1  0    <- é possível subtrair?
+
+                    5  1       <- diferenças (sobras)
+
+ 13     0  0  0  0  1  1  0  1 <- é possível subtrair?
+                            1-1
+                    5  1     0 <- diferenças (sobras)
+
+    Nota: O algoritmo acima é bem mais simples.
+          Não usa divisões sucessivas; 
+          apenas comparações e subtrações.
+          É mais barato para se implementar em circuito.
+
+Outro exemplo:
+
+        7  6  5  4  3  2  1  0 <- expoente
+      128 64 32 16  8  4  2  1 <- potências de 2
+
+163 =   1  0  1  0  0  0  1  1  = 10100011 (2)    
+       35 35  3  3  3  3  1  0
+
+163 = 10100011 (2)
+                                
+    = 1010 0011 (2)             - grupos de 4 -> hexadecimal
+         A    3     = A3  (16)                 {A=10,B,C,D,E,F=15}
+    = _10 100 011 (2)           - grupos de 3 -> octal
+        2   4   3   = 243  (8)                 {0,1,2,3,4,5,6,7}
+    = 10 10 00 11 (2)           - grupos de 2 -> quaternário
+       2  2  0  3   = 2203 (4)                 {0,1,2,3}

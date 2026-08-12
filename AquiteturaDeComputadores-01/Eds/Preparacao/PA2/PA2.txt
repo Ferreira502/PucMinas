@@ -1,0 +1,113 @@
+/*
+ Preparacao_02.txt
+ 842527 - Gabriel Ferreira Pereira
+*/
+
+Questao 01)
+
+a) 
+
+    Da​ = Σm(3,4,6,7)=a'bc+ab'c'+abc'+abc
+    
+    Db = Σm(1,2,3,6)=a'b'c+a'bc'+a'bc+abc'
+
+b) 
+
+    Ja = Σm(3)=a' b c
+
+    Ka = Σm(5)=a b' c
+
+    Jb = Σm(1)=a' b' c
+
+    Kb = Σm(7)=a b c
+
+c)
+
+    Ta = Σm(3,5)=a' b c  +  a b' c
+​
+    Tb = Σm(1,7)=a' b' c  +  a b c
+
+Questao 02)
+
+a)
+
+    PoS (Da) = ΠM(0,1,2,5) = (a+b+c) (a+b+c′) (a+b′+c) (a′+b+c′)
+
+    PoS (Db) = ΠM(0,4,5,7) = (a+b+c) (a′+b+c) (a′+b+c′) (a′+b′+c′)
+
+b)
+
+    PoS (Ja) = ΠM(0,1,2,4,5,6,7) = (a+b+c)(a+b+c′)(a+b′+c)(a′+b+c)(a′+b+c′)(a′+b′+c)(a′+b′+c′)
+
+    PoS (Ka) = ΠM(0,1,2,3,4,6,7) = (a+b+c)(a+b+c′)(a+b′+c)(a+b′+c′)(a′+b+c)(a′+b′+c)(a′+b′+c′)
+
+    PoS (Jb) = ΠM(0,2,3,4,5,6,7) = (a+b+c)(a+b′+c)(a+b′+c′)(a′+b+c)(a′+b+c′)(a′+b′+c)(a′+b′+c′)
+
+    PoS (Kb) = ΠM(0,1,2,3,4,5,6) = (a+b+c)(a+b+c′)(a+b′+c)(a+b′+c′)(a′+b+c)(a′+b+c′)(a′+b′+c)
+
+    
+c)
+
+    PoS (Ta) = ΠM(0,1,2,4,6,7) = (a+b+c)(a+b+c′)(a+b′+c)(a′+b+c)(a′+b′+c)(a′+b′+c′)
+
+    PoS (Tb) = ΠM(0,2,3,4,5,6) = (a+b+c)(a+b′+c)(a+b′+c′)(a′+b+c)(a′+b+c′)(a′+b′+c)
+
+
+Questao 03)
+
+ab\c   0  1
+00     0  0   (m0,m1)
+01     0  1   (m2,m3)
+11     1  1   (m6,m7)
+10     1  0   (m4,m5)
+
+SoP simplificada: Db = bc' +  ca'
+
+ab\c   0  1
+00     0  0
+01     0  1   (m3)
+11     0  0
+10     0  0
+
+SoP simplificada: Ja = a' b c
+	
+
+ab\c   0  1
+00     0  0
+01     0  0
+11     0  0
+10     0  1   (m5)
+
+SoP simplificada: Ka = a c b'
+
+ab\c   0  1
+00     0  1   (m1)
+01     0  0
+11     0  0
+10     0  0
+
+SoP simplificada: Jb = c a' b'
+
+ab\c   0  1
+00     0  0
+01     0  0
+11     0  1   (m7)
+10     0  0
+
+SoP simplificada: Kb = a b c
+
+ab\c   0  1
+00     0  0
+01     0  1   (m3)
+11     0  0
+10     0  1   (m5)
+
+SoP simplificada: Ta = c(ab' + a'b)
+
+ab\c   0  1
+00     0  1   (m1)
+01     0  0
+11     0  1   (m7)
+10     0  0
+
+SoP simplificada: Tb = a b c  +  c a' b'

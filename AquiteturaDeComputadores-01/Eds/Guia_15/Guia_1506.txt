@@ -1,0 +1,52 @@
+// Guia_1506.txt
+// Calculo: dado03 = 3 * (dado01 - 4 * dado02)
+// Usando apenas somas e subtrações (8 bits)
+
+        ---------------------------------------
+        ; 1) Carregar dado02 e calcular 4*dado02
+
+        LXI  H, dado02
+        MOV  A, M          ; A = dado02
+
+        MOV  B, A          ; B = dado02
+
+        ADD  B             ; A = 2*dado02
+        ADD  B             ; A = 3*dado02
+        ADD  B             ; A = 4*dado02
+
+        MOV  D, A          ; D = 4*dado02
+
+
+        ---------------------------------------
+        ; 2) Calcular (dado01 - 4*dado02)
+
+        LHLD dado01        ; HL -> dado01
+        MOV  A, M          ; A = dado01
+
+        MOV  B, D          ; B = 4*dado02
+        SUB  B             ; A = dado01 - 4*dado02
+
+        MOV  E, A          ; E = valor do parenteses
+
+
+        ---------------------------------------
+        ; 3) Multiplicar por 3 → 3 * E
+
+        MOV  A, E          ; A = E
+        ADD  E             ; A = E*2
+        ADD  E             ; A = E*3
+
+
+        ---------------------------------------
+        ; 4) Guardar resultado final
+
+        STA  dado03        ; dado03 = resultado
+        HLT
+
+
+---------------------------------------
+; Area de dados (exemplo)
+
+dado01:  20h      ; exemplo
+dado02:  03h      ; exemplo
+dado03:  00h      ; saída

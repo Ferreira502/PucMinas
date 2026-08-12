@@ -1,0 +1,1 @@
+Professor, eu não consegui terminar as questões extras e fazer as questões em Verilog e Logisim, irei enviar semana que vem

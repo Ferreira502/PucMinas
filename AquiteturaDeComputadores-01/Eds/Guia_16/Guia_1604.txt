@@ -1,0 +1,42 @@
+// Guia_1604.txt
+// 842527 - Gabriel Ferreira Pereira
+//
+// Encontrar o menor valor de um arranjo de 8 bits
+// Sem ordenar – apenas varrer o vetor e comparar.
+//
+// Memoria:
+// 0050h = N (quantidade de elementos)
+// 0051h.. = elementos
+// 0055h = menor valor encontrado
+
+            JMP MAIN
+
+// --------------------------------------------------
+// MAIN – procura o menor elemento do arranjo
+// --------------------------------------------------
+MAIN:       LXI H,0050      // HL -> endereco do tamanho
+            MOV B,M         // B = N (contador)
+            INX H           // HL -> primeiro elemento
+
+            MOV A,M         // A = primeiro elemento
+            MOV C,A         // C = menor valor ata agora
+
+            DCR B           // ja usamos 1 elemento
+            JZ END_MIN      // se so tinha 1, acabou
+
+NEXT_ELEM:  INX H           // HL -> proximo elemento
+            MOV A,M         // A = elemento atual
+
+            CMP C           // compara elemento com o menor atual
+            JNC NO_UPDATE   // se A >= C, nao troca
+
+            MOV C,A         // novo menor valor encontrado
+
+NO_UPDATE:  DCR B           // decrementa contador
+            JNZ NEXT_ELEM   // se nao terminou, continua
+
+END_MIN:    MOV A,C         // A contam o menor valor final
+            STA 0055        // salva resultado em memoria
+
+            HLT
+END:

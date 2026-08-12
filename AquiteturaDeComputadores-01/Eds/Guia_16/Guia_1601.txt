@@ -1,0 +1,59 @@
+// Guia_1601.txt 
+// 842527 - Gabriel Ferreira Pereira
+//
+// Multiplicacao de dois numeros de 8 bits usando somas sucessivas
+// dado01 * dado02 -> resultado 16 bits
+//
+// dado01 em 0050h
+// dado02 em 0051h
+// resultado low  byte -> 0052h
+// resultado high byte -> 0053h
+//
+// Funcao IMUL(B, C) -> HL (retorno 16 bits)
+
+            JMP MAIN        // pular area de funcoes
+
+
+// FUNCAO: IMUL — Multiplica dois numeros de 8 bits (B * C)
+// Parametros via stack:  (BC)
+// Retorno: HL = resultado
+
+F_IMUL:     POP H           // salva endereco de retorno
+            POP B           // BC = parametros (B = dado1, C = dado2)
+
+            MVI H,00        // HL = 0000 (acumulador 16 bits)
+            MVI L,00
+
+LOOP_IMUL:  MOV A,C         // verifica C
+            ORA A
+            JZ END_IMUL     // se C==0, fim
+
+            // HL = HL + B
+            MOV A,L
+            ADD B
+            MOV L,A
+
+            MOV A,H
+            ADC 00
+            MOV H,A
+
+            DCR C           // C = C - 1
+            JMP LOOP_IMUL
+
+END_IMUL:   PUSH H          // restaura o endereco de retorno
+            RET
+
+
+// MAIN
+
+MAIN:       LXI H,0050      // HL = endereco do dado01
+            MOV B,M         // B = dado01
+            INX H
+            MOV C,M         // C = dado02
+
+            PUSH B          // empilha parametros (BC)
+            CALL F_IMUL     // HL = B * C
+
+            SHLD 0052       // salva low e high do resultado
+            HLT
+END:

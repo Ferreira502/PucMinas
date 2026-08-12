@@ -1,0 +1,53 @@
+// Guia_1603.txt
+// 842527 - Gabriel Ferreira Pereira
+//
+// Calculo do resto (IMOD) da divisao entre dois numeros de 8 bits
+// Usando subtracoes sucessivas.
+//
+// dado01 em 0050h  (dividendo)
+// dado02 em 0051h  (divisor)
+// dado03 = resto  -> 0052h
+//
+// Funcao IMOD(B, C)
+// Entrada:  B = dividendo
+//           C = divisor
+// Saída:    A = resto
+//
+
+            JMP MAIN        // pular funcoes
+
+// ----------------------------------------------------------
+// FUNCAO IMOD: (B % C)
+// ----------------------------------------------------------
+F_IMOD:     POP H           // salva endereco de retorno
+            POP D           // DE = BC (parametros)
+
+            MOV B,D         // B = dividendo
+            MOV C,E         // C = divisor
+
+MOD_LOOP:   MOV A,B         // A = dividendo atual
+            CMP C           // compara A com C
+            JC END_MOD      // se A < C entao resto encontrado
+
+            SUB C           // A = A - C
+            MOV B,A         // atualiza dividendo/resto
+            JMP MOD_LOOP
+
+END_MOD:    PUSH H          // restaura endereco de retorno
+            RET             // A contem o resto
+
+// ----------------------------------------------------------
+// MAIN
+// ----------------------------------------------------------
+MAIN:       LXI H,0050      // HL = endereco do dividendo
+            MOV B,M         // B = dividendo
+            INX H
+            MOV C,M         // C = divisor
+
+            PUSH B          // enviar parametros (BC) pela stack
+            CALL F_IMOD     // A = resto
+
+            STA 0052        // salva resto em memoria
+
+            HLT
+END:

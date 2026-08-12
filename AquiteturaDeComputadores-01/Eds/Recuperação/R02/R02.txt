@@ -1,0 +1,154 @@
+/*
+ RO2.txt
+ 842527 - Gabriel Ferreira Pereira
+*/
+
+Questao 01)
+DA
+ab\cd  00 01 11 10
+00     0  1  0  0
+01     0  0  0  0
+11     0  0  1  1
+10     0  0  0  1
+
+DB
+ab\cd  00 01 11 10
+00     0  1  0  0
+01     0  0  0  1
+11     0  0  0  1
+10     0  0  1  0
+
+DC
+ab\cd  00 01 11 10
+00     0  1  0  1
+01     0  0  1  1
+11     0  0  1  1
+10     0  0  1  1
+
+SA
+ab\cd  00 01 11 10
+00     0  1  0  0
+01     0  0  0  0
+11     0  0  0  0
+10     0  0  0  0
+
+RA
+ab\cd  00 01 11 10
+00     0  0  0  0
+01     0  0  0  0
+11     1  1  0  0
+10     1  1  1  0
+
+SB
+ab\cd  00 01 11 10
+00     0  1  0  0
+01     0  0  0  0
+11     0  0  0  0
+10     0  0  1  0
+
+RB
+ab\cd  00 01 11 10
+00     0  0  0  0
+01     1  1  1  0
+11     1  1  1  0
+10     0  0  0  0
+
+SC
+ab\cd  00 01 11 10
+00     0  1  0  0
+01     0  0  0  0
+11     0  0  0  0
+10     0  0  0  0
+
+RC
+ab\cd  00 01 11 10
+00     0  0  1  0
+01     0  0  0  0
+11     0  0  0  0
+10     0  0  0  0
+
+TA
+ab\cd  00 01 11 10
+00     0  1  0  0
+01     0  0  0  0
+11     1  1  0  0
+10     1  1  1  0
+
+TB
+ab\cd  00 01 11 10
+00     0  1  0  0
+01     1  1  1  0
+11     1  1  1  0
+10     0  0  1  0
+
+TC
+ab\cd  00 01 11 10
+00     0  1  1  0
+01     0  0  0  0
+11     0  0  0  0
+10     0  0  0  0
+
+Questao 02)
+
+a)
+SoP (Da)
+
+Da = a' b' c' d   +  a b' c d'   +  a b c d'   +  a b c d
+
+Simplificando
+Da = a' b' c' d  +  a b' c d'  +  a b c
+
+b) SoP (Sa) e SoP (Ra)
+Ra = a b' c' d'  +  a b' c' d  +  a b' c d  +  a b c' d'  +  a b c' d
+
+Simplificando
+Ra = a c'  +  a b' c d
+
+c)
+SoP (Ta)
+Ta = a' b' c' d  +  a b' c' d'  +  a b' c' d  +  a b' c d  +  a b c' d'  +  a b c' d
+
+Simplificando
+Ta = a c'  +  b' c' d  +  a b' d
+
+Questao 03)
+
+a) SoP(Db)
+Db = a' b' c' d   +  a' b c d'   +  a b' c d   +  a b c d'
+
+Simplificando
+Db = b c d' + a c d b' + a' b' c' d
+
+b) SoP(Sb) e SoP(Rb)
+Sb = a' b' c' d   +   a b' c d
+
+Simplificando
+Sb = b' d a c + a' c'
+
+Rb = a' b c' d' + a' b c' d + a' b c d + a b c' d' + a b c' d + a b c d
+
+Simplificando
+Rb = b d + c'
+
+c) SoP(Tb)
+
+Tb = b d + b c' + a c d + d a' c'
+
+Questao 04)
+
+a) SoP (Dc)
+
+Dc = a' b' c' d + a' b' c d' + a' b c d' + a' b c d + a b' c' d' + a b' c' d + a b c d' + a b c d
+
+Simplificando
+Dc = c a + b + d' + a' b' c' d
+
+b) SoP (Sc) e SoP (Rc)
+
+Sc = a' b' c' d
+
+Rc = a' b' c d
+
+SoP (Tc)
+
+Tc = a' b' d

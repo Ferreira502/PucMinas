@@ -1,0 +1,539 @@
+PUC-Minas - ICEI - Ciência da Computação
+Arquitetura de Computadores I - Aula 2025-2_005
+
+Anotações
+___
+
+Resumo da semana
+
+___
+
+Projeto de circuitos
+
+                expressão         
+              /     |     \       
+             /  programa   \      
+            /    /     \    \     
+ tabela-verdade  -------  circuito
+
+___
+   
+Revisão
+
+De Morgan
+// trocar tudo: complementos e relações
+
+(a+b)' = a'.b'
+                    NOR
+m a b  a' b' (a+b) (a+b)' (a'.b')
+0 0 0  1  1    0     1       1
+1 0 1  1  0    1     0       0
+2 1 0  0  1    1     0       0
+3 1 1  0  0    1     0       0
+                     ^       ^
+                     |_______|
+
+(a.b)' = a'+b'
+                    NAND
+m a b  a' b' (a.b) (a.b)' (a'+b')
+0 0 0  1  1    0     1       1
+1 0 1  1  0    0     1       1
+2 1 0  0  1    0     1       1
+3 1 1  0  0    1     0       0
+                     ^       ^
+                     |_______|
+
+Exemplos:
+
+1.) (x + y')' = ?
+
+substituindo (y') por z:
+
+(x + z)'  = x' . z'
+
+substituindo novamente:
+
+x' . z'   = x' . (y')'  <- aplicando a dupla negação
+
+(x + y')' = x' .  y
+
+
+2.) (x' + (y . z') )' = ?
+
+(x')' . (y  . z')'      <- dupla negação e de Morgan
+
+ x    . (y' + z )
+
+ou substituindo (y. z') por w:
+
+(x'   + w)'
+(x')' . w' 
+
+substituindo de novo:
+
+x . (y .z')'
+x.  (y'+z )
+
+3.) (y + x')'. ((x . y')')'
+
+[y' . (x')'] .  (x . y')
+
+[y' .  x   ] .  (x . y')
+
+[x  .  y'  ] .  (x . y')
+
+substituindo [x.y'] por z
+
+z . z = z                <- idempotência
+
+substituindo novamente
+
+x . y'
+
+4.) x'+(y'.z')
+
+(x'+y').(x'+z')          <- distributiva 
+
+
+5.) x'+(x .z')
+
+(x'+x).(x'+z')           <- distributiva 
+ 
+   1  .(x'+z')           <- tautologia
+   
+       (x'+z')           <- identidade
+
+6.) (x + y).(x.y')
+
+substituindo (x.y') por z:
+
+(x + y).z
+
+(x.z)+(y.z)
+
+substituindo novamente
+
+(x.(x.y'))+(y.(x.y'))
+
+(x.x . y')+(y. x.y' )
+
+(x.x . y')+(y. y'.x )
+
+((x.x).y')+((y.y').x)
+
+(  x  .y')+(  0   .x)
+
+(  x  .y')+  0
+ 
+      z   +  0
+	  
+    x . y'  
+
+7.) (x'+y+z')'.(x'+y'+z)
+
+(x.y'.z) . (x'+y'+z)
+
+substituindo (x.y'.z) por w:
+
+(w.x') + (w.y') + (w.z)
+
+(x.y'.z.x')   + (x.y'.z.y')   + (x.y'.z.z)
+
+(y'.z.(x'.x)) + (x.z.(y'.y')) + (x.y'.(z.z))
+
+(y'.z.   0  ) + (x.z.  y')    + (x.y'.  z  )
+    0         + (x.y'.z  )    + (x.y'.z    )
+                   w          +     w
+                              w
+substituindo novamente
+
+(x.y'.z)
+
+___
+___
+
+Níveis lógicos
+
+     entrada               saída
+ _____________ 1     _____________ 1
+^                  ^
+|                  |
+|                  |
+|                  v
+|                    =============
+|
+v
+ =============
+ - - - - - - - x     - - - - - - - x (indefinido)
+  . . . . . .  z      . . . . . .  z (alta impedância)
+ - - - - - - - x     - - - - - - - x (indefinido)
+ =============
+^
+|                    =============
+|                   ^
+|                   |
+v_____________ 0    v_____________ 0
+
+
+OBS.: Os níveis das saídas são mais precisos
+      que os níveis das entradas.
+___
+___
+
+Universalidade das portas NAND e NOR
+
+Negação
+
+(a.b)' => (a.a)'   = a'+a' = a'
+
+nand(a,a) = not(a) = a'
+
+(a+b)' => (a+a)'   = a'.a' = a'
+
+nor (a,a) = not(a) = a'
+
+
+Conjunções
+
+((a .b )')' => nand ( nand (a,b), nand (a,b) )      = and(a,b)
+
+ (a'+b')'   => a.b
+
+ nor (not(a), not(b)) = nor (nor  (a,a), nor (b,b)) = and(a,b)
+
+Disjunções
+
+ (a'.b')'   => a+b
+
+ nand(not(a), not(b)) = nand (nand(a,a), nand(b,b)) = or (a,b)
+
+((a +b )')' => nor  ( nor  (a,b), nor  (a,b) )      = or (a,b)
+
+Identidade
+
+nand(nand(a,a), nand(a,a)) = nand(not(a), not(a)) = not(not(a)) = a
+nand(nand(a,a), nand(a,a)) = or  (a     ,     a )               = a
+
+nor (nor (a,a), nor (a,a)) = nor (not(a), not(a)) = not(not(a)) = a
+nor (nor (a,a), nor (a,a)) = and (a     ,     a )               = a
+
+___
+
+Exemplos:
+
+1.) ( x  + y' ) = ?
+
+    inverter as entradas, trocar a relação
+
+    ((x)'.(y')')' = ((x.x)'.(y'.y')')' = ((x.x)'.((y.y)'.(y.y)')')'
+
+    nand ( nand(x,x), nand(nand(y,y), nand(y,y)) )
+
+    simplificando: nand(nand(y,y), nand(y,y)) = y (identidade)
+
+    ((x)'.(y')')' = ((x.x)'. y )'
+
+    nand ( nand(x,x), y )
+
+    ou, de outra forma,
+
+    ((x +y')')' = ((x+(y+y)')')' = ((x+(y+y)')'+(x+(y+y)')')'
+
+    nor ( nor (x, nor(y,y)), nor ( x, nor(y,y)) )
+
+2.) ( x . y' ) + ( x'. y ) = ?
+
+    ( x . not(y) ) + ( not(x) . y )
+
+    ( x . nand(y,y) ) + ( nand(x,x) . y )
+
+                p                      p
+    nand ( nand ( x, nand(y,y) ), nand ( x, nand(y,y) ) ) = s1
+    +
+    nand ( nand ( nand(x,x), y ), nand ( nand(x,x), y ) ) = s2
+                q                      q
+
+    or   ( nand (p,p), nand ( q,q ) )
+
+    nand ( nand (nand (p,p), nand (p,p) ) ,
+           nand (nand (q,q), nand (q,q) ) )
+
+    conforme mostrado acima, na identidade,
+    a expressão pode ser simplificada para
+
+    nand ( p, q )
+
+    logo, retornando às variáveis
+
+    nand ( nand ( x, nand(y,y) ) ,
+           nand ( nand(x,x), y ) )
+
+3.) SoP (5,6,7) 
+    =     a.b'.c   +  a.b.c'   + a.b.c
+
+    aplicando a dupla negação ( involução )
+
+        (( a.b'.c   +  a.b.c'   + a.b.c)' )'
+
+    aplicando a negação interna aos mintermos
+
+        ((a.b'.c)' . (a.b.c')' . (a.b.c)' )'
+
+    substituindo por nand's e not's
+
+    nand (nand(a,not(b),    c ) ,
+          nand(a,    b ,not(c)) ,
+          nand(a,    b ,    c ) )
+
+    substituindo apenas por nand's
+
+    nand (nand(a,nand(b,b),  c   ) ,
+          nand(a,     b,nand(c,c)) ,
+          nand(a,     b,     c   ) )
+
+4.) PoS (0,1,2,3,4)
+    =  (A+B+C).(A+B+C').(A+B'+C).(A+B'+C').(A'+B+C)
+
+    aplicando a dupla negação ( involução )
+
+    ( ((A+B+C) .(A+B+C') .(A+B'+C) .(A+B'+C') .(A'+B+C))' )'
+
+    aplicando a negação interna aos MAXTERMOS
+
+    ( (A+B+C)' +(A+B+C')'+(A+B'+C)'+(A+B'+C')'+(A'+B+C)'  )'
+
+    substituindo por nor's e not's
+
+    nor ( nor(    A   ,    B   ,    C   ) ,
+          nor(    A   ,    B   ,not(C)  ) ,
+          nor(    A   ,not(B)  ,    C   ) ,
+          nor(    A   ,not(B)  ,not(C)  ) ,
+          nor(not(A)  ,    B   ,    C   ) )
+
+    substituindo apenas por nand's
+
+    nor ( nor(    A   ,    B   ,    C   ) ,
+          nor(    A   ,    B   ,nor(C,C)) ,
+          nor(    A   ,nor(B,B),    C   ) ,
+          nor(    A   ,nor(B,B),nor(C,C)) ,
+          nor(nor(A,A),    B   ,    C   ) )
+
+___
+___
+
+Circuitos úteis
+
+Multiplexador (MUX)
+
+    if ( selector == 1 )
+       output = input_b;
+    else
+       output = input_a;
+
+             selector
+                _|_
+    input_a ---|0  \
+               |    |--- output
+    input_b ---|___/
+          
+             selector
+                 |   ____
+                 |  |    |\      ____
+                 +--|  1 |-+----|    |
+                 |  |____|      | &  |---+   ____ 
+    input_a -----|--------------|____|   |__|    |
+                 |               ____     __| >=1|--- output
+                 +--------------|    |   |  |____|
+                                | &  |---+        
+    input_b --------------------|____|
+     
+     
+Demultiplexador (DEMUX)
+
+    if ( selector == 1 )
+       output_1 = input_a;
+    else
+       output_0 = input_a;
+
+             selector
+                _|_
+               /  0|--- output_0
+   input_a ---|    | 
+               \___|--- output_1
+
+             selector
+                 |   ____
+                 |  |    |\      ____
+                 +--|  1 |-+----|    |
+                 |  |____|      | &  |--- output_0 
+    input_a --+--|--------------|____|            
+              |  |               ____              
+              |  +--------------|    |            
+              |                 | &  |--- output_1        
+              +-----------------|____|
+
+___
+
+
+Outras representações para circuitos
+
+- Pass-Transistor Logic   (PTL)
+
+          b
+          |  pullup (1)
+        __o__  |          (P-type: b=0 => s=a+b)
+  a ---|_____|-+-   (a+b)
+  
+               gate                resumo    
+            0   1  X/Z                      
+       0    0	Z   X            gate  drain 
+  source    1	1   Z              0   source
+       Z    Z	Z   Z              1     Z   
+       X    X	Z   X             X/Z   X/Z  
+
+          b
+          |
+        =====    
+  a ---|_____|-+-   (a.b)
+               |          (N-type: b=1 => s=a.b)
+             pulldown (0)
+
+               gate                resumo    
+            0   1  X/Z                      
+       0    Z	0   X            gate  drain 
+  source    Z	1   X              0     Z   
+       Z    Z	Z   Z              1   source
+       X    Z	X   X             X/Z   X/Z  
+
+  Exemplo: 
+  
+          b
+          |  
+        __o__     
+  a ---|_____|-+    
+          a    |  
+          |    |-+- (a^b)
+        __o__  | |
+  b ---|_____|-+ |
+                 |
+              pulldown (0)
+  
+             
+- Directed Acyclic Graph  (DAG)
+
+   AND     OR          XOR
+  a   b   a   b   a   b   a   b
+   \ /     \ /    |   |   |   |
+   (&)     (|)    |  (~) (~)  |
+    |       |      \ /     \ /
+    s       s      (&)      (&)
+                     \     /
+                      \   /
+                       (|)
+                        |
+                        s                        
+                  (a&~b)|(~a&b)
+
+
+- Binary Decision Diagram (BDD)
+
+                   NODE X
+
+                   input=1
+                      |
+                     (X)--< a=control
+                     / \
+             output=0   1=output
+
+   AND                OR             XOR         
+  
+    1                 1               1          
+    |                 |               |          
+   (X)--< a          (X)--< a        (X)--< a    
+   / \               / \             / \         
+  0  (X)--< b  b >--(X) |     b >--(X) (X)--< b  
+     / \            / \ |          / \ / \
+    0   1          0    1         0   1   0
+
+___
+
+Gramática para sintaxe de expressões 
+
+Símbolos não-terminais:
+  <Exp>, <Termo>, <Fator>
+
+Símbolos terminais (constantes):
+  ~, |, &, (, ), a, b, ..., x, y, z, ...
+
+Símbolo inicial:
+  <Exp>
+
+  
+Regras de produção/reconhecimento (EBNF):
+
+<Exp>   ::= <Exp>   | <Termo> 
+          | <Termo>
+
+<Termo> ::= <Termo> & <Fator> 
+          | <Fator>
+
+<Fator> ::= a | b | ... | x | y | z | ... 
+          | ( <Exp> ) 
+          | ~ <Fator>
+
+
+Abstract Syntax Tree (AST)
+
+Exp:
+
+o-> + --->  Term   ---> + ->o
+    |                   |
+    + <---    |    <--- +
+         
+Term:    
+o-> + --->  Fator  ---> + ->o
+    |                   |
+    + <---    &    <--- +
+         
+Fator:   
+o-> + --> constante --> + ->o
+    |                   |
+    + --> (  Exp  ) --> +
+    |                   |
+    + -->  ~ Fator  --> +
+
+    
+Reconhecimento de expressão válida sintaticamente
+ 
+ ^                      <Exp>              
+ |                        |                
+ |             _____   <Termo>  _____      
+ |            /           |          \     
+ |           /            |           \    
+ |        <Termo>         |         <Fator>
+ |           |            |            |   
+ |    __  <Fator>  __     |            |   
+ |   /       |        \   |            |   
+ |  /      <Exp>       \  |            |   
+ | |      /  |  \       | |            |   
+ | |  <Exp>  |  <Termo> | |            |   
+ | |    |    |     |    | |            |   
+ | | <Termo> |  <Termo> | |            |   
+ | |    |    |     |    | |            |   
+ | | <Fator> |  <Fator> | |            |   
+ | |    |    |     |    | |            |
+ |                              
+ | (    a    |     b    ) &            c   
+ 
+ Avaliação de expressão válida sintaticamente
+ 
+ | (a | b) & c 
+ |   \ /     | 
+ |    R1     | 
+ |     \    /  
+ |      \  /   
+ v       R2    
+ 
+___
+
+

@@ -1,0 +1,62 @@
+// Guia_1504.txt
+// Calculo: dado03 = 2 * dado01 - 3 * dado02
+// Dados de 8 bits
+
+        ---------------------------------------
+        ; 1) Calcular 2 * dado01
+
+        LXI  H, dado01     ; HL -> dado01
+        MOV  A, M          ; A = dado01
+        ADD  A             ; A = A + A  = 2*dado01
+
+        ; Resultado parcial esta no A
+
+        ---------------------------------------
+        ; 2) Calcular 3 * dado02
+
+        INX  H             ; HL -> dado02
+        MOV  B, M          ; B = dado02
+
+        MOV  C, B          ; C = dado02
+        ADD  B             ; A = 2*dado01 + dado02
+        ADD  C             ; A = 2*dado01 + 2*dado02
+                           ; Agora falta subtrair mais 1*dado02
+
+        ; Mas queremos: A = 2*dado01 - 3*dado02
+        ; Entao ajustamos invertendo a logica:
+        ; Em vez de somar 3*dado02, vamos subtrair diretamente:
+
+        ; RESET da parte acima (substituir por subtraçao direta)
+
+        ---------------------------------------
+        ; Versao correta: Subtrair 3 * dado02
+
+
+        ; Zera A e recomputa corretamente
+
+        LXI  H, dado01     ; HL -> dado01
+        MOV  A, M          ; A = dado01
+        ADD  A             ; A = 2*dado01 (OK)
+
+        ; Agora subtrair 3 * dado02:
+        INX  H             ; HL -> dado02
+        MOV  B, M          ; B = dado02
+
+        SUB  B             ; A = 2*dado01 - dado02
+        SUB  B             ; A = 2*dado01 - 2*dado02
+        SUB  B             ; A = 2*dado01 - 3*dado02  (como pedido)
+
+        ---------------------------------------
+        ; 3) Armazenar resultado
+
+        STA  dado03        ; MEM[dado03] = resultado final
+
+        HLT                ; fim do programa
+
+
+---------------------------------------
+; area de dados (exemplo)
+
+dado01:   05h     ; exemplo: 5
+dado02:   02h     ; exemplo: 2
+dado03:   00h     ; resultado

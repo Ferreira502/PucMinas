@@ -1,0 +1,86 @@
+// Guia_1607.txt
+// 842527 - Gabriel Ferreira Pereira
+
+; ---------------------------------------------
+;  Calcular FAT(dado01)
+;  Entrada  : DADO01 (8 bits)
+;  Saida    : DADO02 (16 bits)
+; ---------------------------------------------
+
+DADO01:   DB 05h        ; exemplo: 5! = 120
+DADO02:   DW 0000h      ; resultado 16 bits
+
+; ---------------------------------------------
+;  INICIO
+; ---------------------------------------------
+ORG 2000h
+
+LDA DADO01      ; A = dado01
+MOV B, A        ; B = contador (n)
+CALL FAT        ; chama funcao FAT
+
+; Resultado esta em HL -> armazenar em memoria
+SHLD DADO02
+
+HLT
+
+; ---------------------------------------------
+;  FUNCAO FAT(n)
+;  Entrada : B = n
+;  Saida   : HL = n!
+; ---------------------------------------------
+FAT:
+    MOV A, B        ; se n == 0 return 1
+    CPI 00h
+    JNZ CONTINUA
+    LXI H, 0001h
+    RET
+
+CONTINUA:
+    LXI H, 0001h    ; HL = 1 (acumulador do fatorial)
+
+LOOP_FAT:
+    MOV A, B        ; A = contador
+    CPI 01h         ; enquanto B >= 2
+    JC FIM_FAT
+
+    ; Multiplica HL × B
+    MOV C, B        ; C = multiplicador
+    CALL MULT16_8   ; HL = HL * C
+
+    DCR B           ; B--
+    JMP LOOP_FAT
+
+FIM_FAT:
+    RET
+
+; ---------------------------------------------
+;  MULT16_8
+;  Multiplica:
+;     HL = HL * C
+;  Saida:
+;     HL = resultado 16 bits
+;  Obs:
+;     Implementacao por somas sucessivas
+; ---------------------------------------------
+MULT16_8:
+    PUSH D           ; salva DE
+    PUSH B
+
+    MOV B, C         ; repeticoes
+    LXI D, 0000h     ; acumulador 16 bits = 0
+
+MULT_LOOP:
+    MOV A, B
+    CPI 00h
+    JZ MULT_END
+
+    DAD H            ; D = D + HL
+    DCR B
+    JMP MULT_LOOP
+
+MULT_END:
+    XCHG             ; HL = resultado
+    POP B
+    POP D
+    RET

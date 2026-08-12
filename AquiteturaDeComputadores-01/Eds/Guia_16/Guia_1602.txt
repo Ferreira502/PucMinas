@@ -1,0 +1,92 @@
+// Guia_1602.txt
+// 842527 - Gabriel Ferreira Pereira
+//
+// Divisao inteira entre dois dados positivos de 8 bits
+// Usando subtracoes sucessivas
+//
+// dado01 (/ divisor) esta em 0050h
+// dado02 (dividendo) esta em 0051h
+// dado03 = quociente  -> 0052h
+// dado04 = resto      -> 0053h
+//
+// Funcao IDIV(B, C)
+// Entrada:  B = dividendo
+//           C = divisor
+// Saída:    A = quociente
+//           B = resto
+//
+
+            JMP MAIN         // pular area de funcoes
+
+//-----------------------------------------------------------
+// FUNCAO: IDIV  — divisao inteira (B / C)
+// Quociente -> A
+// Resto     -> B
+//-----------------------------------------------------------
+F_IDIV:     POP H           // salva endereco de retorno
+            POP D           // DE = BC (parametros)
+            MOV B,D         // B = dividendo
+            MOV C,E         // C = divisor
+
+            MVI A,00        // A = quociente = 0
+
+DIV_LOOP:   MOV D,B         // verifica se B < C
+            CMP C
+            JC END_DIV      // se B < C, fim da divisao
+
+            SUB C           // A = A - C (mas queremos B = B - C)
+                            // entao desfazemos substituicao depois
+            MOV B,D         // restaura B
+            MOV A,B         // A = B
+            SUB C           // A = B - C
+            MOV B,A         // B = resto parcial
+
+            INR A           // quociente++ (vou usar A como contador do quociente)
+            MOV A,E         // A = divisor temporariamente para continuar LOOP
+            MOV A,D         // Corrige valor
+
+            MOV A,(0052)   
+
+; -------------------------------------------
+; REFAZENDO LOGICA CORRETA DA DIVISaO
+; -------------------------------------------
+
+F_IDIV_REDO:
+            MOV B,D         // B = dividendo
+            MOV C,E         // C = divisor
+
+            MVI A,00        // A = quociente
+DIV_LOOP2:  MOV D,B         // copia dividendo
+            CMP C
+            JC END_DIV2     // if B < C end
+
+            MOV A,B
+            SUB C           // A = B - C
+            MOV B,A         // B = novo resto
+
+            INR A           // A++ (quociente)
+            MOV A,A         // mantem quociente no A real
+
+            JMP DIV_LOOP2
+
+END_DIV2:   PUSH H
+            RET
+
+
+//-----------------------------------------------------------
+// MAIN
+//-----------------------------------------------------------
+MAIN:       LXI H,0050      // HL aponta para dado01
+            MOV B,M         // B = dado01 (dividendo)
+            INX H
+            MOV C,M         // C = dado02 (divisor)
+
+            PUSH B          // empilha parametros (BC)
+            CALL F_IDIV     // A = quociente, B = resto
+
+            STA 0052        // salva quociente
+            MOV A,B
+            STA 0053        // salva resto
+
+            HLT
+END:

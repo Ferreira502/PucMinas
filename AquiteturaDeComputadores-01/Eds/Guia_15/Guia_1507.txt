@@ -1,0 +1,63 @@
+// Guia_1507.txt
+// Operacao: dado03 = dado01 % 2 + dado02 / 4
+// Usando apenas somas, subtracoes e comparacoes (sem shifts)
+
+        ;---------------------------------------
+        ; 1) Calcular dado01 % 2   (resto da divisao por 2)
+
+        LXI  H, dado01
+        MOV  A, M          ; A = dado01
+
+        MVI  B, 00h        ; B = resto (sera guardado)
+
+mod2_loop:
+        CPI 02h            ; A < 2 ?
+        JC  mod2_fim       ; sim → resto e o valor em A
+
+        SUI 02h            ; A = A - 2
+        JMP mod2_loop
+
+mod2_fim:
+        MOV B, A           ; resto (0 ou 1) vai para B
+
+
+        ;---------------------------------------
+        ; 2) Calcular dado02 / 4   (divisao por subtracao)
+
+        INX H              ; HL → dado02
+        MOV A, M           ; A = dado02
+
+        MVI C, 00h         ; C vai contar quantas vezes subtrair 4
+
+div4_loop:
+        CPI 04h            ; A < 4 ?
+        JC  div4_fim       ; sim → terminou
+
+        SUI 04h            ; A = A - 4
+        INR C              ; C++
+        JMP div4_loop
+
+div4_fim:
+        ; C contem (dado02 / 4)
+
+
+        ;---------------------------------------
+        ; 3) Somar (dado01 % 2) + (dado02 / 4)
+
+        MOV  A, B          ; A = resto
+        ADD  C             ; A = resto + quociente
+
+
+        ;---------------------------------------
+        ; 4) Armazenar resultado final
+
+        STA  dado03
+        HLT
+
+
+;---------------------------------------
+; area de dados (exemplo)
+
+dado01:  05h     ; exemplo: 5 → 5 % 2 = 1
+dado02:  0Ch     ; exemplo: 12 → 12/4 = 3
+dado03:  00h     ; resultado: 1 + 3 = 4

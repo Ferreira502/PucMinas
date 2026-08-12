@@ -1,0 +1,726 @@
+/*
+ Guia_06.txt
+ 842527 - Gabriel Ferreira Pereira
+*/
+
+Questão 01) 
+
+a)
+f(x,y,z) = Σ m(1,3,7)
+
+Mintermos (em binário xyz)
+
+m1 = 0 0 1
+
+m3 = 0 1 1
+
+m7 = 1 1 1
+
+Mapa de Karnaugh
+       yz
+x |  00  01  11  10
+0     0   1   1   0   <- x = 0  (m0 m1 m3 m2)
+1     0   0   1   0   <- x = 1  (m4 m5 m7 m6)
+
+y· z
+x'· z
+
+Função simplificada
+
+f = x′z+yz = z(x′+y)
+
+x y z | f
+0 0 0 | 0
+0 0 1 | 1  <- m1
+0 1 0 | 0
+0 1 1 | 1  <- m3
+1 0 0 | 0
+1 0 1 | 0
+1 1 0 | 0
+1 1 1 | 1  <- m7
+
+Forma mínima (SOP): x' z + y z
+
+Forma fatorada: z (x' + y)
+
+b)
+
+f(x,y,z)=Σm(0,2,6)
+
+Mintermos (xyz):
+
+m0​=000
+m2​=010
+m6​=110
+
+       yz ->  00  01  11  10
+x = 0        [1]  0   0   [1]   ← m0  m1 m3 m2
+x = 1         0   0   0   [1]   ← m4  m5 m7 m6
+
+Função simplificada (SOP):
+
+f=x′z′+yz′
+
+Forma fatorada:
+
+f=z′(x′+y)
+
+x y z | f
+0 0 0 | 1  (m0)
+0 0 1 | 0
+0 1 0 | 1  (m2)
+0 1 1 | 0
+1 0 0 | 0
+1 0 1 | 0
+1 1 0 | 1  (m6)
+1 1 1 | 0
+
+c)
+
+f(x,y,z)=Σm(1,2,5,6)
+
+Mintermos (xyz):
+
+m1​=001
+m2​=010
+m5​=101
+m6​=110
+
+       yz ->  00  01  11  10
+x = 0         0  [1]  0   [1]   ← m0 m1 m3 m2
+x = 1         0  [1]  0   [1]   ← m4 m5 m7 m6
+
+Função simplificada:
+f = y′z+yz′
+
+f=y⊕z
+
+x y z | f
+0 0 0 | 0
+0 0 1 | 1  (m1)
+0 1 0 | 1  (m2)
+0 1 1 | 0
+1 0 0 | 0
+1 0 1 | 1  (m5)
+1 1 0 | 1  (m6)
+1 1 1 | 0
+
+d)
+
+f(x,y,z)=Σm(1,2,4,6)
+
+Mintermos (xyz):
+
+m1​=001
+m2​=010
+m4​=100
+m6​=110
+
+       yz ->  00  01  11  10
+x = 0         0  [1]  0   [1]   ← m0 m1 m3 m2
+x = 1        [1]  0   0   [1]   ← m4 m5 m7 m6
+
+Função simplificada (SOP):
+f=xz′+yz′+x′y′z
+
+ou fatorada:
+f=z′(x+y)+x′y′z
+
+x y z | f
+0 0 0 | 0
+0 0 1 | 1  (m1)
+0 1 0 | 1  (m2)
+0 1 1 | 0
+1 0 0 | 1  (m4)
+1 0 1 | 0
+1 1 0 | 1  (m6)
+1 1 1 | 0
+
+e)
+
+f(x,y,z)=Σm(0,2,3,7)
+
+Mintermos (xyz):
+m0​=000
+m2​=010
+m3​=011
+m7​=111
+
+       yz ->  00  01  11  10
+x = 0       [1]   0  [1]  [1]   ← m0 m1 m3 m2
+x = 1        0   0  [1]   0   ← m4 m5 m7 m6
+
+Função simplificada:
+
+f = x′z′+yz
+
+x y z | f
+0 0 0 | 1  (m0)
+0 0 1 | 0
+0 1 0 | 1  (m2)
+0 1 1 | 1  (m3)
+1 0 0 | 0
+1 0 1 | 0
+1 1 0 | 0
+1 1 1 | 1  (m7)
+
+
+Questão 02)
+
+a)
+
+F(x,y,z)=ΠM(1,3,5)
+
+Mintermos
+m1​=001
+m3​=011
+m5​=101
+
+
+       yz -> 00   01   11   10
+x=0       m0   m1   m3   m2
+x=1       m4   m5   m7   m6
+
+       00  01  11  10
+x=0    0   1   1   0   ← m0 m1 m3 m2
+x=1    0   1   0   0   ← m4 m5 m7 m6
+
+Simplificar 
+
+F′(SOP) via agrupamentos de 1s
+
+F′=y′z+x′z=z(x′+y′)
+
+F=(F′)′=(z(x′+y′))′
+
+Aplicando De Morgan:
+
+F = z′+(x′+y′)′=z′+xy.
+
+expressão minimizada (forma SOM/OR)
+
+F=z′+xy​
+
+Converter para Produto de Sommas
+
+a+bc=(a+b)(a+c)
+a=z′
+b=x 
+c=y
+
+z′+xy=(z′+x)(z′+y)
+
+Forma simplificada
+
+F=(x+z′)(y+z′)
+
+x y z | F
+0 0 0 | 1
+0 0 1 | 0  ← m1 (zero)
+0 1 0 | 1
+0 1 1 | 0  ← m3 (zero)
+1 0 0 | 1
+1 0 1 | 0  ← m5 (zero)
+1 1 0 | 1
+1 1 1 | 1
+
+b)
+
+F(X,Y,Z)=ΠM(0,2,6)
+
+0=000 (m₀)
+2=010 (m₂)
+6=110 (m₆)
+
+F′=Σm(0,2,6).
+
+
+       YZ -> 00  01  11  10
+X=0       1   0   0   1    ← m0 m1 m3 m2
+X=1       0   0   0   1    ← m4 m5 m7 m6
+
+Agrupamentos para 
+
+
+𝐹′=𝑋′𝑍′  +  𝑌𝑍=𝑍′(𝑋′+𝑌)
+
+Complemento → expressão de F
+
+𝐹=(𝐹′)′=(𝑍′(𝑋′+𝑌))′=𝑍 + (𝑋′+𝑌)′
+ 
+ 
+F=Z+XY′
+	​
+
+Forma PoS
+
+Z+XY′=(Z+X)(Z+Y′)
+
+PoS simplificada
+
+F=(X+Z)(Y′+Z)
+
+c)
+
+F(X,Y,Z)=ΠM(1,2,5,6)
+
+1=001 (m₁)
+2=010 (m₂)
+5=101 (m₅)
+6=110 (m₆)
+
+       YZ -> 00  01  11  10
+X=0       0   1   0   1    ← m0 m1 m3 m2
+X=1       0   1   0   1    ← m4 m5 m7 m6
+
+F′=Y′Z+YZ′=Y⊕Z(XOR entre Y e Z)
+
+F=(F′)′=(Y⊕Z)′=Y⊙Z(XNOR)=YZ+Y′Z′
+
+F=YZ+Y′Z′
+
+Forma PoS simplificada
+
+(y+z′)(y′+z)=yz+y′z′
+
+F=(Y+Z′)(Y′+Z)
+
+d)
+
+F(X,Y,Z)=ΠM(0,1,3,7)
+
+0=000
+1=001
+3=011
+7=111
+
+       YZ -> 00  01  11  10
+X=0     1   1   1   0   ← m0 m1 m3 m2
+X=1     0   0   1   0   ← m4 m5 m7 m6
+
+F′=X′Y′+YZ
+
+Complemento → expressão final F
+
+F=(F′)′=(X′Y′+YZ)′=(X′Y′)′⋅(YZ)′=(X+Y)(Y′+Z′)
+
+forma PoS simplificada é
+
+F=(X+Y)(Y′+Z′)
+
+e)
+
+F(X,Y,Z)=ΠM(0,2,5,7)
+
+0=000
+2=010
+5=101
+7=111
+
+       YZ -> 00  01  11  10
+X=0     1   0   0   1   ← m0 m1 m3 m2
+X=1     0   1   1   0   ← m4 m5 m7 m6
+
+F′=X′Z′+XZ
+
+Complemento → expressão final 
+
+F=(F′)′=(X′Z′+XZ)′=(X′Z′)′(XZ)′=(X+Z)(X′+Z′)
+
+Portanto a forma PoS simplificada é
+
+𝐹=(𝑋+𝑍)(𝑋′+𝑍′)
+
+Questão 03)
+
+a)
+
+f(x,y,w,z)=∑m( 1, 2, 5, 8, 13, 14 ) 
+
+m1​=0001 (x=0,y=0,w=0,z=1)
+
+m2​=0010 (x=0,y=0,w=1,z=0)
+m5=0101 (x=0,y=1,w=0,z=1)
+m8=1000 (x=1,y=0,w=0,z=0)
+m13=1101 (x=1,y=1,w=0,z=1)
+m14=1110 (x=1,y=1,w=1,z=0)
+
+       wz -> 00   01   11   10
+xy=00   0    1    0    1    <- índices 0,1,3,2
+xy=01   0    1    0    0    <- índices 4,5,7,6
+xy=11   0    1    0    1    <- índices 12,13,15,14
+xy=10   1    0    0    0    <- índices 8,9,11,10
+
+x′w′z (cobre 𝑚1m1 e 𝑚5)
+yw′z (cobre 𝑚5 e 𝑚13)
+x′y′wz′ (cobre 𝑚2)
+xy′w′z′ (cobre 𝑚8)
+xywz′ (cobre 𝑚14)
+
+SOP simplificada
+
+f(x,y,w,z)=x′w′z+yw′z+x′y′wz′+xy′w′z′+xywz′
+	​
+forma fatorada:
+
+f=z(x′w′+yw′)+z′(x′y′w+xy′w′+xyw)
+
+b)
+
+f(x,y,w,z)=∑m(0,1,3,8,9,13,15)
+
+Mintermos em binário (x y w z)
+
+m0=0000
+m1=0001
+m3=0011
+m8=1000
+m9=1001
+m13=1101
+m15=1111
+
+        wz ->   00   01   11   10
+xy=00        [1]   [1]   [1]   0    <- m0 m1 m3 m2
+xy=01         0    0     0    0    <- m4 m5 m7 m6
+xy=11         0   [1]   [1]   0    <- m12 m13 m15 m14
+xy=10        [1]  [1]    0    0    <- m8 m9 m11 m10
+
+Expressão simplificada (SOP)
+
+f=y′w′+xyz+x′y′z
+	
+f=y′w′+z(xy+x′y′)(onde xy+x′y′=XNOR(x,y))
+
+c)
+
+f(x,y,w,z)=∑m(0,1,2,7,10,11,13,15)
+
+Mintermos em binário (x y w z)
+m0=0000
+m1=0001
+m2=0010
+m7=0111
+m10=1010
+m11=1011
+m13=1101
+m15=1111
+
+        wz ->   00   01   11   10
+xy=00        [1]  [1]    0   [1]   <- m0 m1 m3 m2
+xy=01         0    0   [1]   0    <- m4 m5 m7 m6
+xy=11         0  [1]  [1]   0    <- m12 m13 m15 m14
+xy=10         0    0  [1]  [1]   <- m8 m9 m11 m10
+
+expressão mínima (SOP):
+
+f=x′y′w′+y′wz′+z(xw+yw+xy)
+
+d)
+
+f(x,y,w,z)=∑m(2,4,5,6,10,12,14)
+
+m2  = 0 0 1 0
+m4  = 0 1 0 0
+m5  = 0 1 0 1
+m6  = 0 1 1 0
+m10 = 1 0 1 0
+m12 = 1 1 0 0
+m14 = 1 1 1 0
+
+         wz ->   00   01   11   10
+xy=00         0     0     0     1    (m0 m1 m3 m2)
+xy=01         1     1     0     1    (m4 m5 m7 m6)
+xy=11         1     0     0     1    (m12 m13 m15 m14)
+xy=10         0     0     0     1    (m8 m9 m11 m10)
+
+Expressão final (SOP)
+
+f=wz′+yz′+x′yw′
+
+fatorar os dois primeiros termos por z′:
+
+f=z′(w+y)+x′yw′
+
+e)
+
+f(x,y,w,z)=∑m(0,1,3,5,7,9,11,13)
+
+m0  = 0 0 0 0
+m1  = 0 0 0 1
+m3  = 0 0 1 1
+m5  = 0 1 0 1
+m7  = 0 1 1 1
+m9  = 1 0 0 1
+m11 = 1 0 1 1
+m13 = 1 1 0 1
+
+         wz ->   00   01   11   10
+xy=00        [1]   [1]   [1]   0    (m0 m1 m3 m2)
+xy=01         0    [1]   [1]   0    (m4 m5 m7 m6)
+xy=11         0    [1]   0     0    (m12 m13 m15 m14)
+xy=10         0    [1]   [1]   0    (m8 m9 m11 m10)
+
+Expressão final (SOP)
+
+f=zw′+zx′+zy′+x′y′w′
+	​
+fatorar os três primeiros termos por z:
+
+f=z(w′+x′+y′)+x′y′w′
+
+Questão 04)
+
+a)
+
+F(X,Y,W,Z)=ΠM(2,6,7,14)
+
+2=0010 (X=0,Y=0,W=1,Z=0)
+6=0110 (X=0,Y=1,W=1,Z=0)
+7=0111 (X=0,Y=1,W=1,Z=1)
+14=1110 (X=1,Y=1,W=1,Z=0)
+
+         WZ ->   00   01   11   10
+XY=00        m0   m1   m3   m2
+XY=01        m4   m5   m7   m6
+XY=11       m12  m13  m15  m14
+XY=10        m8   m9  m11  m10
+
+         WZ ->   00   01   11   10
+XY=00        0    0    0    0←m2=1?  (m2 está na última coluna) 
+                     -> melhor visualizar por índices:
+XY=00: [m0,m1,m3,m2] ->  m2 = 1 (0 em F)
+XY=01: [m4,m5,m7,m6] ->  m7=1, m6=1
+XY=11: [m12,m13,m15,m14] -> m14 = 1
+XY=10: [m8,m9,m11,m10] -> todos 0
+
+Mapa (marcando 1 onde F'=1, ou seja onde F=0):
+         WZ ->   00   01   11   10
+XY=00        0     0    0    1    <- m2 (1)
+XY=01        0     0    1    1    <- m7 (col11), m6 (col10)
+XY=11        0     0    0    1    <- m14 (col10)
+XY=10        0     0    0    0
+
+Maxtermo (soma) correspondente:
+
+A=(X+W′+Z)
+
+B=(Y′+W′+Z)
+
+C=(X+Y′+W′)
+
+Produto de Sommas simplificado (PoS)
+ 
+F=(X+W′+Z)(Y′+W′+Z)(X+Y′+W′)
+	​
+F=W′+(Z+XY′)(X+Y′)
+
+b)
+
+F(X,Y,W,Z)=ΠM(4,5,9,13,14)
+
+Índices (binário XYWZ)
+
+4=0100
+5=0101
+9=1001
+13=1101
+14=1110
+
+           WZ ->   00    01    11    10
+XY=00            0     0     0     0      (m0 m1 m3 m2)
+XY=01           [1]   [1]    0     0      (m4 m5 m7 m6)
+XY=11            0    [1]    0    [1]     (m12 m13 m15 m14)
+XY=10            0    [1]    0     0      (m8 m9 m11 m10)
+
+implicante: 
+X′YW′
+
+implicante:
+XW′Z
+
+implicante:
+XYWZ′ (produto completo)
+
+m4 e 𝑚5 cobertos por 𝑋′𝑌𝑊′X′YW′
+𝑚9 e 𝑚13 cobertos por 𝑋𝑊′𝑍XW′Z
+m14 coberto por 𝑋𝑌𝑊𝑍′XYWZ′
+F′=X′YW′+XW′Z+XYWZ′
+
+Complemento para obter F (PoS)
+
+Aplicamos De Morgan: F=(F′)′
+
+F=(X′YW′+XW′Z+XYWZ′)′=(X′YW′)′⋅(XW′Z)′⋅(XYWZ′)′
+
+(X′YW′)′=(X+Y′+W)
+(porque (𝐴′𝐵𝐶′)′=A+B′+C)
+(XW′Z)′=(X′+W+Z′)
+(XYWZ′)′=(X′+Y′+W′+Z)
+ 
+F=(X+Y′+W)(X′+W+Z′)(X′+Y′+W′+Z)
+	​
+c)
+
+F(X,Y,W,Z)=ΠM(4,7,8,10,15)
+
+4=0100
+7=0111
+8=1000
+10=1010
+15=1111
+
+        WZ ->   00   01   11   10
+XY=00        0     0     0     0    (m0 m1 m3 m2)
+XY=01       [1]    0    [1]   0    (m4 m5 m7 m6)
+XY=11        0     0    [1]   0    (m12 m13 m15 m14)
+XY=10       [1]    0     0   [1]   (m8 m9 m11 m10)
+
+implicante: 
+YWZ
+
+implicante: 
+XY′Z′
+
+elemental: 
+X′YW′Z
+
+F′=YWZ+XY′Z′+X′YW′Z′
+
+F (PoS)
+
+F=(F′)′=(YWZ+XY′Z′+X′YW′Z′)′=(YWZ)′(XY′Z′)′(X′YW′Z′)′
+
+(YWZ)′=Y′+W′+Z′
+(XY′Z′)′=X′+Y+Z
+(X′YW′Z′)′=X+Y′+W+Z
+
+PoS simplificada
+
+F=(Y′+W′+Z′)(X′+Y+Z)(X+Y′+W+Z)
+	​
+d)
+
+F(X,Y,W,Z)=ΠM(1,5,6,11,13,14)
+
+1=0001
+5=0101
+6=0110
+11=1011
+13=1101
+14=1110
+
+        WZ ->   00   01   11   10
+XY=00        0    [1]   0    0    (m0 m1 m3 m2)
+XY=01        0    [1]   0   [1]   (m4 m5 m7 m6)
+XY=11        0    [1]   0   [1]   (m12 m13 m15 m14)
+XY=10        0     0   [1]   0    (m8 m9 m11 m10)
+
+implicante: 
+X′W′Z
+
+implicante:
+YW′Z
+
+implicante:
+YWZ′
+
+F′=X′W′Z+YW′Z+YWZ′+XY′WZ
+
+PoS final
+
+F=(F′)′=(X′W′Z+YW′Z+YWZ′+XY′WZ)′=(X′W′Z)′(YW′Z)′(YWZ′)′(XY′WZ)′
+
+(X′W′Z)′=X+W+Z′
+(YW′Z)′=Y′+W+Z′
+(YWZ′)′=Y′+W′+Z
+(XY′WZ)′=X′+Y+W′+Z′
+
+PoS simplificada
+
+F=(X+W+Z′)(Y′+W+Z′)(Y′+W′+Z)(X′+Y+W′+Z′)
+
+e)
+
+F(X,Y,W,Z)=ΠM(2,3,6,7,11,12,14)
+
+2=0010
+3=0011
+6=0110
+7=0111
+11=1011
+12=1100
+14=1110
+
+       WZ ->   00   01   11   10
+XY=00        0     0    1     1   <- m0 m1 m3 m2
+XY=01        0     0    1     1   <- m4 m5 m7 m6
+XY=11        1     0    0     1   <- m12 m13 m15 m14
+XY=10        0     0    1     0   <- m8 m9 m11 m10
+
+Implicante:
+
+x'W
+
+Implicante: 
+XYZ′
+
+Implicante: 
+Y′WZ
+
+soma de produtos para 
+F′=X′W+XYZ′+Y′WZ
+	
+forma PoS para F
+
+F=(X′W+XYZ′+Y′WZ)′=(X′W)′⋅(XYZ′)′⋅(Y′WZ)′
+
+(X′W)′=X+W′
+(XYZ′)′=X′+Y′+Z
+(Y′WZ)′=Y+W′+Z′
+
+PoS simplificada
+
+F=(X+W′)(X′+Y′+Z)(Y+W′+Z′)
+	​
+Questão 05)
+
+Expressão booleana
+
+s=xyz′+z(x′+y′)
+
+Mintermos (tabela-verdade)
+
+(0,0,1) → m1 = 1
+(0,1,1) → m3 = 1
+(1,0,1) → m5 = 1
+(1,1,0) → m6 = 1
+
+x y z | s
+0 0 0 | 0
+0 0 1 | 1
+0 1 0 | 0
+0 1 1 | 1
+1 0 0 | 0
+1 0 1 | 1
+1 1 0 | 1
+1 1 1 | 0
+
+      yz -> 00  01  11  10
+x=0       0   1   1   0   (m0 m1 m3 m2)
+x=1       0   1   0   1   (m4 m5 m7 m6)
+
+
+s=xyz′+x′z+y′z​
+
+fatorado:
+
+s=z(x′+y′)+xyz′
+	​
+Questão 06)
+
+s=w4+w2=xy(w′+z′)+z(x′+w′)
+
+F(X,Y,W,Z)=(X+Z)(Y+Z)(W′+X′+Z′)
+	​
+F=(z∧wˉ)∨(z∧xˉ)∨(xy∧zˉ)
+

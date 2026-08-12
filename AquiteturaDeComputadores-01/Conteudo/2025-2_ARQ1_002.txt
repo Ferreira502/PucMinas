@@ -1,0 +1,868 @@
+PUC-Minas - ICEI - Ciência da Computação
+Arquitetura de Computadores I - Aula 2025-2_002
+Anotações
+___
+
+Resumo da semana
+
+Sistemas para representações de dados
+
+Orientações ("endianess")
+
+Arranjos
+            0   1   2   3   -> posições 
+"casa"  = {'c','a','s','a'} -> arranjo
+
+            0   1   2   3   -> posições 
+"1101"  = {'1','1','0','1'} -> 13 (10) = 1101 (2)
+
+Números
+            0   1   2   3   -> potências ( "BIG-ENDIAN"  )
+ 1101   = { 1 , 0 , 1 , 1 }    OBS.: melhor para arranjos
+
+            3   2   1   0   -> potências ("little-endian")
+ 1101   = { 1 , 1,  0 , 1 }    OBS.: melhor para representação numérica
+ 
+                                  3     2     1     0
+                               1*2 + 1*2 + 0*2 + 1*2  = 8+4+0+1 = 13
+___
+
+Agrupamentos e desagrupamentos
+
+Agrupamentos
+
+           76543210
+115 (10) = 01110011 (2)
+         
+         = 0*128 + 1*64 + 1*32 + 1*16 + 0*8  + 0*4  + 1*2  + 1*1
+         
+              7       6      5      4      3      2      1      0
+         = 0*2   + 1*2  + 1*2  + 1*2  + 0*2  + 0*2  + 1*2  + 1*2
+
+Conversão
+
+115 - 128 >= 0 ? 0
+115 -  64 >= 0 ? 1
+ 51 -  32 >= 0 ? 1
+ 19 -  16 >= 0 ? 1
+  3 -   8 >= 0 ? 0
+  3 -   4 >= 0 ? 0
+  3 -   2 >= 0 ? 1
+  1 -   1 >= 0 ? 1
+  0
+
+Grupos de 4 bits:
+  
+Tabela (2)->(16)
+
+(2)  (16)
+0000   0
+0001   1
+0010   2
+0011   3
+0100   4
+0101   5
+0110   6
+0111   7
+1000   8
+1001   9
+1010   A (=10)
+1011   B (=11)
+1100   C (=12)
+1101   D (=13)
+1110   E (=14)
+1111   F (=15)
+
+            7654 3210
+115 (10) =  0111 0011  (2) = [7][3] (16)
+
+
+Grupos de 3 bits:
+
+Tabela (2)->(8)
+
+(2)  (8)
+000   0
+001   1
+010   2
+011   3
+100   4
+101   5
+110   6
+111   7
+
+            76 543 210
+115 (10) = _01 110 011 (2) = 001 110 011 = [1][6][3] (8)
+
+Grupos de 2 bits:
+  
+Tabela (2)->(4)
+
+(2)  (4)
+00    0
+01    1
+10    2
+11    3
+
+           76 54 32 10        3  2    1  0
+115 (10) = 01 11 00 11 (2) = [1][3]  [0][3] (4)
+
+                             [ 13 ]  [ 03 ] <- grupos de 2 na base 4
+                             
+                             1*4+3    0*4+3 <- algarismos base 16
+                             
+                             [  7 ]  [  3 ] (16)
+
+            76 54 32 10
+115 (10) =  01 11 00 11 (2) = [1][3][0][3] (4)
+
+
+___
+                             
+Justificativa:
+
+Exemplo:
+
+115 (10) = 1303 (4)
+
+   3     2     1     0
+1*4 + 3*4 + 0*4 + 3*4
+
+     1     0         1            1     0         0
+[ 1*4 + 3*4 ] *(4**2)      + [ 0*4 + 3*4 ] *(4**2)
+
+     1     0        1             1     0        0
+[ 1*4 + 3*4 ] * (16)       + [ 0*4 + 3*4 ] * (16)
+
+                   1                             0
+[      7      ] *16        + [      3    ] * (16)
+
+logo
+
+      1         0      10      <- potências 
+7 * 16  + 3 * 16   =   73 (16)
+
+___
+
+Outro exemplo:
+
+115 (10) =  0111 0011 (2)
+
+     7     6     5     4                 3     2     1     0
+[ 0*2 + 1*2 + 1*2 + 1*2 ]         + [ 0*2 + 0*2 + 1*2 + 1*2 ]
+
+     3     2     1     0    4            3     2     1     0
+[ 0*2 + 1*2 + 1*2 + 1*2 ]*(2 )    + [ 0*2 + 0*2 + 1*2 + 1*2 ]
+
+     3     2     1     0    4            3     2     1     0
+[ 0*2 + 1*2 + 1*2 + 1*2 ]*(2 )    + [ 0*2 + 0*2 + 1*2 + 1*2 ]* 1
+
+     3     2     1     0        1        3     2     1     0        0
+[ 0*2 + 1*2 + 1*2 + 1*2 ]*(2**4)  + [ 0*2 + 0*2 + 1*2 + 1*2 ]*(2**4)
+
+                              1                                   0
+[0    +  4  +  2  +  1  ]*(16)    + [ 0   + 0   +  2  +  1  ]*(16) 
+
+                              1                                   0
+[           7           ]*(16)    + [           3           ]*(16) 
+
+logo
+
+      1          0      10      <- potências
+7 * 16   + 3 * 16   =   73 (16)
+
+___
+
+Desagrupamentos
+
+1011   1001  (2) =  B    9 (16) 
+                   / \  / \
+10 11  10 01 (2) = 2 3  2 1 (4)  
+                               
+                               
+1110   1010  (2) =  E    A (16)
+                   / \  / \
+                   3 2  2 2 (4)
+
+___
+
+Conversões
+
+E (16) = 14 (10)
+
+14 |_4_
+ 2   3 |_4_
+     3   0
+(a) (b)
+
+(b)(a)      1      0
+ 3  2  = 3*4  + 2*4  = 12 + 2 = 14
+                   
+A (16) = 10 (10)
+
+10 |_4_
+ 2   2 |_4_
+     2   0
+(a) (b)
+
+(b)(a)      1      0
+ 2  2  = 2*4  + 2*4  =  8 + 2 = 10
+
+___
+___
+                               
+Representações de números inteiros
+
+- Representações de números sem sinal
+
+  13 (10) =      1101 (2)
+          = 0000 1101 (2) <-  byte    /"little-endian"
+           |____|         <- "padding" (preenchimento)
+           
+- Representações de números com sinal
+
+  - Sinal e amplitude
+  
+               + amplitude
+    +13 (10) = 0     1101 (2)
+             = 0 000 1101 (2)
+             
+               - amplitude
+    -13 (10) = 1     1101 (2)
+             = 1 000 1101 (2)
+       
+      +----------- desprezar 
+      |            o  último
+      v
+     (1) 1 1 1   <- "vai-um"
+         0 1101 +
+         1 1101
+     __________    
+         0 1010 <- ERRO: Não é ZERO !!!
+ 
+___
+ 
+  - Representação aberta  (reta)
+
+  
+                    (-3)(-2)(-1) 0  (+1)(+2)(+3)
+    (-Infinito) <----|---|---|---|---|---|---|----> (+Infinito)
+    
+    
+  - Representação fechada (circular)
+  
+                                 +
+    a + b = 0 -> a + (-b) = 0 -> 0 1101 (2) + (-b) = 0 -> (-b) = ???
+
+     (1) 1 111
+         0 1101 +
+		 1 0011 <- representação para o (-13) = (-b)
+     __________    
+         0 0000 <- CORRETO: É ZERO !!!   
+
+___
+        
+    Exemplos de representações binárias circulares
+    
+    intervalo para 2 bits: [-2:1] -> 4 representações possíveis
+    
+               ( 0)                  Tabela
+               0 0                   +
+         -      |    +               00  0
+    (-1) 1 1 ---+--- 0 1 (+1)        01 +1
+                |                    -
+               1 0                   10 -2
+               -                     11 -1
+               (-2)
+
+___
+               
+    intervalo para 3 bits: [-4:3] -> 8 representações possíveis
+                                     Tabela
+               ( 0)                  +
+               000                   000  0
+         (-1)   |   (+1)             001 +1
+          111   |    001             010 +2
+     (-2)       |        (+2)        011 +3
+      110 ------+------- 010         -
+                |                    100 -4
+          101   |    011             101 -3
+          (-3)  |    (+3)            110 -2
+               100                   111 -1
+               (-4)
+
+___
+               
+    intervalo para 4 bits: [-8:7]
+    ...
+    intervalo para n bits: 
+    
+        (n-1)           (n-1)
+     -(2     )  até  +(2     - 1)
+
+    ou, de outra forma, 
+    
+    [-(2**(n-1)) :  (2**(n-1)-1)]
+
+___
+
+  - Operações em sistemas com representações fechadas
+    (aritmética com congruência modular)
+
+    1. Relógio
+
+        3:00h +     3:00h  = 6:00h
+
+        3:00h +    15:00h  = 6:00h
+
+        3:00h –     9:00h  = 6:00h
+
+       12:00h + (2* 3:00h) = 6:00h
+
+       12:00h + (2*15:00h) = 6:00h
+
+       12:00h - (2*15:00h) = 6:00h
+
+   2. Trigonometria
+
+        45º   +     360º   =  45º
+
+        45º   -     360º   =  45º
+
+        45º   +  2* 360º   =  45º
+
+        pi/4  +  2 * pi    = pi/4
+
+        pi/4  -  2 * pi    = pi/4
+
+        pi/4  +  4 * pi    = pi/4
+
+___
+
+  - Representações por sinal e amplitude
+  
+                (+0)
+                +                
+                0 0
+          -      |    +
+     (-1) 1 1 ---+--- 0 1 (+1)  -> [-1:+1] intervalo para 2 bits
+                 |
+                1 0                OBS: Há representações para o zero !!!
+                -                       +0 = 0 0
+                (-0)                    -0 = 1 0
+
+  - Representações por complementos
+  
+    Negação (representação por opostos)
+    
+                (+0)     
+                0 0
+          -      |    +
+     (-1) 1 0 ---+--- 0 1 (+1)  -> [-1:+1] intervalo para 2 bits
+                 |
+                1 1                OBS: Há representações para o zero !!!
+                -                       +0 = 0 0
+                (-0)                    -0 = 1 1
+
+    Complemento de 1 (para sistema binário - C1)
+    
+                (+0)     
+               \0 0
+          -     \|    +
+     (-1) 1 0 ---+--- 0 1 (+1)  -> [-1:+1] intervalo para 2 bits
+                 |\
+                1 1\               OBS: Há DUAS representações para o zero !!!
+                -                       +0 = 0 0
+                (-0)                    -0 = 1 1
+
+    Tabela  C1 para 2 bits
+    
+    para 2 bits    para 3 bits
+
+                   + 000   (+0)
+                   + 001   (+1)
+    + 00   (+0)    + 010   (+2)
+    + 01   (+1)    + 011   (+3)
+    ------         -------     
+    - 10   (-1)    - 100   (-3)
+    - 11   (-0)    - 101   (-2)
+                   - 110   (-1)
+                   - 111   (-0)
+                   
+     Método para encontrar o complemento de 1 (C1(x)):
+     
+     +  trocar bits -
+     01 ----------> 10
+     +
+     001 ---------> 110  (000 = +0 -> 111 = -0)     
+     +
+     011 ---------> 100  (-3)
+     - 
+     100 ---------> 011  (+3)
+     
+___
+               
+    Complemento de 2 (para sistema binário)
+    
+                ( 0)     
+                0 0
+          -      |    +
+     (-1) 1 1 ---+--- 0 1 (+1)  -> [-2:+1] intervalo para 2 bits
+                 |
+                1 0   
+                - 
+                (-2)
+
+    Complemento de 2 (para sistema binário - C2)
+    
+                (+0)     
+               \0 0
+          -     \|    +
+     (-1) 1 1 ---+--- 0 1 (+1)  -> [-2:+1] intervalo para 2 bits
+                 |\
+                1 0\               OBS: Há UMA representações para o zero !!!
+                -                       +0 = 0 0
+                (-2)                    Há OUTRA representação disponível !!!
+										-2 = 1 0
+
+    Tabelas  C2 
+    
+    para 2 bits    para 3 bits
+
+                   + 000   (+0)
+                   + 001   (+1)
+    + 00   (+0)    + 010   (+2)
+    + 01   (+1)    + 011   (+3)
+    ------         -------     
+    - 10   (-2)    - 100   (-4)
+    - 11   (-1)    - 101   (-3)
+                   - 110   (-2)
+                   - 111   (-1)
+___
+               
+     Método para encontrar o complemento de 2, 
+     para n bits (C2,n(x)):
+
+     C   (x) = C   (x) + 1      ("little-endian")
+      2,n       1,n
+      
+                     C1               C2       
+     +   trocar bits -                -
+     01  ----------> 10         + 1 = 1 1        (-1)
+     
+     01
+     10+  <- C1
+      1    +  1
+    ____
+     11   <- C2
+     
+     +   trocar bits -                -
+     001 ----------> 110        + 1 = 1 11       (-1)
+     +               -                -
+     0 1101 -------> 1 0010     + 1 = 1 0011     (-13)    
+     +                                -
+     0 000 1101 ---> 1 111 0010 + 1 = 1 111 0011 (-13)
+     
+     -               + 
+     111 ----------> 001      (+1)
+     -
+     10011 --------> 01101    (+13)
+
+     11110011 -----> 00001101 (+13)     
+     
+___
+     
+     Complemento de nove (para sistema decimal)
+     
+     79 - 23 = X (10)
+     
+     79 + C9,2 (23) = X (10)
+     
+        trocar
+     23 ------> 76
+     
+     (1) 1
+         79+         
+         76         
+        ___         
+         55 + 1 = 56    
+     
+     Complemento de dez (para sistema decimal)
+
+     79 - 23 = X (10)
+     
+     79 + C10,2 (23) = 79 + (C9,2(23) + 1) = X (10)
+     
+        trocar  C9       C10
+     23 ------> 76 + 1 = 77
+     
+     (1) 1
+         79+
+         77 
+        ___ 
+         56     
+     
+     079 - 023 = X (10)
+     
+     (1)11
+        079+
+        977 <- C10,3
+       ____
+        056
+     
+        023-   023+
+        079    921  <- C10,3
+       ____   ____
+               944  -> (944-1000) = -56 (10)
+            
+___
+___
+    
+Representações de parte fracionária
+
+Exemplo:
+
+    13.75 (10) = X (2) 
+                 parte inteira  parte fracionária
+    13 + 0.75  = Xi           + Xf               (2)
+    
+                      3     2     1     0
+    13 (10)   =    1*2 + 1*2 + 0*2 + 1*2  = 1101 (2)
+                      2     1     1
+              =   (1*2 + 1*2 +0)*2 + 1
+                      1     0     1      1
+              =  ((1*2 + 1*2 )  *2 + 0)*2 + 1
+                      0   1       1      1
+              = (((1*2 )*2 + 1) *2 + 0)*2 + 1
+
+              = (((1)*2 + 1)*2 + 0)*2 + 1
+
+    0.75 (10) = 0.5 + 0.25 
+
+              = 1/2 + 1/4 
+              
+              = 1/2 * (1 + 1/2*1)
+                   (-1)     (-2)
+              = 1*2    + 1*2    
+              
+              = 0.11 (2)
+    
+    
+    Xi = 1101
+              \
+       +        X = Xi+Xf = 1101.11 (2)
+              /              
+    Xf = 0.11
+    
+    Conversão da parte fracionária
+    
+    0.75 * 1 | 0.75 = 0.___ X(2)
+    0.75 * 2 | 1.50 = 1 + 0.50 = 0.1__ X(2)
+    0.50 * 2 | 1.00 = 1 + 0.00 = 0.11  X(2)
+    0.00     |
+    
+Outro exemplo:
+    
+    0.70 * 1 | 0.70 = 0.1011011... X(2)
+    0.70 * 2 | 1.40
+    0.40 * 2 | 0.80
+    0.80 * 2 | 1.60
+    0.60 * 2 | 1.20
+    0.20 * 2 | 0.40 <- dízima
+
+___
+
+Método tabular
+                      separador
+     parte inteira       |                  parte fracionária
+                         v              
+ +7 +6 +5 +4 +3 +2 +1 +0   -1   -2    -3    -4     -5      -6       -7        -8
+                           1/2  1/4   1/8   1/16   1/32    1/64    1/128     1/256
+128 64 32 16  8  4  2  1 , 0.5 0.25 0.125 0.0625 0.03125 0.015625 0.0078125 0.00390625
+______________________________________________________________________________________
+  0  0  0  0  1  1  0  1 ,  1   1    0     0      0       0        0         0  
+   
+                     13.75 5.75 1.75 1.75  0.75  0.25
+                     - 8   - 4  - 2  - 1   -0.5 -0.25
+                    =5.75 =1.75     =0.75 =0.25 =0.00
+
+___
+        
+Método alternativo para conversão de decimal para binário:
+
+    ------|-------------------------------- Primeira parte: 
+          |                                 achar a maior potência de 2 
+    13.75 |  1   13.75      >  1 ? V
+          |  2   13.75      >  2 ? V
+          |  4   13.75      >  4 ? V          
+          |  8   13.75      >  8 ? V
+          | 16   13.75      > 16 ? F     <- PARAR a primeira parte
+          |
+    ------|-------------------------------- Segunda  parte:
+          |                               | determinar os dígitos das     
+    13.75 | 16   13.75-16   >= 0 ? F   0  |    potências positivas
+          |  8   13.75- 8   >= 0 ? V   1  |
+     5.75 |  4    5.75- 4   >= 0 ? V   1  |
+     1.75 |  2    1.75- 2   >= 0 ? F   0  |
+          |  1    1.75- 1   >= 0 ? V   1. | <- potência = zero
+     0.75 | 1/2   0.75-0.50 >= 0 ? V   1  |
+     0.25 | 1/4   0.25-0.25 >= 0 ? V   1  v    potências negativas
+  -> 0.00 |                              <- PARAR a segunda  parte
+                                            quando achar 0.00 ou 
+                                            a precisão desejada
+                                            (quantidade de bits)
+			
+               + significando         
+     Resposta: 0 1101.11  (2)                   
+___
+
+Representação em ponto fixo
+ 
+    inteiro       fracionário
+    ___________   ___________ 
+   | 0000 1101 |.| 1100 0000 |
+   |___________| |___________|
+        byte         byte     
+
+Representação em ponto fixo com sinal e amplitude
+
+sinal        amplitude
+ ______________   ___________ 
+| 0 | 000 1101 |.| 1100 0000 |
+|___|__________| |___________|
+        byte          byte     
+
+ ___
+
+Operações com sinal e parte fracionária:
+
+Exemplo 1:
+    
+    13.75  - 6.625 = X (2)
+    
+    13.75  = 1101.11   (2)
+     6.625 =  110.101  (2)
+     
+    1. Colocar no mesmo tamanho:
+
+         13.750 - 
+         06.625 
+      ___________ 
+
+      
+       1101.110 -
+       0110.101  
+      ___________       
+
+
+   2. Acrescentar mais um bit para o sinal:
+    
+       0 1101.110 -      0 1101.10 (10) -
+       0 0110.101        0 0110.10   1
+      _____________     _________________
+                1                    1
+                      
+       0 1101.110 -
+       0 0110.101  
+      _____________
+               01 
+    
+       0 1101.110 -
+       0 0110.101  
+      _____________
+             .001 
+
+       0 1101.110 -      0 10 (10) 1.110 -
+       0 0110.101        0 01   1  0.101
+      _____________     __________________
+            1.001               1  1.001
+
+       0 1101.110 -      0 0 (10) 01.110 -
+       0 0110.101        0 0   1  10.101
+      _____________     __________________
+           11.001              1  11.001 
+
+       0 1101.110 -
+       0 0110.101  
+      _____________
+          111.001 
+
+       0 1101.110 -
+       0 0110.101  
+      _____________
+       0 0111.001   (2) -> (+) 7.125
+
+
+    3. Complemento de 2:
+    
+       0 0110.101       -> (+6.625)
+       1 1001 010 <- C1
+                1+
+       1 1001 011 <- C2 -> (-6.625)
+
+       OBS.: O alinhamento também poderá ser feito
+             mediante ajustes de potências.
+             
+                     2                   2
+        0 1101.11 * 2   -> 0 1101 11. / 2
+
+    4. Realizar a operação ( a-b = a+(-b) = a+C2(b) = a+C1(b)+1 )
+
+       (1) 1   11 1
+           0 1101.110+
+           1 1001.011
+          ___________
+           0 0111.001 -> + 7.125 (10)  
+___
+  
+Exemplo 2:
+    
+             +     
+    +13.75 = 0 1101.11
+             -
+    -13.75 = 1 1101.11 <- sinal e amplitude 
+                         (não servirá para operar)
+
+     Qual o complemento de 2 de +13.75 (10)?
+
+        0 1101.11
+        1 0010 00 <- C1 (com correções, servirá para operar)
+                1+
+        1 0010 01 <- C2 = -13.75 (10)  (servirá para operar)
+        
+     (1)1 1111 1 
+        0 1101.11+   (+13.75)
+        1 0010.01    (-13.75)
+       __________
+        0 0000.00 <- ZERO !!!
+        
+___
+
+Exemplo 3:
+                      +                 +
+         06.625 -  -> 0 110.101  (2) -> 0 0110.101 (+06.625)
+         13.750    -> 0 1101.11  (2) -> 0 1101.110 (+13.750)
+      ___________ 
+
+      C2 (0 1101.110) = C1 (0 1101.110) + 1
+                      =     1 0010.001  + 1
+                      =     1 0010 001  + 1
+                      =     1 0010 010        (-13.75)
+          
+        11          
+      0 0110.101 +
+      1 0010.010
+    ______________
+      1 1000.111     -> (-)[1000.111] -> C2 = (-7.125)
+      
+    Para conhecer o valor equivalente em decimal:
+
+                         1  1000 111  -> C2
+                                      -  1
+                         1  1000 111  -
+                                   1
+                        ____________
+                         1  1000 110
+                                         C1
+                         0  0111.001   ->   (+) 7.125  
+
+    De outra forma, sendo C2(x) - 1 = C1(x):
+    
+      1 1000.111   C2
+      0 0111 000   C1
+                 + 1
+      0 0111.001     -> (+) 7.125 
+      
+    Nota:
+	A operação de complemento de 2 é inversa de si mesma,
+	mas pode ser calculada pela forma mais acima também.
+	
+___
+  
+Exemplo 4:
+
+          110.101 * (6.625)
+           11.01    (3.250)
+       __________
+
+          110.101 * (6.625)
+           11.010   (3.250)
+       __________
+
+
+          110.101 * (6.625)
+           11.010   (3.250)
+       __________
+          000 000
+
+          110101  * (6.625)
+           11010    (3.250)
+       __________
+          000000  +
+         110101- 
+        000000--
+       110101---
+      110101----
+    ______________
+     10101100010
+
+     10101.100010 (2)  ->  21.53125 (10)
+    
+                    4     3     2     1     0
+     10101 (2) = 1*2 + 0*2 + 1*2 + 0*2 + 1*2 
+               = 16  +  0  +  4  +  0  +  1 
+               = 21
+     
+                    (-1)     (-2)     (-3)     (-4)     (-5)
+  0.100010 (2) = 1*2    + 0*2    + 0*2    + 0*2    + 1*2
+               = 0.5    + 0      + 0      + 0      + 0.03125
+               = 0.53125
+  
+  Nota:
+  As potências do multiplicador deverão ser consideradas
+  para que o alinhamento das parcelas mantenha sua correção.
+  A recolocação do separador deverá ser feita 
+  após as somas das parcelas, considerando os
+  números de potências das partes fracionárias
+  dos operandos.
+  
+___
+  
+Exemplo 5:
+
+11001 (2) / 101 (2) = X (2)
+
+  11001 |_ 101
+ -101      101      = X (2)
+_____
+  00101
+ -  101
+  _____
+    000
+	
+___
+  
+Exemplo 6:
+	
+110.01 (2) / 10.1 (2)   = X (2)
+
+110.01 (2) / 010.10 (2) = X (2)
+
+  11001 |_ 1010
+ -1010     10.1         = X (2)
+______
+  001010
+ -  1010
+________
+    0000
+	
+  Nota:
+  A parte fracionária deverá ser preenchida,
+  caso necessário, antes de se iniciar as subtrações.
+  Se a divisão não for exata, será possível prosseguir, 
+  concatenando 0, um por vez, e ajustando o quociente. 
+  A marcação da primeira potência negativa 
+  deverá ser precedida pelo (.)
+
+___
+

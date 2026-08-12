@@ -1,0 +1,77 @@
+// Guia_1605.txt
+// 842527 - Gabriel Ferreira Pereira
+//
+// Conversao de um valor em BCD para hexadecimal.
+// Formula: HEX = HI(BCD)*10 + LOW(BCD)
+//
+// dado01 = valor BCD  (ex: 24h)
+// dado02 = resultado (hexadecimal)
+// ---------------------------------------------------------
+
+            JMP MAIN        // pular área de funcoes
+
+// ---------------------------------------------------------
+// Funcao F_HI : extrai o nibble alto de C
+// Retorno: A = HI(C)
+// ---------------------------------------------------------
+F_HI:       POP H
+            POP B           // BC = parametro
+            MOV A,C
+            ANI F0h
+            RRC
+            RRC
+            RRC
+            RRC
+            PUSH H
+            RET
+
+// ---------------------------------------------------------
+// Funcao F_LO : extrai o nibble baixo de C
+// Retorno: A = LOW(C)
+// ---------------------------------------------------------
+F_LO:       POP H
+            POP B
+            MOV A,C
+            ANI 0Fh
+            PUSH H
+            RET
+
+// ---------------------------------------------------------
+// Funcao MULT10 : A = A * 10
+// ---------------------------------------------------------
+F_M10:      ; A = valor
+            MOV B,A         ; B = A
+            MVI C,0Ah       ; multiplicar por 10 usando somas sucessivas
+M10_LOOP:   ADD B
+            DCR C
+            JNZ M10_LOOP
+            RET
+
+// ---------------------------------------------------------
+// MAIN
+// ---------------------------------------------------------
+MAIN:       LXI H,0050      // HL → dado01
+            MOV C,M         // C = dado BCD
+
+// ------ Extrair HI ------
+            PUSH B          // empilha parametro (BC)
+            CALL F_HI       // A = HI
+            MOV D,A         // D = HI
+
+// ------ Extrair LOW ------
+            PUSH B
+            CALL F_LO       // A = LOW
+            MOV E,A         // E = LOW
+
+// ------ Calcular HI*10 ------
+            MOV A,D         // A = HI
+            CALL F_M10      // A = HI*10
+
+// ------ Somar LOW ------
+            ADD E           // A = HI*10 + LOW
+
+// ------ Gravar resultado ------
+            STA 0052        // resultado final
+
+            HLT
+END:

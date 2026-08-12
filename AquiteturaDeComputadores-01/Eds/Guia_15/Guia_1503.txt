@@ -1,0 +1,45 @@
+// Guia_1503.txt
+// Operacao BCD com 8 bits:
+// dado05 = dado01 - dado02 - dado03 - dado04
+// Usando ajuste BCD com DAA
+
+        LXI  H, dado01     ; HL -> dado01
+        MOV  A, M          ; A = dado01 (BCD)
+
+        ---------------------------------------
+        ; Subtrai dado02
+
+        INX  H             ; HL -> dado02
+        SUB  M             ; A = A - dado02
+        DAA                ; Ajuste BCD apos subtracao
+
+        ---------------------------------------
+        ; Subtrai dado03
+
+        INX  H             ; HL -> dado03
+        SUB  M             ; A = A - dado03
+        DAA                ; Ajuste BCD apos subtracao
+
+        ---------------------------------------
+        ; Subtrai dado04
+
+        INX  H             ; HL -> dado04
+        SUB  M             ; A = A - dado04
+        DAA                ; Ajuste final BCD
+
+        ---------------------------------------
+        ; Armazena resultado
+
+        STA  dado05        ; resultado em BCD
+
+        HLT                ; fim do programa
+
+
+---------------------------------------
+; Area de dados (exemplo)
+
+dado01:   45h   ; 45 BCD
+dado02:   12h   ; 12 BCD
+dado03:   08h   ; 08 BCD
+dado04:   05h   ; 05 BCD
+dado05:   00h   ; saída

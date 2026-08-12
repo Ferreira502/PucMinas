@@ -1,0 +1,196 @@
+/*
+ Preparacao_01.txt
+ 842527 - Gabriel Ferreira Pereira
+*/
+
+Dados: A função f(A,B,C,D) tem valor 1 nos mintermos:
+{2,5,6,7,12,13,15} (índices em decimal; em hexadecimal: 2,5,6,7,C,D,F)
+
+1) TABELA-VERDADE (n = índice decimal e hex)
+---------------------------------------------
+| n(hex) | A | B | C | D | índice(dec) | f |
+|--------|---|---|---|---|------------:|:-:|
+| 0      | 0 | 0 | 0 | 0 | 0           | 0 |
+| 1      | 0 | 0 | 0 | 1 | 1           | 0 |
+| 2      | 0 | 0 | 1 | 0 | 2           | 1 |
+| 3      | 0 | 0 | 1 | 1 | 3           | 0 |
+| 4      | 0 | 1 | 0 | 0 | 4           | 0 |
+| 5      | 0 | 1 | 0 | 1 | 5           | 1 |
+| 6      | 0 | 1 | 1 | 0 | 6           | 1 |
+| 7      | 0 | 1 | 1 | 1 | 7           | 1 |
+| 8      | 1 | 0 | 0 | 0 | 8           | 0 |
+| 9      | 1 | 0 | 0 | 1 | 9           | 0 |
+| A (10) | 1 | 0 | 1 | 0 | 10          | 0 |
+| B (11) | 1 | 0 | 1 | 1 | 11          | 0 |
+| C (12) | 1 | 1 | 0 | 0 | 12          | 1 |
+| D (13) | 1 | 1 | 0 | 1 | 13          | 1 |
+| E (14) | 1 | 1 | 1 | 0 | 14          | 0 |
+| F (15) | 1 | 1 | 1 | 1 | 15          | 1 |
+
+Mintermos (onde f = 1) e Maxtermos (onde f = 0)
+--------------------------------------------------
+Mintermos: {2, 5, 6, 7, 12, 13, 15}
+
+Maxtermos: {0,1,3,4,8,9,10,11,14}
+
+a) Expressão canônica SoP (Sum of Products) — listando mintermos:
+   f(A,B,C,D) = Σ m(2,5,6,7,12,13,15)
+
+   Expandida em mintermos literais (forma completa):
+   - m2  = A' B' C  D'
+   - m5  = A' B  C' D
+   - m6  = A' B  C  D'
+   - m7  = A' B  C  D
+   - m12 = A  B  C' D'
+   - m13 = A  B  C' D
+   - m15 = A  B  C  D
+
+   Logo:
+   f = A'B'C D' + A'B C' D + A'B C D' + A'B C D + A B C' D' + A B C' D + A B C D
+
+b) Expressão canônica PoS — listando maxtermos:
+   f(A,B,C,D) = Π M(0,1,3,4,8,9,10,11,14)
+
+   Cada maxtermo corresponde à soma das variáveis:
+   ex: M0 = (A + B + C + D)   quando A=B=C=D=0
+
+Mapa de Karnaugh (4 variáveis)
+---------------------------------------------------
+Linhas (AB): 00, 01, 11, 10
+Colunas (CD): 00, 01, 11, 10
+
+Mapa com índices e valores f (índice:f):
+        CD ->  00      01      11      10
+AB
+00 (00)       0:0    1:0    3:0    2:1
+01 (01)       4:0    5:1    7:1    6:1
+11 (11)       12:1   13:1   15:1   14:0
+10 (10)       8:0    9:0    11:0   10:0
+
+Agrupei os 1s e obtive 3 grupos (implicantes):
+- Grupo 1 (4 células) -> índices {5,7,13,15}  => termo BD
+- Grupo 2 (2 células) -> índices {12,13}       => termo A B C'
+- Grupo 3 (2 células) -> índices {2,6}         => termo A' C D'
+
+Simplificação de mintermos pelo mapa
+-------------------------------------------
+c) Expressão SoP simplificada (a partir dos grupos):
+   f(A,B,C,D) = B D  +  A B C'  +  A' C D'
+
+   Em notação com apóstrofo para negação:
+   f = B D + A B C' + A' C D'
+
+   Observações:
+   - Grupo 1 (BD) é o implicante que cobre 5,7,13,15.
+   - Grupo 2 (A B C') cobre 12 e 13.
+   - Grupo 3 (A' C D') cobre 2 e 6.
+   Todos os mintermos {2,5,6,7,12,13,15} estão cobertos por esses três termos.
+
+d) Simplificação de MAXTERMOS pelo mapa
+------------------------------------------
+Para obter PoS minimal, fazemos agrupamentos dos zeros.
+Zeros estão nos índices: {0,1,3,4,8,9,10,11,14}
+
+Uma fatoração minimizada (PoS) obtida pelo K-map é:
+   f = (B' + D') * (A + D + C') * (C + A' + B')
+
+Explicação breve dos fatores:
+- (B' + D'): cobre alguns zeros alinhados onde B=0 ou D=0 conforme agrupamento.
+- (A + D + C'): soma que vem de outro agrupamento de zeros.
+- (C + A' + B'): terceiro agrupamento de zeros.
+Essa expressão é equivalente à SoP simplificada e cobre exatamente os maxtermos listados.
+
+e) Implementação SoP equivalente usando somente portas NAND
+--------------------------------------------------------------
+Queremos construir f = BD + ABC' + A' C D' usando somente NANDs.
+
+Passo 1 — gerar inversões necessárias com NANDs:
+  C' = NAND(C,C)
+  A' = NAND(A,A)
+  D' = NAND(D,D)
+
+Passo 2 — gerar os produtos usando NAND:
+  n1 = NAND(B, D)            => n1 = ¬(B D)
+  n2 = NAND(A, B, C')        => n2 = ¬(A B C')
+  n3 = NAND(A', C, D')       => n3 = ¬(A' C D')
+
+Passo 3 — reverter cada n_i para obter os produtos usando NAND com entradas duplicadas:
+  p1 = NAND(n1, n1)   => p1 = B D
+  p2 = NAND(n2, n2)   => p2 = A B C'
+  p3 = NAND(n3, n3)   => p3 = A' C D'
+
+Passo 4 — OR final com NAND (OR via De Morgan):
+  f = NAND( NAND(p1,p2,p3) , NAND(p1,p2,p3) )  => f = p1 + p2 + p3
+
+
+ Verificação rápida por mintermos
+----------------------------------
+Aplicando f = BD + A B C' + A' C D' nos mintermos listados:
+- m2 (A=0,B=0,C=1,D=0) -> A' C D' = 1 => f=1
+- m5 (0,1,0,1) -> BD = 1 => f=1
+- m6 (0,1,1,0) -> A' C D' = 1 => f=1
+- m7 (0,1,1,1) -> BD = 1 => f=1
+- m12(1,1,0,0) -> ABC' = 1 => f=1
+- m13(1,1,0,1) -> BD = 1 and ABC' = 1 => f=1
+- m15(1,1,1,1) -> BD = 1 => f=1
+
+NOR(x,y)=x+y​
+
+Começamos da expressão PoS:
+f=(B′+D′)(A+D+C′)(C+A′+B′)
+
+Aplicar dupla negação global:
+
+f=(B′+D′)(A+D+C′)(C+A′+B′)​​
+
+Usar De Morgan na negação interna:
+
+f=(B′+D′)​+(A+D+C′)​+(C+A′+B′)​​
+
+Criar inversões necessárias
+
+A' = NOR(A, A)
+B' = NOR(B, B)
+C' = NOR(C, C)
+D' = NOR(D, D)
+
+
+| Bloco | Expressão original | Implementação NOR (dupla negação)             |
+| ----- | ------------------ | --------------------------------------------- |
+| T1    | ( (B' + D') )      | `T1n = NOR(B', D')` → `T1 = NOR(T1n, T1n)`    |
+| T2    | ( (A + D + C') )   | `T2n = NOR(A, D, C')` → `T2 = NOR(T2n, T2n)`  |
+| T3    | ( (C + A' + B') )  | `T3n = NOR(C, A', B')` → `T3 = NOR(T3n, T3n)` |
+
+Implementar o produto (AND) entre T1, T2, T3 com NOR
+
+f=T1+T2+T3​
+
+f = NOR( NOR(T1, T2, T3) , NOR(T1, T2, T3) );
+
+Expressão PoS simplificada:
+f=(B′+D′)(A+D+C′)(C+A′+B′)
+
+Implementação equivalente somente com NOR (usando dupla negação):
+
+f=(B′+D′)​+(A+D+C′)​+(C+A′+B′)​​
+
+Questao 04)
+
+23(10)​=0001 0111(2)
+
+Inverter bits → 1110 1000(2)
+	​
+​23(10) ​= 11101001(2)​
+
+6 = 110, 7 = 111
+
+67(8)​=110111(2)
+
+01101111(2) ​= 111(10)
+​​
+ 11101001 (−23)
++01101111 (111)
+−−−−−−−−−−−−−−−−−
+=01011000
+
+01011000(2) ​= 88(10)​

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<structure>
+  <type>mealy</type>
+  <automaton>
+
+    <state id="0" name="q0">
+      <x>100</x><y>100</y>
+      <initial/>
+    </state>
+
+    <state id="1" name="q1">
+      <x>300</x><y>40</y>
+    </state>
+
+    <state id="2" name="q2">
+      <x>300</x><y>160</y>
+    </state>
+
+    <state id="3" name="q3">
+      <x>500</x><y>100</y>
+    </state>
+
+    <transition><from>0</from><to>1</to><read>1</read><write>0</write></transition>
+    <transition><from>0</from><to>0</to><read>0</read><write>0</write></transition>
+
+    <transition><from>1</from><to>2</to><read>0</read><write>0</write></transition>
+    <transition><from>1</from><to>1</to><read>1</read><write>0</write></transition>
+
+    <transition><from>2</from><to>3</to><read>0</read><write>0</write></transition>
+    <transition><from>2</from><to>1</to><read>1</read><write>0</write></transition>
+
+    <transition><from>3</from><to>1</to><read>1</read><write>1</write></transition>
+    <transition><from>3</from><to>0</to><read>0</read><write>0</write></transition>
+
+  </automaton>
+</structure>

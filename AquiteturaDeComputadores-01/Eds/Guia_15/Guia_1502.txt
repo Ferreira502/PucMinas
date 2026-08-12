@@ -1,0 +1,73 @@
+// Guia_1502.txt
+// Operacao com 16 bits: dado05 = dado01 - dado02 + dado03 - dado04
+// Dados armazenados em formato:  LowByte / HighByte
+
+        ----------------------------------------------------
+        ; 1) Carregar dado01 (16 bits) em HL
+
+        LHLD dado01        ; HL = dado01 (16 bits)
+
+        ----------------------------------------------------
+        ; 2) Subtrair dado02  (HL = HL - dado02)
+        ;   Usando complemento de 2 → ADD + CY
+
+        LHLD dado02        ; DE = dado02
+        XCHG               ; troca HL <-> DE   (DE = dado01, HL = dado02)
+
+        MOV  A, L          ; pega L dado02
+        CMA                ; complemento de 1
+        INR  A             ; +1 → complemento de 2
+        MOV  E, A          ; E = L (-dado02)
+
+        MOV  A, H          ; pega H dado02
+        CMA
+        INR  A
+        MOV  D, A          ; D = H (-dado02)
+
+        XCHG               ; HL volta a ter dado01, DE agora = -dado02
+        DAD  D             ; HL = HL + DE  (HL = dado01 - dado02)
+
+        ----------------------------------------------------
+        ; 3) Somar dado03 (16 bits)
+
+        LHLD dado03        ; carrega dado03 em HL
+        XCHG               ; DE = dado03, HL = resultado parcial
+
+        DAD D              ; HL = HL + dado03
+
+        ----------------------------------------------------
+        ; 4) Subtrair dado04 (HL = HL - dado04)
+
+        LHLD dado04        ; HL = dado04
+        XCHG               ; DE = dado04, HL = resultado parcial
+
+        ; complemento de 2 de dado04
+        MOV A, E
+        CMA
+        INR A
+        MOV E, A           ; E = L (-dado04)
+
+        MOV A, D
+        CMA
+        INR A
+        MOV D, A           ; D = H (-dado04)
+
+        ; resultado final
+        DAD D              ; HL = HL - dado04
+
+        ----------------------------------------------------
+        ; 5) Salvar resultado (16 bits)
+
+        SHLD dado05        ; salva resultado final (LSB/MSB)
+
+        HLT                ; fim do programa
+
+
+----------------------------------------------------
+; Area de dados - valores de exemplo
+
+dado01:  34h 12h     ; 0x1234
+dado02:  10h 00h     ; 0x0010
+dado03:  01h 00h     ; 0x0001
+dado04:  05h 00h     ; 0x0005
+dado05:  00h 00h     ; resultado 16 bits

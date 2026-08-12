@@ -1,0 +1,36 @@
+// Guia_1606.txt
+// 842527 - Gabriel Ferreira Pereira
+//
+// Calculo do quadrado de um numero de 8 bits usando somas de impares.
+//
+// dado01 = valor (N)
+// dado02 = N*N (resultado)  -> 0052h
+//
+// Formula:
+//    N^2 = 1 + 3 + 5 + ... + (2N - 1)
+// ---------------------------------------------------------
+
+            JMP MAIN
+
+
+// ---------------------------------------------------------
+// MAIN
+// ---------------------------------------------------------
+MAIN:       LXI H,0050      // HL -> dado01
+            MOV B,M         // B = N
+            MOV C,B         // C = contador de repeticoes (N)
+            
+            MVI A,00        // A = acumulador do resultado = 0
+            MVI D,01        // D = numero impar atual (comeca em 1)
+
+LOOP_SQR:   ADD D           // A = A + numero impar
+            INR D           // proximo impar → +2
+            INR D
+
+            DCR C           // diminui contador
+            JNZ LOOP_SQR    // repete ate somar N impares
+
+            STA 0052        // salva resultado
+
+            HLT
+END:
