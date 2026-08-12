@@ -1,0 +1,3 @@
+Comparacoes: 874
+Movimentacoes: 356
+Total: 0.000000
