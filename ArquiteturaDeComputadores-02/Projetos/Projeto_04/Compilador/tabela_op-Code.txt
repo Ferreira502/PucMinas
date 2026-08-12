@@ -1,0 +1,23 @@
+Funções:
+1. Função para consumir a frase "início" do arquivo_de_teste.ula
+2. Ler uma linha inteira (excluindo o '\n')
+3. Ler 
+
+
+Função          Mnemonico    Código Hexa
+W=Y             CopiaB       1
+W=X             CopiaA       0
+W=X⊕Y          AxB          2
+W=X'⊕B'        nAxnB        3
+W=(X.Y)'        AeBn         4
+W=Y'            nB           5
+W=X'+Y'         naonB        6
+W=A'            nA           7
+W=X+Y'          AonB         8
+W=F             UmL          9
+W=0             ZeroL        A
+W=X.Y           AeB          B
+W=X'.Y          nAeB         C
+W=X.Y'          AenB         D
+W=X+Y           AoB          E
+W=X'.Y'         nAeBn        F
