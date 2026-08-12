@@ -1,0 +1,36 @@
+# Considere o seguinte programa: y = 127x – 65z + 1 
+# Faça um programa que calcule o valor de y conhecendo os valores de x e z. 
+# Os valores de x e z 
+# estão armazenados na memória e, na posição imediatamente a seguir, 
+# o valor de y deverá ser 
+# escrito, ou seja:  .data x: .word 5 z: .word 7 y: .word 0   
+# esse valor deverá ser sobrescrito após a execução do programa. 
+
+# y = 127x - 65z + 1
+
+.data
+    x: .word 5
+    z: .word 7
+    y: .word 0
+
+.text
+main:
+    la   $t0, x
+    lw   $s0, 0($t0)     # $s0 = x
+    lw   $s1, 4($t0)     # $s1 = z
+
+    # 127 * x
+    addi $t1, $zero, 127
+    mult $s0, $t1
+    mflo $t2             # $t2 = 127x
+
+    # 65 * z
+    addi $t1, $zero, 65
+    mult $s1, $t1
+    mflo $t3             # $t3 = 65z
+
+    # y = 127x - 65z + 1
+    sub  $t4, $t2, $t3   # $t4 = 127x - 65z
+    addi $t4, $t4, 1     # $t4 = 127x - 65z + 1
+
+    sw   $t4, 8($t0)     # salva y na terceira posicao

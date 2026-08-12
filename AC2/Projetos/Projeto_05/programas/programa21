@@ -1,0 +1,36 @@
+.data
+    x: .word -2
+    y: .word 0
+
+.text
+main:
+    la   $t0, x
+    lw   $s0, 0($t0)         # $s0 = x
+
+    # verifica se x > 0
+    slt  $t1, $zero, $s0     # $t1 = 1 se 0 < x (x > 0)
+    beq  $t1, $zero, npos
+
+positivo:
+    # y = x^3 + 1
+    mult $s0, $s0
+    mflo $t2                 # $t2 = x^2
+
+    mult $t2, $s0
+    mflo $t3                 # $t3 = x^3
+
+    addi $t4, $t3, 1         # $t4 = x^3 + 1
+    j    fim
+
+npos:
+    # y = x^4 - 1
+    mult $s0, $s0
+    mflo $t2                 # $t2 = x^2
+
+    mult $t2, $t2
+    mflo $t3                 # $t3 = x^4  (x^2 * x^2)
+
+    addi $t4, $t3, -1        # $t4 = x^4 - 1
+
+fim:
+    sw   $t4, 4($t0)         # salva y na segunda posicao

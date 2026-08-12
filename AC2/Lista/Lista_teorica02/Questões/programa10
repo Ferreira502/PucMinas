@@ -1,0 +1,18 @@
+# h = A [ i ] ; 
+#         A[ i ] = A [ i + 1] ; 
+#         A [ i + 1] = h ;
+
+# h = A[i]
+sll  $t0, $s0, 2       # $t0 = i * 4
+add  $t0, $s2, $t0     # $t0 = endereco de A[i]
+lw   $s1, 0($t0)       # h = A[i]
+
+# A[i] = A[i+1]
+addi $t1, $s0, 1       # $t1 = i + 1
+sll  $t1, $t1, 2       # $t1 = (i+1) * 4
+add  $t1, $s2, $t1     # $t1 = endereco de A[i+1]
+lw   $t2, 0($t1)       # $t2 = A[i+1]
+sw   $t2, 0($t0)       # A[i] = A[i+1]
+
+# A[i+1] = h 
+sw   $s1, 0($t1)       # A[i+1] = h

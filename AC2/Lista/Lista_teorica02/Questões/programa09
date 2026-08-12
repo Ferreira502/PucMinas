@@ -1,0 +1,16 @@
+# A [ j ] = h + A [ i ] ;
+
+# i -> $s0
+# j -> $s1
+# h -> $s2
+# base de A -> $s3
+
+sll  $t0, $s0, 2       # $t0 = i * 4
+add  $t0, $s3, $t0     # $t0 = endereco de A[i]
+lw   $t0, 0($t0)       # $t0 = A[i]
+
+add  $t1, $s2, $t0     # $t1 = h + A[i]
+
+sll  $t2, $s1, 2       # $t2 = j * 4
+add  $t2, $s3, $t2     # $t2 = endereco de A[j]
+sw   $t1, 0($t2)       # A[j] = h + A[i]

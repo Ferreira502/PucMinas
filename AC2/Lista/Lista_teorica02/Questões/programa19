@@ -1,0 +1,69 @@
+# A mediana e o valor do meio quando ordenados.
+# Para 3 numeros, basta encontrar qual NAO e o maior NEM o menor.
+
+# Casos possíveis:
+# A <= B <= C -> mediana = B
+# A <= C <= B -> mediana = C
+# B <= A <= C -> mediana = A
+# B <= C <= A -> mediana = C
+# C <= A <= B -> mediana = A
+# C <= B <= A -> mediana = B
+
+.data
+    A: .word 23
+    B: .word 98
+    C: .word 17
+    M: .word 0       # mediana sera salva aqui
+
+.text
+main:
+    la   $t0, A
+    lw   $s0, 0($t0)     # $s0 = A
+    lw   $s1, 4($t0)     # $s1 = B  (posicao seguinte)
+    lw   $s2, 8($t0)     # $s2 = C  (posicao seguinte)
+
+    # testa se B e a mediana
+    # B e mediana se (A<=B e B<=C) ou (C<=B e B<=A)
+
+    # caso A <= B <= C
+    slt  $t1, $s1, $s0   # $t1 = 1 se B < A
+    bne  $t1, $zero, testa_bc
+    slt  $t1, $s2, $s1   # $t1 = 1 se C < B
+    bne  $t1, $zero, testa_bc
+    add  $s3, $zero, $s1 # mediana = B
+    j    fim
+
+testa_bc:
+    # caso C <= B <= A
+    slt  $t1, $s1, $s2   # $t1 = 1 se B < C
+    bne  $t1, $zero, testa_a
+    slt  $t1, $s0, $s1   # $t1 = 1 se A < B
+    bne  $t1, $zero, testa_a
+    add  $s3, $zero, $s1 # mediana = B
+    j    fim
+
+testa_a:
+    # testa se A e a mediana
+    # caso B <= A <= C
+    slt  $t1, $s0, $s1   # $t1 = 1 se A < B
+    bne  $t1, $zero, testa_ac
+    slt  $t1, $s2, $s0   # $t1 = 1 se C < A
+    bne  $t1, $zero, testa_ac
+    add  $s3, $zero, $s0 # mediana = A
+    j    fim
+
+testa_ac:
+    # caso C <= A <= B
+    slt  $t1, $s0, $s2   # $t1 = 1 se A < C
+    bne  $t1, $zero, mediana_c
+    slt  $t1, $s1, $s0   # $t1 = 1 se B < A
+    bne  $t1, $zero, mediana_c
+    add  $s3, $zero, $s0 # mediana = A
+    j    fim
+
+mediana_c:
+    # se nao e A nem B, e C
+    add  $s3, $zero, $s2  # mediana = C
+
+fim:
+    sw   $s3, 12($t0)     # salva mediana em M (offset 12 = 4*3)

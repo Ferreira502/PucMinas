@@ -1,0 +1,316 @@
+================================================================================
+PAGINAS DO LIVRO PARA ESTUDAR A LISTA 03 - AC2
+================================================================================
+
+Livro:
+Organizacao e Projeto de Computadores - Interface Hardware/Software
+David A. Patterson e John L. Hennessy
+Traducao da 5a edicao
+
+Arquivo:
+Livro\Organizacao_e_Projeto_de_Computadores_In.pdf
+
+IMPORTANTE:
+As numeracoes abaixo correspondem as paginas mostradas pelo leitor de PDF.
+O arquivo possui 1.312 paginas. A numeracao impressa dentro do livro pode ser
+diferente por causa da capa, prefacio, sumario e outras paginas iniciais.
+
+
+================================================================================
+MAPEAMENTO RAPIDO
+================================================================================
+
+Questao 1 - Programacao MIPS, vetores, funcoes e pilha
+
+    PDF 145-155: memoria, lw, sw e acesso a vetores
+    PDF 184-193: decisoes, comparacoes, if e lacos
+    PDF 194-210: funcoes, argumentos, retorno, jal, jr, ra e pilha
+    PDF 251-266: exemplos completos com funcoes e arrays
+
+Questao 2 - Caminho de dados e sinais de controle
+
+    PDF 424-437: construcao do caminho de dados por partes
+    PDF 438-456: datapath completo e unidade de controle
+
+Questao 3 - Tempos, monociclo, multiciclo, CPI e speedup
+
+    PDF 81-100: desempenho, tempo de CPU, CPI e speedup
+    PDF 438-456: caminho critico e tempo do processador monociclo
+
+Questao 4 - Pipeline
+
+    PDF 457-480: introducao e cinco fases do pipeline
+    PDF 483-506: caminho de dados com pipeline
+
+
+================================================================================
+QUESTAO 1 - PROGRAMACAO MIPS
+================================================================================
+
+PDF 145-155 - OPERANDOS NA MEMORIA
+----------------------------------
+
+Estudar:
+
+- instrucoes lw e sw;
+- endereco-base mais deslocamento;
+- diferenca entre endereco e conteudo da memoria;
+- acesso a elementos de arrays;
+- cada inteiro ocupa 4 bytes;
+- endereco de vetor[i] = base + 4*i.
+
+Relacao com a Lista 3:
+A funcao recebe o endereco inicial do vetor e precisa escrever cada y[i] na
+memoria. Esta parte explica como encontrar o endereco e como usar lw/sw.
+
+
+PDF 184-193 - DECISOES E LACOS
+------------------------------
+
+Estudar:
+
+- beq e bne;
+- slt;
+- rotulos;
+- traducao de if;
+- traducao de while e for;
+- comparacao i<n;
+- alteracao do fluxo de execucao.
+
+Relacao com a Lista 3:
+E necessario limitar n a 30, repetir o calculo para i=0 ate n-1 e escolher uma
+formula diferente para indice par e impar.
+
+
+PDF 194-210 - FUNCOES E PILHA
+-----------------------------
+
+Esta e a faixa mais importante para a Questao 1.
+
+Pontos principais:
+
+- aproximadamente PDF 196: registradores a0-a3, v0-v1 e ra;
+- PDF 198-201: stack pointer e uso da pilha;
+- PDF 199-201: exemplo completo de procedimento;
+- PDF 202-204: funcao que chama outra funcao e recursao;
+- PDF 210: tabela de convencoes dos registradores MIPS.
+
+Estudar:
+
+- argumentos sao passados em a0-a3;
+- valores sao retornados em v0-v1;
+- jal chama uma funcao e altera ra;
+- jr ra retorna ao chamador;
+- uma funcao que chama outra precisa preservar ra;
+- registradores s alterados precisam ser salvos e restaurados;
+- sp indica o topo da pilha.
+
+Relacao com a Lista 3:
+A primeira funcao chama a funcao quadrado. Por isso, precisa preservar seu
+endereco de retorno antes de executar outro jal.
+
+
+PDF 251-266 - EXEMPLOS COMPLETOS COM ARRAYS
+-------------------------------------------
+
+Estudar:
+
+- funcao swap;
+- funcao de ordenacao;
+- passagem de arrays para funcoes;
+- indices e ponteiros;
+- lacos que percorrem arrays;
+- juncao de varias ideias em um programa MIPS completo.
+
+Relacao com a Lista 3:
+Esses exemplos mostram como combinar funcao, memoria, vetor, indice e laco.
+
+
+================================================================================
+QUESTAO 2 - CAMINHO DE DADOS
+================================================================================
+
+PDF 424-437 - CONSTRUINDO O CAMINHO DE DADOS
+--------------------------------------------
+
+Ler antes de olhar o diagrama completo.
+
+Estudar:
+
+- PC;
+- memoria de instrucoes;
+- calculo de PC+4;
+- banco de registradores;
+- ULA;
+- extensor de sinal;
+- memoria de dados;
+- multiplexadores;
+- caminho de uma instrucao tipo R;
+- caminho de lw e sw;
+- caminho de uma instrucao de branch.
+
+Objetivo:
+Entender cada bloco isoladamente antes de tentar acompanhar todos os fios do
+diagrama completo.
+
+
+PDF 438-456 - DATAPATH COMPLETO E CONTROLE
+------------------------------------------
+
+Estudar:
+
+- uniao dos caminhos das diferentes instrucoes;
+- caminho percorrido por lw;
+- caminho percorrido por sw;
+- caminho percorrido por instrucoes tipo R;
+- caminho percorrido por beq;
+- unidade de controle principal;
+- controle da ULA;
+- sinais RegDst, ALUSrc, MemtoReg e RegWrite;
+- sinais MemRead, MemWrite e Branch;
+- sinal ALUOp;
+- escolha do proximo valor do PC.
+
+Relacao com a Lista 3:
+A Questao 2 pede para explicar exatamente quais blocos e sinais sao utilizados
+por lw, sw, beq e add.
+
+
+================================================================================
+QUESTAO 3 - DESEMPENHO E TEMPO DE EXECUCAO
+================================================================================
+
+PDF 81-100 - DESEMPENHO
+-----------------------
+
+Estudar:
+
+- tempo de resposta;
+- throughput;
+- desempenho como inverso do tempo;
+- tempo de CPU;
+- frequencia e periodo de clock;
+- CPI;
+- contagem de instrucoes;
+- comparacao entre computadores;
+- speedup.
+
+Formulas importantes:
+
+    Desempenho = 1 / Tempo
+
+    Tempo_CPU = numero_de_instrucoes * CPI * periodo_do_clock
+
+    Tempo_CPU = numero_de_instrucoes * CPI / frequencia
+
+    Speedup = tempo_antigo / tempo_novo
+
+    CPI_medio = soma(fracao_da_classe * CPI_da_classe)
+
+
+PDF 438-456 - CAMINHO CRITICO DO MONOCICLO
+------------------------------------------
+
+Estudar:
+
+- por que todas as instrucoes precisam caber em um unico ciclo;
+- por que lw normalmente e a instrucao mais lenta;
+- soma das latencias dos blocos percorridos;
+- caminho critico;
+- unidades que podem trabalhar simultaneamente;
+- periodo do clock determinado pelo pior caso.
+
+Relacao com a Lista 3:
+A Questao 3 fornece tempos para os blocos e pede a latencia de lw, sw, beq e
+tipo R, alem da comparacao dos benchmarks GCC e ABC.
+
+OBSERVACAO:
+Para os valores e a interpretacao exata de "multiciclo" usados pelo professor,
+consultar tambem:
+
+    Lista\Slides\j_caminho_dados_2024_1.pdf, paginas 17-24.
+
+O livro e excelente para a teoria, mas os slides estao mais proximos dos numeros
+especificos da questao.
+
+
+================================================================================
+QUESTAO 4 - PIPELINE
+================================================================================
+
+PDF 457-480 - INTRODUCAO AO PIPELINE
+------------------------------------
+
+Estudar:
+
+- analogia da lavagem de roupas;
+- execucao sobreposta de instrucoes;
+- diferenca entre latencia e vazao;
+- cinco fases do pipeline;
+- hazards estruturais, de dados e de controle.
+
+As cinco fases:
+
+    IF  - busca da instrucao
+    ID  - decodificacao e leitura dos registradores
+    EX  - execucao na ULA ou calculo do endereco
+    MEM - acesso a memoria de dados
+    WB  - escrita do resultado no banco de registradores
+
+Resumo para memorizar:
+
+    IF -> ID -> EX -> MEM -> WB
+
+
+PDF 483-506 - DATAPATH COM PIPELINE
+-----------------------------------
+
+Estudar:
+
+- registradores IF/ID;
+- registradores ID/EX;
+- registradores EX/MEM;
+- registradores MEM/WB;
+- instrucao lw atravessando as cinco fases;
+- varias instrucoes executando simultaneamente;
+- diagramas de pipeline por ciclos;
+- propagacao dos sinais de controle.
+
+Relacao com a Lista 3:
+A Questao 4 pede para dividir o diagrama nas fases IF, ID, EX, MEM e WB.
+
+
+================================================================================
+ROTA MINIMA DE LEITURA
+================================================================================
+
+Se o tempo estiver curto, seguir esta ordem:
+
+1. PDF 194-204 - funcoes, registradores e pilha;
+2. PDF 145-155 - memoria e vetores;
+3. PDF 184-193 - condicoes e lacos;
+4. PDF 424-437 - caminho de dados por partes;
+5. PDF 438-456 - datapath completo e controle;
+6. PDF 457-480 - pipeline;
+7. PDF 81-100  - desempenho, CPI e speedup.
+
+
+================================================================================
+ROTA POR QUESTAO
+================================================================================
+
+Para resolver somente a Questao 1:
+    PDF 145-155, 184-210 e 251-266.
+
+Para resolver somente a Questao 2:
+    PDF 424-456.
+
+Para resolver somente a Questao 3:
+    PDF 81-100 e 438-456, mais slides j paginas 17-24.
+
+Para resolver somente a Questao 4:
+    PDF 457-480 e 483-506.
+
+================================================================================
+FIM
+================================================================================

@@ -1,0 +1,23 @@
+# Inicialmente escreva um programa que faça: $8 = 0x12345678. 
+# A partir do registrador $8 acima, 
+# usando apenas instruções lógicas (or, ori, and, andi, 
+# xor, xori) e instruções de deslocamento (sll, srl e sra), 
+# você deverá obter os seguintes 
+# valores nos respectivos registradores: 
+# $9   = 0x12 $10 = 0x34 $11 = 0x56 $12 = 0x78    
+
+# $s8 = 0x12345678
+
+lui $8, 0x1234		# $8 = 0x12340000
+ori $8, $8, 0x5678 	# $8 = 0x12345678
+
+# $9 = 0x12
+srl $9, $8, 24 		# desloca 24 bits a direita -> $9 = 0x00000012
+
+# $11 = 0x56
+sll $10, $8, 8		# joga 0x34 para bits 31-24 -> $10 = 0x345678??
+srl $10, $10, 24  	# desloca 24 à direita ->      $10 = 0x00000034
+
+# $12 = 0x78
+sll  $12, $8, 24         # joga 0x78 para bits 31-24 -> $12 = 0x78
+srl  $12, $12, 24        # desloca 24 à direita      -> $12 = 0x00000078

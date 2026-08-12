@@ -1,0 +1,53 @@
+.data
+    X: .word 15        # 0000 1111 -> 4 bits significantes
+    Y: .word 200       # 1100 1000 -> 8 bits significantes
+
+.text
+main:
+    la   $t0, X
+    lw   $s0, 0($t0)   # $s0 = X
+    lw   $s1, 4($t0)   # $s1 = Y
+
+    # conta bits significantes de X -> $t0
+    add  $t0, $zero, $zero   # contador = 0
+    add  $t2, $s0, $zero     # copia de X para nao perder
+
+conta_x:
+    beq  $t2, $zero, fim_x   # se X == 0, termina
+    addi $t0, $t0, 1         # contador++
+    srl  $t2, $t2, 1         # X >>= 1
+    j    conta_x
+
+fim_x:
+    # conta bits significantes de Y -> $t1
+    add  $t1, $zero, $zero   # contador = 0
+    add  $t2, $s1, $zero     # copia de Y
+
+conta_y:
+    beq  $t2, $zero, fim_y   # se Y == 0, termina
+    addi $t1, $t1, 1         # contador++
+    srl  $t2, $t2, 1         # Y >>= 1
+    j    conta_y
+
+fim_y:
+    # verifica se resultado cabe em 32 bits
+    # bits_x + bits_y <= 32?
+    add  $t3, $t0, $t1       # $t3 = bits_x + bits_y
+    addi $t4, $zero, 32      # $t4 = 32
+    slt  $t5, $t4, $t3       # $t5 = 1 se 32 < total (precisa 64 bits)
+    bne  $t5, $zero, usa_64  # se total > 32, usa HI:LO
+
+usa_32:
+    # resultado cabe em $s2 apenas
+    mult $s0, $s1
+    mflo $s2                 # $s2 = LO (resultado completo)
+    add  $s3, $zero, $zero   # $s3 = 0 
+    j    fim
+
+usa_64:
+    # resultado precisa de $s2 e $s3
+    mult $s0, $s1
+    mflo $s2                 # $s2 = LO
+    mfhi $s3                 # $s3 = HI
+
+fim:

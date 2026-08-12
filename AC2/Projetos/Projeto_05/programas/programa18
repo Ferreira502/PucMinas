@@ -1,0 +1,48 @@
+# Para a expressão a seguir, escreva um programa que calcule o 
+# valor de k:   k = x y Obs: Você poderá utilizar o exercício anterior.  
+# O valor de x deve ser lido da primeira posição livre da memória e 
+# o valor de y deverá lido da 
+# segunda posição livre. O valor de k, após calculado, 
+# deverá ainda ser escrito na terceira posição 
+# livre da memória. Dê  um  valor  para  x  e  y  
+# (dê  valores  pequenos  !!)  e  use  o  MARS  para  verificar  a  
+# quantidade  de  
+# instruções conforme o tipo (ULA, Desvios, Mem ou Outras)
+
+.data
+    x: .word 3
+    y: .word 4
+    k: .word 0
+
+.text
+main:
+    la   $t0, x
+    lw   $s0, 0($t0)         # $s0 = x         (MEM)
+    lw   $s1, 4($t0)         # $s1 = y         (MEM)
+
+    addi $s2, $zero, 1       # resultado = 1 (x^0 = 1)
+    add  $s3, $zero, $zero   # contador i = 0
+
+    # caso especial: y == 0
+    beq  $s1, $zero, fim     # se y==0, k=1, termina
+
+loop_pot:
+    beq  $s3, $s1, fim       # se i == y, termina
+
+    # multiplica resultado * x via somas
+    add  $s4, $zero, $zero   # acumulador mul = 0
+    add  $s5, $zero, $zero   # contador mul = 0
+
+loop_mul:
+    beq  $s5, $s0, prox      # se contador == x, termina mul
+    add  $s4, $s4, $s2       # acumulador += resultado atual
+    addi $s5, $s5, 1         # contador mul++
+    j    loop_mul
+
+prox:
+    add  $s2, $s4, $zero     # resultado = acumulador
+    addi $s3, $s3, 1         # i++
+    j    loop_pot
+
+fim:
+    sw   $s2, 8($t0)         # salva k         (MEM)

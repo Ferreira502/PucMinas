@@ -1,0 +1,44 @@
+.data
+    fib: .space 400      # reserva 100 * 4 bytes (100 inteiros)
+
+.text
+main:
+    la   $s0, fib        # $s0 = base do vetor
+
+    # F[0] = 1
+    addi $t0, $zero, 1
+    sw   $t0, 0($s0)
+
+    # F[1] = 1
+    sw   $t0, 4($s0)
+
+    # loop de i = 2 até 99
+    addi $s1, $zero, 2   # i = 2
+    addi $s2, $zero, 100 # limite
+
+loop:
+    beq  $s1, $s2, fim   # se i == 100, termina
+
+    # calcula endereco de F[i-1] e F[i-2]
+    addi $t1, $s1, -1    # $t1 = i-1
+    sll  $t1, $t1, 2     # $t1 = (i-1) * 4
+    add  $t1, $s0, $t1   # $t1 = endereco de F[i-1]
+    lw   $t2, 0($t1)     # $t2 = F[i-1]
+
+    addi $t3, $s1, -2    # $t3 = i-2
+    sll  $t3, $t3, 2     # $t3 = (i-2) * 4
+    add  $t3, $s0, $t3   # $t3 = endereco de F[i-2]
+    lw   $t4, 0($t3)     # $t4 = F[i-2]
+
+    # F[i] = F[i-1] + F[i-2]
+    add  $t5, $t2, $t4   # $t5 = F[i]
+
+    # salva F[i]
+    sll  $t6, $s1, 2     # $t6 = i * 4
+    add  $t6, $s0, $t6   # $t6 = endereco de F[i]
+    sw   $t5, 0($t6)     # armazena F[i]
+
+    addi $s1, $s1, 1     # i++
+    j    loop
+
+fim:

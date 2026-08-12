@@ -1,0 +1,52 @@
+.data
+    x: .word 3
+    y: .word 0
+
+.text
+main:
+    la   $t0, x
+    lw   $s0, 0($t0)         # $s0 = x
+
+    # verifica par ou impar
+    andi $t1, $s0, 1         # $t1 = x & 1 (0=par, 1=impar)
+    bne  $t1, $zero, impar
+
+par:
+    # y = x^4 + x^3 - 2x^2
+    mult $s0, $s0
+    mflo $t2                 # $t2 = x^2
+
+    mult $t2, $s0
+    mflo $t3                 # $t3 = x^3
+
+    mult $t3, $s0
+    mflo $t4                 # $t4 = x^4
+
+    add  $t5, $t4, $t3       # $t5 = x^4 + x^3
+
+    addi $t6, $zero, 2
+    mult $t2, $t6
+    mflo $t6                 # $t6 = 2*x^2
+
+    sub  $t5, $t5, $t6       # $t5 = x^4 + x^3 - 2x^2
+    j    fim
+
+impar:
+    # y = x^5 - x^3 + 1
+    mult $s0, $s0
+    mflo $t2                 # $t2 = x^2
+
+    mult $t2, $s0
+    mflo $t3                 # $t3 = x^3
+
+    mult $t3, $s0
+    mflo $t4                 # $t4 = x^4
+
+    mult $t4, $s0
+    mflo $t5                 # $t5 = x^5
+
+    sub  $t5, $t5, $t3       # $t5 = x^5 - x^3
+    addi $t5, $t5, 1         # $t5 = x^5 - x^3 + 1
+
+fim:
+    sw   $t5, 4($t0)         # salva y na segunda posicao

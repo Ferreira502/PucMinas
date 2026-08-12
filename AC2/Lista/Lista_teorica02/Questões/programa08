@@ -1,0 +1,11 @@
+# h = k + A [ i ] ;
+
+# i -> $s0
+# h -> $s1
+# k -> $s2
+# base de A -> $s3
+
+sll  $t1, $s0, 2       # $t1 = i * 4  (offset)
+add  $t1, $s3, $t1     # $t1 = endereço de A[i]
+lw   $t0, 0($t1)       # $t0 = A[i]
+add  $s1, $s2, $t0     # h = k + A[i]

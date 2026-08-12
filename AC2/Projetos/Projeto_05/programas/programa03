@@ -1,0 +1,23 @@
+# x = 3
+# y = 4
+# z = ( 15 * x + 67 * y ) * 4
+
+# adicionando os registradores
+addi $s0, $zero, 3  # x = 3
+addi $s1, $zero, 4  # y = 4
+
+# adicionando os temporarios
+addi $t0, $zero, 15 # t0 = 15
+addi $t1, $zero, 67 # t1 = 67
+addi $t2, $zero, 4  # t2 = 4
+
+mult $t0, $s0 # 15 * x
+mflo $s3 	# resultado da multi
+
+mult $t1, $s1 # 67 * y
+mflo $s4	# resultado da multi
+
+add $s5, $s4, $s3 # soma s4 + s3
+
+mult $s5, $t2 # resultado anterior * 4
+mflo $s6

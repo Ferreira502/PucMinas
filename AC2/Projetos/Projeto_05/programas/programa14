@@ -1,0 +1,26 @@
+# Escreva um programa  que leia um valor A da memória, 
+# identifique se  o  número  é  par  ou  não.  
+# Um valor deverá ser escrito na segunda posição livre da memória 
+# (0 para par e 1 para ímpar).
+
+.data
+    A:      .word 7
+    result: .word 0          # 0=par, 1=impar
+
+.text
+main:
+    la   $t0, A
+    lw   $t1, 0($t0)         # $t1 = A
+
+    andi $t2, $t1, 1         # $t2 = bit menos significativo
+    beq  $t2, $zero, par     # se $t2 == 0, e par
+
+impar:
+    addi $t3, $zero, 1       # $t3 = 1
+    j    salva
+
+par:
+    add  $t3, $zero, $zero   # $t3 = 0
+
+salva:
+    sw   $t3, 4($t0)         # salva na segunda posicao

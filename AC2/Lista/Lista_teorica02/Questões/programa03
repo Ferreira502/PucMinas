@@ -1,0 +1,8 @@
+# x = 3
+# y = x * 1025
+
+addi $s0, $zero, 3     # x = 3
+addi $t0, $zero, 1025  # adicionando o 1025 em alguma variavel temporaria
+
+mult $s0, $t0 
+mflo $s1   	      # x * 1025 

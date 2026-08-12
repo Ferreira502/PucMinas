@@ -1,0 +1,13 @@
+# x = 305419896;
+
+lui  $t0, 0x1234       # carrega 0x1234 nos 16 bits superiores
+ori  $t0, $t0, 0x5678  # insere 0x5678 nos 16 bits inferiores
+
+#305419896 ÷ 16 = 19088743  resto 8
+# 19088743 ÷ 16 =  1193046  resto 7
+#  1193046 ÷ 16 =    74565  resto 6
+#    74565 ÷ 16 =     4660  resto 5
+#     4660 ÷ 16 =      291  resto 4
+#      291 ÷ 16 =       18  resto 3
+#       18 ÷ 16 =        1  resto 2
+#        1 ÷ 16 =        0  resto 1

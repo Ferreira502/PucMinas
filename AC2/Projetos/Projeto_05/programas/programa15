@@ -1,0 +1,43 @@
+# Escrever  um  programa  que  crie  um  vetor  de  
+# 100  elementos  na memória onde vetor[i] = 2*i + 
+# 1. Após a  última  posição  do  vetor criado,  
+# escrever  a  soma  de  todos  os  valores armazenados 
+# do vetor. Use  o  MARS  para  verificar  a  
+# quantidade  de  instruções  conforme  o  tipo  (ULA,  Desvios,  Mem  ou  
+# Outras)
+
+.data
+    vet:  .word 0,0,0,0,0,0,0,0,0,0
+          .word 0,0,0,0,0,0,0,0,0,0
+          .word 0,0,0,0,0,0,0,0,0,0
+          .word 0,0,0,0,0,0,0,0,0,0
+          .word 0,0,0,0,0,0,0,0,0,0
+          .word 0,0,0,0,0,0,0,0,0,0
+          .word 0,0,0,0,0,0,0,0,0,0
+          .word 0,0,0,0,0,0,0,0,0,0
+          .word 0,0,0,0,0,0,0,0,0,0
+          .word 0,0,0,0,0,0,0,0,0,0
+    soma: .word 0
+
+.text
+main:
+    la   $s0, vet
+    add  $s1, $zero, $zero   # i = 0
+    addi $s2, $zero, 100     # limite
+    add  $s3, $zero, $zero   # soma = 0
+    add  $t1, $s0, $zero     # ponteiro
+
+loop:
+    beq  $s1, $s2, salva_soma
+
+    sll  $t2, $s1, 1         # $t2 = 2*i
+    addi $t2, $t2, 1         # $t2 = 2*i + 1
+    sw   $t2, 0($t1)         # vetor[i] = 2*i+1
+    add  $s3, $s3, $t2       # soma += vetor[i]
+    addi $t1, $t1, 4         # avanca ponteiro
+    addi $s1, $s1, 1         # i++
+    j    loop
+
+salva_soma:
+    la   $t0, soma
+    sw   $s3, 0($t0)         # soma na posicao apos o vetor

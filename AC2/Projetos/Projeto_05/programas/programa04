@@ -1,0 +1,18 @@
+addi $s0, $zero, 3       # x = 3
+addi $s1, $zero, 4       # y = 4
+
+# 15 * x
+sll  $t0, $s0, 4         # t0 = x * 16 = 48
+sub  $t0, $t0, $s0       # t0 = x * 15 = 45, diminui 3 vindo do $s1
+
+# 67 * y
+sll  $t1, $s1, 6         # t1 = y * 64 = 256
+sll  $t2, $s1, 1         # t2 = y * 2  = 8
+add  $t1, $t1, $t2       # t1 = 256 + 8 = 264
+add  $t1, $t1, $s1       # t1 = 264 + 4 = 268
+
+# soma
+add  $t3, $t0, $t1       # t3 = 45 + 268 = 313
+
+# * 4
+sll  $t5, $t3, 2         # t5 = 313 * 4 = 1252

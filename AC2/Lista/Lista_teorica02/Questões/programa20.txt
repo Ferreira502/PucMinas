@@ -1,0 +1,136 @@
+## Soma de Vetor em MIPS
+
+### Programa Original
+
+# $s1 = base do vetor
+# $s2 = soma (acumulador)
+# $s3 = contador i
+# $s4 = limite (100)
+
+add  $s2, $zero, $zero   # soma = 0         (ALU)
+add  $s3, $zero, $zero   # i = 0            (ALU)
+addi $s4, $zero, 100     # limite = 100     (ALU)
+
+loop:
+    beq  $s3, $s4, fim       # se i==100, sai   (DESVIO)
+    sll  $t0, $s3, 2         # offset = i*4     (ALU)
+    add  $t0, $s1, $t0       # endereço A[i]    (ALU)
+    lw   $t1, 0($t0)         # carrega A[i]     (MEM)
+    add  $s2, $s2, $t1       # soma += A[i]     (ALU)
+    addi $s3, $s3, 1         # i++              (ALU)
+    j    loop                # volta            (DESVIO)
+
+fim:
+    sll  $t0, $s4, 2         # offset = 100*4   (ALU)
+    add  $t0, $s1, $t0       # endereço final   (ALU)
+    sw   $s2, 0($t0)         # salva soma       (MEM)
+
+---
+
+### Contagem de Instruções
+
+Fora do loop (executam 1x):
+  add  (soma=0)       -> ALU  -> 1
+  add  (i=0)          -> ALU  -> 1
+  addi (limite)       -> ALU  -> 1
+  sll  (offset final) -> ALU  -> 1
+  add  (end. final)   -> ALU  -> 1
+  sw   (salva soma)   -> MEM  -> 1
+
+Dentro do loop (executam 100x + 1 beq final):
+  beq             -> DESVIO -> 101
+  sll             -> ALU    -> 100
+  add (endereço)  -> ALU    -> 100
+  lw              -> MEM    -> 100
+  add (soma)      -> ALU    -> 100
+  addi (i++)      -> ALU    -> 100
+  j               -> DESVIO -> 100
+
+---
+
+### Cálculo do CPI Médio (Original)
+
+Total de instruções por tipo:
+  ALU    = 3 + 100 + 100 + 100 + 100 + 1 + 1 = 405
+  DESVIO = 101 + 100                          = 201
+  MEM    = 100 + 1                            = 101
+  Total  = 707 instruções
+
+Ciclos totais:
+  Ciclos = (405 x 3) + (201 x 4) + (101 x 5)
+         = 1215 + 804 + 505
+         = 2524 ciclos
+
+CPI médio = 2524 / 707 = 3,57
+
+Tempo de execução:
+  Clock = 100 MHz -> T = 10ns
+  Tempo = 2524 x 10ns = 25.240ns = 25,24us
+
+---
+
+### Programa Melhorado
+(Elimina sll + add dentro do loop, incrementando endereço diretamente)
+
+add  $s2, $zero, $zero   # soma = 0          (ALU)
+add  $t0, $s1, $zero     # $t0 = base        (ALU)
+addi $s4, $zero, 100     # limite = 100      (ALU)
+sll  $t2, $s4, 2         # $t2 = 100*4=400   (ALU)
+add  $t2, $s1, $t2       # $t2 = endereço fim (ALU)
+
+loop:
+    beq  $t0, $t2, fim       # se chegou ao fim  (DESVIO)
+    lw   $t1, 0($t0)         # carrega A[i]      (MEM)
+    add  $s2, $s2, $t1       # soma += A[i]      (ALU)
+    addi $t0, $t0, 4         # avança endereço   (ALU)
+    j    loop                # volta             (DESVIO)
+
+fim:
+    sw   $s2, 0($t2)         # salva soma        (MEM)
+
+---
+
+### Cálculo do CPI Médio (Melhorado)
+
+Total de instruções por tipo:
+  ALU    = 5 + 100 + 100 = 205
+  DESVIO = 101 + 100     = 201
+  MEM    = 100 + 1       = 101
+  Total  = 507 instruções
+
+Ciclos totais:
+  Ciclos = (205 x 3) + (201 x 4) + (101 x 5)
+         = 615 + 804 + 505
+         = 1924 ciclos
+
+CPI médio = 1924 / 507 = 3,79
+
+Tempo melhorado:
+  Tempo = 1924 x 10ns = 19.240ns = 19,24us
+
+---
+
+### Speedup
+
+  Speedup = Tempo original / Tempo melhorado
+          = 25.240 / 19.240
+          = 1,31
+
+O programa melhorado é 31% mais rápido.
+Eliminando 2 instruções ALU por iteracao (sll + add),
+totalizando 200 instrucoes a menos.
+
+---
+
+### Resumo Final
+
+                Original    Melhorado
+Instrucoes:     707         507
+Ciclos:         2524        1924
+CPI medio:      3,57        3,79
+Tempo:          25,24us     19,24us
+Speedup:        -           1,31x
+
+Obs: O CPI medio subiu no programa melhorado pois eliminamos
+instrucoes ALU (CPI=3, mais baratas), mas o tempo total caiu
+pois executamos menos instrucoes no total.

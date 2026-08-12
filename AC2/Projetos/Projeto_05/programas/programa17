@@ -1,0 +1,31 @@
+# Para a expressão a seguir, escreva um programa que 
+# calcule o valor de k: k =  x * y   (
+# Você deverá realizar a multiplicação através de somas!) 
+# O valor de x deve ser lido da primeira posição livre da memória 
+# e o valor de y deverá lido da 
+# segunda posição livre. O valor de k, após calculado, 
+# deverá ainda ser escrito na terceira posição 
+# livre da memória.
+
+.data
+    x: .word 5
+    y: .word 4
+    k: .word 0
+
+.text
+main:
+    la   $t0, x
+    lw   $s0, 0($t0)         # $s0 = x      (MEM)
+    lw   $s1, 4($t0)         # $s1 = y      (MEM)
+
+    add  $s2, $zero, $zero   # k = 0
+    add  $s3, $zero, $zero   # contador = 0
+
+loop:
+    beq  $s3, $s1, fim       # se contador == y, termina
+    add  $s2, $s2, $s0       # k = k + x
+    addi $s3, $s3, 1         # contador++
+    j    loop
+
+fim:
+    sw   $s2, 8($t0)         # salva k na terceira posicao (MEM)

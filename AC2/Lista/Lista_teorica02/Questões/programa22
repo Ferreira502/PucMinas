@@ -1,0 +1,43 @@
+.data
+    base: .word 0x10010100   # endereco onde o vetor sera criado
+    N:    .word 8            # quantidade de elementos
+    lixo: .word 0            # terceiro numero lido (nao usado)
+
+.text
+main:
+    # le os 3 numeros da memoria
+    la   $t0, base
+    lw   $s0, 0($t0)         # $s0 = endereco base do vetor
+    lw   $s1, 4($t0)         # $s1 = quantidade N
+
+    # loop para preencher o vetor
+    add  $s2, $zero, $zero   # i = 0
+    add  $s3, $zero, $zero   # soma = 0
+    add  $t1, $s0, $zero     # $t1 = ponteiro endereco atual
+
+loop:
+    beq  $s2, $s1, salva_soma  # se i == N, termina
+
+    # verifica se i e par ou impar
+    andi $t2, $s2, 1         # $t2 = i & 1 (0=par, 1=impar)
+    bne  $t2, $zero, impar
+
+par:
+    # y[i] = 2i - 1
+    sll  $t3, $s2, 1         # $t3 = 2 * i
+    addi $t3, $t3, -1        # $t3 = 2i - 1
+    j    salva
+
+impar:
+    # y[i] = i
+    add  $t3, $s2, $zero     # $t3 = i
+
+salva:
+    sw   $t3, 0($t1)         # y[i] = $t3
+    add  $s3, $s3, $t3       # soma += y[i]
+    addi $t1, $t1, 4         # avanca ponteiro
+    addi $s2, $s2, 1         # i++
+    j    loop
+
+salva_soma:
+    sw   $s3, 0($t1)         # ultima posicao = soma

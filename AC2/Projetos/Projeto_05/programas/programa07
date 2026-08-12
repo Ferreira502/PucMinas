@@ -1,0 +1,28 @@
+# Considere a seguinte instrução iniciando um programa: 
+# ori $8, $0, 0x01 Usando apenas instruções reg-reg lógicas e/ou 
+# instruções de deslocamento (sll, srl e 
+# sra), continuar o programa de forma que ao final, 
+# tenhamos o seguinte conteúdo no 
+# registrador $8: $8 = 0xFFFFFFFF
+
+# $8 = 0xFFFFFFFF = 1111 1111 1111 1111 1111 1111 1111 1111
+
+ori $8, $0, 0x01  	# 8 = 0x0000001
+
+sll $8, $8, 1           # $8 = 0x00000002
+or  $8, $8, $9          # $8 = 0x00000003 
+
+sll $9, $8, 1           # $9 = 0x00000002
+or  $8, $8, $9          # $8 = 0x00000003  (2 bits)
+
+sll $9, $8, 2           # $9 = 0x0000000C
+or  $8, $8, $9          # $8 = 0x0000000F  (4 bits)
+
+sll $9, $8, 4           # $9 = 0x000000F0
+or  $8, $8, $9          # $8 = 0x000000FF  (8 bits)
+
+sll $9, $8, 8           # $9 = 0x0000FF00
+or  $8, $8, $9          # $8 = 0x0000FFFF  (16 bits)
+
+sll $9, $8, 16          # $9 = 0xFFFF0000
+or  $8, $8, $9          # $8 = 0xFFFFFFFF  (32 bits)

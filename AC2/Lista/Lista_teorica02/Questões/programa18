@@ -1,0 +1,39 @@
+# se (50 <= x <= 100) OU (150 <= x <= 200) -> flag = 1
+# caso contrario                           -> flag = 0
+
+.data
+    num: .word 175         # numero a ser lido (teste)
+
+.text
+main:
+    la   $t0, num
+    lw   $s0, 0($t0)        # $s0 = numero lido
+    add  $s1, $zero, $zero  # $s1 = flag = 0
+
+    # verifica 50 <= x <= 100
+
+    addi $t1, $zero, 50
+    slt  $t2, $s0, $t1      # $t2 = 1 se x < 50
+    bne  $t2, $zero, faixa2 # x < 50, testa proxima faixa
+
+    addi $t1, $zero, 100
+    slt  $t2, $t1, $s0      # $t2 = 1 se x > 100
+    bne  $t2, $zero, faixa2 # x > 100, testa proxima faixa
+
+    addi $s1, $zero, 1      # esta na faixa flag = 1
+    j    fim
+
+    # verifica 150 <= x <= 200
+faixa2:
+    addi $t1, $zero, 150
+    slt  $t2, $s0, $t1      # $t2 = 1 se x < 150
+    bne  $t2, $zero, fim    # x < 150, fora das faixas
+
+    addi $t1, $zero, 200
+    slt  $t2, $t1, $s0      # $t2 = 1 se x > 200
+    bne  $t2, $zero, fim    # x > 200, fora das faixas
+
+    addi $s1, $zero, 1      # esta na faixa flag = 1
+
+fim:
+    # $s1 = flag (1 ou 0)

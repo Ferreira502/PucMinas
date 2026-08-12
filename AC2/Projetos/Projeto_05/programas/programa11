@@ -1,0 +1,25 @@
+# y = x - z + 300000
+# x = 100000
+# z = 200000
+# y = 100000 - 200000 + 300000 = 200000
+
+.data
+    x: .word 100000
+    z: .word 200000
+    y: .word 0
+
+.text
+main:
+    la   $t0, x
+    lw   $s0, 0($t0)      # $s0 = x
+    lw   $s1, 4($t0)      # $s1 = z
+
+    # carrega 300000 = 0x493E0 no registrador
+    lui  $s2, 0x4         # $s2 = 0x00040000
+    ori  $s2, $s2, 0x93E0 # $s2 = 0x000493E0 = 300000
+
+    # y = x - z + 300000
+    sub  $s3, $s0, $s1    # $s3 = x - z
+    add  $s3, $s3, $s2    # $s3 = x - z + 300000
+
+    sw   $s3, 8($t0)      # salva y (offset 8)

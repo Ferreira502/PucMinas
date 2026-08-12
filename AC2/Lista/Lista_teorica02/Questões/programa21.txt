@@ -1,0 +1,123 @@
+## Análise do Programa MIPS
+
+### Programa Original
+
+addi $S3, $S2, 396   # (ALU)
+LOOP:
+    lw   $S1, 0($S2)       # carrega elemento    (MEM)
+    addi $S1, $S1, 1       # incrementa +1       (ALU)
+    sw   $S1, 0($S2)       # salva elemento      (MEM)
+    addi $S2, $S2, 4       # avança ponteiro     (ALU)
+    sub  $S4, $S3, $S2     # verifica fim        (ALU)
+    bne  $S4, $zero, LOOP  # se não chegou, loop (DESVIO)
+
+O programa percorre um vetor somando +1 em cada elemento.
+$S3 = endereço final | Loop executa 100 vezes.
+
+---
+
+### Contagem de Instruções (Original)
+
+Fora do loop (executa 1x):
+  addi $S3, $S2, 396  -> ALU -> 1
+
+Dentro do loop (executa 100x):
+  lw   $S1, 0($S2)       -> MEM    -> 100
+  addi $S1, $S1, 1       -> ALU    -> 100
+  sw   $S1, 0($S2)       -> MEM    -> 100
+  addi $S2, $S2, 4       -> ALU    -> 100
+  sub  $S4, $S3, $S2     -> ALU    -> 100
+  bne  $S4, $zero, LOOP  -> DESVIO -> 100
+
+Total por tipo:
+  ALU    = 1 + 100 + 100 + 100 = 301
+  DESVIO = 100                  = 100
+  MEM    = 100 + 100            = 200
+  Total  = 601 instrucoes
+
+---
+
+### Cálculo do CPI Médio (Original)
+
+Ciclos totais:
+  Ciclos = (301 x 3) + (100 x 4) + (200 x 5)
+         = 903 + 400 + 1000
+         = 2303 ciclos
+
+CPI medio = 2303 / 601 = 3,83
+
+Tempo de execucao:
+  Clock = 100 MHz -> T = 10ns
+  Tempo = 2303 x 10ns = 23.030ns = 23,03us
+
+---
+
+### Programa Melhorado
+(Elimina o sub dentro do loop, comparando $S2 diretamente com $S3)
+
+addi $S3, $S2, 400    # endereço APOS o ultimo elemento (ALU)
+
+LOOP:
+    lw   $S1, 0($S2)      # carrega elemento    (MEM)
+    addi $S1, $S1, 1      # incrementa +1       (ALU)
+    sw   $S1, 0($S2)      # salva elemento      (MEM)
+    addi $S2, $S2, 4      # avança ponteiro     (ALU)
+    bne  $S2, $S3, LOOP   # se nao chegou, loop (DESVIO)
+
+---
+
+### Contagem de Instruções (Melhorado)
+
+Fora do loop (executa 1x):
+  addi $S3, $S2, 400  -> ALU -> 1
+
+Dentro do loop (executa 100x):
+  lw   $S1, 0($S2)     -> MEM    -> 100
+  addi $S1, $S1, 1     -> ALU    -> 100
+  sw   $S1, 0($S2)     -> MEM    -> 100
+  addi $S2, $S2, 4     -> ALU    -> 100
+  bne  $S2, $S3, LOOP  -> DESVIO -> 100
+
+Total por tipo:
+  ALU    = 1 + 100 + 100 = 201
+  DESVIO = 100            = 100
+  MEM    = 100 + 100      = 200
+  Total  = 501 instrucoes
+
+---
+
+### Cálculo do CPI Médio (Melhorado)
+
+Ciclos totais:
+  Ciclos = (201 x 3) + (100 x 4) + (200 x 5)
+         = 603 + 400 + 1000
+         = 2003 ciclos
+
+CPI medio = 2003 / 501 = 3,99
+
+Tempo melhorado:
+  Tempo = 2003 x 10ns = 20.030ns = 20,03us
+
+---
+
+### Speedup
+
+  Speedup = Tempo original / Tempo melhorado
+          = 23.030 / 20.030
+          = 1,15
+
+O programa melhorado e 15% mais rapido.
+Eliminou 100 instrucoes SUB (uma por iteracao).
+O CPI medio subiu pois o SUB (ALU, CPI=3) era mais barato
+que as demais instrucoes predominantes (MEM, CPI=5).
+
+---
+
+### Resumo Final
+
+                Original    Melhorado
+Instrucoes:     601         501
+Ciclos:         2303        2003
+CPI medio:      3,83        3,99
+Tempo:          23,03us     20,03us
+Speedup:        -           1,15x

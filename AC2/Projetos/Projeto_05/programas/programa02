@@ -1,0 +1,12 @@
+# x = 1; 
+# y = 5*x + 15;
+
+addi $s0, $zero, 1 # x = 1 
+
+# 5 * x
+addi $t0, $zero, 5       # t0 = 5
+mult $s0, $t0            # x * 5  ->  1 * 5 = 5
+mflo $t1                 # t1 = 5
+
+# 5*x + 15
+addi $s1, $t1, 15        # y = 5 + 15 = 20

@@ -1,0 +1,719 @@
+================================================================================
+PROVA 3 - RESOLUCAO DAS QUESTOES VISIVEIS NA FOTO
+================================================================================
+
+Arquivo analisado:
+WhatsApp Image 2026-06-29 at 12.47.42.jpeg
+
+A foto mostra integralmente as questoes 10, 11, 12 e 13. O texto informa que o
+mesmo diagrama sera usado nas questoes 11 a 20, mas as questoes 14 a 20 nao
+aparecem na imagem fornecida.
+
+
+================================================================================
+QUESTAO 10
+================================================================================
+
+Enunciado resumido:
+Considerando j, jal, jr, beq e bne, qual instrucao consegue desviar para o
+endereco mais distante em relacao ao seu endereco? Por que?
+
+RESPOSTA: jr.
+
+Explicacao:
+
+1. beq e bne sao instrucoes do formato I.
+
+Elas possuem um imediato de 16 bits com sinal. Esse valor representa um
+deslocamento em palavras, relativo a PC+4:
+
+    destino = PC+4 + (sign_extend(imediato) << 2)
+
+O intervalo em instrucoes e aproximadamente:
+
+    -32768 ate +32767 instrucoes
+
+Como cada instrucao ocupa 4 bytes, o alcance em bytes e aproximadamente:
+
+    -131072 ate +131068 bytes
+
+Portanto, beq e bne alcancam cerca de 128 KiB para tras ou para frente.
+
+
+2. j e jal sao instrucoes do formato J.
+
+Elas possuem um campo de destino de 26 bits. O processador desloca esse campo
+dois bits para a esquerda e usa os quatro bits mais altos de PC+4:
+
+    destino = { PC+4[31:28], instrucao[25:0], 00 }
+
+Assim, j e jal podem escolher qualquer endereco alinhado dentro da mesma regiao
+de 256 MiB determinada pelos quatro bits superiores de PC+4.
+
+
+3. jr e uma instrucao do formato R.
+
+Ela nao guarda o endereco de destino dentro da instrucao. O destino e lido de
+um registrador de 32 bits:
+
+    PC = conteudo do registrador rs
+
+Como o registrador pode conter um endereco completo de 32 bits, jr pode, em
+principio, transferir o controle para qualquer endereco valido do espaco de
+enderecamento de 32 bits.
+
+Conclusao:
+
+    alcance: jr > j/jal > beq/bne
+
+jr alcanca mais longe porque utiliza um endereco completo armazenado em um
+registrador de 32 bits. j e jal ficam limitados a uma regiao de 256 MiB, enquanto
+beq e bne usam apenas um deslocamento relativo de 16 bits.
+
+
+================================================================================
+QUESTAO 11
+================================================================================
+
+Pergunta:
+Qual das instrucoes requer o uso da linha de dados [11]?
+
+RESPOSTA: alternativa G - add e lw.
+
+Explicacao:
+
+A linha [11] e o caminho de write-back. Ela leva a saida do multiplexador
+MemtoReg ate a entrada "Write data" do banco de registradores.
+
+ADD utiliza a linha porque:
+
+    resultado da ULA -> MUX MemtoReg -> banco de registradores
+
+LW utiliza a linha porque:
+
+    dado lido da memoria -> MUX MemtoReg -> banco de registradores
+
+SW nao utiliza a linha, pois escreve na memoria e nao em registrador.
+
+BEQ nao utiliza a linha, pois apenas compara valores e possivelmente altera o PC.
+
+Portanto:
+
+    add: SIM
+    beq: NAO
+    lw:  SIM
+    sw:  NAO
+
+    Alternativa correta: G) add e lw.
+
+Aplicando as instrucoes da Lista 3 na linha [11]:
+
+    ADD $S1,$S2,$S3
+
+    A ULA calcula $s2+$s3. O resultado atravessa o MUX MemtoReg e percorre a
+    linha [11] para chegar a entrada Write data do banco. RegWrite=1 grava o
+    resultado em $s1.
+
+    Valor transportado por [11]: $s2+$s3.
+
+
+    LW $S1,num($S2)
+
+    A ULA calcula o endereco $s2+num. A memoria le esse endereco. O dado lido
+    atravessa o MUX MemtoReg e a linha [11], chegando a entrada Write data. Em
+    seguida, RegWrite=1 grava o dado em $s1.
+
+    Valor transportado por [11]: Memoria[$s2+num].
+
+
+    SW $S1,num($S2)
+
+    O valor de $s1 vai do banco diretamente para a entrada Write data da memoria
+    de dados. Como sw nao grava registrador, nao usa a linha [11]. RegWrite=0.
+
+
+    BEQ $S1,$S2,pulos
+
+    A ULA apenas compara $s1 e $s2. Nenhum resultado volta para o banco de
+    registradores, portanto a linha [11] nao e usada. RegWrite=0.
+
+
+================================================================================
+QUESTAO 12
+================================================================================
+
+Pergunta:
+Qual das instrucoes requer o uso da linha de dados [12]?
+
+RESPOSTA: alternativa E - add, beq, lw e sw.
+
+Explicacao:
+
+A linha [12] e a saida do multiplexador ALUSrc, ligada a segunda entrada da ULA.
+Todas as quatro instrucoes precisam fornecer um segundo operando para a ULA:
+
+ADD:
+
+    segundo operando = valor do registrador rt
+    a ULA calcula rs+rt
+
+BEQ:
+
+    segundo operando = valor do registrador rt
+    a ULA compara os registradores, normalmente fazendo rs-rt
+
+LW:
+
+    segundo operando = imediato estendido
+    a ULA calcula endereco-base+deslocamento
+
+SW:
+
+    segundo operando = imediato estendido
+    a ULA calcula endereco-base+deslocamento
+
+O multiplexador apenas muda a origem do segundo operando:
+
+    ALUSrc=0 para add e beq: escolhe registrador
+    ALUSrc=1 para lw e sw: escolhe imediato estendido
+
+Portanto:
+
+    add: SIM
+    beq: SIM
+    lw:  SIM
+    sw:  SIM
+
+    Alternativa correta: E) add, beq, lw e sw.
+
+Aplicando as instrucoes da Lista 3 na linha [12]:
+
+    ADD $S1,$S2,$S3
+
+    A primeira entrada da ULA recebe $s2. ALUSrc=0 faz o MUX escolher o segundo
+    registrador, portanto a linha [12] transporta $s3 para a segunda entrada.
+
+    Valor em [12]: $s3.
+
+
+    BEQ $S1,$S2,pulos
+
+    A primeira entrada recebe $s1. ALUSrc=0 seleciona o segundo registrador e a
+    linha [12] transporta $s2. A ULA calcula $s1-$s2 para produzir o sinal Zero.
+
+    Valor em [12]: $s2.
+
+
+    LW $S1,num($S2)
+
+    A primeira entrada recebe o endereco-base $s2. ALUSrc=1 escolhe o imediato
+    num estendido para 32 bits. A linha [12] transporta esse imediato para a ULA,
+    que calcula $s2+num.
+
+    Valor em [12]: sign_extend(num).
+
+
+    SW $S1,num($S2)
+
+    Assim como em lw, a primeira entrada recebe $s2 e ALUSrc=1 seleciona num. A
+    linha [12] transporta o deslocamento usado para calcular o endereco onde o
+    conteudo de $s1 sera armazenado.
+
+    Valor em [12]: sign_extend(num).
+
+
+================================================================================
+QUESTAO 13
+================================================================================
+
+Pergunta:
+Qual das instrucoes requer o uso da linha de dados [13]?
+
+RESPOSTA: alternativa B - somente beq.
+
+Explicacao:
+
+A linha [13] pertence ao caminho que leva o imediato do branch para o bloco
+"Shift left 2". O deslocamento e preparado para calcular o endereco de destino:
+
+    destino = PC+4 + (sign_extend(imediato) << 2)
+
+Das instrucoes apresentadas, apenas beq precisa calcular esse endereco de branch.
+
+ADD usa a ULA para somar registradores.
+LW e SW usam o imediato, mas o enviam para a ULA a fim de calcular um endereco
+de dados; nao usam o deslocamento de branch da linha [13].
+
+Portanto:
+
+    add: NAO
+    beq: SIM
+    lw:  NAO
+    sw:  NAO
+
+    Alternativa correta: B) somente beq.
+
+Aplicando as instrucoes da Lista 3 na linha [13]:
+
+    BEQ $S1,$S2,pulos
+
+    O campo imediato da instrucao representa a distancia entre PC+4 e o rotulo
+    pulos, medida em palavras. Depois de ser estendido para 32 bits, esse valor
+    percorre a linha [13] e entra no Shift left 2. O deslocamento por 2 converte
+    a distancia de palavras para bytes. Depois, o somador calcula:
+
+        destino = PC+4 + (sign_extend(offset) << 2)
+
+    Valor em [13]: offset do rotulo pulos, estendido para 32 bits.
+
+
+    LW $S1,num($S2) e SW $S1,num($S2)
+
+    Essas instrucoes tambem possuem imediato, mas num representa deslocamento de
+    um endereco de dados. Ele segue para o MUX ALUSrc e para a linha [12], sem
+    passar pela linha [13] nem pelo Shift left 2.
+
+
+    ADD $S1,$S2,$S3
+
+    E uma instrucao tipo R e nao possui imediato de branch. Usa os registradores
+    $s2 e $s3 e, portanto, nao usa a linha [13].
+
+
+================================================================================
+TABELA CONJUNTA: LINHAS [11], [12] E [13]
+================================================================================
+
+Instrucao                 Linha 11             Linha 12              Linha 13
+------------------------  -------------------  --------------------  ------------
+ADD $S1,$S2,$S3           SIM: $s2+$s3         SIM: $s3              NAO
+LW  $S1,num($S2)          SIM: Mem[$s2+num]    SIM: extende(num)     NAO
+SW  $S1,num($S2)          NAO                  SIM: extende(num)     NAO
+BEQ $S1,$S2,pulos         NAO                  SIM: $s2              SIM: offset
+
+Como ler a tabela:
+
+- [11] e a volta do resultado para o banco de registradores;
+- [12] e o segundo operando efetivamente entregue a ULA;
+- [13] e o deslocamento exclusivo do calculo do endereco do branch.
+
+
+================================================================================
+GABARITO RESUMIDO
+================================================================================
+
+Questao 10: jr, pois usa um endereco completo de 32 bits vindo de registrador.
+Questao 11: G) add e lw.
+Questao 12: E) add, beq, lw e sw.
+Questao 13: B) somente beq.
+
+
+================================================================================
+PENDENCIA
+================================================================================
+
+As questoes 14 a 20 nao aparecem na imagem. E necessaria uma foto da pagina
+seguinte ou do restante da prova para resolve-las com seguranca.
+
+
+================================================================================
+MAPA FINAL - QUEM UTILIZA CADA LINHA NUMERADA DE [11] A [20]
+================================================================================
+
+O enunciado do diagrama afirma que este caminho de dados suporta quatro
+instrucoes: add, beq, lw e sw. Por isso, o mapa abaixo usa exatamente as
+instrucoes presentes na prova e na Lista 3:
+
+    ADD $S1,$S2,$S3
+    BEQ $S1,$S2,pulos
+    LW  $S1,num($S2)
+    SW  $S1,num($S2)
+
+As instrucoes j, jal e jr aparecem na Questao 10, mas nao fazem parte do caminho
+de dados original. No fim deste arquivo ha uma extensao mostrando o novo hardware
+necessario e como elas se relacionam com as linhas [11] a [20].
+
+
+LINHA [11] - WRITE-BACK PARA O BANCO DE REGISTRADORES
+-----------------------------------------------------
+
+Quem utiliza: ADD e LW.
+
+ADD: transporta $s2+$s3 da saida do MUX MemtoReg ate Write data de $s1.
+LW:  transporta Memoria[$s2+num] ate Write data de $s1.
+SW:  nao escreve registrador.
+BEQ: nao escreve registrador.
+
+
+LINHA [12] - SEGUNDO OPERANDO ENTREGUE A ULA
+---------------------------------------------
+
+Quem utiliza: ADD, BEQ, LW e SW.
+
+ADD: [12]=$s3, escolhido pelo MUX ALUSrc com ALUSrc=0.
+BEQ: [12]=$s2, usado na comparacao $s1-$s2, com ALUSrc=0.
+LW:  [12]=sign_extend(num), usado em $s2+num, com ALUSrc=1.
+SW:  [12]=sign_extend(num), usado em $s2+num, com ALUSrc=1.
+
+
+LINHA [13] - OFFSET DO BRANCH PARA O SHIFT LEFT 2
+-------------------------------------------------
+
+Quem utiliza: somente BEQ.
+
+BEQ: transporta o offset estendido do rotulo pulos para o Shift left 2. O
+endereco e PC+4+(offset<<2).
+LW/SW: num vai para a ULA pela linha [12], sem Shift left 2.
+ADD: nao possui imediato de branch.
+
+
+LINHA [14] - SINAL MemWrite DA MEMORIA DE DADOS
+------------------------------------------------
+
+Quem utiliza/ativa: somente SW.
+
+SW: MemWrite=1 para gravar $s1 em Memoria[$s2+num].
+ADD, BEQ e LW: MemWrite=0; nao escrevem na memoria de dados.
+
+
+LINHA [15] - SINAL ALUSrc DO MUX ANTES DA ULA
+----------------------------------------------
+
+Quem utiliza: ADD, BEQ, LW e SW.
+
+ADD: ALUSrc=0 para escolher $s3.
+BEQ: ALUSrc=0 para escolher $s2.
+LW:  ALUSrc=1 para escolher sign_extend(num).
+SW:  ALUSrc=1 para escolher sign_extend(num).
+
+A linha e usada por todas; o que muda e o valor de controle 0 ou 1.
+
+
+LINHA [16] - SINAL MemtoReg DO MUX DE WRITE-BACK
+-------------------------------------------------
+
+Quem utiliza: ADD e LW.
+
+ADD: MemtoReg=0 para mandar o resultado da ULA ao banco de registradores.
+LW:  MemtoReg=1 para mandar o dado lido da memoria ao banco.
+SW e BEQ: nao escrevem registrador; MemtoReg e indiferente (don't care).
+
+
+LINHA [17] - SINAL PCSource DO MUX DO PROXIMO PC
+------------------------------------------------
+
+Quem utiliza para selecionar o desvio: somente BEQ.
+
+BEQ nao tomado: PCSource=0 e o proximo endereco e PC+4.
+BEQ tomado:     PCSource=1 e o proximo endereco e PC+4+(offset<<2).
+ADD, LW e SW seguem normalmente para PC+4; nao solicitam branch.
+
+
+LINHA [18] - SINAL RegDst DO MUX DO REGISTRADOR-DESTINO
+-------------------------------------------------------
+
+Quem utiliza: ADD e LW.
+
+ADD: RegDst=1 escolhe rd, isto e, o campo que representa $s1.
+LW:  RegDst=0 escolhe rt, tambem representando $s1 nessa instrucao.
+SW e BEQ: nao escrevem registrador; RegDst e indiferente (don't care).
+
+
+LINHA [19] - SINAL RegWrite DO BANCO DE REGISTRADORES
+-----------------------------------------------------
+
+Quem utiliza/ativa: ADD e LW.
+
+ADD: RegWrite=1 para gravar o resultado da ULA em $s1.
+LW:  RegWrite=1 para gravar o dado da memoria em $s1.
+SW:  RegWrite=0.
+BEQ: RegWrite=0.
+
+
+LINHA [20] - VALOR PC+4
+------------------------
+
+Quem utiliza: ADD, BEQ, LW e SW.
+
+ADD, LW e SW: PC+4 e o endereco da proxima instrucao sequencial.
+BEQ: PC+4 e usado como endereco sequencial quando o desvio nao e tomado e como
+base para calcular PC+4+(offset<<2) quando o desvio e tomado.
+
+
+TABELA FINAL
+------------
+
+Linha  Funcao principal                         ADD   BEQ   LW    SW
+-----  ---------------------------------------  ----  ----  ----  ----
+[11]   dado de write-back ao banco              SIM   NAO   SIM   NAO
+[12]   segundo operando da ULA                  SIM   SIM   SIM   SIM
+[13]   offset enviado ao Shift left 2           NAO   SIM   NAO   NAO
+[14]   MemWrite=1                               NAO   NAO   NAO   SIM
+[15]   controle ALUSrc                          SIM   SIM   SIM   SIM
+[16]   controle MemtoReg                        SIM   NAO   SIM   NAO
+[17]   controle PCSource para branch            NAO   SIM   NAO   NAO
+[18]   controle RegDst                          SIM   NAO   SIM   NAO
+[19]   RegWrite=1                               SIM   NAO   SIM   NAO
+[20]   PC+4                                     SIM   SIM   SIM   SIM
+
+Resumo por instrucao:
+
+ADD utiliza: [11], [12], [15], [16], [18], [19] e [20].
+BEQ utiliza: [12], [13], [15], [17] e [20].
+LW  utiliza: [11], [12], [15], [16], [18], [19] e [20].
+SW  utiliza: [12], [14], [15] e [20].
+
+
+================================================================================
+EXTENSAO DO CAMINHO DE DADOS PARA J, JAL E JR
+================================================================================
+
+O desenho original nao consegue executar diretamente j, jal ou jr. Nao basta
+alterar os sinais de controle: e necessario acrescentar fios, entradas de MUX e,
+para jal, novas opcoes de registrador-destino e dado de write-back.
+
+
+1. INCLUSAO DA INSTRUCAO J
+--------------------------
+
+Semantica:
+
+    j destino
+    PC = { PC+4[31:28], instrucao[25:0], 00 }
+
+Hardware novo:
+
+1. pegar os 26 bits instrucao[25:0];
+2. deslocar esses bits duas posicoes para a esquerda;
+3. concatenar os 28 bits obtidos com os 4 bits superiores de PC+4;
+4. adicionar uma nova entrada ao MUX que alimenta o PC;
+5. criar um sinal de controle Jump.
+
+Relacao com as linhas numeradas:
+
+[20]: fornece PC+4; seus quatro bits superiores formam parte do endereco de j.
+[17]: o seletor do proximo PC precisa ser ampliado para escolher o endereco de j.
+
+j nao utiliza ULA, memoria de dados nem write-back no banco de registradores.
+
+Caminho resumido:
+
+    PC -> memoria de instrucoes -> instrucao[25:0] -> <<2
+                                      + PC+4[31:28]
+                                      -> MUX do PC ampliado -> PC
+
+
+2. INCLUSAO DA INSTRUCAO JAL
+----------------------------
+
+Semantica:
+
+    jal destino
+    $ra = PC+4
+    PC  = { PC+4[31:28], instrucao[25:0], 00 }
+
+jal faz duas coisas simultaneamente: salta como j e salva o endereco de retorno
+no registrador 31, chamado $ra.
+
+Hardware novo para o salto:
+
+- o mesmo formador de endereco e a mesma entrada de MUX criados para j;
+- sinal Jump/Jal para selecionar o novo PC.
+
+Hardware novo para gravar $ra:
+
+1. ampliar o MUX RegDst para possuir uma terceira opcao, o numero constante 31;
+2. ampliar o MUX de write-back para possuir uma terceira opcao, PC+4;
+3. ativar RegWrite para gravar o registrador $ra.
+
+Relacao com as linhas numeradas:
+
+[11]: transporta PC+4, depois do MUX ampliado, ate Write data do banco.
+[16]: MemtoReg deve ser ampliado para selecionar ULA, memoria ou PC+4.
+[17]: o MUX do PC deve selecionar o endereco de salto.
+[18]: RegDst deve ser ampliado para selecionar rt, rd ou o registrador 31.
+[19]: RegWrite=1 para gravar $ra.
+[20]: fornece PC+4 tanto para formar o destino quanto para salvar o retorno.
+
+Caminho resumido:
+
+    Caminho do salto: igual ao j.
+
+    Caminho do retorno:
+    PC+4 -> MUX de write-back ampliado -> [11] -> banco -> registrador $ra
+
+
+3. INCLUSAO DA INSTRUCAO JR
+---------------------------
+
+Semantica:
+
+    jr $rs
+    PC = conteudo de $rs
+
+Exemplo habitual:
+
+    jr $ra
+
+Hardware novo:
+
+1. criar um fio da saida Read data 1 do banco de registradores ate o MUX do PC;
+2. acrescentar ao MUX do PC uma entrada para o valor de $rs;
+3. criar um sinal de controle JumpRegister/JR.
+
+Relacao com as linhas numeradas:
+
+[17]: o seletor do PC deve ser ampliado para escolher o conteudo de $rs.
+
+jr le um registrador, mas nao usa a ULA, nao acessa a memoria de dados e nao
+grava no banco. O alvo nao e calculado a partir de PC+4: ele ja esta completo no
+registrador.
+
+Caminho resumido:
+
+    instrucao[25:21] -> banco de registradores -> Read data 1
+                      -> MUX do PC ampliado -> PC
+
+
+4. NOVO MUX DO PC
+-----------------
+
+No desenho original, o MUX do PC escolhe entre duas possibilidades:
+
+    0: PC+4
+    1: PC+4+(offset do beq << 2)
+
+Depois da extensao, ele precisa escolher entre quatro origens:
+
+    00: PC+4                              (add, lw e sw)
+    01: PC+4+(offset<<2)                  (beq tomado)
+    10: {PC+4[31:28],instrucao[25:0],00} (j e jal)
+    11: conteudo de $rs                   (jr)
+
+Assim, o antigo PCSource de 1 bit passa a ser um controle de 2 bits, ou pode ser
+implementado como varios MUXes em sequencia com sinais Branch, Jump e JR.
+
+
+5. TABELA AMPLIADA COM TODAS AS INSTRUCOES
+------------------------------------------
+
+Linha  ADD  BEQ  LW   SW   J    JAL  JR   Observacao para J/JAL/JR
+-----  ---  ---  ---  ---  ---  ---  ---  -----------------------------------
+[11]   SIM  NAO  SIM  NAO  NAO  SIM  NAO  jal envia PC+4 para $ra
+[12]   SIM  SIM  SIM  SIM  NAO  NAO  NAO  saltos nao precisam da entrada da ULA
+[13]   NAO  SIM  NAO  NAO  NAO  NAO  NAO  exclusivo do offset de beq
+[14]   NAO  NAO  NAO  SIM  NAO  NAO  NAO  somente sw escreve memoria
+[15]   SIM  SIM  SIM  SIM  X    X    X    ALUSrc e indiferente nos saltos
+[16]   SIM  NAO  SIM  NAO  X    SIM  X    jal seleciona PC+4 no MUX ampliado
+[17]   NAO  SIM  NAO  NAO  SIM  SIM  SIM  seletor ampliado do proximo PC
+[18]   SIM  NAO  SIM  NAO  X    SIM  X    jal escolhe o registrador 31
+[19]   SIM  NAO  SIM  NAO  NAO  SIM  NAO  jal grava $ra
+[20]   SIM  SIM  SIM  SIM  SIM  SIM  NAO  j/jal usam os bits altos de PC+4
+
+X = don't care: a linha existe, mas seu valor nao afeta o resultado da instrucao.
+
+Resumo das extensoes:
+
+J utiliza:   [17] ampliada e [20], mais o novo formador do endereco de salto.
+JAL utiliza: [11], [16], [17], [18], [19] e [20], todos com as ampliacoes
+             explicadas acima.
+JR utiliza:  [17] ampliada, mais o novo fio Read data 1 -> MUX do PC.
+
+
+6. POR INSTRUCAO: LINHA E MOTIVO LADO A LADO
+---------------------------------------------
+
+ADD $S1,$S2,$S3
+
+[11] passa porque o resultado $s2+$s3 precisa voltar e ser gravado em $s1.
+[12] passa porque leva $s3, o segundo operando, para a ULA.
+[15] passa porque ALUSrc=0 manda o MUX escolher o registrador $s3.
+[16] passa porque MemtoReg=0 escolhe o resultado da ULA para o write-back.
+[18] passa porque RegDst=1 escolhe rd, campo que identifica $s1.
+[19] passa porque RegWrite=1 autoriza gravar o resultado em $s1.
+[20] passa porque a proxima instrucao sequencial fica no endereco PC+4.
+
+
+BEQ $S1,$S2,pulos
+
+[12] passa porque leva $s2 para a ULA comparar $s1-$s2.
+[13] passa porque leva o offset de pulos para o Shift left 2.
+[15] passa porque ALUSrc=0 escolhe $s2, e nao um imediato para a ULA.
+[17] passa porque PCSource decide entre PC+4 e o endereco de pulos.
+[20] passa porque PC+4 e a base do endereco PC+4+(offset<<2) e tambem e usado
+     quando o desvio nao e tomado.
+
+
+LW $S1,num($S2)
+
+[11] passa porque o dado Memoria[$s2+num] precisa voltar e ser gravado em $s1.
+[12] passa porque leva sign_extend(num) para a ULA calcular $s2+num.
+[15] passa porque ALUSrc=1 escolhe o imediato num para a ULA.
+[16] passa porque MemtoReg=1 escolhe o dado vindo da memoria.
+[18] passa porque RegDst=0 escolhe rt, campo que identifica $s1 no lw.
+[19] passa porque RegWrite=1 autoriza gravar o dado carregado em $s1.
+[20] passa porque, depois do lw, a execucao continua em PC+4.
+
+
+SW $S1,num($S2)
+
+[12] passa porque leva sign_extend(num) para a ULA calcular $s2+num.
+[14] passa porque MemWrite=1 autoriza gravar $s1 na memoria de dados.
+[15] passa porque ALUSrc=1 escolhe o imediato num para a ULA.
+[20] passa porque, depois do sw, a execucao continua em PC+4.
+
+Observacao: o conteudo de $s1 tambem percorre a linha nao numerada Read data 2
+-> Write data da memoria. Essa linha e indispensavel para o sw.
+
+
+J destino
+
+[17] passa porque o MUX ampliado do PC precisa escolher o endereco de jump.
+[20] passa porque os quatro bits superiores de PC+4 entram no endereco de j.
+
+Hardware nao numerado: instrucao[25:0] -> Shift left 2 -> concatenacao.
+
+
+JAL destino
+
+[11] passa porque PC+4 precisa ser escrito no registrador $ra.
+[16] passa porque o MUX ampliado de write-back precisa escolher PC+4.
+[17] passa porque o MUX ampliado do PC precisa escolher o endereco de jump.
+[18] passa porque o MUX ampliado RegDst precisa escolher o registrador 31 ($ra).
+[19] passa porque RegWrite=1 autoriza a escrita em $ra.
+[20] passa porque PC+4 forma o endereco de retorno e fornece os bits superiores
+     do endereco de salto.
+
+
+JR $rs (exemplo: JR $ra)
+
+[17] passa porque o MUX ampliado do PC precisa escolher o conteudo de $rs.
+
+Hardware nao numerado: Read data 1 do banco -> nova entrada do MUX do PC. O jr
+nao usa ULA, memoria de dados nem write-back.
+
+
+RESUMO DE BOLSO
+---------------
+
+ADD: [11] resultado volta; [12] segundo operando; [15] escolhe registrador;
+     [16] escolhe ULA; [18] escolhe rd; [19] grava; [20] PC+4.
+
+BEQ: [12] segundo comparado; [13] offset; [15] escolhe registrador;
+     [17] escolhe novo PC; [20] PC+4/base do branch.
+
+LW:  [11] dado volta; [12] offset; [15] escolhe imediato; [16] escolhe memoria;
+     [18] escolhe rt; [19] grava; [20] PC+4.
+
+SW:  [12] offset; [14] escreve memoria; [15] escolhe imediato; [20] PC+4.
+
+J:   [17] escolhe jump; [20] fornece bits superiores de PC+4.
+
+JAL: [11] leva PC+4; [16] escolhe PC+4; [17] escolhe jump; [18] escolhe $ra;
+     [19] grava $ra; [20] fornece PC+4.
+
+JR:  [17] escolhe $rs como novo PC.
+
+================================================================================
+FIM
+================================================================================

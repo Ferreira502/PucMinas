@@ -1,0 +1,548 @@
+AC2 - RESUMAO PARA A PROVA E RESOLUCAO DA LISTA 03
+==================================================
+
+Base: slides da disciplina e as quatro questoes da Lista 03.
+Convencao: MIPS 32 bits, palavra de 4 bytes. Os "nop" representam delay slots;
+podem ser omitidos se o simulador estiver com delayed branching desativado.
+
+
+PARTE I - RESUMAO
+=================
+
+1. REGISTRADORES E FUNCOES
+--------------------------
+
+$zero: sempre zero                 $v0-$v1: valores retornados
+$a0-$a3: argumentos                $t0-$t9: temporarios
+$s0-$s7: valores preservados       $sp: topo da pilha
+$ra: endereco de retorno
+
+    jal funcao      # chama; altera $ra
+    nop
+    jr  $ra         # retorna
+    nop
+
+Uma funcao que chama outra deve salvar $ra. Todo registrador $s que ela alterar
+tambem deve ser salvo e restaurado:
+
+    addi $sp,$sp,-12
+    sw   $s0,0($sp)
+    sw   $s1,4($sp)
+    sw   $ra,8($sp)
+    # corpo
+    lw   $s0,0($sp)
+    lw   $s1,4($sp)
+    lw   $ra,8($sp)
+    addi $sp,$sp,12
+
+
+2. VETORES, TESTES E LACOS
+--------------------------
+
+Um int tem 4 bytes:
+
+    endereco(v[i]) = base + 4*i
+
+    sll $t0,$s0,2       # 4*i
+    add $t1,$s1,$t0     # &v[i]
+    sw  $t2,0($t1)
+
+Teste de paridade:
+
+    andi $t0,$s0,1      # zero = par; um = impar
+
+Teste i<n:
+
+    slt $t0,$s0,$s1
+    beq $t0,$zero,fim
+
+Teste n>30:
+
+    addi $t0,$zero,30
+    slt  $t1,$t0,$s1    # 1 se 30<n
+
+
+3. CAMINHO DE DADOS E CONTROLE
+------------------------------
+
+Unidades: PC, memoria de instrucoes, somador PC+4, controle, banco de
+registradores, extensor de sinal, ULA, memoria de dados e multiplexadores.
+
+RegDst:   0 escolhe rt; 1 escolhe rd
+ALUSrc:   0 usa registrador; 1 usa imediato
+MemtoReg: 0 escreve resultado da ULA; 1 escreve dado da memoria
+RegWrite: habilita escrita no banco
+MemRead:  habilita leitura da memoria de dados
+MemWrite: habilita escrita na memoria de dados
+Branch:   identifica desvio condicional
+ALUOp:    define a classe da operacao
+
+LW rt,num(rs): rt=Mem[rs+sign_extend(num)]. Calcula endereco, le memoria e
+escreve em rt.
+
+SW rt,num(rs): Mem[rs+sign_extend(num)]=rt. Calcula endereco e escreve memoria;
+nao escreve registrador.
+
+ADD rd,rs,rt: rd=rs+rt. Le dois registradores, usa ULA e escreve em rd.
+
+BEQ rs,rt,L: compara por rs-rt. Se Zero=1:
+
+    PC = PC+4+(sign_extend(offset)<<2)
+    PCSrc = Branch AND Zero
+
+O <<2 existe porque instrucoes possuem 4 bytes.
+
+
+4. DESEMPENHO
+-------------
+
+Monociclo: CPI=1 e o clock atende a instrucao mais lenta, normalmente lw.
+Multiciclo: cada instrucao usa varias etapas; clock menor e CPI variavel.
+
+    Tempo_CPU = NI*CPI*Tclock
+    Tempo_CPU = NI*CPI/frequencia
+    CPI_medio = soma(fracao_i*CPI_i)
+    Speedup = tempo_antigo/tempo_novo
+
+Speedup > 1 significa que a nova maquina e mais rapida.
+
+
+5. PIPELINE
+-----------
+
+IF:  busca instrucao e calcula PC+4.
+ID:  decodifica, le registradores e estende imediato.
+EX:  usa ULA, calcula endereco ou decide branch.
+MEM: le/escreve memoria de dados.
+WB:  escreve no banco de registradores.
+
+    IF -> ID -> EX -> MEM -> WB
+
+lw: IF ID EX MEM WB       sw: IF ID EX MEM
+R:  IF ID EX WB           beq: IF ID EX       j: IF ID
+
+Registradores entre fases: IF/ID, ID/EX, EX/MEM e MEM/WB.
+
+Hazard estrutural: duas instrucoes disputam hardware.
+Hazard de dados: uma instrucao depende da anterior; forwarding/stall.
+Load-use: lw seguido de uso do dado normalmente exige um stall.
+Hazard de controle: branch/jump; pode exigir stall/flush/predicao.
+
+
+PARTE II - RESOLUCAO DA LISTA 03
+================================
+
+QUESTAO 1
+---------
+
+Equivalente em C:
+
+    int quadrado(int x) { return x*x; }
+
+    int criaVetor(int *y, int n) {
+        int soma=0;
+        if (n>30) n=30;
+        for (int i=0; i<n; i++) {
+            if ((i&1)==0) y[i]=2*quadrado(i)+2*i+1;
+            else          y[i]=quadrado(i);
+            soma += y[i];
+        }
+        return soma;
+    }
+
+Solucao MIPS reorganizada e comentada linha por linha:
+
+# -----------------------------------------------------------------------------
+# AREA DE DADOS
+# -----------------------------------------------------------------------------
+    .data                              # inicia a area de dados do programa
+parametros:
+    .word vetor, 35                    # 1a palavra=&vetor; 2a palavra=n (teste)
+vetor:
+    .space 120                         # reserva 30 inteiros: 30*4=120 bytes
+resultado:
+    .word 0                            # local onde a soma final sera armazenada
+
+# -----------------------------------------------------------------------------
+# PROGRAMA PRINCIPAL
+# -----------------------------------------------------------------------------
+    .text                              # inicia a area que contem instrucoes
+    .globl main                        # torna o rotulo main visivel ao simulador
+
+main:
+    la   $t0, parametros               # t0 recebe o endereco dos dois parametros
+    lw   $a0, 0($t0)                   # a0 recebe o 1o parametro: endereco de y[]
+    lw   $a1, 4($t0)                   # a1 recebe o 2o parametro: quantidade n
+    jal  criaVetor                     # chama criaVetor(&y[0],n); retorno vira ra
+    nop                                # delay slot do jal; nao executa trabalho
+
+    la   $t0, resultado                # t0 recebe o endereco da variavel resultado
+    sw   $v0, 0($t0)                   # salva na memoria a soma retornada em v0
+    addi $v0, $zero, 10                # codigo 10: encerrar programa no MARS/QtSPIM
+    syscall                            # solicita ao simulador o encerramento
+
+# -----------------------------------------------------------------------------
+# FUNCAO criaVetor
+# Entrada: a0 = endereco inicial do vetor y
+#          a1 = quantidade n
+# Saida:   v0 = soma de todos os elementos criados
+# Usa:     s0=base, s1=n, s2=i, s3=soma, s4=valor atual
+# -----------------------------------------------------------------------------
+criaVetor:
+    addi $sp, $sp, -24                 # abre 24 bytes na pilha para 6 palavras
+    sw   $s0, 0($sp)                   # preserva o valor antigo de s0
+    sw   $s1, 4($sp)                   # preserva o valor antigo de s1
+    sw   $s2, 8($sp)                   # preserva o valor antigo de s2
+    sw   $s3, 12($sp)                  # preserva o valor antigo de s3
+    sw   $s4, 16($sp)                  # preserva o valor antigo de s4
+    sw   $ra, 20($sp)                  # preserva ra, pois chamaremos quadrado
+
+    add  $s0, $a0, $zero               # s0=&y[0], copia o endereco-base do vetor
+    add  $s1, $a1, $zero               # s1=n, copia a quantidade recebida
+    addi $s2, $zero, 0                 # s2=i=0, inicializa o indice do laco
+    addi $s3, $zero, 0                 # s3=soma=0, inicializa o acumulador
+
+# Garante que n nao ultrapasse 30.
+CV_limitar_n:
+    addi $t0, $zero, 30                # t0 recebe o limite maximo 30
+    slt  $t1, $t0, $s1                 # t1=1 quando 30<n; caso contrario t1=0
+    beq  $t1, $zero, CV_testar_n        # se n<=30, nao e necessario alterar n
+    nop                                # delay slot do beq
+    addi $s1, $zero, 30                # como n>30, substitui n por 30
+
+# Trata tambem n<=0 como vetor vazio e soma zero.
+CV_testar_n:
+    slt  $t0, $zero, $s1               # t0=1 se 0<n; t0=0 se n<=0
+    beq  $t0, $zero, CV_fim            # se n<=0, termina e retorna soma=0
+    nop                                # delay slot do beq
+
+# Equivale ao teste do for: i<n.
+CV_teste_loop:
+    slt  $t0, $s2, $s1                 # t0=1 quando i<n
+    beq  $t0, $zero, CV_fim            # quando i>=n, encerra o laco
+    nop                                # delay slot do beq
+
+# Calcula i^2 chamando obrigatoriamente a segunda funcao.
+    add  $a0, $s2, $zero               # coloca i em a0 como argumento de quadrado
+    jal  quadrado                      # chama quadrado(i); resultado retornara em v0
+    nop                                # delay slot do jal
+    add  $s4, $v0, $zero               # s4 recebe i^2 retornado pela funcao
+
+# Decide qual formula deve ser aplicada.
+    andi $t0, $s2, 1                   # isola o bit menos significativo de i
+    bne  $t0, $zero, CV_impar          # bit=1 significa i impar; salta para CV_impar
+    nop                                # delay slot do bne
+
+# Caso par: y[i] = 2*i^2 + 2*i + 1.
+CV_par:
+    sll  $t1, $s4, 1                   # t1=2*i^2, pois deslocar 1 bit multiplica por 2
+    sll  $t2, $s2, 1                   # t2=2*i, pelo mesmo motivo
+    add  $s4, $t1, $t2                 # s4=2*i^2+2*i
+    addi $s4, $s4, 1                   # s4=2*i^2+2*i+1, valor final do caso par
+    j    CV_gravar                     # pula o caso impar e segue para a gravacao
+    nop                                # delay slot do j
+
+# Caso impar: y[i] = i^2.
+CV_impar:
+    add  $s4, $s4, $zero               # mantem s4=i^2; linha explicita por clareza
+
+# Armazena y[i], acumula a soma e avanca o indice.
+CV_gravar:
+    sll  $t0, $s2, 2                   # t0=4*i, deslocamento em bytes de um int
+    add  $t0, $s0, $t0                 # t0=&y[i], somando base com deslocamento
+    sw   $s4, 0($t0)                   # grava o valor calculado na posicao y[i]
+    add  $s3, $s3, $s4                 # soma=soma+y[i]
+    addi $s2, $s2, 1                   # i=i+1
+    j    CV_teste_loop                 # volta ao teste i<n
+    nop                                # delay slot do j
+
+# Retorna a soma e restaura o estado do chamador.
+CV_fim:
+    add  $v0, $s3, $zero               # v0 recebe a soma, valor retornado pela funcao
+    lw   $s0, 0($sp)                   # restaura o valor original de s0
+    lw   $s1, 4($sp)                   # restaura o valor original de s1
+    lw   $s2, 8($sp)                   # restaura o valor original de s2
+    lw   $s3, 12($sp)                  # restaura o valor original de s3
+    lw   $s4, 16($sp)                  # restaura o valor original de s4
+    lw   $ra, 20($sp)                  # restaura o endereco de retorno do chamador
+    addi $sp, $sp, 24                  # libera as 6 palavras reservadas na pilha
+    jr   $ra                           # retorna para a instrucao depois do jal
+    nop                                # delay slot do jr
+
+# -----------------------------------------------------------------------------
+# FUNCAO quadrado
+# Entrada: a0 = numero de no maximo 16 bits
+# Saida:   v0 = a0*a0
+# Funcao folha: nao chama outra funcao e, portanto, nao precisa salvar ra.
+# -----------------------------------------------------------------------------
+quadrado:
+    mult $a0, $a0                      # multiplica a0 por ele mesmo; resultado em HI/LO
+    mflo $v0                           # copia os 32 bits inferiores de LO para v0
+    jr   $ra                           # retorna para criaVetor
+    nop                                # delay slot do jr
+
+Teste para n=5:
+y={1,1,13,9,41}; soma=65.
+
+Observacao: o enunciado estabelece apenas o maximo. A solucao assume n>=0. Se
+n puder ser negativo, deve-se retornar zero antes do laco.
+
+
+QUESTAO 2
+---------
+
+A) LW $S1,num($S2)
+
+Semantica: $s1=Memoria[$s2+sign_extend(num)].
+
+1. PC endereca a memoria de instrucoes e PC+4 e calculado;
+2. o banco le $s2;
+3. num e estendido de 16 para 32 bits;
+4. ALUSrc escolhe o imediato e a ULA soma $s2+num;
+5. a memoria de dados e lida;
+6. RegDst escolhe rt ($s1), MemtoReg escolhe a memoria e RegWrite grava $s1.
+
+Controle: RegDst=0, ALUSrc=1, MemtoReg=1, RegWrite=1, MemRead=1,
+MemWrite=0, Branch=0, ALUOp=soma.
+
+B) SW $S1,num($S2)
+
+Semantica: Memoria[$s2+sign_extend(num)]=$s1.
+
+1. busca instrucao e calcula PC+4;
+2. le $s2 como base e $s1 como dado;
+3. estende num e a ULA calcula $s2+num;
+4. MemWrite grava $s1 no endereco calculado;
+5. nenhum registrador e escrito.
+
+Controle: ALUSrc=1, RegWrite=0, MemRead=0, MemWrite=1, Branch=0,
+ALUOp=soma. RegDst e MemtoReg sao indiferentes (X).
+
+C) BEQ $S1,$S2,pulos
+
+Semantica: se $s1==$s2, PC=PC+4+(sign_extend(offset)<<2).
+
+1. busca instrucao e calcula PC+4;
+2. le $s1 e $s2;
+3. a ULA subtrai $s1-$s2; se iguais, Zero=1;
+4. em paralelo, imediato estendido e deslocado e somado a PC+4;
+5. Branch AND Zero seleciona o destino do desvio;
+6. nao escreve registrador nem memoria.
+
+Controle: ALUSrc=0, RegWrite=0, MemRead=0, MemWrite=0, Branch=1,
+ALUOp=subtracao.
+
+D) ADD $S1,$S2,$S3
+
+Semantica: $s1=$s2+$s3.
+
+1. busca instrucao e le $s2/$s3;
+2. ALUSrc escolhe $s3 e a ULA soma;
+3. RegDst escolhe rd ($s1);
+4. MemtoReg escolhe a ULA e RegWrite grava $s1;
+5. memoria de dados nao e acessada.
+
+Controle: RegDst=1, ALUSrc=0, MemtoReg=0, RegWrite=1, MemRead=0,
+MemWrite=0, Branch=0, ALUOp=tipo R/soma.
+
+Tabela:
+
+Instrucao RegDst ALUSrc MemtoReg RegWrite MemRead MemWrite Branch ALU
+lw        0      1      1        1        1       0        0      soma
+sw        X      1      X        0        0       1        0      soma
+beq       X      0      X        0        0       0        1      sub
+add       1      0      0        1        0       0        0      soma/R
+
+X = don't care.
+
+
+QUESTAO 3A - TEMPO DAS INSTRUCOES
+----------------------------------
+
+CORRECAO: estes tempos foram retirados do diagrama existente dentro do PDF da
+propria Lista 3, e nao do arquivo de slides sobre caminho de dados.
+
+Tempos indicados no diagrama da lista:
+
+    memoria de instrucoes = 4 ns
+    leitura dos registradores = 1 ns
+    ULA = 2 ns
+    memoria de dados = 4 ns
+    somador de PC+4 = 1 ns
+    somador do branch = 1 ns
+    blocos sem numero = 0 ns
+
+Unidades independentes trabalham simultaneamente. Para cada instrucao, devemos
+encontrar o caminho critico, isto e, o caminho que demora mais.
+
+LW $S1,num($S2):
+
+    busca da instrucao      4 ns
+    leitura de $s2          1 ns
+    endereco na ULA         2 ns
+    leitura da memoria      4 ns
+                            -----
+    T_lw = 4+1+2+4 = 11 ns
+
+SW $S1,num($S2):
+
+    busca da instrucao      4 ns
+    leitura de $s1/$s2      1 ns
+    endereco na ULA         2 ns
+    escrita na memoria      4 ns
+                            -----
+    T_sw = 4+1+2+4 = 11 ns
+
+Os dois registradores sao lidos simultaneamente: a leitura custa 1 ns, nao 2 ns.
+
+ADD $S1,$S2,$S3:
+
+    busca da instrucao      4 ns
+    leitura dos regs.       1 ns
+    soma na ULA             2 ns
+                            -----
+    T_add = 4+1+2 = 7 ns
+
+BEQ $S1,$S2,pulos:
+
+    caminho da comparacao = 4+1+2 = 7 ns
+
+O endereco do branch leva max(4,1)+1=5 ns: o imediato fica pronto apos a busca
+de 4 ns; PC+4 fica pronto em 1 ns, em paralelo; o segundo somador leva 1 ns.
+O PC precisa esperar tanto a decisao quanto o endereco:
+
+    T_beq = max(7,5) = 7 ns
+
+J, necessario para os benchmarks:
+
+    T_j = 4 ns
+
+A instrucao precisa ser buscada para fornecer o destino; concatenacao e MUX nao
+possuem tempo indicado no diagrama.
+
+
+QUESTAO 3B - BENCHMARKS
+-----------------------
+
+MONOCICLO
+
+O clock atende ao pior caso: lw e sw levam 11 ns. Logo:
+
+    Tclock_monociclo = 11 ns
+    CPI_monociclo = 1
+    tempo medio = 11 ns por instrucao
+
+Isso vale para GCC e ABC, independentemente da mistura.
+
+MULTICICLO CLASSICO
+
+O clock de cada etapa deve atender ao componente mais lento. Como as memorias
+levam 4 ns, adotamos Tclock_multiciclo=4 ns e a divisao classica:
+
+    lw=5 ciclos; sw=4; ALU=4; beq=3; j=3.
+
+GCC (22% lw, 11% sw, 49% ALU, 16% beq, 2% j):
+
+    CPI = 0,22*5+0,11*4+0,49*4+0,16*3+0,02*3
+        = 1,10+0,44+1,96+0,48+0,06
+        = 4,04
+
+    Tmedio = 4,04*4 = 16,16 ns
+    Speedup(multiciclo sobre monociclo) = 11/16,16 = 0,681
+
+Como o speedup e menor que 1, o multiciclo e mais lento neste diagrama. Vendo no
+sentido contrario, o monociclo e 16,16/11=1,469 vez mais rapido para o GCC.
+
+ABC (11% lw, 49% sw, 22% ALU, 2% beq, 16% j):
+
+    CPI = 0,11*5+0,49*4+0,22*4+0,02*3+0,16*3
+        = 0,55+1,96+0,88+0,06+0,48
+        = 3,93
+
+    Tmedio = 3,93*4 = 15,72 ns
+    Speedup(multiciclo sobre monociclo) = 11/15,72 = 0,700
+
+O multiciclo tambem e mais lento neste caso. O monociclo e
+15,72/11=1,429 vez mais rapido para o ABC.
+
+Isso parece contraintuitivo, mas e resultado dos tempos dados na lista: o maior
+caminho completo leva 11 ns, enquanto 4 ou 5 ciclos de 4 ns levam 16 ou 20 ns.
+Reduzir o periodo do clock nao garante ganho quando o CPI aumenta muito.
+
+Se j usar 2 ciclos:
+
+    GCC: CPI=4,02; T=16,08 ns; speedup=11/16,08=0,684.
+    ABC: CPI=3,77; T=15,08 ns; speedup=11/15,08=0,729.
+
+Declare a quantidade de ciclos de j na resposta, pois ela depende do datapath.
+
+INTERPRETACAO ALTERNATIVA: LATENCIA VARIAVEL
+
+Se o professor usar "multiciclo" para uma maquina idealizada em que cada
+instrucao gasta exatamente sua propria latencia, usamos 11, 11, 7, 7 e 4 ns:
+
+GCC:
+    T = 0,22*11+0,11*11+0,49*7+0,16*7+0,02*4
+      = 2,42+1,21+3,43+1,12+0,08
+      = 8,26 ns
+    Speedup = 11/8,26 = 1,332.
+
+ABC:
+    T = 0,11*11+0,49*11+0,22*7+0,02*7+0,16*4
+      = 1,21+5,39+1,54+0,14+0,64
+      = 8,92 ns
+    Speedup = 11/8,92 = 1,233.
+
+Na prova, a interpretacao tecnicamente padrao e a primeira: clock multiciclo de
+4 ns e CPI diferente por classe. Use a media de latencias apenas se o professor
+tiver definido explicitamente multiciclo dessa forma idealizada.
+
+
+QUESTAO 4 - FASES DO PIPELINE
+------------------------------
+
+1. IF - Instruction Fetch
+   PC endereca a memoria de instrucoes; instrucao e buscada; PC+4 e calculado.
+   Fronteira: registrador IF/ID.
+
+2. ID - Instruction Decode/Register Fetch
+   Controle decodifica opcode; banco le rs/rt; imediato e estendido.
+   Fronteira: registrador ID/EX.
+
+3. EX - Execute/Address Calculation
+   Tipo R opera na ULA; lw/sw calculam base+offset; beq compara registradores e
+   calcula o alvo PC+4+(offset<<2); RegDst escolhe o possivel destino.
+   Fronteira: registrador EX/MEM.
+
+4. MEM - Memory Access
+   lw le memoria; sw escreve; tipo R transporta resultado. Dependendo do projeto,
+   o branch seleciona o novo PC aqui.
+   Fronteira: registrador MEM/WB.
+
+5. WB - Write Back
+   MemtoReg escolhe memoria (lw) ou ULA (tipo R), e RegWrite grava no banco.
+   sw, beq e j nao escrevem registradores.
+
+Divisao textual do diagrama:
+
+ IF                 ID                  EX              MEM          WB
+ PC->Mem.Inst. | Banco/Controle | MUX/ULA/Branch | Mem.Dados | MUX->Banco
+              IF/ID            ID/EX             EX/MEM      MEM/WB
+
+
+CHECKLIST FINAL
+---------------
+
+[ ] vetor de int avanca 4 bytes;
+[ ] argumentos em $a e retorno em $v0;
+[ ] funcao que chama outra salva $ra;
+[ ] registradores $s sao preservados;
+[ ] lw le memoria, sw escreve memoria;
+[ ] beq usa subtracao/Zero e offset<<2;
+[ ] clock monociclo vem da instrucao mais lenta;
+[ ] CPI medio e ponderado pelas frequencias;
+[ ] speedup = tempo antigo/tempo novo;
+[ ] fases: IF, ID, EX, MEM, WB;
+[ ] hazards: estrutural, dados e controle.
+
+FIM

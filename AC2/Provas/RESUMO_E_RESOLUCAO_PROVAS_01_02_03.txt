@@ -1,0 +1,1026 @@
+AC2 - RESUMO E RESOLUCAO DAS PROVAS 01, 02 E 03
+================================================
+
+Arquivos usados:
+- Provas/Prova 01/Prova01_01.jpeg
+- Provas/Prova 01/Prova01_02.jpeg
+- Provas/Prova 02/Prova02_01.jpeg
+- Provas/Prova 02/Prova02_02.jpeg
+- Provas/Prova 03/Prova03_01.jpeg
+- Provas/Prova 03/Prova03_02.jpeg
+- Provas/Prova 03/Prova03_03.jpeg, conferida porque tambem esta na pasta
+
+Observacao: nas questoes de alternativas, a letra indicada vem acompanhada da
+conta para facilitar revisao. Quando uma questao depende de convencao do
+professor, deixei a convencao explicita.
+
+
+================================================
+PROVA 01
+================================================
+
+QUESTAO 1
+---------
+
+Somador completo tradicional em cascata, 4 bits, cada porta com atraso de 5 ns.
+
+No ripple-carry, o caminho critico e a propagacao do carry. Para o primeiro
+bit, o carry pode levar 3 portas:
+
+    A xor B -> AND -> OR = 15 ns
+
+Depois, cada carry seguinte propaga por 2 portas:
+
+    AND -> OR = 10 ns por bit
+
+Para 4 bits:
+
+    Tcritico = 15 + 3*10 = 45 ns
+
+Logo:
+
+    fmax = 1 / 45 ns = 22,2 MHz
+
+Resposta: d) 22,2 MHz.
+
+
+QUESTAO 2
+---------
+
+Soma em hexadecimal:
+
+    ABCA
+  + 53EB
+  ------
+    FFB5
+
+Nao ha carry para fora, pois o resultado ainda cabe em 16 bits.
+
+No CLA:
+
+    propagador = A OR B
+               = ABCA OR 53EB
+               = FBEB
+
+    gerador = A AND B
+            = ABCA AND 53EB
+            = 03CA
+
+Resposta: f) Nao havera vai um para fora, propagador=FBEB e gerador=03CA.
+
+
+QUESTAO 3
+---------
+
+Formato de ponto flutuante com 12 bits:
+
+    1 bit sinal, 6 bits expoente, 5 bits mantissa
+    bias = 2^(6-1)-1 = 31
+
+Numero CE2:
+
+    CE2 = 1100 1110 0010
+    sinal = 1
+    expoente = 100111b = 39
+    E = 39 - 31 = 8
+    mantissa = 00010
+    significando = 1,00010b = 1 + 1/16 = 1,0625
+
+    valor = -1,0625 * 2^8 = -272
+
+Numero 494:
+
+    494 = 0100 1001 0100
+    sinal = 0
+    expoente = 100100b = 36
+    E = 36 - 31 = 5
+    mantissa = 10100
+    significando = 1,10100b = 1 + 1/2 + 1/8 = 1,625
+
+    valor = 1,625 * 2^5 = 52
+
+Resposta: b) -272 e 52.
+
+
+QUESTAO 4
+---------
+
+Somando os valores da questao anterior:
+
+    -272 + 52 = -220
+
+Representando -220:
+
+    220 = 1,71875 * 2^7
+    1,71875 = 1,10111b
+    sinal = 1
+    expoente = 7 + 31 = 38 = 100110b
+    mantissa = 10111
+
+Bits:
+
+    1 100110 10111 = 1100 1101 0111 = CD7
+
+Resposta: i) CD7.
+
+
+QUESTAO 5
+---------
+
+Lei de Amdahl:
+
+    Speedup = 1 / ((1-f) + f/6)
+
+Queremos gastar metade do tempo, ou seja, speedup = 2:
+
+    2 = 1 / ((1-f) + f/6)
+    (1-f) + f/6 = 0,5
+    1 - 5f/6 = 0,5
+    f = 0,6
+
+Resposta: e) 60,0%.
+
+
+QUESTAO 6
+---------
+
+O processador B melhora as operacoes aritmeticas e logicas em 7 vezes.
+O enunciado diz que essas operacoes correspondem a 60% do tempo total quando
+o novo processador B esta sendo usado.
+
+Se o tempo novo total for 1:
+
+    parte melhorada no tempo novo = 0,6
+    parte nao melhorada no tempo novo = 0,4
+
+No processador antigo, a parte melhorada custava 7 vezes mais:
+
+    tempo antigo = 7*0,6 + 0,4 = 4,6
+
+Logo:
+
+    speedup = tempo antigo / tempo novo = 4,6 / 1 = 4,6
+
+Resposta: g) 4,6.
+
+Obs.: se a frase fosse interpretada como "60% do tempo antigo", o resultado
+seria 2,06. Mas o texto diz "quando este novo processador B esta sendo
+utilizado", entao a leitura mais direta e 4,6.
+
+
+Para as questoes 7 a 10
+-----------------------
+
+Maquina original:
+
+    ULA:      45%, CPI 10
+    Desvios: 20%, CPI 8
+    Memoria: 30%, CPI 12
+    Outras:   5%, CPI 14
+    Frequencia = 200 MHz
+
+CPI original:
+
+    CPI = 0,45*10 + 0,20*8 + 0,30*12 + 0,05*14
+        = 4,5 + 1,6 + 3,6 + 0,7
+        = 10,4
+
+
+QUESTAO 7
+---------
+
+Melhoria: ULA reduz 3 ciclos; memoria aumenta 1 ciclo.
+
+Novos CPIs:
+
+    ULA = 7
+    Desvios = 8
+    Memoria = 13
+    Outras = 14
+
+CPI novo:
+
+    CPI_novo = 0,45*7 + 0,20*8 + 0,30*13 + 0,05*14
+             = 3,15 + 1,6 + 3,9 + 0,7
+             = 9,35
+
+Speedup:
+
+    10,4 / 9,35 = 1,112
+
+Resposta: b) 1,1.
+
+
+QUESTAO 8
+---------
+
+Novo compilador:
+
+    ULA reduz 70%   -> fica 30% de 45% = 0,135
+    Memoria sobe 10% -> 30%*1,10 = 0,330
+    Desvios = 0,200
+    Outras = 0,050
+
+Quantidade nova relativa de instrucoes:
+
+    0,135 + 0,200 + 0,330 + 0,050 = 0,715
+
+Ciclos relativos:
+
+    ciclos = 0,135*10 + 0,200*8 + 0,330*12 + 0,050*14
+           = 1,35 + 1,60 + 3,96 + 0,70
+           = 7,61
+
+CPI medio novo:
+
+    CPI = 7,61 / 0,715 = 10,64
+
+Resposta: i) 10,6.
+
+
+QUESTAO 9
+---------
+
+Speedup apos a mudanca do compilador:
+
+    tempo antigo proporcional = 10,4
+    tempo novo proporcional = 7,61
+
+    speedup = 10,4 / 7,61 = 1,37
+
+Resposta mais proxima: f) 1,3.
+
+
+QUESTAO 10
+----------
+
+MIPS:
+
+    MIPS = frequencia_em_MHz / CPI
+         = 200 / 10,4
+         = 19,23
+
+Resposta: g) 19,2.
+
+
+================================================
+PROVA 02
+================================================
+
+QUESTAO 1
+---------
+
+Queremos carregar $s0 com vet[30]. A base de vet esta em $s1.
+
+Cada inteiro ocupa 4 bytes:
+
+    offset = 30 * 4 = 120
+
+Instrucao:
+
+    lw $s0, 120($s1)
+
+Resposta: d.
+
+
+QUESTAO 2
+---------
+
+$s0 contem o endereco 0x10000800. A posicao imediatamente seguinte, considerando
+palavra de 4 bytes, fica em:
+
+    0x10000800 + 4
+
+Instrucao:
+
+    lw $s1, 4($s0)
+
+Resposta: b.
+
+
+QUESTAO 3
+---------
+
+Endereco inicial: 0x10000040. Existem 5 numeros consecutivos.
+O ultimo e o quinto numero, com indice 4:
+
+    offset = 4 * 4 = 16
+
+Instrucao:
+
+    lw $s2, 16($s0)
+
+Resposta: d.
+
+
+QUESTAO 4
+---------
+
+Queremos carregar $s0 com 0x10000000, sabendo que $s1 = 2.
+
+Como:
+
+    2 << 27 = 0x10000000
+
+Instrucao:
+
+    sll $s0, $s1, 27
+
+Resposta: e.
+
+
+QUESTAO 5
+---------
+
+Base do vetor em $s0 = 0x10000000.
+Queremos o centesimo elemento. Em linguagem natural, "centesimo" costuma ser
+a posicao 100, que em indice zero e 99:
+
+    offset = 99 * 4 = 396
+
+Instrucao:
+
+    lw $s1, 396($s0)
+
+Resposta: g.
+
+Obs.: se o professor tratar como vet[100], entao o offset seria 400. Mas a
+frase "centesimo elemento" favorece offset 396.
+
+
+QUESTAO 6
+---------
+
+Dividir por 1024 e dividir por 2^10. Para numero com sinal, usa-se deslocamento
+aritmetico para a direita:
+
+    sra $s0, $s1, 10
+
+Resposta: f.
+
+Obs.: para numero sem sinal, tambem apareceria como possivel:
+
+    srl $s0, $s1, 10
+
+
+Para as questoes 7 a 10
+-----------------------
+
+Programa:
+
+    1  ori  $s0, $zero, 0x0010
+    2  lui  $s1, 0x1001
+    3  addi $s2, $zero, -2
+    4  loop: sw  $s2, 0($s1)
+    5        add $t1, $s2, 2
+    6        lw  $t0, 0($s1)
+    7        add $s0, $s0, $t0
+    8        bne $s0, $zero, loop
+    9        sw  $t1, 0($s1)
+
+A cada iteracao:
+
+    memoria[0x10010000] recebe -2
+    $t0 recebe -2
+    $s0 diminui 2
+
+Como $s0 comeca em 16:
+
+    16, 14, 12, 10, 8, 6, 4, 2, 0
+
+Sao 8 iteracoes.
+
+
+QUESTAO 7
+---------
+
+Instrucoes executadas:
+
+    3 instrucoes iniciais
+    5 instrucoes no loop * 8 iteracoes = 40
+    1 instrucao final
+
+Total:
+
+    3 + 40 + 1 = 44
+
+Resposta: e) 44.
+
+
+QUESTAO 8
+---------
+
+Tabela:
+
+    ULA = 5
+    Desvio = 4
+    Memoria = 6
+    Outras = 7
+
+Contagem:
+
+    ULA:     18 ou 19, dependendo de classificar lui como ULA ou Outras
+    Desvio:  8
+    Memoria: 17
+    Outras:  1 ou 0
+
+Usando lui como Outras:
+
+    ciclos = 18*5 + 8*4 + 17*6 + 1*7
+           = 90 + 32 + 102 + 7
+           = 231
+
+    CPI = 231 / 44 = 5,25
+
+Se lui for ULA:
+
+    ciclos = 19*5 + 8*4 + 17*6 = 229
+    CPI = 229 / 44 = 5,20
+
+Resposta em ambos os casos: g) 5,2.
+
+
+QUESTAO 9
+---------
+
+Frequencia = 200 MHz.
+
+Usando 229 ciclos, que da exatamente a alternativa mais proxima:
+
+    T = 229 / 200.000.000
+      = 1,145 us
+
+Resposta: a) 1,14 us.
+
+
+QUESTAO 10
+----------
+
+No fim do loop, $s0 chega a zero. A instrucao final grava $t1 em memoria.
+Pela linha 5:
+
+    $t1 = $s2 + 2 = -2 + 2 = 0
+
+Logo, a posicao 0x10010000 termina com:
+
+    0
+
+Resposta: e) 0.
+
+
+QUESTAO 11
+----------
+
+O codigo possui as funcoes main, faz0 e faz1. A funcao faz0 chama faz1, portanto
+ela precisa preservar o endereco de retorno ($ra). Com a menor utilizacao
+possivel, variaveis simples podem ficar em registradores, e a pilha so precisa
+ser usada nas ativacoes/chamadas necessarias.
+
+Interpretando "quantas vezes a pilha foi utilizada" como numero minimo de
+ativacoes/chamadas envolvidas no codigo, temos:
+
+    main -> faz0
+    faz0 -> faz1
+    main -> faz1
+
+Total:
+
+    3
+
+Resposta: c) 3.
+
+Obs.: se a pergunta for corrigida contando instrucoes reais de acesso a pilha,
+a resposta pode mudar conforme a convencao adotada para salvar $ra, argumentos
+e registradores preservados.
+
+
+================================================
+PROVA 03
+================================================
+
+QUESTOES 1 A 8 - TEMPOS NO CAMINHO DE DADOS
+-------------------------------------------
+
+Tempos destacados no diagrama:
+
+    memoria de instrucoes = 12 ns
+    controle = 2 ns
+    banco de registradores = 8 ns
+    ULA = 14 ns
+    memoria de dados = 12 ns
+    somadores = 2 ns
+    mux indicado = 2 ns
+    unidades sem numero = 0 ns
+
+Convencao usada aqui: o tempo da instrucao e calculado pelo caminho de dados
+necessario ate produzir o resultado visivel da instrucao. Para instrucoes que
+escrevem registrador, foi incluido o tempo de escrita no banco de registradores,
+pois isso faz as alternativas baterem com a tabela da prova.
+
+
+QUESTAO 1 - Tempo de um ADD
+---------------------------
+
+Caminho:
+
+    memoria de instrucoes -> banco de registradores -> ULA -> escrita no banco
+
+Conta:
+
+    12 + 8 + 14 + 8 = 42 ns
+
+Resposta: d) 42 ns.
+
+
+QUESTAO 2 - Tempo de um ADDI
+----------------------------
+
+Caminho:
+
+    memoria de instrucoes -> banco de registradores -> ULA -> escrita no banco
+
+O imediato passa por extensao de sinal, mas essa unidade nao tem tempo indicado.
+
+Conta:
+
+    12 + 8 + 14 + 8 = 42 ns
+
+Resposta: d) 42 ns.
+
+
+QUESTAO 3 - Tempo de um BEQ
+---------------------------
+
+Caminho principal:
+
+    memoria de instrucoes -> banco de registradores -> ULA
+
+Tambem ha calculo do alvo do desvio com os somadores do PC e do branch. Pela
+convencao de soma dos blocos usados:
+
+    12 + 8 + 14 + 2 + 2 + 2 = 40 ns
+
+Como 40 ns nao aparece nas alternativas, a resposta mais proxima/esperada pela
+tabela e:
+
+Resposta: d) 42 ns.
+
+Obs.: usando caminho critico estritamente paralelo, o valor ficaria diferente,
+pois o calculo do alvo do branch ocorre em paralelo com a comparacao.
+
+
+QUESTAO 4 - Tempo de um BNE
+---------------------------
+
+BNE usa o mesmo caminho do BEQ: compara dois registradores e decide o proximo PC.
+
+Resposta: d) 42 ns.
+
+
+QUESTAO 5 - Tempo de um LW
+--------------------------
+
+Caminho:
+
+    memoria de instrucoes -> banco de registradores -> ULA -> memoria de dados
+    -> mux de write-back -> escrita no banco
+
+Conta:
+
+    12 + 8 + 14 + 12 + 2 + 8 = 56 ns
+
+Resposta: i) 56 ns.
+
+Obs.: se o tempo de escrita no banco for contado como mais 8 ns depois do dado
+chegar ao mux, algumas correcoes usam 58 ns. A alternativa 56 e a que resulta
+da soma direta dos blocos numerados do caminho com o mux final.
+
+
+QUESTAO 6 - Tempo de um SW
+--------------------------
+
+Caminho:
+
+    memoria de instrucoes -> banco de registradores -> ULA -> memoria de dados
+
+Conta:
+
+    12 + 8 + 14 + 12 = 46 ns
+
+Resposta: f) 46 ns.
+
+
+QUESTAO 7 - Tempo de um SLT
+---------------------------
+
+SLT e uma instrucao do tipo R, parecida com ADD quanto ao caminho:
+
+    memoria de instrucoes -> banco de registradores -> ULA -> escrita no banco
+
+Conta:
+
+    12 + 8 + 14 + 8 = 42 ns
+
+Resposta: d) 42 ns.
+
+
+QUESTAO 8 - Tempo de um J
+-------------------------
+
+Jump precisa buscar a instrucao e selecionar o novo PC.
+
+Conta:
+
+    memoria de instrucoes + mux do PC = 12 + 2 = 14 ns
+
+Resposta: b) 14 ns.
+
+
+QUESTAO 9
+---------
+
+Pergunta: qual registrador possui o valor de retorno de uma funcao?
+
+Em MIPS, valores de retorno ficam em:
+
+    $v0, e se precisar de mais um registrador, $v1
+
+Resposta: j) V0.
+
+
+QUESTAO 10
+----------
+
+Pergunta: qual registrador possui o endereco de retorno de uma funcao?
+
+Em MIPS, a instrucao jal salva o endereco de retorno em:
+
+    $ra
+
+Resposta: g) RA.
+
+
+QUESTAO 11
+----------
+
+Programa com loop e chamada da funcao faz. A tabela de CPI e por instrucao:
+
+    addi = 70
+    add  = 60
+    sll  = 20
+    lw   = 90
+    sw   = 80
+    bne  = 40
+    jal  = 20
+    jr   = 10
+
+$s0 comeca em 15 e e decrementado uma vez por iteracao, depois da chamada da
+funcao. Portanto, o loop executa:
+
+    15 iteracoes
+
+Contagem de instrucoes:
+
+    addi: 78
+    add:  45
+    sll:  31
+    lw:   45
+    sw:   16
+    bne:  15
+    jal:  15
+    jr:   15
+
+Total de instrucoes:
+
+    78 + 45 + 31 + 45 + 16 + 15 + 15 + 15 = 260
+
+Ciclos totais:
+
+    addi: 78*70 = 5460
+    add:  45*60 = 2700
+    sll:  31*20 = 620
+    lw:   45*90 = 4050
+    sw:   16*80 = 1280
+    bne:  15*40 = 600
+    jal:  15*20 = 300
+    jr:   15*10 = 150
+
+    ciclos = 15160
+
+CPI medio:
+
+    CPI = 15160 / 260 = 58,3077
+
+Resposta: e) 58,3.
+
+
+QUESTAO 10 DA FOTO 03_03
+------------------------
+
+Pergunta: entre j, jal, jr, beq e bne, qual consegue desviar para o endereco
+mais distante em relacao ao seu endereco?
+
+Resposta: jr.
+
+Motivo:
+
+    beq/bne usam imediato de 16 bits relativo ao PC:
+        PC+4 + (offset << 2)
+
+    j/jal usam 26 bits deslocados 2 bits e mantem os 4 bits mais altos de PC+4:
+        {PC+4[31:28], instrucao[25:0], 00}
+
+    jr usa um registrador de 32 bits como novo PC:
+        PC = conteudo de rs
+
+Assim, jr pode saltar para qualquer endereco valido de 32 bits carregado no
+registrador, sendo o mais abrangente.
+
+
+QUESTOES 11 A 13 DA FOTO 03_03 - LINHAS DO DATAPATH
+---------------------------------------------------
+
+Linha [11]:
+
+    E a linha de write-back para o banco de registradores.
+    Usam essa linha as instrucoes que escrevem registrador:
+
+        add e lw
+
+    Resposta: g) add e lw.
+
+Linha [12]:
+
+    E a linha que leva o segundo operando para a ULA.
+    Todas as quatro instrucoes usam a ULA:
+
+        add: segundo registrador
+        beq: segundo registrador para comparacao
+        lw: imediato para calcular endereco
+        sw: imediato para calcular endereco
+
+    Resposta: e) add, beq, lw e sw.
+
+Linha [13]:
+
+    E a linha do imediato deslocado usado no calculo do endereco de branch.
+    Entre add, beq, lw e sw, somente beq usa essa linha.
+
+    Resposta: b) somente beq.
+
+
+================================================
+RESUMAO DA MATERIA
+================================================
+
+1. SOMADORES E ATRASO
+---------------------
+
+Em circuitos combinacionais, o tempo de resposta e definido pelo caminho
+critico: o caminho mais demorado da entrada ate a saida.
+
+No somador ripple-carry:
+
+    carry de um bit depende do carry anterior
+    cada estagio precisa esperar o anterior
+    quanto mais bits, maior o atraso
+
+No CLA, ou Carry Lookahead Adder:
+
+    p = A OR B      ou, em algumas convencoes, A XOR B
+    g = A AND B
+
+O gerador g indica que o bit gera carry sozinho.
+O propagador p indica que o bit pode propagar um carry recebido.
+
+
+2. PONTO FLUTUANTE
+------------------
+
+Formato geral:
+
+    sinal | expoente | mantissa
+
+Para expoente com k bits:
+
+    bias = 2^(k-1) - 1
+    expoente_real = expoente_armazenado - bias
+
+Numero normalizado:
+
+    valor = (-1)^sinal * 1,mantissa * 2^expoente_real
+
+Para converter:
+
+    1. separar sinal, expoente e mantissa;
+    2. calcular o expoente real;
+    3. montar 1,mantissa;
+    4. aplicar sinal e potencia de 2.
+
+
+3. DESEMPENHO, CPI E MIPS
+-------------------------
+
+Tempo de CPU:
+
+    Tempo = NI * CPI * periodo_do_clock
+    Tempo = NI * CPI / frequencia
+
+CPI medio:
+
+    CPI_medio = soma(fracao_da_classe * CPI_da_classe)
+
+MIPS:
+
+    MIPS = frequencia_em_MHz / CPI
+
+Speedup:
+
+    Speedup = tempo_antigo / tempo_novo
+
+Speedup maior que 1 significa melhoria.
+
+
+4. LEI DE AMDAHL
+----------------
+
+Quando so uma parte do programa melhora:
+
+    Speedup_total = 1 / ((1-f) + f/s)
+
+Onde:
+
+    f = fracao melhorada
+    s = speedup dessa parte
+
+Ideia principal: melhorar uma parte pequena do programa limita o ganho total.
+
+
+5. MIPS: MEMORIA, VETORES E LW/SW
+---------------------------------
+
+Em MIPS, palavra inteira geralmente tem 4 bytes.
+
+Endereco de vetor:
+
+    endereco(v[i]) = base + 4*i
+
+Carregar da memoria:
+
+    lw destino, offset(base)
+
+Armazenar na memoria:
+
+    sw origem, offset(base)
+
+Exemplo:
+
+    lw $s0, 120($s1)
+
+Significa:
+
+    $s0 = Mem[$s1 + 120]
+
+
+6. DESLOCAMENTOS
+----------------
+
+Multiplicar por 2^n:
+
+    sll registrador, origem, n
+
+Dividir numero sem sinal por 2^n:
+
+    srl registrador, origem, n
+
+Dividir numero com sinal por 2^n:
+
+    sra registrador, origem, n
+
+Exemplos:
+
+    sll $s0, $s1, 27     # $s0 = $s1 * 2^27
+    sra $s0, $s1, 10     # $s0 = $s1 / 1024, com sinal
+
+
+7. FUNCOES EM MIPS
+------------------
+
+Registradores importantes:
+
+    $a0-$a3: argumentos
+    $v0-$v1: valores de retorno
+    $ra: endereco de retorno
+    $sp: ponteiro da pilha
+    $s0-$s7: devem ser preservados pela funcao chamada
+    $t0-$t9: temporarios, nao precisam ser preservados
+
+Chamada de funcao:
+
+    jal funcao
+
+Retorno:
+
+    jr $ra
+
+Se uma funcao chama outra funcao, ela deve salvar $ra antes da chamada e
+restaurar antes de retornar.
+
+
+8. CAMINHO DE DADOS MONOCICLO
+-----------------------------
+
+Blocos principais:
+
+    PC
+    memoria de instrucoes
+    banco de registradores
+    extensor de sinal
+    ULA
+    memoria de dados
+    somadores
+    multiplexadores
+    unidade de controle
+
+Sinais comuns:
+
+    RegDst: escolhe registrador destino
+    ALUSrc: escolhe segundo operando da ULA
+    MemtoReg: escolhe dado a escrever no registrador
+    RegWrite: habilita escrita em registrador
+    MemRead: habilita leitura da memoria
+    MemWrite: habilita escrita na memoria
+    Branch: indica desvio condicional
+    ALUOp: define operacao da ULA
+
+Caminhos:
+
+    add:
+        registradores -> ULA -> banco de registradores
+
+    addi:
+        registrador + imediato -> ULA -> banco de registradores
+
+    lw:
+        registrador + offset -> ULA -> memoria -> banco de registradores
+
+    sw:
+        registrador + offset -> ULA -> memoria
+
+    beq/bne:
+        registradores -> ULA compara -> escolhe proximo PC
+
+    j:
+        usa bits da instrucao para formar novo PC
+
+
+9. DESVIOS E SALTOS
+-------------------
+
+beq/bne:
+
+    destino = PC+4 + (sign_extend(offset) << 2)
+
+j/jal:
+
+    destino = {PC+4[31:28], instrucao[25:0], 00}
+
+jr:
+
+    destino = conteudo de um registrador
+
+Alcance:
+
+    jr > j/jal > beq/bne
+
+
+10. DICAS DE PROVA
+------------------
+
+Para questoes de CPI:
+
+    1. descubra quantas vezes cada instrucao executa;
+    2. agrupe por tipo ou por instrucao;
+    3. multiplique quantidade pelo CPI;
+    4. some os ciclos;
+    5. divida pelo total de instrucoes para achar CPI medio.
+
+Para questoes de vetor:
+
+    offset = indice * 4
+
+Para questoes de Amdahl:
+
+    identifique se a fracao dada e do tempo antigo ou do tempo novo.
+
+Para questoes de datapath:
+
+    desenhe o caminho da instrucao;
+    some apenas os blocos realmente usados;
+    se houver paralelismo, o correto e pegar o maior caminho, mas algumas
+    listas/provas podem usar a soma simplificada dos blocos. Confira a
+    convencao do professor pelas alternativas.
+
+================================================
+FIM
+================================================

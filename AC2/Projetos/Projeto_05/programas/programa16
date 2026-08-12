@@ -1,0 +1,28 @@
+# Escreva um programa que avalie a expressão: (x*y)/z.  
+# Use x = 1600000 (=0x186A00), y = 80000 (=0x13880), e z = 400000 (=0x61A80). 
+# Inicializar os 
+# registradores com os valores acima.
+
+    # carrega x = 0x186A00
+    lui  $s0, 0x18          # parte alta
+    ori  $s0, $s0, 0x6A00   # parte baixa -> $s0 = 1600000
+
+    # carrega y = 0x13880
+    lui  $s1, 0x1           # parte alta
+    ori  $s1, $s1, 0x3880   # parte baixa -> $s1 = 80000
+
+    # carrega z = 0x61A80
+    lui  $s2, 0x6           # parte alta
+    ori  $s2, $s2, 0x1A80   # parte baixa -> $s2 = 400000
+
+    # x * y -> resultado em HI:LO
+    mult $s0, $s1            # HI:LO = x * y
+    mflo $t0                 # $t0 = parte baixa de x*y
+
+    # (x*y) / z
+    div  $t0, $s2            # LO = quociente, HI = resto
+    mflo $s3                 # $s3 = (x*y)/z
+
+    # resultado em $s3
+    # x*y = 1600000 * 80000 = 128.000.000.000
+    # 128.000.000.000 / 400000 = 320000

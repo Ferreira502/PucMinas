@@ -1,0 +1,566 @@
+================================================================================
+         GUIA COMPLETO DE ASSEMBLY MIPS — COM COMPARAÇÃO EM LINGUAGEM C
+================================================================================
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. INTRODUÇÃO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Assembly MIPS é uma linguagem de programação de baixo nível que se comunica
+diretamente com o hardware do processador. Diferente de linguagens como C, onde
+você escreve "int a = 5;", em Assembly você precisa dizer exatamente em qual
+registrador o valor vai ficar e qual instrução será usada para isso.
+
+O MIPS possui 32 registradores de uso geral, cada um com 32 bits de tamanho.
+Pense nos registradores como "variáveis temporárias" que vivem dentro do
+próprio processador — muito mais rápidas que a memória RAM.
+
+Registradores principais:
+  $zero ($0)   → Sempre vale 0. Não pode ser alterado.
+  $t0 - $t9    → Temporários. Use para cálculos do dia a dia.
+  $s0 - $s7    → Salvos. Preservados ao chamar funções.
+  $a0 - $a3    → Argumentos para funções.
+  $v0 - $v1    → Valores de retorno de funções.
+  $sp          → Stack Pointer (topo da pilha).
+  $ra          → Return Address (endereço de retorno de função).
+
+O que é um IMEDIATO?
+  É uma constante numérica escrita diretamente na instrução, sem precisar
+  de outro registrador. Exemplo: no "addi $t0, $zero, 5" o número 5 é o
+  imediato. Imediatos têm limite de 16 bits, ou seja, valores entre
+  -32768 e 32767.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. INSTRUÇÕES ARITMÉTICAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ADD — Adição entre registradores
+  Soma os valores de dois registradores e guarda o resultado em um terceiro.
+  Se o resultado ultrapassar 32 bits, gera uma exceção de overflow.
+
+  Sintaxe : add $rd, $rs, $rt
+  Operação: $rd = $rs + $rt
+
+  Exemplo:
+    add $t2, $t0, $t1   # $t2 = $t0 + $t1
+
+
+ADDI — Adição com imediato
+  Soma um registrador com uma constante fixa. É a instrução mais usada para
+  atribuir valores a registradores, incrementar contadores e calcular offsets.
+  Não existe "subi" — para subtrair, usa-se addi com valor negativo.
+
+  Sintaxe : addi $rt, $rs, imm
+  Operação: $rt = $rs + imm
+
+  Exemplo:
+    addi $t0, $zero, 10   # $t0 = 0 + 10 = 10
+    addi $t0, $t0, -1     # $t0 = $t0 - 1 (decrementar)
+
+
+SUB — Subtração entre registradores
+  Subtrai o valor do segundo registrador do primeiro. Assim como o add,
+  também detecta overflow em números com sinal.
+
+  Sintaxe : sub $rd, $rs, $rt
+  Operação: $rd = $rs - $rt
+
+  Exemplo:
+    sub $t2, $t0, $t1   # $t2 = $t0 - $t1
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. INSTRUÇÕES DE DESLOCAMENTO DE BITS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+O que é deslocamento?
+  Imagine os 32 bits do registrador como uma fila. Deslocar significa
+  empurrar todos os bits para um lado, preenchendo os espaços que sobram
+  com zeros (ou com o bit de sinal, no caso do sra).
+
+  O parâmetro "shamt" (shift amount) indica quantas posições deslocar.
+  Cada posição para a esquerda multiplica por 2; cada posição para a
+  direita divide por 2.
+
+  Resumo visual:
+    sll → bits vão para ← esquerda  | zeros entram pela direita
+    srl → bits vão para → direita   | zeros entram pela esquerda
+    sra → bits vão para → direita   | bit de sinal entra pela esquerda
+
+
+SLL — Shift Left Logical (deslocamento à esquerda)
+  Move todos os bits para a esquerda, preenchendo os espaços da direita com
+  zeros. Cada posição deslocada equivale a multiplicar por 2. Deslocar 3
+  posições equivale a multiplicar por 8 (2³). Nunca altera o comportamento
+  por causa do sinal — funciona igual para positivos e negativos.
+
+  Sintaxe : sll $rd, $rt, shamt
+  Operação: $rd = $rt << shamt
+
+  Exemplo visual (sll 3 posições, valor = 1):
+    Antes : 0000 0000 0000 0000 0000 0000 0000 0001  (= 1)
+    Depois: 0000 0000 0000 0000 0000 0000 0000 1000  (= 8)
+                                             ↑
+                                    bit se moveu 3 casas, zeros entraram
+
+  Exemplo em código:
+    addi $t0, $zero, 8
+    sll  $t1, $t0, 2    # $t1 = 8 * 4 = 32  (desloca 2 → multiplica por 4)
+    sll  $t1, $t0, 3    # $t1 = 8 * 8 = 64  (desloca 3 → multiplica por 8)
+
+  Truque: sll n posições = multiplicar por 2ⁿ
+    sll 1 = x2  |  sll 2 = x4  |  sll 3 = x8  |  sll 4 = x16
+
+
+SRL — Shift Right Logical (deslocamento à direita lógico)
+  Move todos os bits para a direita, preenchendo os espaços da esquerda com
+  zeros. IGNORA o sinal do número — se o número era negativo (bit 31 = 1),
+  após o srl o bit 31 vira 0, tornando o resultado positivo. Use APENAS
+  para números sem sinal (unsigned).
+
+  Sintaxe : srl $rd, $rt, shamt
+  Operação: $rd = $rt >> shamt  (sem sinal)
+
+  Exemplo visual (srl 1 posição, número negativo):
+    Antes : 1000 0000 0000 0000 0000 0000 0000 1000  (negativo)
+    Depois: 0100 0000 0000 0000 0000 0000 0000 0100  (virou positivo!)
+            ↑
+          zero entrou aqui — sinal perdido!
+
+  Exemplo em código:
+    addi $t0, $zero, 32
+    srl  $t1, $t0, 1    # $t1 = 32 / 2  = 16
+    srl  $t1, $t0, 2    # $t1 = 32 / 4  = 8
+    srl  $t1, $t0, 3    # $t1 = 32 / 8  = 4
+
+
+SRA — Shift Right Arithmetic (deslocamento à direita aritmético)
+  Igual ao srl, mas em vez de inserir zeros à esquerda, COPIA o bit de
+  sinal (bit 31). Se o número era negativo (bit 31 = 1), os bits que
+  entram pela esquerda também são 1, mantendo o resultado negativo.
+  Use sempre que trabalhar com números com sinal (signed).
+
+  Sintaxe : sra $rd, $rt, shamt
+  Operação: $rd = $rt >>> shamt  (com sinal)
+
+  Exemplo visual (sra 1 posição, número negativo):
+    Antes : 1000 0000 0000 0000 0000 0000 0000 1000  (negativo)
+    Depois: 1100 0000 0000 0000 0000 0000 0000 0100  (continua negativo)
+            ↑
+          1 entrou aqui — sinal preservado!
+
+  Exemplo em código:
+    addi $t0, $zero, 32
+    sra  $t1, $t0, 1    # $t1 = 32 / 2 = 16  (positivo, funciona igual srl)
+
+  Caso especial — espalhar o bit de sinal:
+    # Transformar 0x00000001 em 0xFFFFFFFF usando só deslocamentos:
+    ori $8, $0, 0x01      # $8 = 0x00000001
+    sll $8, $8, 31        # $8 = 0x80000000  (bit 1 vai para posição 31)
+    sra $8, $8, 31        # $8 = 0xFFFFFFFF  (bit de sinal se espalha!)
+
+  Visualizando:
+    0000...0001  →(sll 31)→  1000...0000  →(sra 31)→  1111...1111
+
+
+Tabela comparativa dos três deslocamentos:
+  ┌───────────┬──────────┬──────────────────────┬──────────┬──────────────────┐
+  │ Instrução │ Direção  │ Preenche com         │ Sinal?   │ Uso principal    │
+  ├───────────┼──────────┼──────────────────────┼──────────┼──────────────────┤
+  │ sll       │ Esquerda │ zeros à direita      │ —        │ Multiplicar x 2ⁿ │
+  │ srl       │ Direita  │ zeros à esquerda     │  Perde   │ Dividir unsigned │
+  │ sra       │ Direita  │ copia bit de sinal   │  Guarda  │ Dividir signed   │
+  └───────────┴──────────┴──────────────────────┴──────────┴──────────────────┘
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. INSTRUÇÕES LÓGICAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Operações lógicas trabalham bit a bit, comparando cada par de bits
+correspondentes dos dois operandos.
+
+OR — OU lógico entre registradores
+  O resultado é 1 se PELO MENOS UM dos bits for 1. Muito usado para
+  ligar (setar) bits específicos de um valor.
+
+  Sintaxe : or $rd, $rs, $rt
+  Operação: $rd = $rs | $rt
+
+  Exemplo:
+    or $t2, $t0, $t1   # liga bits de $t0 com os de $t1
+
+
+ORI — OU lógico com imediato
+  Mesmo que OR, mas o segundo operando é uma constante. Usado para
+  setar bits específicos sem alterar os outros.
+
+  Sintaxe : ori $rt, $rs, imm
+  Operação: $rt = $rs | imm
+
+  Exemplo:
+    ori $t0, $t0, 0x0F   # liga os 4 bits menos significativos
+
+
+AND — E lógico entre registradores
+  O resultado é 1 somente se OS DOIS bits forem 1. Usado para criar
+  máscaras de bits — isolar partes específicas de um número.
+
+  Sintaxe : and $rd, $rs, $rt
+  Operação: $rd = $rs & $rt
+
+  Exemplo:
+    and $t2, $t0, $t1   # mantém apenas bits que os dois têm em comum
+
+
+ANDI — E lógico com imediato
+  Mesmo que AND, mas com constante. Muito usado para verificar ou
+  zerar bits específicos.
+
+  Sintaxe : andi $rt, $rs, imm
+  Operação: $rt = $rs & imm
+
+  Exemplo:
+    andi $t0, $t0, 0xFF   # mantém apenas os 8 bits menos significativos
+
+
+XOR — OU exclusivo entre registradores
+  O resultado é 1 somente se os bits forem DIFERENTES entre si. Pode
+  ser usado para inverter bits específicos ou zerar um registrador
+  (xor de um número com ele mesmo = 0).
+
+  Sintaxe : xor $rd, $rs, $rt
+  Operação: $rd = $rs ^ $rt
+
+  Exemplo:
+    xor $t0, $t0, $t0   # zera $t0 (qualquer número XOR ele mesmo = 0)
+
+
+XORI — OU exclusivo com imediato
+  Mesmo que XOR, mas com constante. Usado para inverter bits selecionados
+  por uma máscara.
+
+  Sintaxe : xori $rt, $rs, imm
+  Operação: $rt = $rs ^ imm
+
+  Exemplo:
+    xori $t0, $t0, 0x01   # inverte apenas o bit menos significativo
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. INSTRUÇÕES DE DESVIO E SALTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Em Assembly não existe if/else ou for/while diretamente. Tudo é feito
+com comparações e saltos para labels (marcadores no código).
+
+BEQ — Branch if Equal (desvio se igual)
+  Compara dois registradores. Se forem iguais, o programa salta para
+  o label indicado. É a base para estruturas if e loops.
+
+  Sintaxe : beq $rs, $rt, label
+  Operação: se ($rs == $rt) vai para label
+
+  Exemplo:
+    beq $t0, $zero, fim   # se $t0 == 0, pula para "fim"
+
+
+BNE — Branch if Not Equal (desvio se diferente)
+  Oposto do beq. Desvia se os registradores forem DIFERENTES.
+
+  Sintaxe : bne $rs, $rt, label
+  Operação: se ($rs != $rt) vai para label
+
+  Exemplo:
+    bne $t0, $t1, loop    # se $t0 != $t1, volta para "loop"
+
+
+J — Jump (salto incondicional)
+  Salta diretamente para um label sem fazer nenhuma comparação.
+  Usado para encerrar loops ou pular blocos de código.
+
+  Sintaxe : j label
+  Operação: vai para label (sempre)
+
+  Exemplo:
+    j inicio   # volta para "inicio" incondicionalmente
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. MULTIPLICAÇÃO E DIVISÃO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Mult e div são especiais: o resultado não vai para um registrador comum,
+mas para dois registradores internos chamados HI e LO. Para acessar o
+resultado, é necessário usar mflo ou mfhi depois.
+
+MULT — Multiplicação
+  Multiplica dois registradores de 32 bits. O resultado pode ter até
+  64 bits, por isso é dividido em dois: a parte alta vai para HI e a
+  parte baixa vai para LO. Na maioria dos casos, o resultado cabe em
+  32 bits e basta usar mflo.
+
+  Sintaxe : mult $rs, $rt
+  Operação: HI:LO = $rs * $rt
+
+  Exemplo:
+    mult $t0, $t1   # multiplica $t0 por $t1
+    mflo $t2        # $t2 = resultado (parte baixa)
+
+
+DIV — Divisão
+  Divide o primeiro registrador pelo segundo. O quociente vai para LO
+  e o resto da divisão vai para HI. Atenção: o hardware não detecta
+  divisão por zero — isso deve ser verificado pelo programador.
+
+  Sintaxe : div $rs, $rt
+  Operação: LO = $rs / $rt  |  HI = $rs % $rt
+
+  Exemplo:
+    div $t0, $t1    # divide $t0 por $t1
+    mflo $t2        # $t2 = quociente
+    mfhi $t3        # $t3 = resto
+
+
+MFLO — Move From LO
+  Copia o valor do registrador especial LO para um registrador comum.
+  Usado para obter o resultado de mult ou o quociente de div.
+
+  Sintaxe : mflo $rd
+  Operação: $rd = LO
+
+
+MFHI — Move From HI
+  Copia o valor do registrador especial HI para um registrador comum.
+  Usado para obter o resto da divisão após div, ou a parte alta de mult.
+
+  Sintaxe : mfhi $rd
+  Operação: $rd = HI
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7. INSTRUÇÕES DE CARGA E ARMAZENAMENTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LUI — Load Upper Immediate
+  Carrega uma constante de 16 bits nos 16 bits SUPERIORES de um
+  registrador, zerando os 16 bits inferiores. Sozinho é pouco útil,
+  mas combinado com ori permite carregar qualquer valor de 32 bits.
+
+  Por que precisa disso?
+    O imediato das instruções tem limite de 16 bits (máximo 32767).
+    Para valores maiores, é preciso "montar" o número em duas partes:
+    a parte alta (bits 31-16) com lui, e a parte baixa (bits 15-0) com ori.
+
+  Sintaxe : lui $rt, imm
+  Operação: $rt = imm << 16
+
+  Visualização do registrador após lui:
+    [ bits 31-16  ]  [ bits 15-0   ]
+    [ lui coloca  ]  [ fica zero   ]
+
+  Exemplo (carregar o valor 0x12345678):
+    lui  $t0, 0x1234       # $t0 = 0x12340000
+    ori  $t0, $t0, 0x5678  # $t0 = 0x12345678
+
+  Após lui:   0001 0010 0011 0100 | 0000 0000 0000 0000
+  Após ori:   0001 0010 0011 0100 | 0101 0110 0111 1000
+
+  Como converter um valor grande para lui + ori:
+    1. Escreva o valor em hexadecimal
+    2. Pegue os 4 primeiros dígitos hex → parte alta (vai no lui)
+    3. Pegue os 4 últimos dígitos hex  → parte baixa (vai no ori)
+
+  Exemplos práticos:
+    Valor 2147483647 = 0x7FFFFFFF:
+      lui $s0, 0x7FFF        # parte alta
+      ori $s0, $s0, 0xFFFF   # parte baixa → $s0 = 2147483647
+
+    Valor 300000 = 0x000493E0:
+      lui $s1, 0x0004        # parte alta
+      ori $s1, $s1, 0x93E0   # parte baixa → $s1 = 300000
+
+  Regra geral:
+    Valor até 32767    → addi $t0, $zero, valor   (direto)
+    Valor acima disso  → lui + ori                (duas instruções)
+
+
+LW — Load Word (carregar palavra da memória)
+  Carrega 32 bits (4 bytes) da memória RAM para um registrador.
+  O endereço de memória é calculado somando o offset ao valor base
+  do registrador $rs. Equivale a ler uma variável na memória.
+
+  Sintaxe : lw $rt, offset($rs)
+  Operação: $rt = Memória[$rs + offset]
+
+  Exemplo:
+    lw $t0, 0($s0)    # carrega o valor no endereço $s0 para $t0
+    lw $t1, 4($s0)    # carrega o próximo inteiro (4 bytes depois)
+
+    posicao do vetor * 4 = para inserir na posicao correta
+
+
+SW — Store Word (armazenar palavra na memória)
+  Armazena o valor de um registrador na memória RAM. Funciona de
+  forma inversa ao lw. Equivale a escrever em uma variável na memória.
+
+  Sintaxe : sw $rt, offset($rs)
+  Operação: Memória[$rs + offset] = $rt
+
+  Exemplo:
+    sw $t0, 0($s0)    # salva $t0 no endereço de memória $s0
+
+lw  →  carrega o VALOR que está na memória
+la  →  carrega o ENDEREÇO de onde algo está na memória
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8. TABELA COMPARATIVA: ASSEMBLY MIPS vs LINGUAGEM C
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+┌─────────────────────────────────┬──────────────────────────────────────────┐
+│ Linguagem C                     │ Assembly MIPS                            │
+├─────────────────────────────────┼──────────────────────────────────────────┤
+│ int a = 5;                      │ addi $t0, $zero, 5                       │
+│ int b = a;                      │ add  $t1, $t0, $zero                     │
+│ int c = a + b;                  │ add  $t2, $t0, $t1                       │
+│ int d = a + 10;                 │ addi $t3, $t0, 10                        │
+│ int e = a - b;                  │ sub  $t4, $t0, $t1                       │
+│ int f = a * b;                  │ mult $t0, $t1  /  mflo $t5               │
+│ int g = a / b;                  │ div  $t0, $t1  /  mflo $t6               │
+│ int h = a % b;                  │ div  $t0, $t1  /  mfhi $t7               │
+│ int i = a * 4;                  │ sll  $t8, $t0, 2   (2² = 4)              │
+│ int j = a / 2;                  │ srl  $t9, $t0, 1   (unsigned)            │
+│ int k = a / 2; (negativo)       │ sra  $t9, $t0, 1   (signed, preserva -) │
+│ int l = a | b;                  │ or   $s0, $t0, $t1                       │
+│ int l = a & b;                  │ and  $s1, $t0, $t1                       │
+│ int m = a ^ b;                  │ xor  $s2, $t0, $t1                       │
+│ a = 0;                          │ xor  $t0, $t0, $t0  (ou add $t0,$zero,$zero) │
+├─────────────────────────────────┼──────────────────────────────────────────┤
+│ if (a == b) { ... }             │ beq  $t0, $t1, bloco                     │
+│ if (a != b) { ... }             │ bne  $t0, $t1, bloco                     │
+│ goto fim;                       │ j    fim                                  │
+├─────────────────────────────────┼──────────────────────────────────────────┤
+│ int arr[3] = {1, 2, 3};         │ (declarado em .data com .word 1, 2, 3)   │
+│ int x = arr[0];                 │ lw   $t0, 0($s0)   # $s0 = endereço base │
+│ int y = arr[1];                 │ lw   $t1, 4($s0)   # 4 bytes por int     │
+│ arr[0] = 99;                    │ sw   $t2, 0($s0)                         │
+└─────────────────────────────────┴──────────────────────────────────────────┘
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+9. EXEMPLOS COMPLETOS: PROGRAMAS EM C vs ASSEMBLY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+-----------------------------------------------------------------------
+EXEMPLO 1: Soma de dois números
+-----------------------------------------------------------------------
+
+C:
+  int a = 3;
+  int b = 7;
+  int c = a + b;
+
+Assembly:
+  addi $t0, $zero, 3    # a = 3
+  addi $t1, $zero, 7    # b = 7
+  add  $t2, $t0, $t1    # c = a + b
+
+
+-----------------------------------------------------------------------
+EXEMPLO 2: Estrutura IF/ELSE
+-----------------------------------------------------------------------
+
+C:
+  if (a == b) {
+      c = 1;
+  } else {
+      c = 0;
+  }
+
+Assembly:
+  beq  $t0, $t1, igual  # se a == b, vai para "igual"
+  addi $t2, $zero, 0    # else: c = 0
+  j    fim              # pula o bloco "igual"
+igual:
+  addi $t2, $zero, 1    # c = 1
+fim:
+
+
+-----------------------------------------------------------------------
+EXEMPLO 3: Loop FOR (contador de 0 a 4)
+-----------------------------------------------------------------------
+
+C:
+  int i;
+  for (i = 0; i < 5; i++) {
+      // corpo do loop
+  }
+
+Assembly:
+  addi $t0, $zero, 0    # i = 0
+  addi $t1, $zero, 5    # limite = 5
+loop:
+  beq  $t0, $t1, fim    # se i == 5, sai do loop
+  # ... corpo do loop aqui ...
+  addi $t0, $t0, 1      # i++
+  j    loop             # volta para o início
+fim:
+
+
+-----------------------------------------------------------------------
+EXEMPLO 4: Multiplicação e resto (divisão)
+-----------------------------------------------------------------------
+
+C:
+  int a = 10, b = 3;
+  int quociente = a / b;   // 3
+  int resto     = a % b;   // 1
+
+Assembly:
+  addi $t0, $zero, 10   # a = 10
+  addi $t1, $zero, 3    # b = 3
+  div  $t0, $t1         # divide a por b
+  mflo $t2              # quociente = 3
+  mfhi $t3              # resto = 1
+
+
+-----------------------------------------------------------------------
+EXEMPLO 5: Acesso a vetor (array)
+-----------------------------------------------------------------------
+
+C:
+  int arr[3] = {10, 20, 30};
+  int x = arr[1];    // x = 20
+  arr[2] = 99;       // arr[2] = 99
+
+Assembly:
+  # $s0 contém o endereço base do array
+  lw   $t0, 4($s0)   # x = arr[1]  (offset = 1 * 4 bytes = 4)
+  addi $t1, $zero, 99
+  sw   $t1, 8($s0)   # arr[2] = 99  (offset = 2 * 4 bytes = 8)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+10. RESUMO FINAL — DICAS RÁPIDAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  → Instrução com "i" no final = usa constante (imediato), ex: addi, ori, andi
+  → "mf" no início = move de registrador especial (mflo, mfhi)
+  → "s" no início = deslocamento de bits (sll, srl, sra)
+  → "l" ou "s" + "w" = acesso à memória (lw = ler, sw = escrever)
+  → $zero sempre vale 0 — use para zerar, copiar e comparar com zero
+  → mult e div não têm destino direto — sempre use mflo/mfhi depois
+  → srl para divisão de números SEM sinal; sra para números COM sinal (negativos)
+  → sll n posições = multiplicar por 2ⁿ  (sll 2 = x4, sll 3 = x8)
+  → Não existe subi — use addi com valor negativo: addi $t0, $t0, -1
+  → Cada posição no array ocupa 4 bytes — multiplique o índice por 4 no offset
+  → Para valores maiores que 32767, use lui + ori combinados
+  → lui coloca o valor nos 16 bits superiores; ori completa os 16 bits inferiores
+  → sra espalha o bit de sinal: sll 31 + sra 31 transforma qualquer valor em 0xFFFFFFFF
+
+================================================================================
+                              FIM DO GUIA
+================================================================================

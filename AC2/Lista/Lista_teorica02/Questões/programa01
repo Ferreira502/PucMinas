@@ -1,0 +1,11 @@
+# a = 10; 
+# b = -1; 
+# a = a + 1; 
+# c = a + b;
+
+addi $s0, $zero, 10   # a = 10
+addi $s1, $zero, -1   # b = -1
+addi $t0, $zero, 1    # adicionando 1 em um temporario
+
+add $s0, $s0, $t0     # a + 1
+add $s2, $s0, $s1     # c = a + b

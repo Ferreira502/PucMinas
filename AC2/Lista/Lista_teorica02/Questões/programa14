@@ -1,0 +1,59 @@
+# para i de 0 ate 98:
+#     para j de 0 ate 98-i:
+#         se A[j] > A[j+1]:
+#             troca A[j] com A[j+1]
+
+.data
+    A: .word 64,34,25,12,22,11,90,45,78,23
+       .word 55,67,89,43,21,76,54,32,10,99
+       .word 88,77,66,44,33,91,82,73,61,50
+       .word 19,28,37,46,57,68,79,81,92,93
+       .word 14,15,16,17,18,20,24,26,27,29
+       .word 30,31,35,36,38,39,40,41,42,47
+       .word 48,49,51,52,53,56,58,59,60,62
+       .word 63,65,69,70,71,72,74,75,80,83
+       .word 84,85,86,87,94,95,96,97,98,100
+       .word 9,8,7,6,5,4,3,2,1,0
+.text
+main:
+    la   $s0, A            # $s0 = base do vetor
+    addi $s1, $zero, 100   # $s1 = tamanho (100)
+
+    # loop externo: i = 0 ate 98
+    addi $s2, $zero, 0     # i = 0
+
+loop_i:
+    addi $t0, $s1, -1      # $t0 = 99
+    beq  $s2, $t0, fim     # se i == 99, termina
+
+    # loop interno: j = 0 ate 98-i
+    addi $s3, $zero, 0     # j = 0
+    sub  $t1, $t0, $s2     # $t1 = 99 - i (limite de j)
+
+loop_j:
+    beq  $s3, $t1, prox_i  # se j == 99-i, vai para proximo i
+
+    # calcula endereco de A[j]
+    sll  $t2, $s3, 2       # $t2 = j * 4
+    add  $t2, $s0, $t2     # $t2 = endereco de A[j]
+
+    lw   $t3, 0($t2)       # $t3 = A[j]
+    lw   $t4, 4($t2)       # $t4 = A[j+1]
+
+    # se A[j] <= A[j+1], nao troca
+    slt  $t5, $t4, $t3     # $t5 = 1 se A[j+1] < A[j]
+    beq  $t5, $zero, prox_j
+
+    # troca A[j] e A[j+1] 
+    sw   $t4, 0($t2)       # A[j]   = A[j+1]
+    sw   $t3, 4($t2)       # A[j+1] = A[j]
+
+prox_j:
+    addi $s3, $s3, 1       # j++
+    j    loop_j
+
+prox_i:
+    addi $s2, $s2, 1       # i++
+    j    loop_i
+
+fim:

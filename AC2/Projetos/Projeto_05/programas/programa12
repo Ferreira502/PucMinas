@@ -1,0 +1,27 @@
+.data
+    # cadeia de ponteiros
+    x:    .word 0x10010010   # x contem endereco do segundo ponteiro
+    ptr2: .word 0x10010020   # segundo ponteiro -> aponta para ptr3
+    ptr3: .word 0x10010030   # terceiro ponteiro -> aponta para k
+    k:    .word 7            # valor inteiro final
+
+.text
+main:
+    # carrega o valor de x (primeiro ponteiro)
+    la   $t0, x
+    lw   $s0, 0($t0)         # $s0 = MEM[x] -> endereco do segundo ponteiro
+
+    # derreferencia o segundo ponteiro
+    lw   $s1, 0($s0)         # $s1 = MEM[MEM[x]] -> endereco do terceiro ponteiro
+
+    # derreferencia o terceiro ponteiro
+    lw   $s2, 0($s1)         # $s2 = MEM[MEM[MEM[x]]] -> endereco de k
+
+    # le o valor de k
+    lw   $s3, 0($s2)         # $s3 = k
+
+    # k = k * 2
+    sll  $s3, $s3, 1         # $s3 = k * 2 (shift left = *2)
+
+    # reescreve k no local correto
+    sw   $s3, 0($s2)         # MEM[MEM[MEM[x]]] = k * 2

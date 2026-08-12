@@ -1,0 +1,30 @@
+.data
+    TEMP: .word 35        # valor da temperatura
+    FLAG: .word 0         # flag comeca em 0
+
+.text
+main:
+    la   $t0, TEMP
+    lw   $t1, 0($t0)      # $t1 = TEMP
+
+    la   $t0, FLAG        # $t0 = endereco de FLAG
+
+    # verifica TEMP >= 30
+    addi $t2, $zero, 30   # $t2 = 30
+    slt  $t3, $t1, $t2    # $t3 = 1 se TEMP < 30
+    bne  $t3, $zero, falso # se TEMP < 30, vai para falso
+
+    # verifica TEMP <= 50
+    addi $t2, $zero, 50   # $t2 = 50
+    slt  $t3, $t2, $t1    # $t3 = 1 se 50 < TEMP
+    bne  $t3, $zero, falso # se TEMP > 50, vai para falso
+
+verdadeiro:
+    addi $t4, $zero, 1    # $t4 = 1
+    sw   $t4, 0($t0)      # FLAG = 1
+    j    fim
+
+falso:
+    sw   $zero, 0($t0)    # FLAG = 0
+
+fim:

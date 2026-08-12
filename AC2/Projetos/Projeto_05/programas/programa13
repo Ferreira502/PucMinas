@@ -1,0 +1,20 @@
+# Escreva um programa  que leia um valor A da memória, identifique se  
+# o  número  é  negativo  ou  
+# não  e  encontre  o  seu  módulo.  O  valor deverá ser reescrito sobre A.
+
+.data
+    A: .word -42
+
+.text
+main:
+    la   $t0, A
+    lw   $t1, 0($t0)         # $t1 = A
+
+    beq  $t1, $zero, fim     # se A == 0, ja e módulo
+    slt  $t2, $t1, $zero     # $t2 = 1 se A < 0
+    beq  $t2, $zero, fim     # se A >= 0, pula
+
+    sub  $t1, $zero, $t1     # $t1 = 0 - A (inverte sinal)
+
+fim:
+    sw   $t1, 0($t0)         # reescreve A

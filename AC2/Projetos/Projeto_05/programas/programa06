@@ -1,0 +1,13 @@
+# x = o maior inteiro possível; y = 300000; 
+# z =  x - 4y 
+
+lui $s0, 0x7FFF  	# maior valor possivel 
+ori $s0, $s0, 0xFFF  	# $s0 = 2147483647
+
+lui $s1, 0x0004
+ori $s1, $s1, 0x93E0  	# $s1 = 300000 
+
+
+sll  $t1, $s1, 2          # t1 = y * 4 = 1200000
+
+sub  $s2, $s0, $t1        # z = x - 4y = 2147483647 - 1200000 = 2146283647

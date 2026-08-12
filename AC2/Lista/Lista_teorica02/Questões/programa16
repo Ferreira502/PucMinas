@@ -1,0 +1,32 @@
+# se x > 0  -> y = x^3 + 1
+# se x <= 0 -> y = x^4 - 1
+
+.data
+    x: .word -2      # valor de x (teste com negativo)
+    y: .word 0       # resultado y
+
+.text
+main:
+    la   $t0, x
+    lw   $s0, 0($t0)     # $s0 = x
+
+    # verifica se x > 0
+    slt  $t1, $zero, $s0  # $t1 = 1 se 0 < x  (x > 0)
+    beq  $t1, $zero, npos # se x <= 0, pula
+
+positivo:
+    # y = x^3 + 1
+    mul  $t2, $s0, $s0    # $t2 = x^2
+    mul  $t2, $t2, $s0    # $t2 = x^3
+    addi $t3, $t2, 1      # $t3 = x^2 + 1
+    j    fim
+
+npos:
+    # y = x^4 - 1
+    mul  $t2, $s0, $s0    # $t2 = x^2
+    mul  $t2, $t2, $t2    # $t2 = x^4  (x^2 * x^2)
+    addi $t3, $t2, -1     # $t3 = x^4 - 1
+
+fim:
+    la   $t0, y
+    sw   $t3, 0($t0)      # salva y na memoria

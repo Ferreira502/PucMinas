@@ -1,0 +1,40 @@
+# Questao Desafio
+
+.data
+    X: .word 1600000
+    Y: .word 80000
+       .word 0       # 3a posicao 
+       .word 0       # 4a posicao 
+
+.text
+main:
+    la   $t0, X
+    lw   $s0, 0($t0)         # $s0 = X
+    lw   $s1, 4($t0)         # $s1 = Y
+
+    add  $s2, $zero, $zero   # LO = 0
+    add  $s3, $zero, $zero   # HI = 0
+    addi $s4, $zero, 32      # contador = 32
+
+loop:
+    beq  $s4, $zero, fim
+
+    andi $t1, $s1, 1         # testa bit0 de Y
+    beq  $t1, $zero, shift   # bit==0, pula soma
+
+    add  $t2, $s2, $s0       # $t2 = LO + X
+    slt  $t3, $t2, $s2       # carry = 1 se overflow
+    add  $s3, $s3, $t3       # HI += carry
+    add  $s2, $t2, $zero     # LO = LO + X
+
+shift:
+    srl  $t4, $s0, 31        # bit 31 de X
+    add  $s3, $s3, $t4       # HI += bit saindo de X
+    sll  $s0, $s0, 1         # X <<= 1
+    srl  $s1, $s1, 1         # Y >>= 1
+    addi $s4, $s4, -1        # contador--
+    j    loop
+
+fim:
+    sw   $s2, 8($t0)         # RLO na 3a posicao
+    sw   $s3, 12($t0)        # RHI na 4a posicao

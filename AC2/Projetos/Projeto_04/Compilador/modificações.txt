@@ -1,0 +1,37 @@
+linhaValida
+
+1)  indice errado
+    Original:  linha[length] != ';'   (sempre é '\0'!)
+    Corrigido: linha[length-1] != ';'
+    Motivo: strlen retorna o tamanho sem contar o '\0',
+    então linha[length] aponta para o terminador nulo,
+    nunca para o ';'
+
+2)  logica invertida
+    Original:  valido = 1 em ambos os if/else
+    Corrigido: valido = 0 quando não termina com ';'
+    Motivo: a função sempre retornava true independente
+    do conteúdo, então linhas inválidas passavam.
+
+3)  '\n' não era removido antes de verificar.
+    Adicionado: while que desconta '\n' e do length
+    antes de checar o último caractere.
+    Motivo: o fgets inclui o '\n' na string, então
+    linha[length-1] era '\n' e nunca era ';'.
+
+------------------------------------------------------------------------
+
+lerLinhas
+
+1) : detecção do 'fim;'
+    Original:  lia até EOF sem parar no marcador de fim
+    Corrigido: if(strcmp(linha, "fim.") == 0)
+    Motivo: o arquivo .ula usa 'fim.' como marcador de
+    encerramento e a leitura deve parar ali.
+
+
+Observações: 
+Quando eu fiz a função gerarArquivoHex descobri que estava dando erro no programa e nao estava gerando o arquivo .hex corretamente, 
+o problema não estava na minha função, estava em algum lugar do programa. Entao eu pedi para o claude e germini dar uma corrigida no nosso 
+codigo tanto no compilador.c, quanto no MyIO.h, ele encontrou esses erros quenão estavam sendo atendidos no nosso programa, 
+por isso foram feitos essas modificações nas suas funções :)

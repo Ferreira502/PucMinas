@@ -1,0 +1,8 @@
+# x = 3; 
+# y = x * 4 ;
+
+addi $s0, $zero, 3   # x = 3
+addi $t0, $zero, 4   # temporario = 4
+
+mult $s0, $t0 	     # x * 4
+mflo $s1	     # y = x * 4
