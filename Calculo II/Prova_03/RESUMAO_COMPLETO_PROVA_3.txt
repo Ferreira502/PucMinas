@@ -1,0 +1,1523 @@
+================================================================================
+                 RESUMÃO COMPLETO — PROVA 3 DE CÁLCULO II
+================================================================================
+
+Este resumo cobre todas as matérias anunciadas pelo professor e relaciona cada
+uma delas com as questões da prova que está na pasta Prova_03.
+
+CONTEÚDO:
+
+1. Sistema de coordenadas em R³ e vetores
+2. Superfícies, planos, cilindros e quádricas
+3. Funções de várias variáveis: domínio, gráficos e níveis
+4. Derivadas parciais e interpretação geométrica
+5. Planos tangentes e aproximações lineares
+6. Regra da cadeia
+7. Derivadas direcionais e vetor gradiente
+8. Extremos de funções e teste da segunda derivada
+9. Relação completa com as questões da prova
+10. Formulário final e roteiro de resolução
+
+
+================================================================================
+1. SISTEMA DE COORDENADAS EM R³ E VETORES
+================================================================================
+
+1.1. PONTOS EM R³
+
+R³ é o espaço tridimensional. Um ponto é representado por:
+
+    P = (x, y, z)
+
+Cada coordenada informa a posição do ponto em um eixo:
+
+    x = posição no eixo x
+    y = posição no eixo y
+    z = altura no eixo z
+
+Os três planos coordenados são:
+
+    Plano xy: z = 0
+    Plano xz: y = 0
+    Plano yz: x = 0
+
+Os oito octantes são as regiões determinadas pelos sinais de x, y e z.
+
+
+1.2. DISTÂNCIA ENTRE DOIS PONTOS
+
+Dados:
+
+    P = (x1, y1, z1)
+    Q = (x2, y2, z2)
+
+A distância entre eles é:
+
+    d(P,Q) = raiz[(x2-x1)² + (y2-y1)² + (z2-z1)²]
+
+Essa fórmula vem do Teorema de Pitágoras aplicado no espaço.
+
+
+1.3. EQUAÇÃO DA ESFERA
+
+Uma esfera de centro C = (a,b,c) e raio R possui equação:
+
+    (x-a)² + (y-b)² + (z-c)² = R²
+
+Se o centro for a origem:
+
+    x² + y² + z² = R²
+
+Exemplo:
+
+    x² + y² + z² = 16
+
+É uma esfera de centro (0,0,0) e raio 4.
+
+
+1.4. VETORES
+
+Um vetor representa deslocamento, direção e sentido.
+
+Se A e B são pontos, o vetor de A até B é:
+
+    vetor AB = B - A
+
+Ou seja, sempre fazemos ponto final menos ponto inicial.
+
+Se:
+
+    A = (1,2,3)
+    B = (4,6,5)
+
+Então:
+
+    AB = (4-1, 6-2, 5-3) = (3,4,2)
+
+
+1.5. MÓDULO OU NORMA DE UM VETOR
+
+Para v = (v1,v2,v3):
+
+    ||v|| = raiz(v1² + v2² + v3²)
+
+Em R², para v = (a,b):
+
+    ||v|| = raiz(a²+b²)
+
+Exemplo:
+
+    v = (3,4)
+    ||v|| = raiz(3²+4²) = raiz(25) = 5
+
+
+1.6. VETOR UNITÁRIO OU VERSOR
+
+Um vetor unitário possui norma igual a 1.
+
+Para transformar v em um vetor unitário:
+
+    vetor unitário = v / ||v||
+
+Exemplo:
+
+    v = (3,4)
+    ||v|| = 5
+    vetor unitário = (3/5, 4/5)
+
+IMPORTANTE: a derivada direcional exige um vetor unitário.
+
+
+1.7. PRODUTO ESCALAR
+
+Para:
+
+    u = (u1,u2,u3)
+    v = (v1,v2,v3)
+
+Temos:
+
+    u · v = u1v1 + u2v2 + u3v3
+
+Também vale:
+
+    u · v = ||u|| ||v|| cos(ângulo)
+
+Interpretação:
+
+    u · v > 0  -> ângulo agudo
+    u · v = 0  -> vetores perpendiculares
+    u · v < 0  -> ângulo obtuso
+
+
+RELAÇÃO COM A PROVA:
+
+Na Questão 5 aparece o vetor u = (3,4). É necessário calcular sua norma e
+transformá-lo em (3/5,4/5) antes de calcular a derivada direcional.
+
+
+================================================================================
+2. SUPERFÍCIES, PLANOS, CILINDROS E QUÁDRICAS
+================================================================================
+
+2.1. O QUE É UMA SUPERFÍCIE?
+
+Uma equação com três variáveis normalmente representa uma superfície no espaço.
+
+Exemplos:
+
+    z = x²+y²
+    x²+y²+z² = 9
+    x+y+z = 4
+
+Para identificar uma superfície, devemos observar:
+
+    - quais variáveis aparecem;
+    - quais variáveis estão ao quadrado;
+    - os sinais dos termos;
+    - os cortes com os planos coordenados;
+    - a forma padrão da equação.
+
+
+2.2. PLANOS
+
+A forma geral de um plano é:
+
+    Ax + By + Cz = D
+
+O vetor:
+
+    n = (A,B,C)
+
+é perpendicular ao plano e recebe o nome de vetor normal.
+
+Se conhecemos um ponto P0=(x0,y0,z0) e um vetor normal n=(A,B,C), o plano é:
+
+    A(x-x0) + B(y-y0) + C(z-z0) = 0
+
+
+2.3. CILINDROS
+
+Quando uma variável não aparece na equação, a curva se prolonga paralelamente
+ao eixo da variável ausente.
+
+Exemplo 1:
+
+    x²+y² = 9
+
+A variável z não aparece. A circunferência de raio 3 se repete para qualquer z.
+Isso forma um cilindro circular paralelo ao eixo z.
+
+Exemplo 2:
+
+    z = x²
+
+A variável y não aparece. A parábola se repete para qualquer y.
+Isso forma um cilindro parabólico paralelo ao eixo y.
+
+
+2.4. QUÁDRICAS PRINCIPAIS
+
+A) ESFERA
+
+    x²+y²+z² = R²
+
+Todos os sinais são positivos e os coeficientes dos quadrados são iguais.
+
+
+B) ELIPSOIDE
+
+    x²/a² + y²/b² + z²/c² = 1
+
+Parece uma esfera achatada ou alongada.
+
+
+C) PARABOLOIDE ELÍPTICO
+
+    z = x²/a² + y²/b²
+
+Parece uma tigela. Se os termos quadráticos forem positivos, abre para cima.
+Se z aparecer com sinal negativo, pode abrir para baixo.
+
+
+D) PARABOLOIDE HIPERBÓLICO
+
+    z = x²/a² - y²/b²
+
+Possui sinais diferentes e parece uma sela.
+
+
+E) CONE
+
+    z²/c² = x²/a² + y²/b²
+
+Possui duas partes: uma acima e outra abaixo da origem.
+
+
+F) HIPERBOLOIDE DE UMA FOLHA
+
+    x²/a² + y²/b² - z²/c² = 1
+
+Há dois sinais positivos e um negativo. A superfície é conectada.
+
+
+G) HIPERBOLOIDE DE DUAS FOLHAS
+
+    -x²/a² - y²/b² + z²/c² = 1
+
+Há um sinal positivo e dois negativos. A superfície possui duas partes separadas.
+
+
+2.5. COMO ESBOÇAR UMA SUPERFÍCIE
+
+Passo 1: tente colocar a equação em uma forma conhecida.
+
+Passo 2: faça os cortes coordenados:
+
+    x=0 -> corte no plano yz
+    y=0 -> corte no plano xz
+    z=0 -> corte no plano xy
+
+Passo 3: faça cortes horizontais z=k.
+
+Passo 4: marque centro, raio, vértice e interceptos.
+
+Passo 5: verifique se há restrição como z>=0 ou z<=0.
+
+
+RELAÇÃO COM A PROVA — QUESTÃO 1(b):
+
+A função é:
+
+    z = raiz(16-x²-y²)
+
+Como uma raiz quadrada é não negativa:
+
+    z >= 0
+
+Elevando ao quadrado:
+
+    z² = 16-x²-y²
+
+Reorganizando:
+
+    x²+y²+z² = 16
+
+Essa é uma esfera de raio 4, mas a condição z>=0 permite somente a metade de
+cima. Portanto, o gráfico é o HEMISFÉRIO SUPERIOR de raio 4.
+
+Pontos importantes:
+
+    ponto mais alto: (0,0,4)
+    borda: x²+y²=16 e z=0
+    domínio no plano xy: x²+y²<=16
+    valores de z: 0<=z<=4
+
+
+================================================================================
+3. FUNÇÕES DE VÁRIAS VARIÁVEIS: DOMÍNIO, GRÁFICOS E NÍVEIS
+================================================================================
+
+3.1. FUNÇÃO DE DUAS VARIÁVEIS
+
+Uma função:
+
+    z = f(x,y)
+
+recebe um par (x,y) e fornece um número z.
+
+O domínio fica no plano xy. O gráfico fica no espaço xyz e é formado por:
+
+    (x,y,f(x,y))
+
+
+3.2. COMO DETERMINAR O DOMÍNIO
+
+O domínio é o conjunto de entradas em que a expressão está definida.
+
+REGRAS PRINCIPAIS:
+
+A) RAIZ QUADRADA
+
+    raiz(g(x,y)) exige g(x,y) >= 0
+
+B) RAIZ QUADRADA NO DENOMINADOR
+
+    1/raiz(g(x,y)) exige g(x,y) > 0
+
+Não pode ser igual a zero porque o denominador nunca pode ser zero.
+
+C) FRAÇÃO
+
+    1/g(x,y) exige g(x,y) diferente de zero
+
+D) LOGARITMO
+
+    ln(g(x,y)) exige g(x,y) > 0
+
+E) POLINÔMIOS
+
+Polinômios estão definidos para todos os números reais.
+
+
+3.3. INTERSEÇÃO DAS RESTRIÇÕES
+
+Quando há várias restrições, todas precisam ser satisfeitas ao mesmo tempo.
+
+Exemplo da Questão 1(a):
+
+                 raiz(9-x²-y²)
+    f(x,y) = -----------------------
+                 raiz(x²+y²-25)
+
+Numerador:
+
+    9-x²-y² >= 0
+    x²+y² <= 9
+
+Essa é a região dentro e sobre a circunferência de raio 3.
+
+Denominador:
+
+    x²+y²-25 > 0
+    x²+y² > 25
+
+Essa é a região fora da circunferência de raio 5.
+
+Não existe ponto que esteja ao mesmo tempo dentro do círculo de raio 3 e fora
+do círculo de raio 5.
+
+Conclusão:
+
+    DOMÍNIO = conjunto vazio
+
+
+3.4. GRÁFICO DE UMA FUNÇÃO
+
+O gráfico de z=f(x,y) é uma superfície no espaço.
+
+Para reconhecê-lo:
+
+    1. substitua z por f(x,y);
+    2. reorganize a equação;
+    3. compare com uma superfície conhecida;
+    4. respeite as restrições da expressão original.
+
+Não se pode esquecer uma restrição depois de elevar uma equação ao quadrado.
+Por exemplo, z=raiz(...) sempre exige z>=0.
+
+
+3.5. CURVAS DE NÍVEL
+
+Curvas de nível são obtidas fazendo:
+
+    f(x,y) = k
+
+Cada valor de k representa uma altura. Imagine cortar a superfície pelo plano
+horizontal z=k. A curva do corte, vista no plano xy, é uma curva de nível.
+
+Exemplos:
+
+    f(x,y)=x²+y²
+
+No nível k:
+
+    x²+y²=k
+
+Para k>0, são circunferências de raio raiz(k).
+
+
+3.6. SUPERFÍCIES DE NÍVEL
+
+Se temos uma função de três variáveis F(x,y,z), uma superfície de nível é:
+
+    F(x,y,z)=k
+
+Exemplo:
+
+    F(x,y,z)=x²+y²+z²
+
+Então:
+
+    x²+y²+z²=k
+
+Para k>0, são esferas de raio raiz(k).
+
+
+RELAÇÃO COM A PROVA — QUESTÃO 1(c):
+
+A função é:
+
+    f(x,y)=raiz(x²+y²)
+
+Para uma curva de nível:
+
+    raiz(x²+y²)=k
+
+Devemos analisar três casos.
+
+CASO 1: k<0
+
+Uma raiz quadrada não pode ser negativa. Portanto, não existe curva de nível.
+
+CASO 2: k=0
+
+    raiz(x²+y²)=0
+    x²+y²=0
+
+A única possibilidade é:
+
+    (x,y)=(0,0)
+
+A curva degenera em um ponto.
+
+CASO 3: k>0
+
+Elevando ao quadrado:
+
+    x²+y²=k²
+
+É uma circunferência de centro (0,0) e raio k.
+
+
+================================================================================
+4. DERIVADAS PARCIAIS E INTERPRETAÇÃO GEOMÉTRICA
+================================================================================
+
+4.1. IDEIA PRINCIPAL
+
+Em uma função f(x,y), existem duas direções básicas para variar:
+
+    direção x
+    direção y
+
+A derivada parcial em relação a x mede como f varia quando apenas x muda e y
+fica constante.
+
+A derivada parcial em relação a y mede como f varia quando apenas y muda e x
+fica constante.
+
+
+4.2. NOTAÇÕES
+
+Derivada em relação a x:
+
+    fx
+    f_x
+    ∂f/∂x
+
+Derivada em relação a y:
+
+    fy
+    f_y
+    ∂f/∂y
+
+
+4.3. COMO CALCULAR
+
+Para calcular fx:
+
+    - derive normalmente em relação a x;
+    - trate y como um número constante.
+
+Para calcular fy:
+
+    - derive normalmente em relação a y;
+    - trate x como um número constante.
+
+Exemplo:
+
+    f(x,y)=3x²y+5xy²+y³
+
+Em relação a x:
+
+    fx=6xy+5y²
+
+Em relação a y:
+
+    fy=3x²+10xy+3y²
+
+
+4.4. INTERPRETAÇÃO GEOMÉTRICA
+
+    fx(a,b) = inclinação da superfície na direção do eixo x
+    fy(a,b) = inclinação da superfície na direção do eixo y
+
+Podemos imaginar dois cortes verticais na superfície:
+
+    y=b -> curva que varia em x
+    x=a -> curva que varia em y
+
+As derivadas parciais são as inclinações das retas tangentes a essas curvas.
+
+
+4.5. DERIVADAS DE SEGUNDA ORDEM
+
+Depois de calcular fx e fy, podemos derivar novamente:
+
+    fxx = derivar fx em relação a x
+    fxy = derivar fx em relação a y
+    fyx = derivar fy em relação a x
+    fyy = derivar fy em relação a y
+
+Se as derivadas mistas forem contínuas, então:
+
+    fxy = fyx
+
+
+4.6. REGRA DO PRODUTO E REGRA DA CADEIA
+
+Regra do produto:
+
+    derivada de (u vezes v) = u'v + uv'
+
+Regra da cadeia:
+
+    derivada de sen(g) = cos(g) vezes g'
+    derivada de cos(g) = -sen(g) vezes g'
+
+
+RELAÇÃO COM A PROVA — QUESTÃO 2:
+
+A função é:
+
+    f(x,y)=x³+y²+sen(x²y)
+
+Primeiras derivadas:
+
+Em relação a x:
+
+    fx = 3x² + cos(x²y)(2xy)
+    fx = 3x² + 2xy cos(x²y)
+
+Em relação a y:
+
+    fy = 2y + cos(x²y)(x²)
+    fy = 2y + x² cos(x²y)
+
+Segundas derivadas:
+
+    fxx = 6x + 2y cos(x²y) - 4x²y² sen(x²y)
+
+    fxy = 2x cos(x²y) - 2x³y sen(x²y)
+
+    fyx = 2x cos(x²y) - 2x³y sen(x²y)
+
+    fyy = 2 - x⁴ sen(x²y)
+
+Observe que fxy=fyx.
+
+
+================================================================================
+5. PLANOS TANGENTES E APROXIMAÇÕES LINEARES
+================================================================================
+
+5.1. IDEIA GEOMÉTRICA
+
+Quando observamos uma superfície bem de perto, perto de um ponto suave, ela se
+parece com um plano. Esse plano é o plano tangente.
+
+Em uma função de uma variável, usamos uma reta tangente.
+Em uma função de duas variáveis, usamos um plano tangente.
+
+
+5.2. FÓRMULA DO PLANO TANGENTE
+
+Para z=f(x,y), no ponto (a,b,f(a,b)):
+
+    z = f(a,b) + fx(a,b)(x-a) + fy(a,b)(y-b)
+
+Também podemos usar z0=f(a,b):
+
+    z-z0 = fx(a,b)(x-a) + fy(a,b)(y-b)
+
+
+5.3. COMO RESOLVER
+
+Passo 1: identifique a e b.
+
+Passo 2: calcule f(a,b).
+
+Passo 3: calcule fx e fy.
+
+Passo 4: calcule fx(a,b) e fy(a,b).
+
+Passo 5: substitua tudo na fórmula.
+
+Passo 6: só expanda no final, se for necessário.
+
+
+5.4. APROXIMAÇÃO LINEAR
+
+A linearização é:
+
+    L(x,y)=f(a,b)+fx(a,b)(x-a)+fy(a,b)(y-b)
+
+Perto de (a,b):
+
+    f(x,y) aproximadamente igual a L(x,y)
+
+Quanto mais perto de (a,b), normalmente melhor será a aproximação.
+
+
+5.5. DIFERENCIAL
+
+Se x varia uma pequena quantidade dx e y varia uma pequena quantidade dy:
+
+    dz = fx dx + fy dy
+
+Assim:
+
+    variação de f aproximadamente igual a dz
+
+
+RELAÇÃO COM A PROVA — QUESTÃO 3:
+
+A função é:
+
+    f(x,y)=3x²+2y³+6xy+K
+
+O ponto (1,2,4) pertence ao gráfico. Isso significa:
+
+    f(1,2)=4
+
+Então:
+
+    3(1)² + 2(2)³ + 6(1)(2) + K = 4
+    3 + 16 + 12 + K = 4
+    31 + K = 4
+    K = -27
+
+Agora:
+
+    fx = 6x+6y
+    fy = 6y²+6x
+
+No ponto (1,2):
+
+    fx(1,2)=6+12=18
+    fy(1,2)=24+6=30
+
+Plano tangente:
+
+    z = 4 + 18(x-1) + 30(y-2)
+
+Forma expandida:
+
+    z = 18x + 30y - 74
+
+
+================================================================================
+6. REGRA DA CADEIA
+================================================================================
+
+6.1. IDEIA PRINCIPAL
+
+A regra da cadeia é usada quando uma variável depende de outras variáveis que,
+por sua vez, também dependem de outra variável.
+
+Exemplo:
+
+    z=f(x,y)
+    x=x(t)
+    y=y(t)
+
+O valor de t altera x e y, e essas alterações modificam z.
+
+
+6.2. FÓRMULA PARA UMA VARIÁVEL t
+
+    dz/dt = fx(dx/dt) + fy(dy/dt)
+
+Podemos pensar em dois caminhos:
+
+    t -> x -> z
+    t -> y -> z
+
+Multiplicamos as derivadas em cada caminho e somamos os resultados.
+
+
+6.3. EXEMPLO
+
+Considere:
+
+    z=x²+y²
+    x=t²
+    y=3t
+
+Temos:
+
+    fx=2x
+    fy=2y
+    dx/dt=2t
+    dy/dt=3
+
+Portanto:
+
+    dz/dt = (2x)(2t)+(2y)(3)
+
+Substituindo x=t² e y=3t:
+
+    dz/dt = 4t³+18t
+
+
+6.4. DUAS VARIÁVEIS INTERMEDIÁRIAS
+
+Se:
+
+    z=f(x,y)
+    x=x(u,v)
+    y=y(u,v)
+
+Então:
+
+    ∂z/∂u = fx(∂x/∂u) + fy(∂y/∂u)
+
+    ∂z/∂v = fx(∂x/∂v) + fy(∂y/∂v)
+
+
+6.5. REGRA DA CADEIA DENTRO DAS DERIVADAS PARCIAIS
+
+Mesmo quando não existe t, usamos regra da cadeia em expressões compostas.
+
+Exemplo:
+
+    sen(x²y)
+
+Em relação a x:
+
+    derivada = cos(x²y)(2xy)
+
+Em relação a y:
+
+    derivada = cos(x²y)(x²)
+
+
+RELAÇÃO COM A PROVA:
+
+A regra da cadeia é usada diretamente na Questão 2, ao derivar sen(x²y).
+Ela também é necessária ao calcular as derivadas de segunda ordem dessa função.
+
+
+6.6. TAXAS RELACIONADAS
+
+Taxas relacionadas são aplicações da regra da cadeia. Elas aparecem quando
+duas ou mais quantidades variam com o tempo e existe uma equação relacionando
+essas quantidades.
+
+Exemplos de taxas:
+
+    dx/dt = taxa de variação de x no tempo
+    dr/dt = taxa de variação do raio
+    dV/dt = taxa de variação do volume
+    dA/dt = taxa de variação da área
+
+PALAVRAS IMPORTANTES:
+
+    "aumenta" ou "cresce"   -> taxa positiva
+    "diminui" ou "decresce" -> taxa negativa
+    "constante"             -> derivada igual a zero
+
+Exemplo: "o raio diminui 2 cm/s" significa:
+
+    dr/dt = -2 cm/s
+
+
+6.7. MÉTODO PARA RESOLVER TAXAS RELACIONADAS
+
+Passo 1: identifique o que varia com o tempo.
+
+Passo 2: anote as taxas fornecidas, com sinal e unidade.
+
+Passo 3: escreva uma equação que relacione as variáveis.
+
+Passo 4: derive os dois lados em relação ao tempo t.
+
+Passo 5: aplique a regra da cadeia. Por exemplo:
+
+    derivada de x² em relação a t = 2x(dx/dt)
+
+Passo 6: somente depois de derivar, substitua os valores do instante pedido.
+
+Passo 7: isole a taxa desconhecida e coloque a unidade correta.
+
+ATENÇÃO: não substitua valores constantes antes de derivar. Uma medida pode ter
+um valor conhecido naquele instante, mas ainda estar variando com o tempo.
+
+
+6.8. EXEMPLO 1 — VOLUME DE UMA ESFERA
+
+O raio de uma esfera cresce 2 cm/s. Qual é a taxa de crescimento do volume
+quando o raio é 3 cm?
+
+Equação do volume:
+
+    V = (4/3) pi r³
+
+Dados:
+
+    dr/dt = 2 cm/s
+    r = 3 cm
+    queremos dV/dt
+
+Derivando em relação ao tempo:
+
+    dV/dt = (4/3) pi vezes 3r²(dr/dt)
+
+    dV/dt = 4 pi r²(dr/dt)
+
+Substituindo r=3 e dr/dt=2:
+
+    dV/dt = 4 pi (3²)(2)
+
+    dV/dt = 72 pi cm³/s
+
+O volume cresce à taxa de 72 pi centímetros cúbicos por segundo.
+
+
+6.9. EXEMPLO 2 — CILINDRO COM DUAS MEDIDAS VARIANDO
+
+O volume de um cilindro é:
+
+    V = pi r²h
+
+Se tanto o raio r quanto a altura h variam, usamos a regra do produto:
+
+    dV/dt = pi[2r(dr/dt)h + r²(dh/dt)]
+
+Ou, reorganizando:
+
+    dV/dt = 2 pi rh(dr/dt) + pi r²(dh/dt)
+
+Suponha que, em certo instante:
+
+    r=2 m
+    h=5 m
+    dr/dt=0,3 m/s
+    dh/dt=-0,2 m/s
+
+Então:
+
+    dV/dt = 2 pi(2)(5)(0,3) + pi(2²)(-0,2)
+
+    dV/dt = 6 pi - 0,8 pi
+
+    dV/dt = 5,2 pi m³/s
+
+Mesmo com a altura diminuindo, o volume cresce porque o efeito do aumento do
+raio é maior naquele instante.
+
+
+6.10. EXEMPLO 3 — FUNÇÃO DE DUAS VARIÁVEIS
+
+A temperatura de uma placa é dada por:
+
+    T(x,y)=x²+3y²
+
+Uma partícula se move de modo que:
+
+    dx/dt=2 m/s
+    dy/dt=-1 m/s
+
+Qual é a taxa de variação da temperatura no ponto (1,2)?
+
+Pela regra da cadeia:
+
+    dT/dt = Tx(dx/dt)+Ty(dy/dt)
+
+Derivadas parciais:
+
+    Tx=2x
+    Ty=6y
+
+No ponto (1,2):
+
+    Tx(1,2)=2
+    Ty(1,2)=12
+
+Logo:
+
+    dT/dt = (2)(2)+(12)(-1)
+
+    dT/dt = 4-12
+
+    dT/dt = -8 unidades de temperatura por segundo
+
+O sinal negativo significa que a temperatura está diminuindo.
+
+
+6.11. FÓRMULAS GEOMÉTRICAS QUE PODEM APARECER
+
+Circunferência:
+
+    A = pi r²
+    C = 2 pi r
+
+Esfera:
+
+    V = (4/3) pi r³
+    A = 4 pi r²
+
+Cilindro:
+
+    V = pi r²h
+
+Cone:
+
+    V = (1/3) pi r²h
+
+Retângulo:
+
+    A = xy
+
+Triângulo retângulo:
+
+    x²+y²=z²
+
+Distância no plano:
+
+    s²=x²+y²
+
+
+6.12. PEGADINHAS DE TAXAS RELACIONADAS
+
+1. Esquecer o sinal negativo quando uma medida diminui.
+
+2. Substituir os valores antes de derivar.
+
+3. Derivar r² como 2r, esquecendo dr/dt. O correto é:
+
+       d(r²)/dt = 2r(dr/dt)
+
+4. Esquecer a regra do produto quando duas medidas variam. Em r²h, tanto r
+   quanto h podem depender do tempo.
+
+5. Confundir o valor da grandeza com sua taxa:
+
+       r é medido em cm
+       dr/dt é medido em cm/s
+       V é medido em cm³
+       dV/dt é medido em cm³/s
+
+6. Dar somente o número e esquecer a unidade.
+
+
+RELAÇÃO ENTRE TAXAS RELACIONADAS E O CONTEÚDO DA PROVA:
+
+Taxas relacionadas pertencem ao tópico REGRA DA CADEIA. A prova disponível não
+possui uma questão específica de esfera ou cilindro variando no tempo, mas o
+professor pode cobrar esse formato porque a regra da cadeia está na matéria e
+no formulário. A fórmula principal para funções de duas variáveis é:
+
+    dz/dt = fx(dx/dt)+fy(dy/dt)
+
+Se aparecer "taxa", "por segundo", "aumenta", "diminui", "movimento" ou
+"naquele instante", pense imediatamente em derivar tudo em relação ao tempo.
+
+
+================================================================================
+7. DERIVADAS DIRECIONAIS E VETOR GRADIENTE
+================================================================================
+
+7.1. GRADIENTE
+
+Para uma função f(x,y):
+
+    gradiente de f = (fx,fy)
+
+Notação:
+
+    grad f
+    ∇f
+
+Para uma função de três variáveis:
+
+    ∇f=(fx,fy,fz)
+
+
+7.2. SIGNIFICADO DO GRADIENTE
+
+O gradiente:
+
+    - aponta para a direção de crescimento mais rápido da função;
+    - tem módulo igual à maior taxa de crescimento possível;
+    - é perpendicular à curva de nível no ponto;
+    - aponta no sentido em que os valores de f aumentam.
+
+A direção de maior diminuição é:
+
+    -∇f
+
+
+7.3. DERIVADA DIRECIONAL
+
+A derivada direcional mede a taxa de variação da função em uma direção qualquer.
+
+Se u é unitário:
+
+    derivada direcional = ∇f(P) · u
+
+Ou, em R²:
+
+    Du f(P)=fx(P)u1+fy(P)u2
+
+
+7.4. PROCEDIMENTO
+
+Passo 1: calcule fx e fy.
+
+Passo 2: monte o gradiente ∇f=(fx,fy).
+
+Passo 3: avalie o gradiente no ponto P.
+
+Passo 4: calcule a norma do vetor da direção.
+
+Passo 5: normalize o vetor.
+
+Passo 6: faça o produto escalar.
+
+
+7.5. DIREÇÃO ENTRE DOIS PONTOS
+
+Se a questão pedir a direção do ponto P até o ponto Q:
+
+    vetor direção = Q-P
+
+Depois normalize:
+
+    vetor unitário = (Q-P)/||Q-P||
+
+
+RELAÇÃO COM A PROVA — QUESTÃO 5:
+
+A função é:
+
+    f(x,y)=2xy+8x+3y+7
+
+O ponto é:
+
+    P=(1,0)
+
+A direção fornecida é:
+
+    u=(3,4)
+
+Primeiro, calcule o gradiente:
+
+    fx=2y+8
+    fy=2x+3
+
+No ponto P=(1,0):
+
+    ∇f(1,0)=(8,5)
+
+Agora normalize u:
+
+    ||u||=raiz(3²+4²)=5
+
+    vetor unitário=(3/5,4/5)
+
+Produto escalar:
+
+    Du f(1,0)=(8,5)·(3/5,4/5)
+
+    Du f(1,0)=24/5+20/5
+
+    Du f(1,0)=44/5
+
+ERRO MAIS COMUM: usar (3,4) diretamente. Isso daria 44, mas estaria errado,
+porque (3,4) não é unitário. A resposta correta é 44/5.
+
+
+================================================================================
+8. EXTREMOS DE FUNÇÕES E TESTE DA SEGUNDA DERIVADA
+================================================================================
+
+8.1. MÁXIMO, MÍNIMO E PONTO DE SELA
+
+Mínimo local:
+
+    A função possui valor menor do que os pontos próximos.
+    Imagem mental: fundo de uma tigela.
+
+Máximo local:
+
+    A função possui valor maior do que os pontos próximos.
+    Imagem mental: topo de um morro.
+
+Ponto de sela:
+
+    A função cresce em uma direção e diminui em outra.
+    Não é máximo nem mínimo.
+
+
+8.2. PONTOS CRÍTICOS
+
+Para encontrar pontos críticos de uma função diferenciável, resolvemos:
+
+    fx=0
+    fy=0
+
+As duas equações devem ser satisfeitas simultaneamente.
+
+Também podem existir pontos críticos onde uma derivada não existe, desde que o
+ponto pertença ao domínio.
+
+
+8.3. TESTE DA SEGUNDA DERIVADA
+
+Depois de encontrar um ponto crítico (a,b), calcule:
+
+    D = fxx(a,b) fyy(a,b) - [fxy(a,b)]²
+
+CLASSIFICAÇÃO:
+
+    Se D>0 e fxx>0: mínimo local
+
+    Se D>0 e fxx<0: máximo local
+
+    Se D<0: ponto de sela
+
+    Se D=0: teste inconclusivo
+
+ATENÇÃO: D=0 não significa que não existe extremo. Significa apenas que esse
+teste não consegue decidir.
+
+
+8.4. ORDEM CORRETA DA RESOLUÇÃO
+
+Passo 1: calcule fx e fy.
+
+Passo 2: resolva fx=0 e fy=0.
+
+Passo 3: liste todos os pontos críticos.
+
+Passo 4: calcule fxx, fyy e fxy.
+
+Passo 5: calcule D em cada ponto crítico.
+
+Passo 6: classifique cada ponto.
+
+
+RELAÇÃO COM A PROVA — QUESTÃO 4:
+
+A função é:
+
+    f(x,y)=x⁶+y⁶+6xy+9
+
+Primeiras derivadas:
+
+    fx=6x⁵+6y
+    fy=6y⁵+6x
+
+Igualando a zero:
+
+    6x⁵+6y=0 -> y=-x⁵
+
+    6y⁵+6x=0 -> x=-y⁵
+
+Substituindo y=-x⁵ na segunda equação:
+
+    x=-(-x⁵)⁵
+    x=x²⁵
+    x²⁵-x=0
+    x(x²⁴-1)=0
+
+Soluções reais:
+
+    x=0
+    x=1
+    x=-1
+
+Usando y=-x⁵:
+
+    x=0  -> y=0
+    x=1  -> y=-1
+    x=-1 -> y=1
+
+Pontos críticos:
+
+    (0,0)
+    (1,-1)
+    (-1,1)
+
+Segundas derivadas:
+
+    fxx=30x⁴
+    fyy=30y⁴
+    fxy=6
+
+No ponto (0,0):
+
+    D=(0)(0)-6²=-36<0
+
+Portanto, (0,0) é ponto de sela.
+
+No ponto (1,-1):
+
+    D=(30)(30)-6²
+    D=900-36=864>0
+
+Como fxx=30>0, (1,-1) é mínimo local.
+
+No ponto (-1,1):
+
+    D=(30)(30)-6²=864>0
+
+Como fxx=30>0, (-1,1) é mínimo local.
+
+Conclusão:
+
+    (0,0)    -> ponto de sela
+    (1,-1)   -> mínimo local
+    (-1,1)   -> mínimo local
+    não há máximo local entre os pontos críticos
+
+
+================================================================================
+9. RELAÇÃO COMPLETA ENTRE A MATÉRIA E A PROVA
+================================================================================
+
+QUESTÃO 1(a) — DOMÍNIO
+
+Matéria usada:
+
+    - funções de várias variáveis;
+    - domínio;
+    - interpretação geométrica de desigualdades no plano.
+
+Ideia central:
+
+    raiz no numerador exige radicando >=0;
+    raiz no denominador exige radicando >0;
+    deve-se fazer a interseção das condições.
+
+Resposta:
+
+    domínio vazio.
+
+
+QUESTÃO 1(b) — GRÁFICO
+
+Matéria usada:
+
+    - sistema de coordenadas em R³;
+    - superfícies quádricas;
+    - esfera;
+    - gráfico de função de duas variáveis.
+
+Ideia central:
+
+    transformar z=raiz(16-x²-y²) em x²+y²+z²=16;
+    manter a condição z>=0.
+
+Resposta:
+
+    hemisfério superior da esfera de raio 4.
+
+
+QUESTÃO 1(c) — CURVAS DE NÍVEL
+
+Matéria usada:
+
+    - curvas de nível;
+    - análise dos valores possíveis de k;
+    - circunferências.
+
+Ideia central:
+
+    fazer f(x,y)=k e separar k<0, k=0 e k>0.
+
+Resposta:
+
+    k<0 -> vazio;
+    k=0 -> ponto (0,0);
+    k>0 -> circunferência x²+y²=k².
+
+
+QUESTÃO 2 — DERIVADAS DE SEGUNDA ORDEM
+
+Matéria usada:
+
+    - derivadas parciais;
+    - regra do produto;
+    - regra da cadeia;
+    - derivadas mistas.
+
+Ideia central:
+
+    tratar a outra variável como constante;
+    aplicar a cadeia em sen(x²y);
+    calcular fxx, fxy, fyx e fyy.
+
+
+QUESTÃO 3 — CONSTANTE E PLANO TANGENTE
+
+Matéria usada:
+
+    - gráfico de uma função;
+    - derivadas parciais;
+    - plano tangente;
+    - aproximação linear.
+
+Ideia central:
+
+    se (1,2,4) está no gráfico, então f(1,2)=4;
+    depois usar a fórmula do plano tangente.
+
+Respostas:
+
+    K=-27
+    z=4+18(x-1)+30(y-2)
+    z=18x+30y-74
+
+
+QUESTÃO 4 — PONTOS CRÍTICOS
+
+Matéria usada:
+
+    - derivadas parciais;
+    - sistema de equações;
+    - pontos críticos;
+    - teste da segunda derivada.
+
+Ideia central:
+
+    resolver fx=fy=0;
+    calcular D=fxx fyy-(fxy)² em cada solução.
+
+Respostas:
+
+    (0,0) -> sela
+    (1,-1) -> mínimo local
+    (-1,1) -> mínimo local
+
+
+QUESTÃO 5 — DERIVADA DIRECIONAL
+
+Matéria usada:
+
+    - vetores;
+    - norma e vetor unitário;
+    - gradiente;
+    - produto escalar;
+    - derivada direcional.
+
+Ideia central:
+
+    calcular ∇f no ponto;
+    normalizar (3,4);
+    fazer o produto escalar.
+
+Resposta:
+
+    44/5
+
+
+================================================================================
+10. FORMULÁRIO FINAL E ROTEIRO DE RESOLUÇÃO
+================================================================================
+
+VETORES
+
+    ||v|| = raiz(v1²+v2²+v3²)
+
+    vetor unitário = v/||v||
+
+    u·v = u1v1+u2v2+u3v3
+
+
+ESFERA
+
+    (x-a)²+(y-b)²+(z-c)²=R²
+
+
+PLANO
+
+    Ax+By+Cz=D
+
+    vetor normal=(A,B,C)
+
+
+DOMÍNIO
+
+    raiz(g)       -> g>=0
+    1/raiz(g)     -> g>0
+    1/g           -> g diferente de zero
+    ln(g)         -> g>0
+
+
+CURVA DE NÍVEL
+
+    f(x,y)=k
+
+
+GRADIENTE
+
+    ∇f=(fx,fy)
+
+
+DERIVADA DIRECIONAL
+
+    Du f(P)=∇f(P)·u
+
+    O vetor u deve ser unitário.
+
+
+PLANO TANGENTE
+
+    z=f(a,b)+fx(a,b)(x-a)+fy(a,b)(y-b)
+
+
+APROXIMAÇÃO LINEAR
+
+    L(x,y)=f(a,b)+fx(a,b)(x-a)+fy(a,b)(y-b)
+
+    f(x,y) aproximadamente igual a L(x,y)
+
+
+REGRA DA CADEIA
+
+    dz/dt=fx(dx/dt)+fy(dy/dt)
+
+
+TESTE DA SEGUNDA DERIVADA
+
+    D=fxx fyy-(fxy)²
+
+    D>0 e fxx>0 -> mínimo
+    D>0 e fxx<0 -> máximo
+    D<0          -> sela
+    D=0          -> inconclusivo
+
+
+================================================================================
+CHECKLIST PARA A PROVA
+================================================================================
+
+[ ] No domínio, escrevi todas as condições separadamente?
+
+[ ] Fiz a interseção das condições?
+
+[ ] Em uma raiz no denominador, usei >0 em vez de >=0?
+
+[ ] No gráfico, mantive restrições como z>=0?
+
+[ ] Nas curvas de nível, analisei os possíveis valores de k?
+
+[ ] Nas derivadas parciais, tratei a outra variável como constante?
+
+[ ] Apliquei a regra da cadeia nas funções compostas?
+
+[ ] No plano tangente, calculei f(a,b), fx(a,b) e fy(a,b)?
+
+[ ] Na derivada direcional, normalizei o vetor?
+
+[ ] Nos extremos, encontrei todos os pontos críticos antes de usar D?
+
+[ ] Classifiquei separadamente cada ponto crítico?
+
+
+================================================================================
+FIM DO RESUMO
+================================================================================

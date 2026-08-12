@@ -1,0 +1,159 @@
+﻿\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{caption}
+
+\geometry{
+  left=3cm,
+  right=2cm,
+  top=3cm,
+  bottom=2cm
+}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue,
+  citecolor=black
+}
+
+\lstdefinestyle{sqlstyle}{
+  language=SQL,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=8pt,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  tabsize=2
+}
+
+\newcommand{\inserirDiagrama}[4][0.95\textwidth]{
+  \begin{figure}[H]
+    \centering
+    \IfFileExists{#2}{
+      \includegraphics[width=#1]{#2}
+    }{
+      \fbox{
+        \begin{minipage}[c][7cm][c]{0.9\textwidth}
+          \centering
+          Adicione a imagem \texttt{#2} no Overleaf.
+        \end{minipage}
+      }
+    }
+    \caption{#3}
+    \label{#4}
+  \end{figure}
+}
+
+\newcommand{\nomeAluno}{Seu nome}
+\newcommand{\matriculaAluno}{Sua matr\'icula}
+\newcommand{\cursoAluno}{Seu curso}
+\newcommand{\disciplina}{Banco de Dados}
+\newcommand{\professor}{Nome do professor}
+\newcommand{\instituicao}{Nome da institui\c{c}\~ao}
+\newcommand{\tituloTrabalho}{Sistema da Pastoral da Crian\c{c}a para Gerenciamento de Doa\c{c}\~oes}
+\newcommand{\localMinimundo}{Pastoral da Crian\c{c}a}
+\newcommand{\contatoLocal}{Telefone, e-mail ou endere\c{c}o do local}
+\newcommand{\cidadeData}{Cidade -- 2026}
+
+\begin{document}
+
+\begin{titlepage}
+  \centering
+
+  {\large \instituicao\par}
+  \vspace{0.5cm}
+  {\large \cursoAluno\par}
+  \vspace{0.5cm}
+  {\large \disciplina\par}
+
+  \vfill
+
+  {\Large \textbf{\tituloTrabalho}\par}
+  \vspace{1.5cm}
+  {\large Trabalho pr\'atico de banco de dados\par}
+
+  \vfill
+
+  \begin{flushleft}
+    \textbf{Aluno:} \nomeAluno\\
+    \textbf{Matr\'icula:} \matriculaAluno\\
+    \textbf{Professor:} \professor\\
+    \textbf{Local do minimundo:} \localMinimundo\\
+    \textbf{Contato do local:} \contatoLocal
+  \end{flushleft}
+
+  \vfill
+
+  {\large \cidadeData\par}
+\end{titlepage}
+
+\section{Descri\c{c}\~ao textual do minimundo}
+
+O Sistema da Pastoral da Criança para Gerenciamento de Doações (SPD) tem como objetivo controlar o processo de arrecadação e distribuição de itens destinados às famílias atendidas pela instituição.
+Os itens são classificados por tipos de itens. Cada tipo de item é identificado por um código e possui uma descrição. Um tipo de item pode estar associado a vários itens, enquanto cada item pertence obrigatoriamente a apenas um tipo. Os itens são identificados por um código e possuem nome, estado de conservação, tamanho e quantidade disponível.
+Os doadores são identificados pelo CPF e possuem primeiro nome, sobrenome, telefone e endereço. Cada doador pode realizar diversas doações, mas cada doação é realizada por apenas um doador. As doações são identificadas por um código e possuem a data em que foram realizadas. Cada doação pode ser composta por vários itens, e um mesmo item pode estar presente em diferentes doações. Para cada item incluído em uma doação, deve ser registrada a quantidade correspondente.
+As campanhas de arrecadação são identificadas por um código e possuem nome, descrição, data de início e data de término. Cada campanha pode arrecadar diversos itens, e um mesmo item pode ser arrecadado em diferentes campanhas.
+Os voluntários são identificados pelo CPF e possuem nome, telefone e função desempenhada na Pastoral da Criança. Cada voluntário pode participar da organização de diversas campanhas, e cada campanha pode ser organizada por vários voluntários. Além disso, os voluntários podem participar de diversas distribuições de doações.
+As famílias atendidas são identificadas por um código e possuem endereço, telefone e quantidade de membros. Cada família é composta por uma ou mais pessoas. As pessoas são identificadas pelo CPF e possuem nome, sexo e data de nascimento. Cada pessoa pertence a uma única família.
+As distribuições são registradas por meio de uma data de entrega. Cada família pode receber diversas distribuições ao longo do tempo, enquanto cada distribuição é destinada a apenas uma família. Em cada distribuição podem ser entregues vários itens, e um mesmo item pode ser distribuído em diferentes distribuições. Para cada item entregue em uma distribuição, deve ser registrada a quantidade correspondente.
+A quantidade disponível de cada item é calculada com base na diferença entre a quantidade total recebida por meio das doações e a quantidade total distribuída às famílias atendidas pela Pastoral da Criança. Dessa forma, o sistema permite controlar o estoque disponível e acompanhar todo o fluxo de entrada e saída dos itens arrecadados.
+
+
+\section{Modelo Conceitual: Diagrama Entidade-Relacionamento em Nota\c{c}\~ao Peter Chen}
+
+\inserirDiagrama[1.0\textwidth]{DiagramaDERTP.drawio.png}{Modelo conceitual em nota\c{c}\~ao Peter Chen}{fig:modelo-conceitual}
+
+\section{Modelo L\'ogico: Diagrama de Esquema}
+
+\inserirDiagrama[1.2\textwidth]{ModeloLogico.drawio.png}{Modelo l\'ogico do banco de dados}{fig:modelo-logico}
+
+\section{Modelo de Implementa\c{c}\~ao: Diagrama de Implementa\c{c}\~ao em Nota\c{c}\~ao P\'e-de-Galinha}
+
+\inserirDiagrama[0.95\textwidth]{PeDeGalinhaImagem.png}{Modelo de implementa\c{c}\~ao em nota\c{c}\~ao p\'e-de-galinha}{fig:modelo-implementacao}
+
+\section{Script SQL para cria\c{c}\~ao do banco de dados}
+
+\IfFileExists{scriptCriacao.txt}{
+  \lstinputlisting[style=sqlstyle]{scriptCriacao.txt}
+}{
+  \begin{center}
+    \fbox{
+      \begin{minipage}{0.9\textwidth}
+        Envie o arquivo \texttt{scriptCriacao.txt} para o Overleaf para que o
+        script de cria\c{c}\~ao apare\c{c}a nesta se\c{c}\~ao.
+      \end{minipage}
+    }
+  \end{center}
+}
+
+\section{Script SQL para popula\c{c}\~ao do banco de dados}
+
+\IfFileExists{scriptPopular.txt}{
+  \lstinputlisting[style=sqlstyle]{scriptPopular.txt}
+}{
+  \begin{center}
+    \fbox{
+      \begin{minipage}{0.9\textwidth}
+        Envie o arquivo \texttt{scriptPopular.txt} para o Overleaf para que o
+        script de popula\c{c}\~ao apare\c{c}a nesta se\c{c}\~ao.
+      \end{minipage}
+    }
+  \end{center}
+}
+
+\end{document}
