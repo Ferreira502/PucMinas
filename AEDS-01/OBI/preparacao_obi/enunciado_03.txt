@@ -1,0 +1,51 @@
+Pontifícia Universidade Católica de Minas Gerais
+Instituto de Ciências Exatas e Informática
+Algoritmos e Estruturas de Dados I
+
+
+Atividade Prática: Preparação para Avaliação 02
+
+
+Enunciado
+Um programa em linguagem C para
+lidar com cadeias de caracteres.
+O programa deverá receber certa quantidade
+de cadeia de caracteres
+e substituir por maiúsculas todas as vogais 
+que forem seguidas por outras em cada uma.
+
+
+Requisitos
+1.) Entradas e saídas só poderão ser feitas
+    mediante uso de redirecionamentos 
+    (já indicados no Makefile)
+
+
+Entradas
+
+As entradas de dados serão conforme o modelo abaixo.
+Exemplo 1:
+Entrada
+3
+preparacao
+geometria
+analitica
+
+
+Saídas
+As saídas de resultados deverão ser apresentadas
+conforme o formato indicado abaixo:
+- a quantidade de vogais alteradas na cadeia
+- a cadeia de caracteres modificada
+1 
+preparacAo
+2
+gEometrIa
+0
+analitica
+
+
+Condições
+1.) Usar apenas dados válidos.
+2.) O maior tamanho esperado para a cadeia será 80.
+3.) Em caso de erro, mostrar apenas o valor (-1).

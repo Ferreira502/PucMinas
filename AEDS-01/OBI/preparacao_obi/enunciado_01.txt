@@ -1,0 +1,55 @@
+Pontifícia Universidade Católica de Minas Gerais
+Instituto de Ciências Exatas e Informática
+Algoritmos e Estruturas de Dados I
+
+
+Atividade Prática: Preparação para Avaliação 02
+
+Enunciado
+Um programa em linguagem C para
+lidar com um arranjo de valores inteiros positivos
+e determinar quantos valores menores que a média 
+aparecem antes da metade dos dados, 
+descontando no cálculo da soma de seus elementos
+o primeiro e o último de seus valores.
+
+
+Requisitos
+1.) O resultado deverá ser obtido por meio de uma
+    função inteira.
+
+2.) A saída do resultado deverá ser feita pela
+    função principal (main).
+
+3.) Entradas e saídas só poderão ser feitas
+    mediante uso de redirecionamentos 
+    (já indicados no Makefile)
+
+
+Entradas
+
+As entradas de dados serão conforme o modelo abaixo.
+
+Exemplo 1:
+10
+1 2 3 4 5 5 6 7 8 9
+
+
+Saídas
+As saídas de resultados deverão ser apresentadas
+conforme o formato indicado abaixo:
+- primeiro  , o tamanho do arranjo
+- em seguida, a soma de seus elementos
+- por último, o resultado da pesquisa,
+  se houver ; caso contrário, mostrar (-1).
+
+Exemplos 1
+10 40 4
+___
+
+Condições
+1.) Usar apenas dados válidos.
+2.) O maior tamanho esperado para o arranjo será 100.
+3.) Em caso de erro, mostrar apenas o valor (-1).
+
+___
