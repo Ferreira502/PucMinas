@@ -1,0 +1,266 @@
+PUC-Minas
+Instituto de Ciências Exatas e Informática
+Curso de Ciência da Computação
+Algoritmos e Estruturas de Dados I
+
+Links recomendados
+
+Materiais para a disciplina
+
+http://www.pucminas.br -> CANVAS
+    Pacote para facilitar entrada e saída (io.h)
+    na pasta
+    2025-1_aed1_Lista_00
+
+    Pacote para introduzir conceitos de programação 
+    nas pastas
+    2025-1_aed1_Exemplo_00_C
+    e
+    2025-1_aed1_Exemplo_00_CPP
+
+    IMPORTANTE:
+
+    Os arquivos
+
+       io.h   e karel.h
+    ou
+       io.hpp e karel.hpp
+
+    deverão ser mantidos na mesma pasta onde estiverem
+    programas com necessidade de uso dessas bibliotecas.
+
+
+Para artigo(s) (Provisório):
+
+BACKES, A. Algoritmos e Fluxogramas. Disponível em 
+https://www.facom.ufu.br/~backes/gci007/Aula02-AlgoritmosFluxogramas.pdf
+Acessado em 01/02/2025.
+
+MARCONDES, C. H.; MENDONÇA, M. A. R.; MALHEIROS, L. R.
+Uma proposta de modelo de representação do conhecimento
+contido no texto de artigos científicos publicados na web
+em formato legível por programas. Disponível em
+https://brapci.inf.br/v/5968
+Acessado em 01/02/2025.
+
+VIEIRA, Kayenne Dias  e  HAI, Alessandra Arce. 
+O pensamento computacional na educação 
+para um currículo integrado à cultura e ao mundo digital. 
+Acta Educ. [online]. 2023, vol.45, e52908.  
+Epub 01-Out-2022. ISSN 2178-5201.  
+http://educa.fcc.org.br/scielo.php?script=sci_arttext&pid=S2178-52012023000100100
+Acessado em 01/02/2025.
+
+
+Dicas úteis:
+
+Servidor para desenvolvimento
+
+https://dev.icei.pucminas.br
+
+
+Compilador MinGW-GCC para Windows
+
+Versão mais atual
+
+    Cópia local com acréscimos de aplicativos e bibliotecas extras
+    no Teams:
+
+    Turma da manhã
+    https://sgapucminasbr.sharepoint.com/sites/team_sga_38_2024_2_7480200/_layouts/15/guestaccess.aspx?share=EX0Hm9EKbI9GtYUAmVBoiR4BG3JZvSBAxlJfscdlHO1Fgw&e=pxVuAm
+
+    Turma da tarde
+    https://sgapucminasbr.sharepoint.com/sites/team_sga_38_2024_2_7527100/_layouts/15/guestaccess.aspx?share=EfeGxNiWatFGhDicJOdWNpIBG145Vr1iy33S_Cvu2NKc0g&e=VScXjJ
+
+    Cópia sem acréscimos de aplicativos e de bibliotecas extras:
+
+    http://winlibs.com
+
+    GCC 14.2.0 (with POSIX threads) + LLVM/Clang/LLD/LLDB 19.1.1 + MinGW-w64 12.0.0 UCRT - release 3   (LATEST)
+    Win64 without LLVM/Clang/LLD/LLDB
+
+
+    Para completar a instalação, no Windows,
+    supondo que a pasta do compilador seja C:\MinGW:
+
+    Menu Iniciar
+    |_ Configurações
+       |_ Procurar: variáveis de ambiente 
+          |_ Escolher: Variáveis de ambiente do sistema
+             |_ Apertar o botão: Variáveis de ambiente
+                |_ Procurar: Path
+                   |_ Apertar o botão: Editar
+                      |_ Apertar o botão: Novo
+                      |  |_ Procurar o caminho: C:\MinGW
+                      |  |_ OK
+                      |_ Apertar o botão: Novo
+                      |  |_ Procurar o caminho: C:\MinGW\bin
+                      |  |_ OK
+                      |_ Apertar o botão: Novo
+                      |  |_ Procurar o caminho: C:\MinGW\include
+                      |  |_ OK
+                      |_ Apertar o botão: Novo
+                      |  |_ Procurar o caminho: C:\MinGW\lib
+                      |  |_ OK
+                      |_ OK
+
+    Nota:
+    Em caso de dúvidas, procurar mais informações no link abaixo: 
+
+    https://www.wikihow.com/Change-the-PATH-Environment-Variable-on-Windows
+
+    Alternativa para abrir o Menu Iniciar é executar diretamente o comando:
+
+    SystemPropertiesAdvanced.exe
+
+    Testar a instalação abrir uma janela de comandos (prompt):
+
+    Menu Iniciar
+    |_ Executar: cmd
+
+    Após a abertura da janela:
+
+    C:\___ >gcc -v
+
+    E aguardar resposta indicando a versão (mais atual).
+
+
+Instruções gerais para se construir programa
+
+01. Criar uma pasta com a seguinte identificação
+
+    Matrícula_Nome
+
+    Exemplo:
+
+C:\___ >mkdir 999999_PUCMG_DCC_AED1
+
+02. Localizar-se nessa pasta
+
+C:\___ >cd 999999_PUCMG_DCC_AED1
+
+C:\___ >dir
+
+    OBS.: Notar as seguintes indicações
+
+          <DIR>  . // referência para a própria pasta
+          <DIR> .. // referência para a pasta que a contém
+
+03. Abrir o editor de textos
+
+C:\___ >notepad
+
+04. Editar e salvar um programa
+
+// 999999_PUCMG_DCC_AED1
+
+#include <stdio.h>
+
+int main ( int argc, char* argv [ ] )
+{
+    printf ( "999999_PUCMG_DCC_AED1" );
+    return ( 0 );
+}
+
+05. Fechar o editor de textos e voltar ao prompt.
+
+06. Compilar o programa
+
+C:\___ >gcc -o prog.exe prog.c
+
+07. Se houver erros, editar o programa novamente
+    e  compilar a versão editada; senão, prosseguir.
+
+08. Executar o programa
+
+C:\___ >prog
+
+09. Observar a saída
+
+C:\___ >prog
+999999_PUCMG_DCC_AED1
+C:\___ >
+
+10. Recomenda-se copiar a versão atual do programa
+    alterando o nome, antes de realizar outras alterações.
+
+C:\___ >copy prog.c prog_01.c
+
+11. Abrir o programa no editor de textos e
+    inserir novo comando
+
+// 999999_PUCMG_DCC_AED1
+
+#include <stdio.h>
+
+int main ( int argc, char* argv [ ] )
+{
+    printf ( "999999_PUCMG_DCC_AED1" );
+    printf ( "\nargc = %i", argc" ); // inserir
+    return ( 0 );
+}
+
+12. Compilar e testar.
+    Observar o resultado.
+    Se desejado, inserir outros comandos;
+    senão, parar.
+___    
+
+Versão mais completa:
+
+    https://www.msys2.org
+
+    Pacotes essenciais:
+
+    pacman -S --needed base-devel mingw-w64-x86_64-toolchain
+    pacman -S  editors
+
+___
+
+Compilador GCC para Ubuntu Linux ou Windows 10 / WSL ou WSL2
+
+$ sudo apt-get update
+$ sudo apt-get upgrade
+$ sudo apt-get install build-essential
+
+$ sudo apt-get install manpages-dev man-db manpages-posix-dev
+
+___
+
+Compiladores online:
+
+https://www.onlinegdb.com/online_c_compiler
+https://www.onlinegdb.com/online_c++_compiler
+https://www.jdoodle.com/
+https://www.tutorialspoint.com/compile_c_online.php
+https://www.codechef.com/ide
+https://www.ideone.com
+https://www.compileonline.com
+https://codenvy.io
+https://paiza.io
+
+    OBSERVAÇÃO:
+    Compiladores online são opções para testes rápidos.
+    Recomenda-se identificar  a  versão  do  compilador 
+    antes de uso, para que  o  reaproveitamento  futuro
+    do código em outro sistema possa ser viabilizado.
+
+___
+
+Opcionais:
+
+http://flowgorithm.org/download/index.htm
+    Flowgorithm v4.5
+    Ferramenta para edição e testes de fluxogramas   (opcional)
+
+https://sourceforge.net/projects/redpanda-cpp/
+    RedPanda v3.2
+    Ferramenta para edição e testes de programas     (opcional)
+    OBS.: Há opções com o compilador já incluído.
+___
+
+Qualquer dúvida sobre o uso  dos  programas  acima
+deverá ser encaminhada ao professor, aos monitores
+ou pessoal técnico do Centro de Recursos Computacionais
+do Instituto de Ciências Exatas e Informática.
+ 

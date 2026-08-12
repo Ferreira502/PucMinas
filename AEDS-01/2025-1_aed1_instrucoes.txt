@@ -1,0 +1,114 @@
+Instruções para entregas de tarefas:
+
+1. Criar uma pasta com o número de matrícula e nome
+   (por exemplo, 999999_XXX_YYY_ZZZ).
+   Evitar espaços em branco, acentos e cedilha 
+   em nomes de pastas.
+2. Colocar nome e matrícula 
+   em todos os arquivos com texto 
+   (e também como comentários iniciais em programas).
+   Formatos requeridos:   .c, .h, .cpp, .hpp
+   Formatos extras poderão acompanhar o texto:
+   Formatos suplementar : .txt 
+                          .rtf (somente quando solicitado)
+   Formatos dispensáveis: .doc, .docx ou .pdf,
+                          (somente quando solicitados).
+   Arquivos com programas deverão ser entregues 
+   separadamente do texto ou de complementos,
+   de modo a poderem ser compilados e testados.
+   Evitar espaços em branco, acentos e cedilha 
+   em nomes de arquivos.
+   Os códigos fontes deverão estar em formatos compatíveis
+   para a compilação e testes (ou simulações: .c, .h, .cpp, .hpp).
+3. Colocar na pasta todos os arquivos do tipo texto
+   relativos à atividade, incluindo bibliotecas e testes.
+   Arquivos executáveis (.exe), intermediários (.o, .gch),
+   de documentação das bibliotecas (io_docs.zip ou karel_docs.zip)
+   deverão ser removidos da pasta antes da entrega.
+4. Arquivos contendo comentários/observações (README.txt)
+   poderão ser anexados na raiz da pasta principal.
+   Usar, preferencialmente, esse tipo de arquivo 
+   para qualquer outra comunicação relacionada, direta ou
+   indiretamente, à atividade, fora dos programas.
+5. Comprimir a pasta (999999_XXX_YYY_ZZZ.ZIP)
+   Evitar outros tipos de compactação (.rar, .gz, .7z).
+6. Entregar o arquivo compactado (999999_XXX_YYY_ZZZ.zip)
+   na tarefa aberta ainda vigente.
+7. Exercícios em atraso poderão ser entregues, em pastas separadas, 
+   devidamente identificadas, junto com a tarefa aberta;
+   mas estarão sujeitos aos critérios usados para 
+   entregas em atraso, independente dos motivos, 
+   e poderão NÃO ser considerados para efeitos de avaliação.
+
+
+Sugestões:
+   Preparar e testar os exemplos com antecedência,
+   se possível, antes das aulas teóricas.
+   Preparar esboços/rascunhos dos exercícios e módulos de testes
+   para discussão em aulas práticas.
+   Tentar entregar os exercícios com antecipação.
+   Estabelecer como rotina realizar um primeiro envio
+   pelo menos uma hora antes do encerramento do prazo estipulado. 
+   Se necessário, ainda haverá uma hora para revisão e novo envio.
+
+   Recorrer ao Teams em caso de dúvidas ou 
+   para maiores esclarecimentos. 
+
+Atenção:
+   Em virtude de feriados e recessos, 
+   datas e horários poderão ser antecipados.
+
+___
+
+Instruções para entregas de tarefas com artigo:
+
+1. Colocar nome e matrícula 
+   em todos os arquivos com texto 
+   (e como comentários iniciais em programas).
+   Formato  requerido   : .txt
+   Formatos extras poderão acompanhar o texto:
+   Formato  suplementar : .rtf
+   Formatos extras      : .tex e .pdf (ambos)
+2. Criar uma pasta com o número de matrícula e nome
+   (por exemplo, 999999-XXX_YYY_ZZZ).
+   Evitar espaços em branco, acentos e cedilha
+   em nomes de pastas.
+3. Colocar nessa pasta todos os arquivos 
+   relativos à atividade
+   Evitar espaços em branco, acentos e cedilha
+   em nomes de arquivos.
+   Os códigos fontes deverão estar em formatos compatíveis
+   para a compilação e testes (ou simulações).
+4. Colocar nessa pasta todos os arquivos 
+   relativos à atividade, incluídos os de LaTeX.
+   Arquivos intermediários deverão ser excluídos.
+   Arquivos contendo comentários/observações (README.txt)
+   poderão ser anexados na raiz da pasta principal.
+5. Comprimir a pasta (999999-XXX_YYY_ZZZ.zip)
+   Evitar outros tipos de compactação (.rar, .gz, .7z).
+6. Entregar o arquivo compactado (999999-XXX_YYY_ZZZ.zip)
+   na atividade aberta correspondente para o artigo.
+
+Sugestão:
+   Tentar entregar os exercícios com antecipação.
+   Estabelecer como rotina realizar um primeiro envio
+   pelo menos uma hora antes do prazo estipulado. 
+   Se necessário, ainda haverá uma hora para revisão e novo envio.
+
+Observações:
+   INDISPENSÁVEL usar citações e referências conforme 
+   as normas ABNT.
+
+   Exercícios entregues com muito atraso  
+   NÃO serão considerados para efeito de avaliação.
+   
+   Recorrer ao Teams em caso de dúvidas ou 
+   para maiores esclarecimentos. 
+
+   Em virtude de recesso ou feriado, 
+   datas de entregas poderão ser antecipadas.
+
+___
+
+
+

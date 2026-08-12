@@ -1,0 +1,103 @@
+Pontifícia Universidade Católica de Minas Gerais
+Pró-Reitoria de Graduação
+
+Plano de Ensino    (1º semestre de 2023)  
+Curso: 38  -  Ciência da Computação 
+Disciplina: 47044  -  ALGORITMOS E ESTRUTURAS DE DADOS I 
+
+Período: 1 
+Turno: MANHÃ 
+
+Carga Horária: 
+
+TEÓRICA  80  horas (GRADE 80) 
+PRÁTICA  40  horas (GRADE 40) 
+TOTAL   120  horas 
+
+EMENTA 
+
+[ ] Algoritmos. 
+[ ] Notação algorítmica de alto nível. 
+[ ] Técnica de refinamentos sucessivos.
+[ ] Tipos de dados primitivos. 
+[ ] Estruturas de controle. 
+[ ] Lógica booleana. 
+[ ] Abstração de dados, 
+[ ]   expressões e 
+[ ]   comandos. 
+[ ] Estruturas de dados elementares: 
+[ ]   grupos de dados homogêneos e 
+[ ]   heterogêneos. 
+[ ] Alocação de memória dinâmica. 
+[ ]   Classes e objetos.
+[ ] Introdução a modularização, 
+[ ]   documentação e 
+[ ]   teste de programas. 
+[ ] Manipulação de arquivos de texto. 
+[ ] Recursividade.
+
+UNIDADES DE ENSINO 
+               
+UNIDADE 1 - 06 aulas - INTRODUÇÃO A ALGORITMOS 
+
+[ ] 1.1 Introdução a algoritmos e estruturas de dados
+[ ] 1.2 Aplicações de algoritmos
+[ ] 1.3 Modelos, notações e representações
+[ ] 1.4 Noções de linguagens de programação
+[ ] 1.5 Conceitos e utilizações
+[ ] 1.6 Representação de dados
+
+UNIDADE 2 - 24 aulas - ESTRUTURAS BÁSICAS 
+
+[ ] 2.1 Expressões aritméticas, 
+[ ]     lógicas, 
+[ ]     relacionais e 
+[ ]     literais
+[ ] 2.2 Transferências de dados
+[ ] 2.3 Estruturas de controle
+[ ] 2.4 Estruturas sequenciais
+[ ] 2.5 Estruturas condicionais
+[ ] 2.5.1 Estruturas condicionais
+[ ] 2.5.2 Estuturas repetitivas
+[ ] 2.5.2.1 Estrutura de repetição com teste no final
+[ ] 2.5.2.2 Estrutura de repetição com teste no início
+[ ] 2.5.2.3 Estrutura de repetição com variação no controle
+[ ] 2.6 Notações e metodologias para desenvolvimento
+[ ] 2.7 Noções de documentação
+
+
+UNIDADE 3 - 18 aulas - ABSTRAÇÕES DE COMANDOS 
+
+[ ] 3 Abstrações de comandos
+[ ] 3.1 Noções de modularização
+[ ] 3.2 Métodos: 
+[ ]     funções e 
+[ ]     procedimentos
+[ ] 3.3 Passagens de parâmetros
+[ ] 3.4 Recursividade    
+
+UNIDADE 4 - 12 aulas - ARMAZENAMENTO DE DADOS 
+
+[ ] 4 Noções de armazenamento de dados
+[ ] 4.1 Noções de endereçamento e alocação de memória
+[ ] 4.2 Noções de arquivos
+[ ] 4.3 Aplicações
+
+UNIDADE 5 - 18 aulas - ABSTRAÇÕES DE DADOS HOMOGÊNEOS 
+
+[ ] 5 Grupos de dados homogêneos: 
+[ ]   arranjos, tabelas, vetores e 
+[ ]   matrizes
+[ ] 5.1 Conceito
+[ ] 5.2 Definições
+[ ] 5.3 Aplicações    
+
+UNIDADE 6 - 32 aulas - ABSTRAÇÕES DE DADOS HETEROGÊNEOS E OO
+
+[ ] 6 Grupos de dados heterogêneos
+[ ] 6.1 Noções de classes e 
+[ ]     orientação ao uso de objetos (classes)
+[ ] 6.2 Definições
+[ ] 6.3 Aplicações
+[ ] 6.4 Tratamento de exceções  
+
