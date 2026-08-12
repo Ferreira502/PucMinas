@@ -1,0 +1,6 @@
+javac --version                   // Mostrar Versao do Java
+javac NOMEDOARQUIVO.java          // Compilar o Java
+java  NOMEDOARQUIVO               // Executar o Java
+java  NOMEDOARQUIVO < pub.in      // Executa as entradas do pub.in
+vim   NOMEDOARQUIVO               // Printar o conteudo que tem no txt
+diff  NOMEDOARQUIVO               // Compara 2 arquivos

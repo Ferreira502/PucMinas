@@ -1,0 +1,262 @@
+import java.util.*;
+
+class No
+{
+    public int elemento;    
+    public boolean cor;     
+    public No esq, dir;      
+    
+    public No( int elemento ) 
+	{
+        this.elemento = elemento;
+        this.cor = true;
+        this.esq = null;
+        this.dir = null;
+    }
+
+    public boolean isNoTipoQuatro ( )
+    {
+        return (esq != null && dir != null && esq.cor == true && dir.cor == true);
+    }
+}
+
+class ArvoreBicolor
+{
+    public No raiz;
+
+    public ArvoreBicolor()
+    {
+        raiz = null;
+    }
+
+    private void fragmentar( No i )
+    {
+	    if ( i == raiz )
+	    {
+	    	i.cor = false;
+			i.esq.cor = false;
+			i.dir.cor = false;
+	    }
+
+	    else
+	    {
+	    	i.cor = true;
+			i.esq.cor = false;
+			i.dir.cor = false;
+	    } 
+    }
+   
+    public No rotacionarSimplesEsq( No i )
+    {
+    	No noDir = i.dir; 		// cria um ponteiro para pegar o no da direita que queremos balancear
+		No noDirEsq = noDir.esq;   	// cria um ponteiro para pegar o no da esquerda do ponteiro criado
+		noDir.esq = i;			// pega o no da direita a esquerda dele aponta para i
+		i.dir = noDirEsq;		// direita do no inicial aponta para o no a esquerda do direita
+		
+		return noDir;			// retorna o no da direita
+	}
+
+	public No rotacionarSimplesDir ( No i ) 
+	{
+		No noEsq = i.esq;
+		No noEsqDir = noEsq.dir;
+		noEsq.dir = i;
+		i.esq = noEsqDir;
+
+		return noEsq;
+	}	    
+
+	public No rotacionarDirEsq( No i )
+	{
+		i.dir = rotacionarSimplesDir(i.dir);
+		return rotacionarSimplesEsq(i);
+	}
+
+	public No rotacionarEsqDir ( No i )
+	{
+		i.esq = rotacionarSimplesEsq(i.esq);
+		return rotacionarSimplesDir(i);
+	}
+
+	private void balancear ( No bisavo, No avo, No pai, No i ) 
+	{
+			No novaRaiz = null;
+
+			if ( pai.elemento > avo.elemento && i.elemento > pai.elemento )
+			{
+				novaRaiz = rotacionarSimplesEsq(avo); 
+			}
+
+			else if ( pai.elemento > avo.elemento && i.elemento < pai.elemento )
+			{
+				novaRaiz = rotacionarDirEsq(avo);
+			}
+
+			else if ( pai.elemento < avo.elemento && i.elemento < pai.elemento )
+			{
+				novaRaiz = rotacionarSimplesDir(avo);
+			}	
+			
+			else if ( pai.elemento < avo.elemento && i.elemento > pai.elemento )
+			{
+				novaRaiz = rotacionarEsqDir(avo);
+			}
+
+			if ( bisavo != null )
+			{
+				if ( bisavo.elemento > novaRaiz.elemento )
+				{
+					bisavo.esq = novaRaiz;
+				}
+
+				else 
+				{
+					bisavo.dir = novaRaiz;
+				}
+			}
+
+			else 
+			{
+				raiz = novaRaiz;
+			}
+
+			novaRaiz.cor = false;
+			novaRaiz.dir.cor = true;
+			novaRaiz.esq.cor = true;
+	
+    }
+
+    public void inserir( int x )
+    {
+    	if ( raiz == null )
+		{
+			raiz = new No(x);
+			raiz.cor = false;
+		}
+
+		else
+		{
+			inserir(x, null, null, null, raiz);
+		}
+    }
+
+    private void inserir ( int x, No bisavo, No avo, No pai, No i )
+    {
+
+		if ( i == null )
+		{
+			i = new No(x);
+			if ( x < pai.elemento ) 
+			{
+				pai.esq = i;
+			}
+
+			else
+			{
+				pai.dir = i;
+			}
+
+			if ( pai.cor == true )
+			{
+				balancear(bisavo, avo, pai, i);
+			}
+		}
+
+		else
+		{
+			if ( i.isNoTipoQuatro() )
+			{
+				fragmentar(i);
+
+				if ( pai != null && pai.cor == true )
+				{
+					balancear(bisavo, avo, pai, i);
+				}
+			}
+
+				if ( x > i.elemento )
+			{
+				inserir(x, avo, pai, i, i.dir);
+			}
+		
+			else if ( x < i.elemento )
+			{
+				inserir(x, avo, pai, i, i.esq);
+			}
+
+		}
+    }
+
+	public void caminharCentral()
+	{
+		System.out.print("[ ");
+		caminharCentral(raiz);
+		System.out.println("]");
+	}
+
+	private void caminharCentral(No i)
+	{
+		if (i != null)
+		{
+			caminharCentral(i.esq);
+			System.out.print(i.elemento + " ");
+			caminharCentral(i.dir);
+		}
+	}
+
+	public boolean isArvoreBicolor()
+	{
+		if (raiz == null)
+		{
+			return true;
+		}
+
+		if (raiz.cor == true)
+		{
+			return false;
+		}
+
+		return verificarBicolor(raiz, null, null) != -1;
+	}
+
+	private int verificarBicolor(No i, Integer min, Integer max)
+	{
+		if (i == null)
+		{
+			return 1;
+		}
+
+		if ((min != null && i.elemento <= min) || (max != null && i.elemento >= max))
+		{
+			return -1;
+		}
+
+		if (i.cor == true)
+		{
+			if ((i.esq != null && i.esq.cor == true) || (i.dir != null && i.dir.cor == true))
+			{
+				return -1;
+			}
+		}
+
+		int alturaPretaEsq = verificarBicolor(i.esq, min, i.elemento);
+		int alturaPretaDir = verificarBicolor(i.dir, i.elemento, max);
+
+		if (alturaPretaEsq == -1 || alturaPretaDir == -1 || alturaPretaEsq != alturaPretaDir)
+		{
+			return -1;
+		}
+
+		return alturaPretaEsq + (i.cor == false ? 1 : 0);
+	}
+}
+
+class Main
+{
+    public static void main(String[] args) 
+    {
+        Scanner sc = new Scanner(System.in);
+        ArvoreBicolor ab = new ArvoreBicolor();
+
+    }
+}
