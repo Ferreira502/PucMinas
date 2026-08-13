@@ -1,0 +1,80 @@
+Descrição
+
+Você foi contratado para desenvolver um programa que ajude a organizar os dados de uma competição de levantamento de peso. 
+Cada atleta tem um nome e o peso máximo (em quilos) que conseguiu levantar. Seu programa deverá ler os dados dos atletas com nome (sem espaços) 
+e o peso máximo levantado (inteiro positivo), e apresentar a listagem dos atletas a partir dos maiores pesos levantados. 
+Em caso de empate no peso, ordenar em ordem alfabética pelo nome. Seu programa deve ler os atletas até o fim do arquivo. 
+Imprimir os atletas um por linha no formato: Nome Peso.
+
+Regras e Restrições:
+- Criar uma estrutura de dados para representar um atleta.
+- O número de atletas será no máximo 100.
+- O nome de cada atleta não terá espaços e terá no máximo 50 caracteres.
+- O peso máximo será um número inteiro entre 1 e 500.
+
+Entrada
+
+Joao 200
+Maria 250
+Pedro 220
+Ana 230
+Lucas 250
+Bruna 210
+Rafael 240
+Carla 240
+Felipe 200
+Juliana 230
+Igor 260
+Larissa 220
+Thiago 250
+Beatriz 240
+Gustavo 220
+Camila 230
+Vinicius 210
+Fernanda 250
+Rodrigo 240
+Tatiane 220
+Marcos 260
+Elaine 230
+Bruno 250
+Natalia 230
+Alex 210
+Patricia 250
+Diego 200
+Rafaela 220
+Caio 260
+Sofia 240
+
+
+Saida
+
+Caio 260
+Igor 260
+Marcos 260
+Bruno 250
+Fernanda 250
+Lucas 250
+Maria 250
+Patricia 250
+Thiago 250
+Beatriz 240
+Carla 240
+Rafael 240
+Rodrigo 240
+Sofia 240
+Ana 230
+Camila 230
+Elaine 230
+Juliana 230
+Natalia 230
+Gustavo 220
+Larissa 220
+Pedro 220
+Rafaela 220
+Tatiane 220
+Alex 210
+Bruna 210
+Vinicius 210
+Diego 200
+Felipe 200
+Joao 200

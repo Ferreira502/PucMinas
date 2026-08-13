@@ -1,0 +1,43 @@
+1) Java
+Faça a implementação de uma pilha linear em Java para armazenar números inteiros. 
+Crie um programa que instancia uma nova pilha e processa as operações solicitadas na entrada de dados, obedecendo o seguinte formato:
+
+- C T: instancia uma pilha com capacidade máxima igual a T 
+- E X: empilha o número X;
+- D: desempilha e imprime o número removido;
+- M: imprime os elementos da pilha. Caso a pilha esteja vazia, imprimir V
+- P Y: pesquisa se o número Y está na pilha, imprimindo S caso verdadeiro e N caso contrário
+
+Sua classe pilha deverá possuir os seguintes métodos:
+
+class Pilha {
+public Pilha(int tamanho) { } //constroi a pilha com capacidade máxima igual a tamanho
+public void empilhar(int x) { } //empilha x à pilha
+public int desempilhar() { } //desempilha da pilha e retorna o elemento desempilhado
+public void mostrar() { } //imprime os elementos da pilha partindo do topo
+public boolean pesquisar(int x) { } //retorna true caso o elemento x esteja na pilha e false caso contrário
+}
+
+2) C
+Faça a implementação de uma pilha linear em C para armazenar números inteiros. 
+Crie um programa que instancia uma nova pilha e processa as operações solicitadas na entrada de dados, obedecendo o seguinte formato:
+
+- C T: instancia uma pilha com capacidade máxima igual a T 
+- E X: empilha o número X;
+- D: desempilha e imprime o número removido;
+- M: imprime os elementos da pilha. Caso a pilha esteja vazia, imprimir V
+- P Y: pesquisa se o número Y está na pilha, imprimindo S caso verdadeiro e N caso contrário
+
+Crie uma struct Pilha para representar uma pilha. Você irá manipular a pilha por meio de ponteiro. 
+Os seguintes métodos devem estar presentes:
+
+typedef struct {
+//campos
+} Pilha;
+
+Pilha* newPilha(int tamanho) { } //constroi a pilha com capacidade máxima igual a tamanho e retorna o ponteiro para a pilha
+void delPilha(Pilha* p) { } //desaloca da memória a pilha p (atenção, o arranjo também deve ser desalocado)
+void empilhar(Pilha* p, int x) { } //empilha x à pilha p
+int desempilhar(Pilha* p) { } //desempilha da pilha p e retorna o elemento desempilhado
+void mostrar(Pilha* p) { } //imprime os elementos da pilha p partindo do topo
+int pesquisar(Pilha* p, int x) { } //retorna true caso o elemento x esteja na pilha p e false caso contrário
