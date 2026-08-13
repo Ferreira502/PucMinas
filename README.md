@@ -12,7 +12,7 @@
 
 ---
 
-## 📚 Sobre o repositório
+## Sobre o repositório
 
 Este repositório reúne **todo o material desenvolvido durante minha graduação no curso de Ciência da Computação da PucMinas**, centralizando projetos que anteriormente estavam distribuídos em diferentes repositórios.
 
@@ -22,7 +22,7 @@ A ideia é manter, a evolução dos trabalhos acadêmicos, exercícios, projetos
 
 ---
 
-## 🗂️ Organização
+## Organização
 
 Cada pasta representa uma disciplina, projeto ou área de estudo.
 
@@ -47,7 +47,7 @@ A estrutura pode ser expandida conforme novas disciplinas e projetos forem adici
 
 ---
 
-## 🎓 Disciplinas
+## Disciplinas
 
 ### 💻 Computação
 
@@ -70,7 +70,7 @@ A estrutura pode ser expandida conforme novas disciplinas e projetos forem adici
 
 ---
 
-## 📦 O que você encontrará aqui
+## O que você encontrará aqui
 
 Este repositório pode conter:
 
@@ -86,7 +86,7 @@ Este repositório pode conter:
 
 ---
 
-## 🌱 Evolução
+## Evolução
 
 Este repositório também serve como uma forma de acompanhar minha evolução durante a graduação.
 
@@ -114,7 +114,7 @@ Os projetos são mantidos com seus respectivos históricos de desenvolvimento se
 
 ---
 
-## 🛠️ Tecnologias
+## Tecnologias
 
 As tecnologias utilizadas variam de acordo com a disciplina e o projeto.
 
@@ -135,7 +135,7 @@ Entre elas podem estar:
 
 ---
 
-## ⚠️ Observação
+## Observação
 
 Este repositório possui finalidade principalmente **acadêmica e documental**.
 
@@ -145,7 +145,7 @@ Alguns materiais podem ter sido desenvolvidos especificamente para disciplinas, 
 
 ---
 
-## 👨‍💻 Autor
+##  Autor
 
 <div align="center">
 
