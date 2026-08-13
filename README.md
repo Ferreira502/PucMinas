@@ -6,7 +6,6 @@
 
 [![Status](https://img.shields.io/badge/status-em%20desenvolvimento-blue?style=flat-square)]()
 [![Instituição](https://img.shields.io/badge/PucMinas-graduação-red?style=flat-square)]()
-[![Git](https://img.shields.io/badge/Git-histórico%20preservado-F05032?style=flat-square\&logo=git\&logoColor=white)]()
 [![GitHub](https://img.shields.io/badge/GitHub-repositório-181717?style=flat-square\&logo=github)]()
 
 </div>
@@ -15,9 +14,9 @@
 
 ## 📚 Sobre o repositório
 
-Este repositório reúne **todo o material desenvolvido durante minha graduação na PucMinas**, centralizando projetos que anteriormente estavam distribuídos em diferentes repositórios.
+Este repositório reúne **todo o material desenvolvido durante minha graduação no curso de Ciência da Computação da PucMinas**, centralizando projetos que anteriormente estavam distribuídos em diferentes repositórios.
 
-A ideia é manter, em um único lugar, a evolução dos trabalhos acadêmicos, exercícios, projetos e estudos realizados ao longo do curso.
+A ideia é manter, a evolução dos trabalhos acadêmicos, exercícios, projetos e estudos realizados ao longo do curso.
 
 > 💡 **Este repositório funciona como um histórico da minha trajetória acadêmica e técnica.**
 
@@ -30,11 +29,11 @@ Cada pasta representa uma disciplina, projeto ou área de estudo.
 ```text
 PucMinas/
 │
-├── 📁 AC2/
 ├── 📁 AEDS-01/
 ├── 📁 AEDS-02/
-├── 📁 AquiteturaDeComputadores-01/
-├── 📁 BD/
+├── 📁 ArquiteturaDeComputadores-01/
+├── 📁 ArquiteturaDeComputadores-02/
+├── 📁 BancoDeDados/
 ├── 📁 Calculo I/
 ├── 📁 Calculo II/
 ├── 📁 Estatistica/
@@ -121,43 +120,18 @@ As tecnologias utilizadas variam de acordo com a disciplina e o projeto.
 
 Entre elas podem estar:
 
-![C](https://img.shields.io/badge/C-A8B9CC?style=flat-square\&logo=c\&logoColor=black)
-![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=flat-square\&logo=c%2B%2B\&logoColor=white)
-![Java](https://img.shields.io/badge/Java-ED8B00?style=flat-square\&logo=openjdk\&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square\&logo=python\&logoColor=white)
-![SQL](https://img.shields.io/badge/SQL-4479A1?style=flat-square\&logo=mysql\&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05032?style=flat-square\&logo=git\&logoColor=white)
+![C](https://img.shields.io/badge/C-A8B9CC?style=flat-square&logo=c&logoColor=black)
+![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=flat-square&logo=c%2B%2B&logoColor=white)
+![Java](https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![SQL](https://img.shields.io/badge/SQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
+![Flutter](https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white)
+![Assembly](https://img.shields.io/badge/Assembly-6E4C13?style=flat-square&logo=assemblyscript&logoColor=white)
+![Verilog](https://img.shields.io/badge/Verilog-006600?style=flat-square&logo=v&logoColor=white)
 
 > A lista de tecnologias pode crescer conforme novos projetos forem desenvolvidos.
 
----
-
-## 📈 Histórico
-
-Este repositório foi criado a partir da **unificação de diferentes repositórios acadêmicos**.
-
-Os projetos foram organizados em diretórios próprios, mantendo seus históricos de desenvolvimento sempre que possível.
-
-```text
-Repositórios individuais
-          │
-          ├── AEDS
-          ├── Banco de Dados
-          ├── Cálculo
-          ├── Estatística
-          ├── Grafos
-          └── ...
-                  │
-                  ▼
-          ┌───────────────┐
-          │    PucMinas   │
-          │               │
-          │  📚 Faculdade │
-          │  💻 Projetos  │
-          │  📝 Trabalhos │
-          │  📈 Histórico │
-          └───────────────┘
-```
 
 ---
 
@@ -177,7 +151,7 @@ Alguns materiais podem ter sido desenvolvidos especificamente para disciplinas, 
 
 **Gabriel Ferreira**
 
-Estudante de graduação • Desenvolvimento de Software • Computação
+Estudante de Ciência da Computação • Desenvolvimento de Software
 
 [![GitHub](https://img.shields.io/badge/GitHub-Ferreira502-181717?style=flat-square\&logo=github)](https://github.com/Ferreira502)
 
@@ -190,5 +164,12 @@ Estudante de graduação • Desenvolvimento de Software • Computação
 ### 🎓 Construído durante a graduação, uma disciplina de cada vez.
 
 **© PucMinas • Repositório acadêmico**
+
+</div>
+
+<div align="center">
+
+### *"Não posso comparar-me com ninguém. Sigo minha própria evolução."*
+**— Ayrton Senna**
 
 </div>
