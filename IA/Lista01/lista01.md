@@ -1,25 +1,27 @@
 Questão 1
 
-Viés algorítmico é quando um sistema de IA erra de forma sistemática contra certos grupos, não é um erro aleatório, é um padrão. Isso normalmente vem de dados de treinamento que não representam bem a população, como poucas fotos de pessoas negras, dados que já carregam desigualdades históricas, tipo registros de contratação com discriminação embutida.
-No documentário, a própria Joy Buolamwini percebeu que os sistemas de reconhecimento facial não detectavam seu rosto, só funcionou quando ela colocou uma máscara branca. Isso motivou o projeto Gender Shades, que mostrou erro de mais de 30% para mulheres negras contra quase 0% para homens brancos. Ou seja, os bancos de dados usados no treinamento eram bem desbalanceados.
-Duas saídas: uma técnica, fazer auditorias de desempenho separadas por subgrupo, não só olhar a acurácia geral, e usar isso pra reamostrar e balancear os dados. E uma regulatória, exigir auditoria independente antes de liberar esses sistemas em áreas sensíveis, como contratação, policiamento e crédito, com transparência sobre erro por grupo.
+01) Viés algorítmico é quando um sistema de IA erra de forma sistemática contra certos grupos, não é um erro aleatório, é um padrão. Isso normalmente vem de dados de treinamento que não representam bem a população, como poucas fotos de pessoas negras, dados que já carregam desigualdades históricas, tipo registros de contratação com discriminação embutida.
+
+02) No documentário, a própria Joy Buolamwini percebeu que os sistemas de reconhecimento facial não detectavam seu rosto, só funcionou quando ela colocou uma máscara branca. Isso motivou o projeto Gender Shades, que mostrou erro de mais de 30% para mulheres negras contra quase 0% para homens brancos. Ou seja, os bancos de dados usados no treinamento eram bem desbalanceados.
+
+03) Duas estratégias: uma técnica, que seria analisar o desempenho do sistema por grupo, e não só a média geral, e usar isso para deixar os dados mais equilibrados. E outra seria exigir uma avaliação independente antes de usar esses sistemas em áreas mais delicadas, mostrando os erros de cada grupo.
 
 Questão 2
 
-Origem, 1956, Conferência de Dartmouth: aconteceu no Dartmouth College, no verão de 1956, durou umas 6 a 8 semanas. Foi organizado por McCarthy, Minsky, Rochester e Shannon. A ideia central era ousada: que qualquer aspecto da inteligência poderia, em tese, ser descrito com precisão suficiente pra uma máquina simular. Achavam que dava pra resolver isso num único verão.
+01) Origem, 1956, Conferência de Dartmouth: aconteceu no Dartmouth College, no verão de 1956, durou umas 6 a 8 semanas. Foi organizado por McCarthy, Minsky, Rochester e Shannon. A ideia central era, que qualquer aspecto da inteligência poderia, em tese, ser descrito com precisão suficiente pra uma máquina simular. Achavam que dava pra resolver isso num único verão.
 
-50 anos depois, 2006, reunião comemorativa: reencontro no mesmo lugar, 50 anos depois, com apoio da DARPA. Cinco dos participantes originais voltaram. O foco foi ver o que tinha dado certo ou não, e surgiram falas importantes. Hinton falou de modelos gráficos, já anunciando o boom do deep learning. Norvig falou sobre busca na web. Kurzweil apostou que o teste de Turing cairia em uns 25 anos.
+02) 50 anos depois, em 2006, teve uma reunião comemorativa no mesmo lugar, com apoio da DARPA. Cinco dos participantes originais voltaram. A ideia era ver o que tinha dado certo ou não. Hinton falou sobre modelos gráficos, que já apontavam para o crescimento do deep learning. Norvig falou sobre buscas na internet, e Kurzweil apostou que o teste de Turing seria superado em uns 25 anos.
 
-Pra mim a maior diferença é que em 1956 a aposta era toda em lógica simbólica e regras explícitas, achavam que dava pra programar a inteligência. Em 2006 ficou claro que quem realmente avançou foi o aprendizado estatístico, com muito dado e poder computacional, não a lógica pura que os fundadores imaginavam. O caminho foi bem mais lento e mais aprendido pelos dados do que eles previam.
+03) Pra mim, a maior diferença é que em 1956 eles apostavam mais na lógica e em regras que seriam programadas para criar a inteligência. Já em 2006, ficou mais claro que o que realmente estava dando certo era o aprendizado com muitos dados e poder computacional. No fim, o avanço foi bem mais lento e aconteceu mais pelo aprendizado dos dados do que eles imaginavam.
 
 Questão 3
 
-a) Sim, é alto risco. O PL enquadra explicitamente sistemas de triagem e seleção de candidatos nessa categoria, art. 17, III, e aqui tem eliminação automática sem revisão humana, o que reforça ainda mais esse enquadramento.
+a) Sim, é alto risco. O PL coloca sistemas de seleção e triagem de candidatos nessa categoria, no art. 17, III. E como aqui tem eliminação automática sem revisão humana, isso deixa o caso ainda mais claro.
 
-b) Não. O PL trata isso como discriminação indireta, art. 4º, VII: mesmo sem usar raça ou gênero diretamente, variáveis como região e faculdade podem funcionar como proxy dessas características, porque o modelo aprende correlações que já existiam nos dados. Neutralidade técnica não é defesa suficiente.
+b) Não. O PL considera isso uma forma de discriminação indireta, no art. 4º, VII. Mesmo sem usar raça ou gênero diretamente, coisas como região e faculdade podem acabar servindo como uma espécie de “atalho” para essas características, porque o modelo aprende padrões dos próprios dados. Então, dizer que o sistema é neutro não é suficiente.
 
-c) Três coisas que eu incluiria: avaliação de impacto algorítmico com auditoria dos dados de treino, pra ver se região e instituição estão enviesadas. Revisão humana obrigatória antes de eliminar alguém, em vez de corte automático. E documentação clara de como o modelo decide, pra ser possível auditar depois.
+c) Eu colocaria três coisas: uma análise do impacto do algoritmo, olhando também se os dados usados no treino têm algum viés. Revisão humana antes de eliminar alguém, em vez de deixar tudo automático. E uma documentação clara de como o modelo toma as decisões, para facilitar uma auditoria depois.
 
-d) Sim, com certeza. O PL garante isso: direito a explicação em até 15 dias, art. 8º, direito de contestar a decisão, art. 9º, e direito a revisão humana quando a decisão afeta algo importante, como emprego, art. 10.
+d) Sim, com certeza. O PL garante isso: a pessoa tem direito de receber uma explicação em até 15 dias, no art. 8º, pode contestar a decisão, no art. 9º, e também pode pedir revisão humana quando a decisão envolve algo importante, como um emprego, no art. 10.
 
-e) Eu usaria uma análise de fairness por subgrupo, comparando a taxa de eliminação entre grupos, demographic parity, ou as taxas de erro, equalized odds, segmentando por região e instituição como proxy, e rodando um teste estatístico, tipo disparate impact ou regra dos 80%, pra ver se a diferença é significativa mesmo sem a variável sensível estar explícita no modelo.
+e) Eu faria uma análise de fairness por grupo, comparando, por exemplo, quantas pessoas de cada região ou faculdade são eliminadas. Também dá para analisar as taxas de erro e usar um teste estatístico, como o disparate impact ou a regra dos 80%, para ver se existe uma diferença relevante entre os grupos.
