@@ -1,0 +1,10 @@
+Questão 01) Prove que: se G um grafo simples não-direcionado. Mostra que a soma dos graus de todos os vértices é par.
+Questão 02) Mostre que o número de vértices de um grau ímpar de um grafo G não-direcionado é sempre par.
+Questão 03) Projete um algoritmo para encontrar o número de componentes conexos de um grafo não-direcionado.
+Questão 04) Seja G = (v, e) um grafo não-direcionado simples conexo que que |v| >= 2. Mostre que há, pelo menos, dois vértices que possuem o mesmo grau.
+Questão 05) Seja G = (v, e) um grafo não-direcionado completo. Encontre o número de subgrafos que podem ser encontrados em G.
+Questão 06) Seja G = (v, e) um grafo direcionado. seja u pertence v um vértice qualquer do grafo. Projete um algoritmo para encontrar todos os vértices que podem ser "atingidos" a partir de u.
+Questão 07) Seja G = (v, e) um grafo direcionado. Seja u pertence v um vértice qualquer do grafo. Implementem um algoritmo para encontrar todos os vértices que podem ser "atingidos" a partir de u.
+Questão 08) Seja G = (v, e) um grafo direcionado. Projete uma solução para dizer se há um ciclo em G.
+Questão 09) use a ordem alfabética para tratar empates. -> Classifique as arestas. -> Para cada vértice, crie dois "tempos" que marquem o inicio da visita e o fim da visita.
+
