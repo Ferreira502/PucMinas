@@ -7,4 +7,9 @@ Questão 06) Seja G = (v, e) um grafo direcionado. seja u pertence v um vértice
 Questão 07) Seja G = (v, e) um grafo direcionado. Seja u pertence v um vértice qualquer do grafo. Implementem um algoritmo para encontrar todos os vértices que podem ser "atingidos" a partir de u.
 Questão 08) Seja G = (v, e) um grafo direcionado. Projete uma solução para dizer se há um ciclo em G.
 Questão 09) use a ordem alfabética para tratar empates. -> Classifique as arestas. -> Para cada vértice, crie dois "tempos" que marquem o inicio da visita e o fim da visita.
-
+Questão 10) Projete uma solução para encontrar o "menor" caminho entre dois vértices quaisquer.
+Questão 11) Seja G = (v, u) um grafo direcionado. Projete uma solução para encontrar um conjunto de vértices cujo fehco transitivo direto seja v.
+Questão 12) Seja G = (v, u) um grafo direcionado. Projete uma solução para encontrar o menor conjunto de vértices cujo fehco transitivo direto seja v.
+Questão 13) Seja G = (v, u) um grafo direcionado. Projete uma solução para encontrar o menor conjunto de vértices cujo fehco transitivo direto seja v. Caso G seja ciclico remova arestas para deixá-lo acíclico.
+Questão 14) Seja G = (v, u) um grafo não-direcionado. Projete uma solução para encontrar um dado v pertence V, o vértice "mais distante de v".
+Questão 15) Existe algum tipo de grafo em que o centro terá sempre um vértice? No máximo 2 vértices no centro?
