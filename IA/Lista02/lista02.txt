@@ -1,0 +1,324 @@
+LISTA 02 - INTELIGENCIA ARTIFICIAL
+
+
+QUESTAO 01
+Calculo do ganho de informacao - Base Restaurante
+
+Base: restaurante.csv
+Classe alvo: Conclusao
+
+Distribuicao da classe:
+- Sim: 6 instancias
+- Nao: 6 instancias
+- Total: 12 instancias
+
+Formula da entropia:
+Entropia(S) = - soma(p_i * log2(p_i))
+
+Formula do ganho:
+ganho(atributo) = Entropia(classe) - Entropia(atributo)
+
+Como existem 6 exemplos Sim e 6 exemplos Nao:
+
+Entropia(classe) = - (6/12)log2(6/12) - (6/12)log2(6/12)
+Entropia(classe) = - 0,5log2(0,5) - 0,5log2(0,5)
+Entropia(classe) = 1,0000
+
+Ganhos de informacao:
+
+| Atributo    | Entropia(atributo) | Ganho  |
+|-------------|--------------------|--------|
+| Alternativo |      1,0000        | 0,0000 |
+| Bar         |      1,0000        | 0,0000 |
+| SexSab      |      0,9793        | 0,0207 |
+| fome        |      0,8043        | 0,1957 |
+| Cliente     |      0,4591        | 0,5409 |
+| Preco       |      0,8043        | 0,1957 |
+| Chuva       |      0,9793        | 0,0207 |
+| Res         |      0,9793        | 0,0207 |
+| Tipo        |      1,0000        | 0,0000 |
+| Tempo       |      0,7925        | 0,2075 |
+
+O maior ganho foi do atributo Cliente:
+ganho(Cliente) = 1,0000 - 0,4591 = 0,5409
+
+Portanto, a raiz da arvore e Cliente.
+
+Segundo nivel:
+- Cliente = Alguns: 4 casos, todos Sim -> folha Sim
+- Cliente = Nenhum: 2 casos, todos Nao -> folha Nao
+- Cliente = Cheio: 6 casos, sendo 2 Sim e 4 Nao -> precisa dividir novamente
+
+Para Cliente = Cheio:
+
+Entropia = - (2/6)log2(2/6) - (4/6)log2(4/6)
+Entropia = 0,9183
+
+Ganhos no ramo Cliente = Cheio:
+
+| Atributo    | Entropia(atributo) | Ganho |
+|-------------|--------------------|-------|
+| Alternativo | 0,8091 | 0,1092 |
+| Bar         | 0,9183 | 0,0000 |
+| SexSab      | 0,8091 | 0,1092 |
+| fome        | 0,6667 | 0,2516 |
+| Preco       | 0,6667 | 0,2516 |
+| Chuva       | 0,8742 | 0,0441 |
+| Res         | 0,6667 | 0,2516 |
+| Tipo        | 0,6667 | 0,2516 |
+| Tempo       | 0,6667 | 0,2516 |
+
+Houve empate entre fome, Preco, Res, Tipo e Tempo, todos com ganho 0,2516.
+Adotando o criterio de desempate pela ordem dos atributos na base, foi escolhido fome.
+
+Arvore ate o segundo nivel:
+
+Cliente?
+|-- Alguns -> Sim
+|-- Nenhum -> Nao
+`-- Cheio
+    `-- fome?
+        |-- Nao -> Nao
+        `-- Sim -> continua a divisao
+
+
+QUESTAO 02
+Arvore de decisao - Codigo Restaurante
+
+Base: restaurante.csv
+Codigo: AD-Restaurante - codifica treina e avalia.ipynb
+
+Preparacao dos dados:
+- Sim/Nao: Nao = 0, Sim = 1
+- Cliente: Nenhum = 0, Algum/Alguns = 1, Cheio = 2
+- Preco: R = 0, RR = 1, RRR = 2
+- Tempo: 0-10 = 0, 10-30 = 1, 30-60 = 2, >60 = 3
+- Tipo: One-Hot Encoding
+
+Divisao dos dados:
+- Treino: 9 exemplos
+- Teste: 3 exemplos
+- test_size = 0,20
+- random_state = 42
+- stratify = y
+
+Exemplos de teste:
+
+| Linha | Real | Previsto |
+|-------|------|----------|
+| 7 | Sim | Sim |
+| 8 | Nao | Sim |
+| 9 | Nao | Sim |
+
+Acuracia = 1 / 3 = 0,3333 = 33,33%
+
+Arvore obtida:
+
+Cliente <= 0,5?
+|-- True  -> Nao
+`-- False
+    |-- Tempo <= 1,5?
+    |   |-- True  -> Sim
+    |   `-- False
+    |       |-- Tipo_Hamburger <= 0,5?
+    |       |   |-- True  -> Nao
+    |       |   `-- False -> Sim
+
+Metricas:
+
+| Classe | Precision | Recall | F1-Score | Support |
+|--------|-----------|--------|----------|---------|
+| Nao | 0,00 | 0,00 | 0,00 | 2 |
+| Sim | 0,33 | 1,00 | 0,50 | 1 |
+
+Accuracy = 0,33
+Macro avg = precision 0,17; recall 0,50; F1 0,25
+Weighted avg = precision 0,11; recall 0,33; F1 0,17
+
+Regras:
+1. Se Cliente = Nenhum, entao Conclusao = Nao.
+2. Se Cliente = Alguns ou Cheio e Tempo = 0-10 ou 10-30, entao Conclusao = Sim.
+3. Se Cliente = Alguns ou Cheio, Tempo = 30-60 ou >60 e Tipo diferente de Hamburger, entao Conclusao = Nao.
+4. Se Cliente = Alguns ou Cheio, Tempo = 30-60 ou >60 e Tipo = Hamburger, entao Conclusao = Sim.
+
+Qualidade no treino:
+
+| Regra | Classe | Cobertura | Acertos | Qualidade |
+|-------|--------|-----------|---------|-----------|
+| 1 | Nao | 2 | 2 | 100% |
+| 2 | Sim | 4 | 4 | 100% |
+| 3 | Nao | 2 | 2 | 100% |
+| 4 | Sim | 1 | 1 | 100% |
+
+Qualidade no teste:
+
+| Regra | Cobertura | Acertos | Qualidade |
+|-------|-----------|---------|-----------|
+| 1 | 0 | 0 | nao se aplica |
+| 2 | 2 | 1 | 50% |
+| 3 | 0 | 0 | nao se aplica |
+| 4 | 1 | 0 | 0% |
+
+Conclusao: a arvore ficou perfeita no treino, mas teve desempenho baixo no teste, acertando apenas 1 de 3 exemplos.
+
+
+QUESTAO 03
+Titanic - Padroes de sobrevivencia e mortalidade
+
+Base: titanic completo.csv
+Classe alvo: survived
+
+survived:
+- 0 = morreu
+- 1 = sobreviveu
+
+Tratamento dos dados ausentes:
+
+A base original possui 1309 instancias e 14 atributos.
+
+Como ainda nao foi estudado tratamento de dados ausentes, foi usada a estrategia:
+1. Remover os atributos com muitas ausencias: boat, body, cabin e home.dest.
+2. Depois, remover as instancias que ainda tinham algum valor ausente.
+
+Depois de remover boat, body, cabin e home.dest, sobraram:
+pclass, survived, name, sex, age, sibsp, parch, ticket, fare, embarked
+
+Valores ausentes restantes:
+
+| Atributo | Ausencias |
+|----------|-----------|
+| age | 263 |
+| fare | 1 |
+| embarked | 2 |
+
+Depois da eliminacao das linhas incompletas, a base ficou com 1043 instancias completas.
+
+Distribuicao da classe:
+
+| Classe | Quantidade | Percentual |
+|--------|------------|------------|
+| Morreu | 618 | 59,25% |
+| Sobreviveu | 425 | 40,75% |
+
+Distribuicao por sexo:
+
+| Sexo | Morreu | Sobreviveu | Taxa de sobrevivencia |
+|------|--------|------------|-----------------------|
+| female | 96 | 290 | 75,13% |
+| male | 522 | 135 | 20,55% |
+
+Distribuicao por classe:
+
+| Classe | Morreu | Sobreviveu | Taxa de sobrevivencia |
+|--------|--------|------------|-----------------------|
+| 1a classe | 103 | 179 | 63,48% |
+| 2a classe | 146 | 115 | 44,06% |
+| 3a classe | 369 | 131 | 26,20% |
+
+Distribuicao por embarque:
+
+| Porto | Morreu | Sobreviveu | Taxa de sobrevivencia |
+|-------|--------|------------|-----------------------|
+| C | 80 | 132 | 62,26% |
+| Q | 37 | 13 | 26,00% |
+| S | 501 | 280 | 35,85% |
+
+Codificacao:
+- sex: male = 0, female = 1
+- embarked: S = 0, C = 1, Q = 2
+- pclass: ordinal, com valores 1, 2 e 3
+- age, fare, sibsp e parch: numericos
+
+Foram usados na arvore:
+pclass, sex, age, sibsp, parch, fare, embarked
+
+name e ticket nao foram usados porque sao identificadores textuais com muitos valores diferentes.
+
+Arvore resumida:
+
+sex <= 0,5?
+|-- male
+|   |-- age <= 9,5 -> Sobreviveu
+|   `-- age > 9,5
+|       |-- pclass <= 1,5 -> Morreu
+|       `-- pclass > 1,5 -> Morreu
+`-- female
+    |-- pclass <= 2,5 -> Sobreviveu
+    `-- pclass > 2,5
+        |-- fare <= 19,74
+        |   |-- age <= 17,5 -> Sobreviveu
+        |   `-- age > 17,5 -> Morreu
+        `-- fare > 19,74 -> Morreu
+
+Regras principais:
+
+| Regra | Condicoes | Classe | Cobertura | Acertos | Qualidade |
+|-------|-----------|--------|-----------|---------|-----------|
+| 1 | sex = male e age <= 9,5 | Sobreviveu | 43 | 25 | 58,14% |
+| 2 | sex = male, age > 9,5, pclass <= 1,5, age <= 53,5 | Morreu | 117 | 71 | 60,68% |
+| 3 | sex = male, age > 9,5, pclass <= 1,5, age > 53,5 | Morreu | 31 | 27 | 87,10% |
+| 4 | sex = male, age > 9,5, pclass > 1,5, age <= 32,25 | Morreu | 324 | 272 | 83,95% |
+| 5 | sex = male, age > 9,5, pclass > 1,5, age > 32,25 | Morreu | 142 | 134 | 94,37% |
+| 6 | sex = female, pclass <= 2,5, fare <= 32,09, parch <= 0,5 | Sobreviveu | 70 | 59 | 84,29% |
+| 7 | sex = female, pclass <= 2,5, fare <= 32,09, parch > 0,5 | Sobreviveu | 32 | 30 | 93,75% |
+| 8 | sex = female, pclass <= 2,5, fare > 32,09, fare <= 149,04 | Sobreviveu | 99 | 99 | 100,00% |
+| 9 | sex = female, pclass <= 2,5, fare > 32,09, fare > 149,04 | Sobreviveu | 33 | 30 | 90,91% |
+| 10 | sex = female, pclass > 2,5, fare <= 19,74, age <= 17,5 | Sobreviveu | 30 | 22 | 73,33% |
+| 11 | sex = female, pclass > 2,5, fare <= 19,74, age > 17,5 | Morreu | 90 | 48 | 53,33% |
+| 12 | sex = female, pclass > 2,5, fare > 19,74 | Morreu | 32 | 24 | 75,00% |
+
+Conclusao:
+- Mulheres tiveram maior taxa de sobrevivencia: 75,13%.
+- Homens tiveram menor taxa de sobrevivencia: 20,55%.
+- Passageiros da 1a classe sobreviveram mais que os da 2a e 3a classes.
+- Homens com mais de 9,5 anos tiveram forte tendencia de mortalidade.
+- Meninos de ate 9,5 anos apareceram como excecao, com maior chance de sobrevivencia.
+
+
+QUESTAO 04
+Classificacao pela arvore Iris
+
+A arvore usa:
+- petallength = Tamanho da Petala
+- petalwidth = Largura da Petala
+
+Regras:
+1. Se petallength <= 2,35, entao Iris_Setosa.
+2. Se petallength > 2,35, petalwidth <= 1,75 e petallength <= 4,95, entao Iris_Versicolor.
+3. Se petallength > 2,35, petalwidth <= 1,75 e petallength > 4,95, entao Iris_Virginica.
+4. Se petallength > 2,35, petalwidth > 1,75 e petallength <= 4,85, entao Iris_Versicolor.
+5. Se petallength > 2,35, petalwidth > 1,75 e petallength > 4,85, entao Iris_Virginica.
+
+Instancia 1:
+- Tamanho da Petala = 3,46
+- Largura da Petala = 0,87
+- 3,46 > 2,35
+- 0,87 <= 1,75
+- 3,46 <= 4,95
+- Classe: Iris_Versicolor
+
+Instancia 2:
+- Tamanho da Petala = 1,67
+- 1,67 <= 2,35
+- Classe: Iris_Setosa
+
+Instancia 3:
+- Tamanho da Petala = 2,56
+- Largura da Petala = 2,34
+- 2,56 > 2,35
+- 2,34 > 1,75
+- 2,56 <= 4,85
+- Classe: Iris_Versicolor
+
+Instancia 4:
+- Tamanho da Petala = 6,67
+- Largura da Petala = 2,34
+- 6,67 > 2,35
+- 2,34 > 1,75
+- 6,67 > 4,85
+- Classe: Iris_Virginica
+
+Resposta final:
+Iris_Versicolor, Iris_Setosa, Iris_Versicolor, Iris_Virginica
+
+Alternativa correta: c
