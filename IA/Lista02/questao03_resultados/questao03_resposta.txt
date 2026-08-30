@@ -1,0 +1,89 @@
+QUESTÃO 03
+
+Interpretação da classe:
+- 0 = morreu
+- 1 = sobreviveu
+
+1. Tratamento dos dados ausentes
+
+A base original possui 1309 instancias e 14 atributos.
+
+Como ainda não foi estudado tratamento de dados ausentes, foram removidos os atributos com muitas ausências:
+boat, body, cabin e home.dest.
+
+Depois disso, foram removidas as instâncias que ainda tinham algum valor ausente.
+
+Colunas restantes:
+pclass, survived, name, sex, age, sibsp, parch, ticket, fare, embarked.
+
+Valores ausentes restantes antes da remocao das linhas:
+- age: 263
+- fare: 1
+- embarked: 2
+
+Depois da eliminação das linhas incompletas, a base ficou com 1043 instâncias completas.
+
+
+Análise inicial da base
+
+Distribuição da classe:
+- Morreu: 618 passageiros, 59,25%
+- Sobreviveu: 425 passageiros, 40,75%
+
+Distribuicao por sexo:
+- female: 96 morreram, 290 sobreviveram, taxa de sobrevivência de 75,13%
+- male: 522 morreram, 135 sobreviveram, taxa de sobrevivência de 20,55%
+
+
+Distribuição por classe:
+- 1a classe: 103 morreram, 179 sobreviveram, taxa de 63,48%
+- 2a classe: 146 morreram, 115 sobreviveram, taxa de 44,06%
+- 3a classe: 369 morreram, 131 sobreviveram, taxa de 26,20%
+
+
+Distribuição por porto de embarque:
+- C: 80 morreram, 132 sobreviveram, taxa de 62,26%
+- Q: 37 morreram, 13 sobreviveram, taxa de 26,00%
+- S: 501 morreram, 280 sobreviveram, taxa de 35,85%
+
+
+Codificação dos atributos
+
+Foram usados na árvore:
+pclass, sex, age, sibsp, parch, fare e embarked.
+
+Os atributos name e ticket não foram usados porque são identificadores textuais com muitos valores diferentes.
+
+Codificação:
+- sex: male = 0, female = 1
+- embarked: S = 0, C = 1, Q = 2
+- pclass: valores ordinais 1, 2 e 3
+- age, fare, sibsp e parch: atributos numericos
+
+
+Árvore de decisão resumida
+
+A raiz da arvore foi o atributo sex, indicando que o sexo foi o principal criterio de separacao entre sobrevivencia e mortalidade.
+
+Regras principais encontradas
+
+Regras de maior sobrevivência:
+- female e pclass <= 2,5, principalmente com tarifa maior que 32,09.
+- female, pclass > 2,5, fare <= 19,74 e age <= 17,5.
+- male e age <= 9,5.
+
+
+Regras de maior mortalidade:
+- male, age > 9,5 e pclass > 1,5.
+- male, age > 32,25 e pclass > 1,5.
+- female, pclass > 2,5, fare <= 19,74 e age > 17,5.
+- female, pclass > 2,5 e fare > 19,74.
+
+Conclusão
+
+Os principais padrões encontrados foram:
+- Mulheres tiveram maior taxa de sobrevivência: 75,13%.
+- Homens tiveram menor taxa de sobrevivência: 20,55%.
+- Passageiros da 1a classe sobreviveram mais que os da 2a e 3a classes.
+- Homens com mais de 9,5 anos tiveram forte tendência de mortalidade.
+- Meninos de até 9,5 anos aparecem como uma exceção, com maior chance de sobrevivência.

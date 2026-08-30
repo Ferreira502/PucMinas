@@ -1,0 +1,73 @@
+QUESTÃO 04
+
+Classificação pela árvore de decisão Iris
+
+A árvore usa principalmente dois atributos:
+- petallength = tamanho da petala
+- petalwidth = largura da petala
+
+Árvore de decisão
+
+A primeira decisão da arvore verifica o tamanho da pétala:
+
+Se petallength <= 2,35, a classe e Iris_Setosa.
+
+Se petallength > 2,35, a arvore verifica petalwidth e depois faz novas divisoes usando petallength.
+
+Regras extraídas da árvore
+
+Regra 1:
+Se petallength <= 2,35, entao Iris_Setosa.
+
+Regra 2:
+Se petallength > 2,35, petalwidth <= 1,75 e petallength <= 4,95, entao Iris_Versicolor.
+
+Regra 3:
+Se petallength > 2,35, petalwidth <= 1,75 e petallength > 4,95, entao Iris_Virginica.
+
+Regra 4:
+Se petallength > 2,35, petalwidth > 1,75 e petallength <= 4,85, entao Iris_Versicolor.
+
+Regra 5:
+Se petallength > 2,35, petalwidth > 1,75 e petallength > 4,85, entao Iris_Virginica.
+
+
+Classificação das instâncias
+
+Instância 1:
+- petallength = 3,46
+- petalwidth = 0,87
+- 3,46 > 2,35
+- 0,87 <= 1,75
+- 3,46 <= 4,95
+- Classe prevista: Iris_Versicolor
+
+
+Instancia 2:
+- petallength = 1,67
+- 1,67 <= 2,35
+- Classe prevista: Iris_Setosa
+
+Instancia 3:
+- petallength = 2,56
+- petalwidth = 2,34
+- 2,56 > 2,35
+- 2,34 > 1,75
+- 2,56 <= 4,85
+- Classe prevista: Iris_Versicolor
+
+Instancia 4:
+- petallength = 6,67
+- petalwidth = 2,34
+- 6,67 > 2,35
+- 2,34 > 1,75
+- 6,67 > 4,85
+- Classe prevista: Iris_Virginica
+
+4. Resposta final
+
+A sequência de classificações e:
+
+Iris_Versicolor, Iris_Setosa, Iris_Versicolor, Iris_Virginica
+
+Alternativa correta: c

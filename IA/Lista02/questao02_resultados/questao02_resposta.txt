@@ -1,0 +1,90 @@
+QUESTÃO 02
+
+Qual a árvore obtida?
+
+Interpretação dos valores:
+
+- Cliente <= 0,5 significa Cliente = Nenhum.
+- Cliente > 0,5 significa Cliente = Alguns ou Cheio.
+- Tempo <= 1,5 significa Tempo = 0-10 ou 10-30.
+- Tempo > 1,5 significa Tempo = 30-60 ou >60.
+- Tipo Hamburger <= 0,5 significa Tipo diferente de Hamburger.
+- Tipo Hamburger > 0,5 significa Tipo = Hamburger.
+
+Quais os valores de recall, precision e F1-Score?
+
+Exemplos usados no teste:
+
+Linha 7: real = Sim, previsto = Sim
+Linha 8: real = Nao, previsto = Sim
+Linha 9: real = Nao, previsto = Sim
+
+Acurácia:
+
+Acuracia = acertos / total
+Acuracia = 1 / 3
+Acuracia = 0,3333 = 33,33%
+
+Matriz de confusão:
+
+                Previsto Nao   Previsto Sim
+Real Nao             0             2
+Real Sim             0             1
+
+Métricas:
+
+Classe Nao:
+- precision = 0,00
+- recall = 0,00
+- F1-score = 0,00
+- support = 2
+
+Classe Sim:
+- precision = 0,33
+- recall = 1,00
+- F1-score = 0,50
+- support = 1
+
+Quais as regras obtidas?
+
+Regra 1:
+Se Cliente = Nenhum, então Conclusão = Nao.
+
+Regra 2:
+Se Cliente = Alguns ou Cheio
+e Tempo = 0-10 ou 10-30,
+entao Conclusao = Sim.
+
+Regra 3:
+Se Cliente = Alguns ou Cheio
+e Tempo = 30-60 ou >60
+e Tipo diferente de Hamburger,
+entao Conclusao = Nao.
+
+Regra 4:
+Se Cliente = Alguns ou Cheio
+e Tempo = 30-60 ou >60
+e Tipo = Hamburger,
+entao Conclusao = Sim.
+
+
+Qual a qualidade de cada regra?
+
+No conjunto de treino:
+
+Regra 1: classe Nao, cobertura = 2, acertos = 2, qualidade = 100%.
+Regra 2: classe Sim, cobertura = 4, acertos = 4, qualidade = 100%.
+Regra 3: classe Nao, cobertura = 2, acertos = 2, qualidade = 100%.
+Regra 4: classe Sim, cobertura = 1, acertos = 1, qualidade = 100%.
+
+No conjunto de teste:
+
+Regra 1: cobertura = 0, acertos = 0, qualidade = nao se aplica.
+Regra 2: cobertura = 2, acertos = 1, qualidade = 50%.
+Regra 3: cobertura = 0, acertos = 0, qualidade = nao se aplica.
+Regra 4: cobertura = 1, acertos = 0, qualidade = 0%.
+
+CONCLUSÃO
+
+A árvore acertou 1 dos 3 exemplos de teste, tendo acuracia de 33,33%.
+Ela classificou todos os exemplos de teste como Sim. Por isso, a classe Sim teve recall 1,00, enquanto a classe Nao teve recall 0,00.

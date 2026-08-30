@@ -1,0 +1,84 @@
+QUESTÃO 01
+
+Calcular o ganho de informação de cada atributo.
+
+Distribuição da classe:
+
+Sim = 6 instâncias
+Nao = 6 instâncias
+Total = 12 instancias
+
+Fórmula da entropia:
+
+Entropia(S) = - soma(p_i * log2(p_i))
+
+Fórmula do ganho de informação:
+
+ganho(atributo) = Entropia(classe) - Entropia(atributo)
+
+Entropia da classe:
+
+Entropia(classe) = - (6/12)log2(6/12) - (6/12)log2(6/12)
+Entropia(classe) = - 0,5log2(0,5) - 0,5log2(0,5)
+Entropia(classe) = 1,0000
+
+Ganhos calculados:
+
+Alternativo: Entropia = 1,0000; ganho = 0,0000
+Bar: Entropia = 1,0000; ganho = 0,0000
+SexSab: Entropia = 0,9793; ganho = 0,0207
+fome: Entropia = 0,8043; ganho = 0,1957
+Cliente: Entropia = 0,4591; ganho = 0,5409
+Preço: Entropia = 0,8043; ganho = 0,1957
+Chuva: Entropia = 0,9793; ganho = 0,0207
+Res: Entropia = 0,9793; ganho = 0,0207
+Tipo: Entropia = 1,0000; ganho = 0,0000
+Tempo: Entropia = 0,7925; ganho = 0,2075
+
+O maior ganho foi do atributo Cliente:
+
+ganho(Cliente) = 1,0000 - 0,4591 = 0,5409
+
+Portanto, a raiz da árvore é o Cliente.
+
+Atributo que estará no segundo nível da árvore
+
+Após escolher Cliente como raiz, os ramos ficam:
+
+Cliente = Alguns:
+4 casos, todos Sim. Portanto, vira folha Sim.
+
+Cliente = Nenhum:
+2 casos, todos Não. Portanto, vira folha Não.
+
+Cliente = Cheio:
+6 casos, sendo 2 Sim e 4 Não. Portanto, ainda precisa ser dividido.
+
+Para o subconjunto Cliente = Cheio:
+
+Entropia = - (2/6)log2(2/6) - (4/6)log2(4/6)
+Entropia = 0,9183
+
+Ganhos calculados dentro do ramo Cliente = Cheio:
+
+Alternativo: Entropia = 0,8091; ganho = 0,1092
+Bar: Entropia = 0,9183; ganho = 0,0000
+SexSab: Entropia = 0,8091; ganho = 0,1092
+fome: Entropia = 0,6667; ganho = 0,2516
+Preço: Entropia = 0,6667; ganho = 0,2516
+Chuva: Entropia = 0,8742; ganho = 0,0441
+Res: Entropia = 0,6667; ganho = 0,2516
+Tipo: Entropia = 0,6667; ganho = 0,2516
+Tempo: Entropia = 0,6667; ganho = 0,2516
+
+Houve empate entre fome, Preço, Res, Tipo e Tempo, todos com ganho igual a 0,2516.
+
+Adotando o critério de desempate pela ordem dos atributos na base, foi escolhido o atributo fome para o segundo nível.
+
+RESPOSTA FINAL
+
+Raiz da árvore: Cliente.
+
+Atributo no segundo nível, no ramo Cliente = Cheio: fome.
+
+Houve empate entre fome, Preço, Res, Tipo e Tempo. Foi usado fome como desempate pela ordem dos atributos.
