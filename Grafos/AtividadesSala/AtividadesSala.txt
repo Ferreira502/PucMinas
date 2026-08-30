@@ -13,3 +13,5 @@ Questão 12) Seja G = (v, u) um grafo direcionado. Projete uma solução para en
 Questão 13) Seja G = (v, u) um grafo direcionado. Projete uma solução para encontrar o menor conjunto de vértices cujo fehco transitivo direto seja v. Caso G seja ciclico remova arestas para deixá-lo acíclico.
 Questão 14) Seja G = (v, u) um grafo não-direcionado. Projete uma solução para encontrar um dado v pertence V, o vértice "mais distante de v".
 Questão 15) Existe algum tipo de grafo em que o centro terá sempre um vértice? No máximo 2 vértices no centro?
+Questao 16) Dado um grafo não-direcionado e conexo prove-se que. raio(G) <= diametro (G) <= 2 . Raio(G)
+Questão 17) Seja G um grafo direcionado. Como seria o conceito de centro em G. Adapte da definição de grafo não-direcionado. 
