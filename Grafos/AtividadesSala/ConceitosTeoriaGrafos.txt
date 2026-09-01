@@ -1,0 +1,250 @@
+Lista de conceitos de Teoria de Grafos
+Baseado em AtividadesSala.txt e RespostasSala.txt
+
+====================
+1. Conceitos básicos
+====================
+
+grafo: estrutura matemática formada por vértices e arestas. Normalmente escrevemos G = (V, E), em que V é o conjunto de vértices e E é o conjunto de arestas.
+
+vértice: elemento básico de um grafo. Pode representar um ponto, objeto, cidade, pessoa, estado ou qualquer entidade do problema.
+
+aresta: ligação entre dois vértices. Em grafos não-direcionados, a aresta não tem sentido. Em grafos direcionados, a aresta tem origem e destino.
+
+cardinalidade: quantidade de elementos de um conjunto. Em grafos, |V| representa a quantidade de vértices e |E| representa a quantidade de arestas.
+
+laço: aresta que liga um vértice a ele mesmo.
+
+arestas paralelas: duas ou mais arestas ligando o mesmo par de vértices. Em um grafo simples isso não acontece.
+
+vértices adjacentes: dois vértices que possuem uma aresta ligando um ao outro.
+
+aresta incidente: uma aresta é incidente a um vértice quando ela toca esse vértice. Em uma aresta {u, v}, a aresta é incidente a u e a v.
+
+hipergrafo: generalização de grafo em que uma aresta pode ligar mais de dois vértices ao mesmo tempo. Essas arestas são chamadas de hiperarestas.
+
+
+================
+2. Tipos de grafo
+================
+
+grafo simples: grafo que não possui laços e não possui arestas repetidas entre o mesmo par de vértices.
+
+grafo não-direcionado: grafo em que as arestas não possuem sentido. Se existe uma aresta entre u e v, podemos ir de u para v e também de v para u.
+
+grafo direcionado: grafo em que as arestas possuem sentido. Uma aresta (u, v) sai de u e chega em v, então ela permite ir de u para v, mas não necessariamente de v para u.
+
+grafo ponderado: grafo em que as arestas possuem pesos ou custos associados. Esses pesos podem representar distância, tempo, preço, capacidade ou qualquer medida do problema.
+
+grafo completo: grafo simples não-direcionado em que todo par de vértices distintos possui uma aresta entre si.
+
+Grafo Direcionado Acíclico - DAG: é um grafo com arestas direcionadas que não possui ciclos.
+
+grafo associado: grafo não-direcionado obtido a partir de um grafo direcionado ao ignorar o sentido das arestas. Por exemplo, a aresta direcionada (u, v) passa a ser tratada como uma aresta não-direcionada {u, v}.
+
+
+====================
+3. Subgrafos
+====================
+
+subgrafo: grafo formado escolhendo um subconjunto dos vértices e um subconjunto das arestas de um grafo original.
+
+subgrafo induzido: subgrafo formado escolhendo um subconjunto de vértices e mantendo todas as arestas do grafo original que existem entre esses vértices escolhidos.
+
+subgrafo de grafo completo: em um grafo completo com n vértices, podemos escolher k vértices e depois escolher qualquer subconjunto das arestas possíveis entre eles.
+
+
+========================
+4. Graus dos vértices
+========================
+
+grau de um vértice: quantidade de arestas incidentes ao vértice.
+
+grau em grafo não-direcionado: em um grafo não-direcionado, o grau de um vértice é a quantidade de arestas que tocam esse vértice. Cada aresta comum contribui com 1 para cada uma de suas extremidades.
+
+grau de entrada: em grafo direcionado, é a quantidade de arestas que chegam em um vértice.
+
+grau de saída: em grafo direcionado, é a quantidade de arestas que saem de um vértice.
+
+soma dos graus: em um grafo não-direcionado, a soma dos graus de todos os vértices é igual a 2 vezes o número de arestas. Por isso, essa soma sempre é par.
+
+lema do aperto de mãos: nome comum para a propriedade de que, em um grafo não-direcionado, a soma dos graus dos vértices é 2|E|.
+
+vértice de grau par: vértice cujo grau é um número par.
+
+vértice de grau ímpar: vértice cujo grau é um número ímpar. Em qualquer grafo não-direcionado, a quantidade de vértices de grau ímpar sempre é par.
+
+vértice isolado: vértice de grau 0. Em um grafo conexo com pelo menos dois vértices, não pode existir vértice isolado.
+
+fonte: em grafo direcionado, vértice com grau de entrada zero. Em um DAG, as fontes são importantes porque vértices sem entrada precisam estar no conjunto inicial para que todo o grafo seja alcançado.
+
+
+=============================
+5. Caminhos e alcançabilidade
+=============================
+
+caminho: sequência de vértices ligados por arestas. Em grafo direcionado, o caminho deve respeitar o sentido das arestas.
+
+caminho direcionado: caminho em que cada aresta usada segue o sentido correto, por exemplo u -> v -> w.
+
+alcançabilidade: um vértice x é alcançável a partir de u quando existe um caminho de u até x.
+
+vértices atingíveis: conjunto de vértices que podem ser alcançados a partir de um vértice inicial. Em grafos direcionados, só contam caminhos que respeitam o sentido das arestas.
+
+fecho transitivo direto: conjunto de vértices que podem ser atingidos a partir de um vértice ou de um conjunto de vértices, seguindo caminhos direcionados.
+
+fecho transitivo inverso: conjunto de vértices que conseguem atingir um vértice ou um conjunto de vértices. Em outras palavras, olha quem chega até o vértice escolhido, seguindo o sentido das arestas.
+
+conjunto gerador por fecho transitivo: conjunto de vértices S tal que, a partir dos vértices de S, conseguimos atingir todos os vértices do grafo pelo fecho transitivo direto.
+
+base: conjunto de vértices escolhido como ponto de partida para alcançar todos os vértices de um grafo direcionado pelo fecho transitivo direto. Em muitos exercícios, procurar uma base significa procurar um conjunto S tal que F+(S) = V.
+
+menor conjunto gerador por fecho transitivo: menor conjunto de vértices cuja alcançabilidade cobre todos os vértices do grafo.
+
+
+=================
+6. Conectividade
+=================
+
+grafo conexo: grafo não-direcionado em que existe caminho entre qualquer par de vértices.
+
+grafo desconexo: grafo não-direcionado em que existe pelo menos um par de vértices sem caminho entre eles. Um grafo desconexo possui duas ou mais componentes conexas.
+
+desconexo: propriedade de um grafo que não está todo ligado em uma única componente. Isso significa que nem todos os vértices conseguem alcançar todos os outros.
+
+componente conexa: parte maximal de um grafo não-direcionado em que todos os vértices conseguem alcançar uns aos outros por algum caminho.
+
+número de componentes conexas: quantidade de partes conexas separadas em um grafo não-direcionado. Pode ser encontrado fazendo DFS ou BFS a partir de vértices ainda não visitados.
+
+fracamente conexo: propriedade de um grafo direcionado cujo grafo associado é conexo. Ou seja, se ignorarmos o sentido das arestas, o grafo fica conexo.
+
+simplesmente conexo: em alguns materiais, é usado como sinônimo informal de conexo no sentido comum: existe caminho entre os vértices considerando o tipo de grafo estudado. Em grafos direcionados, vale conferir se o professor está usando esse termo para falar de conexão fraca ou de outro tipo de conexão.
+
+grafo associado conexo: ocorre quando o grafo associado de um grafo direcionado é conexo. Isso implica que o grafo direcionado original é fracamente conexo.
+
+
+==========================
+7. Representação de grafos
+==========================
+
+lista de adjacência: forma de representar um grafo guardando, para cada vértice, a lista dos vértices vizinhos. Em grafo direcionado, normalmente a lista guarda os destinos das arestas que saem do vértice.
+
+matriz de adjacência: forma de representar um grafo usando uma matriz. A posição (i, j) indica se existe aresta do vértice i para o vértice j.
+
+
+=======================
+8. Algoritmos de busca
+=======================
+
+busca em profundidade: algoritmo DFS. Explora um caminho o máximo possível antes de voltar para tentar outras alternativas.
+
+DFS: abreviação de Depth-First Search, ou busca em profundidade. Serve para visitar vértices, encontrar componentes, testar alcançabilidade, detectar ciclos e classificar arestas.
+
+busca em largura: algoritmo BFS. Explora primeiro todos os vértices a distância 1, depois distância 2, depois distância 3, e assim por diante.
+
+BFS: abreviação de Breadth-First Search, ou busca em largura. Em grafos não ponderados, calcula menores caminhos em quantidade de arestas.
+
+visitado: marcação usada em algoritmos de busca para indicar que um vértice já foi encontrado ou processado.
+
+fila: estrutura usada na BFS. O primeiro elemento que entra é o primeiro que sai.
+
+pilha ou recursão: estrutura normalmente associada à DFS. A busca aprofunda em um ramo antes de voltar.
+
+
+========================
+9. DFS e tipos de aresta
+========================
+
+tempo de descoberta: na DFS, é o instante em que um vértice começa a ser visitado.
+
+tempo de término: na DFS, é o instante em que a visita de um vértice termina, depois de explorar seus vizinhos.
+
+classificação de arestas na DFS: forma de separar as arestas conforme o comportamento da busca. As principais são aresta de árvore, retorno, avanço e cruzamento.
+
+aresta de árvore: aresta usada pela DFS para descobrir um vértice ainda não visitado.
+
+aresta de retorno: aresta que aponta de um vértice para um ancestral na árvore da DFS. Em grafo direcionado, indica a presença de ciclo.
+
+aresta de avanço: aresta que vai de um vértice para um descendente na árvore da DFS, mas que não foi a aresta usada para descobrir esse descendente.
+
+aresta de cruzamento: aresta que liga vértices que não têm relação direta de ancestral e descendente na árvore da DFS.
+
+
+=================
+10. Ciclos
+=================
+
+ciclo: caminho que começa e termina no mesmo vértice, sem repetir arestas de forma indevida. Em grafo direcionado, o ciclo deve respeitar o sentido das arestas.
+
+grafo cíclico: grafo que possui pelo menos um ciclo.
+
+grafo acíclico: grafo que não possui ciclos.
+
+detecção de ciclo em grafo direcionado: pode ser feita com DFS. Se durante a DFS encontramos uma aresta para um vértice que ainda está na pilha da recursão, existe ciclo.
+
+remoção de arestas para tornar acíclico: estratégia de remover arestas que causam ciclos, como arestas de retorno identificadas pela DFS, para transformar um grafo direcionado cíclico em acíclico.
+
+
+=======================
+11. Distâncias e centro
+=======================
+
+distância: medida do menor caminho entre dois vértices. Em grafos não ponderados, costuma ser a quantidade de arestas do menor caminho.
+
+menor caminho: caminho com a menor quantidade de arestas entre dois vértices, quando o grafo não tem pesos. Pode ser encontrado com BFS.
+
+distância entre vértices: número de arestas no menor caminho entre dois vértices. Se não existir caminho, a distância pode ser considerada infinita.
+
+distância direcionada: distância calculada em grafo direcionado respeitando o sentido das arestas. A distância de u até v pode ser diferente da distância de v até u.
+
+vértice mais distante: dado um vértice v, é um vértice cuja distância a partir de v é máxima entre os vértices alcançáveis. Em grafo não ponderado, pode ser encontrado com BFS.
+
+excentricidade: para um vértice v, é a maior distância de v até qualquer outro vértice do grafo. Mede o quão longe v está do vértice mais distante dele.
+
+centro: conjunto dos vértices com menor excentricidade. São os vértices mais centrais segundo a maior distância até os outros.
+
+centro de um grafo: mesmo conceito de centro, aplicado a um grafo G. É o conjunto dos vértices cuja excentricidade é mínima.
+
+raio: menor excentricidade entre todos os vértices de um grafo.
+
+raio do grafo: menor excentricidade entre todos os vértices. É a distância máxima mínima que um vértice central precisa ter até os demais.
+
+diâmetro: maior distância entre dois vértices do grafo.
+
+diâmetro do grafo: maior distância entre dois vértices do grafo. Também pode ser visto como a maior excentricidade.
+
+relação entre raio e diâmetro: em todo grafo não-direcionado conexo, vale raio(G) <= diâmetro(G) <= 2 * raio(G).
+
+centro em grafo direcionado: adaptação do centro usando distâncias direcionadas. Um vértice central direcionado é aquele com menor excentricidade de saída.
+
+excentricidade de saída: em grafo direcionado, é a maior distância de um vértice até os outros vértices seguindo o sentido das arestas. Se algum vértice não for alcançável, pode ser infinita.
+
+raio direcionado: menor excentricidade de saída entre os vértices de um grafo direcionado.
+
+centro direcionado: conjunto dos vértices cuja excentricidade de saída é igual ao raio direcionado.
+
+
+============
+12. Árvores
+============
+
+árvore: grafo não-direcionado, conexo e acíclico. Entre quaisquer dois vértices de uma árvore existe exatamente um caminho simples.
+
+raiz: vértice escolhido como ponto inicial ou referência de uma árvore. Quando uma árvore tem raiz, ela passa a ter uma organização hierárquica, com relações como pai, filho, ancestral e descendente.
+
+floresta: grafo não-direcionado acíclico que pode ser desconexo. Cada componente conexa de uma floresta é uma árvore.
+
+folha: vértice de grau 1 em uma árvore.
+
+centro de uma árvore: conjunto de vértices centrais da árvore. Toda árvore tem centro com exatamente 1 ou 2 vértices.
+
+diâmetro de uma árvore: maior caminho entre dois vértices da árvore. O centro da árvore fica no meio de um caminho diametral.
+
+algoritmo de remover folhas: método para encontrar o centro de uma árvore. Remove todas as folhas em camadas até sobrarem 1 ou 2 vértices.
+
+
+=======================
+13. Ideias de prova
+=======================
+
+princípio das gavetas: ideia usada para provar que, se n objetos são colocados em menos de n categorias, então pelo menos uma categoria recebe dois objetos. Na matéria, foi usado para provar que em um grafo simples, não-direcionado e conexo com n >= 2, pelo menos dois vértices possuem o mesmo grau.
