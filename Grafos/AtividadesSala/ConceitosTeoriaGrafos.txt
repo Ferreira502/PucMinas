@@ -95,9 +95,9 @@ fecho transitivo direto: conjunto de vértices que podem ser atingidos a partir 
 
 fecho transitivo inverso: conjunto de vértices que conseguem atingir um vértice ou um conjunto de vértices. Em outras palavras, olha quem chega até o vértice escolhido, seguindo o sentido das arestas.
 
-conjunto gerador por fecho transitivo: conjunto de vértices S tal que, a partir dos vértices de S, conseguimos atingir todos os vértices do grafo pelo fecho transitivo direto.
-
 base: conjunto de vértices escolhido como ponto de partida para alcançar todos os vértices de um grafo direcionado pelo fecho transitivo direto. Em muitos exercícios, procurar uma base significa procurar um conjunto S tal que F+(S) = V.
+
+conjunto gerador por fecho transitivo: conjunto de vértices S tal que, a partir dos vértices de S, conseguimos atingir todos os vértices do grafo pelo fecho transitivo direto.
 
 menor conjunto gerador por fecho transitivo: menor conjunto de vértices cuja alcançabilidade cobre todos os vértices do grafo.
 
@@ -112,13 +112,13 @@ grafo desconexo: grafo não-direcionado em que existe pelo menos um par de vért
 
 desconexo: propriedade de um grafo que não está todo ligado em uma única componente. Isso significa que nem todos os vértices conseguem alcançar todos os outros.
 
-componente conexa: parte maximal de um grafo não-direcionado em que todos os vértices conseguem alcançar uns aos outros por algum caminho.
+componente conexo: parte maximal de um grafo não-direcionado em que todos os vértices conseguem alcançar uns aos outros por algum caminho.
 
-número de componentes conexas: quantidade de partes conexas separadas em um grafo não-direcionado. Pode ser encontrado fazendo DFS ou BFS a partir de vértices ainda não visitados.
+número de componentes conexos: quantidade de partes conexas separadas em um grafo não-direcionado. Pode ser encontrado fazendo DFS ou BFS a partir de vértices ainda não visitados.
 
-fracamente conexo: propriedade de um grafo direcionado cujo grafo associado é conexo. Ou seja, se ignorarmos o sentido das arestas, o grafo fica conexo.
+simplesmente conexo ou fracamente conexo: propriedade de um grafo direcionado cujo grafo associado é conexo. Ou seja, se ignorarmos o sentido das arestas, o grafo fica conexo.
 
-simplesmente conexo: em alguns materiais, é usado como sinônimo informal de conexo no sentido comum: existe caminho entre os vértices considerando o tipo de grafo estudado. Em grafos direcionados, vale conferir se o professor está usando esse termo para falar de conexão fraca ou de outro tipo de conexão.
+fortemente conexo: propriedade de um grafo direcionado em que, para todo par de vértices u e v, existe caminho direcionado de u até v e também de v até u. Ou seja, todos os vértices alcançam todos os outros respeitando o sentido das arestas.
 
 grafo associado conexo: ocorre quando o grafo associado de um grafo direcionado é conexo. Isso implica que o grafo direcionado original é fracamente conexo.
 
