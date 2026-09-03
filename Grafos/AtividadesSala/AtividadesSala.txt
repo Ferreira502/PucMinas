@@ -16,3 +16,13 @@ Questão 15) Existe algum tipo de grafo em que o centro terá sempre um vértice
 Questao 16) Dado um grafo não-direcionado e conexo prove-se que. raio(G) <= diametro (G) <= 2 . Raio(G)
 Questão 17) Seja G um grafo direcionado. Como seria o conceito de centro em G. Adapte da definição de grafo não-direcionado. 
 Questão 18) Seja G = ( v, e ) um grafo direcionado. Projete um algoritmo para identificar se G é fortemente conexo
+Questão 19) Achar todos os componentes formentes conexos, pensar usando coneito de busca em profundidade.
+Questão 20) Seja G = (v, e) um grafo direcionado. Apresente, pelo menos, duas estratégias diferentes para determinar se G é ciclico.
+Questão 21) Seja G = (v, e) um grafo direcionado acíclico, apresente, pelo menos, duas estratégias para encotrar o "maior caminho" de G. 
+Questão 22) Qual a caracteristica "importante" há em grafo acíclico?
+Questão 23) Seja G = (v, e) um grafo direcionado. Identifique uma base do V, com a menor quantidade possível de vértices.
+Questão 24) Seja G = (v, e) um grafo direcionado acíclico. Faça:
+            1) Encontre o maior caminho de grafo usando, pelo menos, duas estratégias diferentes.
+            2) Dê números para os vértices entre [1, |v|] de forma que:
+               * f(u) = F(v) se u = V
+               * Se F(u) < F(v) existe (v, u) pertence E
