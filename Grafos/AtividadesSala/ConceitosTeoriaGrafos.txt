@@ -97,6 +97,8 @@ fecho transitivo inverso: conjunto de vértices que conseguem atingir um vértic
 
 base: conjunto de vértices escolhido como ponto de partida para alcançar todos os vértices de um grafo direcionado pelo fecho transitivo direto. Em muitos exercícios, procurar uma base significa procurar um conjunto S tal que F+(S) = V.
 
+antibase: conjunto de vértices escolhido como ponto de chegada para ser alcançado por todos os vértices do grafo, usando o fecho transitivo inverso. Em muitos exercícios, procurar uma antibase significa procurar um conjunto S tal que F-(S) = V, isto é, todos os vértices conseguem chegar em algum vértice de S.
+
 conjunto gerador por fecho transitivo: conjunto de vértices S tal que, a partir dos vértices de S, conseguimos atingir todos os vértices do grafo pelo fecho transitivo direto.
 
 menor conjunto gerador por fecho transitivo: menor conjunto de vértices cuja alcançabilidade cobre todos os vértices do grafo.
