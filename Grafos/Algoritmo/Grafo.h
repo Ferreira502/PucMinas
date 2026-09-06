@@ -1,20 +1,20 @@
-// Grafo.h
 #ifndef GRAFO_H
 #define GRAFO_H
 
-class Grafo 
+#define MAX 100
+
+typedef struct 
 {
-private:
-    int matriz[100][100];
+    int matriz[MAX][MAX];
     int qtdVertices;
+} Grafo;
 
-public:
-    Grafo(int n);
-
-    void adicionarAresta(int origem, int destino);
-    void mostrarMatriz();
-    void dfs(int inicio);
-    void componentesConexos();
-};
+void inicializarGrafo(Grafo *grafo, int qtdVertices);
+void adicionarAresta(Grafo *grafo, int origem, int destino);
+void mostrarMatriz(const Grafo *grafo);
+void bfs(const Grafo *grafo, int inicio);
+void dfs(const Grafo *grafo, int inicio);
+void componentesConexos(const Grafo *grafo);
+int grafoConexo(const Grafo *grafo);
 
 #endif
