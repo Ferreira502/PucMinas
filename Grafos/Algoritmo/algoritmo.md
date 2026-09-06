@@ -1,4 +1,4 @@
-main.cpp:
+main.c:
 
 Orquestra o programa:
 - mostra menu;
@@ -13,7 +13,7 @@ Declara a classe Grafo:
 - metodos;
 - assinaturas das funções.
 
-Grafo.cpp
+Grafo.c
 
 Implementa a logica do grafo:
 - adicionar aresta;
@@ -30,9 +30,9 @@ Declara funções de entrada:
 - ler arestas;
 - ler opção do menu;
 
-Leitura.cpp
+Leitura.c
 
-Implementa as funções que usam cin/cout para entrada.
+Implementa as funções que usam in e out para entrada.
 
 ----
 
@@ -53,6 +53,9 @@ implementos:
 ---
 
 Entrada:
+
+Digite o numero de vértices:
+5
 
 Digite os vértices:
 A B C D E
@@ -78,3 +81,8 @@ Componente 1: A, B, C
 Componente 2: D, E
 
 O grafo é conexo? Não
+
+
+
+
+gcc main.c Leitura.c Grafo.c -o programa
