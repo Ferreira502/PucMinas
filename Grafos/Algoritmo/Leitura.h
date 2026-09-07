@@ -5,6 +5,5 @@
 int lerQuantidadeVertices();
 void lerVertices(char vertices[], int n);
 void telaOpcoes();
-//void adicionarrAresta(Grafo &grafo);
-
+void adicionarAresta(Grafo *grafo);
 #endif
