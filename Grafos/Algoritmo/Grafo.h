@@ -10,11 +10,11 @@ typedef struct
 } Grafo;
 
 void inicializarGrafo(Grafo *grafo, int qtdVertices);
-void adicionarAresta(Grafo *grafo, int origem, int destino);
-void mostrarMatriz(const Grafo *grafo);
-void bfs(const Grafo *grafo, int inicio);
-void dfs(const Grafo *grafo, int inicio);
-void componentesConexos(const Grafo *grafo);
-int grafoConexo(const Grafo *grafo);
+void adicionarAresta(Grafo *grafo);
+void mostrarMatriz(Grafo *grafo);
+void bfs(Grafo *grafo, int inicio);
+void dfs(Grafo *grafo, int inicio);
+void componentesConexos(Grafo *grafo);
+int grafoConexo(Grafo *grafo);
 
 #endif

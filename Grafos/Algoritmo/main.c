@@ -8,7 +8,10 @@ int main()
 
     telaOpcoes();
     getchar();
+
     int n = lerQuantidadeVertices();
+
+    inicializarGrafo(&grafo, n);
 
     char vertices[n];
     lerVertices(vertices, n);
@@ -22,9 +25,12 @@ int main()
     	x++;
     }
 
-    // inicializarGrafo(&grafo, n);
-    // lerArestas(&grafo);
-    // mostrarMatriz(&grafo);
+    adicionarAresta(&grafo);
+    
+   
+    printf("Mostrar Matriz");
+    getchar();
+    mostrarMatriz(&grafo);
 
     return 0;
 }
