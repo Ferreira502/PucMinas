@@ -6,15 +6,23 @@ void telaOpcoes()
 {
 	printf("\nAlgoritmo para treinar Grafos\n");
 	printf("\n");
-	printf("\nDigite ENTER para continuar");
+	printf("\nDigite ENTER para continuar\n");
+}
+
+int escolherGrafo()
+{
+	int x = 0;
+	printf("\nDigite 1 para grafo direcionado e 0 para nao direcionado\n");
+	scanf("%d", &x);
+
+	return x;
 }
 
 int lerQuantidadeVertices()
 {
 	int x = 0;
 	char c = ' ';
-	printf("\n");
-	printf("Digite o numero de vertices:\n");
+	printf("\nDigite o numero de vertices:\n");
 	scanf("%d", &x);
 
 	return x;	
@@ -22,6 +30,8 @@ int lerQuantidadeVertices()
 
 void lerVertices(char vertices[], int n)
 {
+	printf("\nDigite os vertices em maiusculo:\n");
+
     for (int i = 0; i < n; i++)
     {
         scanf(" %c", &vertices[i]);
@@ -30,9 +40,8 @@ void lerVertices(char vertices[], int n)
 
 void adicionarAresta(Grafo *grafo)
 {
-	printf("\nDigite os pares de arestas");
-	printf("\nSe digitar 0 acaba de inserir arestas");
-	printf("\n");
+	printf("\nDigite os pares de arestas\n");
+	printf("\nSe digitar 0 acaba de inserir arestas\n");
 
 	char origem = ' ';
 	char destino = ' ';
@@ -52,7 +61,7 @@ void adicionarAresta(Grafo *grafo)
 	}
 }
 
-void mostrarMatriz(Grafo *grafo)
+void mostrarMatrizNDirecionado(Grafo *grafo)
 {
 	printf("\n Matriz de Adjacencia:\n\n");
 	printf("  ");
@@ -76,9 +85,28 @@ void mostrarMatriz(Grafo *grafo)
 	}
 }
 
+void mostrarListaNDirecionado(Grafo *grafo)
+{
+    for ( int i = 0; i < grafo->qtdVertices; i++ )
+    {
+        printf("%c -> ", 'A' + i);
 
+        int primeiraAresta = 1;
 
+        for (int j = 0; j < grafo->qtdVertices; j++)
+        {
+            if (grafo->matriz[i][j] == 1)
+            {
+                if (!primeiraAresta)
+                {
+                    printf(", ");
+                }
 
+                printf("%c", 'A' + j);
+                primeiraAresta = 0;
+            }
+        }
 
-
-
+        printf("\n");
+    }
+}

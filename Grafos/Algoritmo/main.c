@@ -9,28 +9,42 @@ int main()
     telaOpcoes();
     getchar();
 
-    int n = lerQuantidadeVertices();
+    int x =  escolherGrafo();
 
-    inicializarGrafo(&grafo, n);
-
-    char vertices[n];
-    lerVertices(vertices, n);
-
-    printf("\nVertices Digitados:\n");
-    
-    int x = 0;
-    while ( x != n )
+    if ( x == 0 )
     {
-	printf("%c", vertices[x]);
-    	x++;
-    }
+        int n = lerQuantidadeVertices();
 
-    adicionarAresta(&grafo);
+        inicializarGrafo(&grafo, n);
+
+        char vertices[n];
+        lerVertices(vertices, n);
+
+        printf("\nVertices Digitados:\n");
+        
+        int x = 0;
+        while ( x != n )
+        {
+        printf("%c", vertices[x]);
+            x++;
+        }
+
+        adicionarAresta(&grafo);
+        
     
-   
-    printf("Mostrar Matriz");
-    getchar();
-    mostrarMatriz(&grafo);
+        printf("Mostrar Matriz\n");
+        getchar();
+        mostrarMatrizNDirecionado(&grafo);
+
+
+        printf("\nMostrar Lista de adjacencia");
+        getchar();
+        mostrarListaNDirecionado(&grafo);
+    }
+    else if( x == 1 )
+    {
+        printf("\nTo implementando ainda paizin\n");
+    }
 
     return 0;
 }
