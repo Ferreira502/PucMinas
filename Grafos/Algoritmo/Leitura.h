@@ -6,4 +6,8 @@ int lerQuantidadeVertices();
 void lerVertices(char vertices[], int n);
 void telaOpcoes();
 void adicionarAresta(Grafo *grafo);
+void mostrarListaNDirecionado(Grafo *grafo);
+void mostrarMatrizNDirecionado(Grafo *grafo);
+int escolherGrafo();
+
 #endif
