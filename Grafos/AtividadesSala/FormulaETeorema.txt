@@ -543,7 +543,7 @@ Todo grafo simples não-direcionado e conexo com |V| >= 2 possui pelo menos dois
 Explicação:
 Se |V| = n, os graus possíveis em um grafo conexo são 1, 2, ..., n - 1.
 Existem n vértices, mas apenas n - 1 valores possíveis de grau.
-Pelo princípio das gavetas, dois vértices precisam ter o mesmo grau.
+Pelo Princípio da Casa dos Pombos, dois vértices precisam ter o mesmo grau.
 
 Observação:
 Também existe uma versão mais geral para grafos simples não-direcionados com pelo menos 2 vértices, mesmo sem exigir conexidade.
@@ -552,15 +552,20 @@ Assim, continuam existindo no máximo n - 1 valores de grau possíveis.
 
 ------------------------------------------------------------
 
-4) Princípio das gavetas
+4) Princípio da Casa dos Pombos
 
 Teorema:
-Se n objetos são colocados em menos de n caixas, então pelo menos uma caixa recebe dois ou mais objetos.
+Se n pombos são colocados em menos de n casas, então pelo menos uma casa recebe dois ou mais pombos.
 
 Explicação:
-Nas provas, esse princípio aparece para provar que dois vértices têm o mesmo grau.
-Os vértices são os objetos.
-Os valores possíveis de grau são as caixas.
+Esse princípio também é conhecido como Princípio das Gavetas.
+A ideia é simples: se há mais pombos do que casas disponíveis, não existe como colocar cada pombo sozinho em uma casa diferente.
+Então alguma casa obrigatoriamente ficará com pelo menos dois pombos.
+
+Em grafos, usamos essa ideia assim:
+- os pombos são os vértices;
+- as casas são os valores possíveis de grau;
+- se existem mais vértices do que valores possíveis de grau, então pelo menos dois vértices caem na mesma casa, isto é, possuem o mesmo grau.
 
 ------------------------------------------------------------
 
