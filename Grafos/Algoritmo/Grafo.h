@@ -10,7 +10,6 @@ typedef struct
 } Grafo;
 
 void inicializarGrafo(Grafo *grafo, int qtdVertices);
-void adicionarAresta(Grafo *grafo);
 void bfs(Grafo *grafo, int inicio);
 void dfs(Grafo *grafo, int inicio);
 void componentesConexos(Grafo *grafo);

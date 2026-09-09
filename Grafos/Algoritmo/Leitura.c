@@ -12,7 +12,7 @@ void telaOpcoes()
 int escolherGrafo()
 {
 	int x = 0;
-	printf("\nDigite 1 para grafo direcionado e 0 para nao direcionado\n");
+	printf("\nDigite 1 para grafo direcionado e 0 para NAO direcionado\n");
 	scanf("%d", &x);
 
 	return x;
@@ -38,7 +38,7 @@ void lerVertices(char vertices[], int n)
     }
 }
 
-void adicionarAresta(Grafo *grafo)
+void adicionarArestaNDirecionado(Grafo *grafo)
 {
 	printf("\nDigite os pares de arestas\n");
 	printf("\nSe digitar 0 acaba de inserir arestas\n");
@@ -61,7 +61,31 @@ void adicionarAresta(Grafo *grafo)
 	}
 }
 
-void mostrarMatrizNDirecionado(Grafo *grafo)
+	void adicionarArestaDirecionado(Grafo *grafo)
+	{
+		printf("\nDigite os pares de arestas direcionadas\n");
+		printf("\nExemplo: A B significa A -> B\n");
+		printf("\nSe digitar 0 acaba de inserir arestas\n");
+
+		char origem = ' ';
+		char destino = ' ';
+
+		scanf(" %c", &origem);
+
+		while (origem != '0')
+		{
+			scanf(" %c", &destino);
+
+			int i = origem - 'A';
+			int j = destino - 'A';
+
+			grafo->matriz[i][j] = 1;
+
+			scanf(" %c", &origem);
+		}
+	}
+
+void mostrarMatriz(Grafo *grafo)
 {
 	printf("\n Matriz de Adjacencia:\n\n");
 	printf("  ");
@@ -85,7 +109,7 @@ void mostrarMatrizNDirecionado(Grafo *grafo)
 	}
 }
 
-void mostrarListaNDirecionado(Grafo *grafo)
+void mostrarLista(Grafo *grafo)
 {
     for ( int i = 0; i < grafo->qtdVertices; i++ )
     {

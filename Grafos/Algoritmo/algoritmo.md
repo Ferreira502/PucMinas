@@ -39,16 +39,24 @@ Implementa as funções que usam in e out para entrada.
 
 implementos:
 
-1. Adicionar vértice
-2. Adicionar aresta
-3. Mostrar lista de adjacência
-4. Verificar se dois vértices são adjacentes
-5. Mostrar grau de cada vértice
-6. Fazer BFS a partir de um vértice
-7. Fazer DFS a partir de um vértice
-8. Encontrar componentes conexos
-9. Verificar se o grafo é conexo
-10. Sair
+- Feito: escolha entre grafo direcionado e não direcionado
+- Feito: leitura da quantidade de vértices
+- Feito: leitura dos vértices
+- Feito: inicialização da matriz de adjacência
+- Feito: adicionar arestas para grafo não direcionado
+- Feito: adicionar arestas para grafo direcionado
+- Feito: imprimir matriz de adjacência
+- Feito: imprimir lista de adjacência
+- Fazer: calcular grau dos vértices em grafo não direcionado
+- Fazer: calcular grau de entrada e grau de saída em grafo direcionado
+- Fazer: verificar se existe ciclo no grafo não direcionado
+- Fazer: verificar se existe ciclo no grafo direcionado
+- Fazer: implementar BFS
+- Fazer: implementar DFS
+- Fazer: implementar verificação de conexidade
+- Fazer: ajustar conexidade para grafo direcionado
+- Fazer: achar raiz em grafo direcionado
+- Fazer: achar base em grafo direcionado
 
 ---
 
@@ -81,8 +89,5 @@ Componente 1: A, B, C
 Componente 2: D, E
 
 O grafo é conexo? Não
-
-
-
 
 gcc main.c Leitura.c Grafo.c -o programa
