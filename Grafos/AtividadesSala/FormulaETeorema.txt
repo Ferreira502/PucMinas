@@ -1,0 +1,819 @@
+FÓRMULAS E TEOREMAS - TEORIA DOS GRAFOS
+
+Baseado nas Atividades de Sala e nas Provas 01 antigas.
+
+Até onde a matéria aparece neste material:
+- Conceitos básicos de grafos: vértices, arestas, grau, grafo simples, direcionado e não-direcionado.
+- Representação por matriz/lista de adjacência.
+- Soma dos graus, vértices de grau ímpar, grafo regular e sequências de graus.
+- Grafos completos, bipartidos, tripartidos, complemento e grafos auto-complementares.
+- Subgrafos.
+- Caminhos, DFS, BFS, fecho transitivo, base e anti-base.
+- Componentes conexas e componentes fortemente conexas.
+- Distância, excentricidade, raio, diâmetro e centro.
+- Árvores e centro de árvores.
+- Ciclos em grafos direcionados, DAG, ordenação topológica e maior caminho em DAG.
+- Caminho/circuito euleriano.
+
+============================================================
+1. FÓRMULAS
+============================================================
+
+1) Grafo
+
+Fórmula:
+G = (V, E)
+
+Explicação:
+Um grafo G é formado por um conjunto V de vértices e um conjunto E de arestas.
+Quando o grafo é não-direcionado, uma aresta costuma ser escrita como {u, v}.
+Quando o grafo é direcionado, uma aresta costuma ser escrita como (u, v), indicando uma ligação que sai de u e chega em v.
+
+------------------------------------------------------------
+
+2) Quantidade de vértices e arestas
+
+Fórmulas:
+|V| = n
+|E| = m
+
+Explicação:
+|V| é a quantidade de vértices do grafo.
+|E| é a quantidade de arestas do grafo.
+Nas provas, é comum escrever que um grafo tem n vértices e m arestas.
+
+------------------------------------------------------------
+
+3) Número máximo de arestas em grafo simples não-direcionado
+
+Fórmula:
+m <= C(n, 2) = n(n - 1)/2
+
+Explicação:
+Em um grafo simples não-direcionado, não há laços nem arestas repetidas.
+Cada aresta liga dois vértices distintos.
+Então o maior número de arestas acontece quando todos os pares de vértices estão ligados, ou seja, quando o grafo é completo.
+
+------------------------------------------------------------
+
+4) Número de arestas do grafo completo K_n
+
+Fórmula:
+|E(K_n)| = C(n, 2) = n(n - 1)/2
+
+Explicação:
+No grafo completo K_n, todo par de vértices distintos possui uma aresta.
+Como existem C(n, 2) formas de escolher 2 vértices entre n, existem n(n - 1)/2 arestas.
+
+------------------------------------------------------------
+
+5) Grau máximo em grafo simples com n vértices
+
+Fórmula:
+0 <= grau(v) <= n - 1
+
+Explicação:
+Um vértice pode se ligar, no máximo, aos outros n - 1 vértices.
+Se o grafo for conexo e tiver n >= 2, nenhum vértice pode ser isolado; nesse caso:
+
+1 <= grau(v) <= n - 1
+
+------------------------------------------------------------
+
+6) Soma dos graus em grafo não-direcionado
+
+Fórmula:
+∑ grau(v) = 2|E|, para todo v ∈ V
+
+Explicação:
+Cada aresta de um grafo não-direcionado toca dois vértices.
+Quando somamos os graus de todos os vértices, cada aresta é contada duas vezes.
+Por isso, a soma dos graus é sempre igual a 2 vezes o número de arestas.
+
+------------------------------------------------------------
+
+7) Soma dos graus é par
+
+Fórmula:
+∑ grau(v) = 2|E| ⇒ ∑ grau(v) é par
+
+Explicação:
+Como 2|E| é múltiplo de 2, a soma dos graus de todos os vértices em um grafo não-direcionado sempre é par.
+Essa ideia aparece várias vezes nas atividades e nas Provas 01.
+
+------------------------------------------------------------
+
+8) Quantidade de vértices de grau ímpar
+
+Fórmula:
+|{v ∈ V | grau(v) é ímpar}| é par
+
+Explicação:
+A soma total dos graus é par.
+Os vértices de grau par contribuem com valores pares.
+Então a soma dos graus ímpares também precisa ser par.
+Uma soma de números ímpares só é par quando há uma quantidade par de parcelas.
+
+------------------------------------------------------------
+
+9) Grafo r-regular
+
+Fórmulas:
+grau(v) = r, para todo v ∈ V
+2m = nr
+m = nr/2
+
+Explicação:
+Um grafo é r-regular quando todos os vértices têm o mesmo grau r.
+Como a soma dos graus é 2m e existem n vértices, todos com grau r, a soma também é nr.
+Logo, 2m = nr.
+Isso ajuda a testar se um grafo regular com n vértices e grau r pode existir: nr precisa ser par.
+
+------------------------------------------------------------
+
+10) Número mínimo e máximo de arestas com c componentes
+
+Fórmulas:
+m_min = n - c
+m_max = C(n - c + 1, 2) = (n - c + 1)(n - c)/2
+
+Explicação:
+Para um grafo simples não-direcionado com n vértices e exatamente c componentes:
+- O menor número de arestas ocorre quando cada componente é uma árvore. Uma árvore com k vértices tem k - 1 arestas. Somando as c componentes, dá n - c.
+- O maior número de arestas ocorre quando uma componente concentra o máximo possível de vértices, n - c + 1, e as outras c - 1 componentes ficam isoladas. A componente grande vira um grafo completo.
+
+------------------------------------------------------------
+
+11) Quantas arestas faltam para conectar c componentes
+
+Fórmula:
+arestas necessárias = c - 1
+
+Explicação:
+Para transformar um grafo com c componentes conexas em um grafo conexo, basta ligar as componentes entre si.
+Cada nova aresta pode reduzir o número de componentes em 1.
+Portanto, são necessárias pelo menos c - 1 arestas.
+
+------------------------------------------------------------
+
+12) Grafo completo bipartido K_{r,s}
+
+Fórmulas:
+|V| = r + s
+|E| = r · s
+
+Explicação:
+No grafo bipartido completo K_{r,s}, os vértices são separados em dois conjuntos.
+Não há arestas dentro do mesmo conjunto.
+Toda aresta liga um vértice do primeiro conjunto a um vértice do segundo.
+Por isso, o total de arestas é r · s.
+
+------------------------------------------------------------
+
+13) Máximo de arestas em grafo bipartido com n vértices
+
+Fórmula:
+m <= floor(n²/4)
+
+Explicação:
+Um grafo bipartido tem mais arestas quando é bipartido completo e suas duas partes têm tamanhos o mais equilibrados possível.
+Se as partes têm r e s vértices, com r + s = n, então m = r · s.
+O produto r · s é máximo quando r e s são próximos.
+
+------------------------------------------------------------
+
+14) Grafo completo tripartido K_{r,s,t}
+
+Fórmulas:
+|V| = r + s + t
+|E| = rs + rt + st
+
+Explicação:
+No grafo tripartido completo K_{r,s,t}, os vértices são separados em três conjuntos.
+Não existem arestas dentro de um mesmo conjunto.
+Existem arestas entre todos os pares de vértices que pertencem a conjuntos diferentes.
+Por isso, somamos as ligações entre os três pares de partes: rs, rt e st.
+
+------------------------------------------------------------
+
+15) Máximo de arestas em grafo tripartido com n vértices
+
+Fórmula:
+m_max = ab + ac + bc, com a + b + c = n e a, b, c o mais equilibrados possível
+
+Explicação:
+Para maximizar o número de arestas em um grafo tripartido, as três partes devem ter tamanhos tão próximos quanto possível.
+Exemplo:
+- Se n = 3q, então m_max = 3q² = n²/3.
+- Se n não for múltiplo de 3, dividimos os vértices entre as três partes da forma mais balanceada possível.
+
+------------------------------------------------------------
+
+16) Complemento de um grafo
+
+Fórmulas:
+V' = V
+E' = {{u, v} | u, v ∈ V, u ≠ v e {u, v} ∉ E}
+|E(Ḡ)| = C(n, 2) - |E(G)|
+
+Explicação:
+O complemento Ḡ tem os mesmos vértices de G.
+Uma aresta aparece em Ḡ exatamente quando ela não aparece em G.
+Como o total de arestas possíveis em um grafo simples com n vértices é C(n, 2), o complemento fica com o que falta.
+
+------------------------------------------------------------
+
+17) Grafo auto-complementar
+
+Fórmulas:
+G ≅ Ḡ
+|E(G)| = |E(Ḡ)|
+2|E(G)| = C(n, 2)
+|E(G)| = n(n - 1)/4
+n ≡ 0 ou 1 (mod 4)
+
+Explicação:
+Um grafo é auto-complementar quando é isomorfo ao seu complemento.
+Se G e Ḡ são isomorfos, eles têm o mesmo número de arestas.
+Como juntos eles ocupam todas as C(n, 2) arestas possíveis, cada um tem metade desse total.
+Para n(n - 1)/4 ser inteiro, n precisa deixar resto 0 ou 1 na divisão por 4.
+
+Observação:
+Não é correto dizer que |E(G)| sempre é divisível por 4.
+Por exemplo, um grafo auto-complementar com n = 5 tem |E(G)| = 5.
+O que precisa ser divisível por 4 é n(n - 1).
+
+------------------------------------------------------------
+
+18) Número de subgrafos de um grafo completo K_n
+
+Fórmula:
+Total = ∑(k = 0 até n) C(n, k) · 2^(C(k, 2))
+
+Forma equivalente:
+Total = ∑(k = 0 até n) C(n, k) · 2^(k(k - 1)/2)
+
+Explicação:
+Para formar um subgrafo de K_n:
+1. Escolhemos k vértices entre os n, o que pode ser feito de C(n, k) formas.
+2. Entre esses k vértices existem C(k, 2) arestas possíveis.
+3. Cada aresta pode entrar ou não entrar no subgrafo, gerando 2^(C(k, 2)) escolhas.
+Somamos isso para todos os valores de k.
+
+------------------------------------------------------------
+
+19) Matriz de adjacência de grafo simples não-direcionado
+
+Fórmulas:
+A[i][j] = 1 ⇔ {i, j} ∈ E
+A[i][j] = A[j][i]
+A[i][i] = 0
+
+Explicação:
+Em grafo não-direcionado, se i é ligado a j, então j também é ligado a i.
+Por isso, a matriz é simétrica.
+Em grafo simples não há laços, então a diagonal principal é formada por zeros.
+
+------------------------------------------------------------
+
+20) Grau pela matriz de adjacência em grafo não-direcionado
+
+Fórmula:
+grau(v_i) = ∑ A[i][j], para j = 1 até n
+
+Explicação:
+Em um grafo simples não-direcionado, a soma da linha i da matriz de adjacência indica quantos vizinhos o vértice v_i possui.
+Como a matriz é simétrica, a soma da coluna dá o mesmo valor.
+
+------------------------------------------------------------
+
+21) Graus de entrada e saída em grafo direcionado
+
+Fórmulas:
+grau_saida(v_i) = ∑ A[i][j], para j = 1 até n
+grau_entrada(v_i) = ∑ A[j][i], para j = 1 até n
+
+Explicação:
+Na matriz de um grafo direcionado, a linha i mostra as arestas que saem de v_i.
+A coluna i mostra as arestas que chegam em v_i.
+
+------------------------------------------------------------
+
+22) Soma dos graus de entrada e saída em grafo direcionado
+
+Fórmulas:
+∑ grau_saida(v) = |E|
+∑ grau_entrada(v) = |E|
+∑ grau_saida(v) = ∑ grau_entrada(v)
+
+Explicação:
+Cada aresta direcionada (u, v) sai de exatamente um vértice e entra em exatamente um vértice.
+Então cada aresta contribui uma vez para a soma dos graus de saída e uma vez para a soma dos graus de entrada.
+
+------------------------------------------------------------
+
+23) Fecho transitivo direto
+
+Fórmulas:
+F⁺(u) = {x ∈ V | existe caminho direcionado de u até x}
+F⁺(S) = ⋃ F⁺(s), para s ∈ S
+
+Explicação:
+O fecho transitivo direto de u é o conjunto de vértices que podem ser atingidos a partir de u seguindo o sentido das arestas.
+Para um conjunto S, juntamos tudo que pode ser alcançado a partir de algum vértice de S.
+
+------------------------------------------------------------
+
+24) Fecho transitivo inverso
+
+Fórmula:
+F⁻(u) = {x ∈ V | existe caminho direcionado de x até u}
+
+Explicação:
+O fecho transitivo inverso de u olha o caminho ao contrário da pergunta: em vez de perguntar quem u alcança, pergunta quem consegue chegar até u.
+
+------------------------------------------------------------
+
+25) Base de um grafo direcionado
+
+Fórmula:
+S é base ⇔ F⁺(S) = V
+
+Explicação:
+Uma base é um conjunto de vértices que consegue alcançar todos os vértices do grafo pelo fecho transitivo direto.
+Nas atividades, o objetivo é geralmente encontrar uma base com a menor quantidade possível de vértices.
+
+------------------------------------------------------------
+
+26) Anti-base de um grafo direcionado
+
+Fórmula:
+S é anti-base ⇔ F⁻(S) = V
+
+Explicação:
+Uma anti-base é um conjunto de vértices que pode ser alcançado por todos os vértices do grafo, considerando o fecho transitivo inverso.
+Em outras palavras, todo vértice do grafo consegue chegar a algum vértice da anti-base.
+
+------------------------------------------------------------
+
+27) Distância entre vértices
+
+Fórmula:
+d(u, v) = menor número de arestas em um caminho de u até v
+
+Explicação:
+Em grafos não ponderados, a distância é medida pela quantidade de arestas.
+Se não existir caminho entre u e v, podemos considerar d(u, v) = infinito.
+Em grafo direcionado, a distância precisa respeitar o sentido das arestas.
+
+------------------------------------------------------------
+
+28) Excentricidade
+
+Fórmula:
+ecc(v) = max {d(v, x) | x ∈ V}
+
+Explicação:
+A excentricidade de v é a maior distância de v até algum outro vértice do grafo.
+Ela mede o quão longe v está do vértice mais distante dele.
+
+------------------------------------------------------------
+
+29) Raio
+
+Fórmula:
+raio(G) = min {ecc(v) | v ∈ V}
+
+Explicação:
+O raio é a menor excentricidade do grafo.
+Ele representa a melhor posição possível para um vértice central: o vértice cuja maior distância até os outros é a menor possível.
+
+------------------------------------------------------------
+
+30) Diâmetro
+
+Fórmula:
+diametro(G) = max {ecc(v) | v ∈ V}
+
+Forma equivalente:
+diametro(G) = max {d(u, v) | u, v ∈ V}
+
+Explicação:
+O diâmetro é a maior distância entre dois vértices do grafo.
+Também pode ser visto como a maior excentricidade.
+
+------------------------------------------------------------
+
+31) Centro de um grafo
+
+Fórmula:
+C(G) = {v ∈ V | ecc(v) = raio(G)}
+
+Explicação:
+O centro é o conjunto dos vértices mais centrais do grafo.
+Um vértice pertence ao centro quando sua excentricidade é igual ao raio.
+
+------------------------------------------------------------
+
+32) Centro em grafo direcionado
+
+Fórmulas:
+d⁺(u, v) = menor caminho direcionado de u até v
+ecc⁺(u) = max {d⁺(u, x) | x ∈ V}
+raio⁺(G) = min {ecc⁺(u) | u ∈ V}
+C⁺(G) = {u ∈ V | ecc⁺(u) = raio⁺(G)}
+
+Explicação:
+É a adaptação do centro para grafos direcionados.
+A diferença é que todas as distâncias precisam respeitar o sentido das arestas.
+Se algum vértice não for alcançável a partir de u, a excentricidade de u pode ser considerada infinita.
+
+------------------------------------------------------------
+
+33) Relação entre raio e diâmetro
+
+Fórmula:
+raio(G) <= diametro(G) <= 2 · raio(G)
+
+Explicação:
+Vale para grafos não-direcionados conexos.
+O raio é a menor excentricidade e o diâmetro é a maior, então raio(G) <= diametro(G).
+Para a segunda parte, se c é um vértice central, qualquer caminho entre u e v pode ser limitado por d(u, c) + d(c, v), que é no máximo 2 · raio(G).
+
+------------------------------------------------------------
+
+34) Árvore
+
+Fórmulas:
+T é árvore ⇔ T é conexo e acíclico
+|E(T)| = |V(T)| - 1
+
+Explicação:
+Uma árvore é um grafo não-direcionado conexo e sem ciclos.
+Se uma árvore tem n vértices, então possui exatamente n - 1 arestas.
+
+------------------------------------------------------------
+
+35) Floresta
+
+Fórmula:
+Se uma floresta tem n vértices e c componentes, então m = n - c
+
+Explicação:
+Uma floresta é um grafo sem ciclos.
+Cada componente de uma floresta é uma árvore.
+Somando as arestas de todas as árvores componentes, obtemos n - c.
+
+------------------------------------------------------------
+
+36) Maior caminho em DAG
+
+Fórmula:
+dp[v] = max {dp[u] + 1 | (u, v) ∈ E}
+
+Condição inicial:
+dp[v] = 0 para vértices sem predecessores
+
+Explicação:
+Em um grafo direcionado acíclico, podemos processar os vértices em ordem topológica.
+Para cada vértice v, dp[v] guarda o tamanho do maior caminho que termina em v.
+Se existe uma aresta (u, v), então um caminho que termina em u pode ser estendido até v.
+
+------------------------------------------------------------
+
+37) Tempo mínimo em tarefas com dependências
+
+Fórmula:
+tempo[v] = duracao(v) + max {tempo[u] | (u, v) ∈ E}
+
+Condição inicial:
+tempo[v] = duracao(v), se v não tem predecessores
+
+Explicação:
+Quando tarefas têm dependências, modelamos cada tarefa como vértice e cada dependência como aresta direcionada.
+O tempo mínimo total é o tamanho do caminho crítico, isto é, o maior tempo acumulado entre as tarefas dependentes.
+Se todas as tarefas duram 1 semana, a fórmula vira a do maior caminho em DAG contando vértices.
+
+------------------------------------------------------------
+
+38) Ordenação topológica
+
+Fórmula/propriedade:
+Se (u, v) ∈ E, então u aparece antes de v na ordenação topológica.
+
+Explicação:
+Em um DAG, é possível numerar os vértices de modo que toda aresta vá de um vértice anterior para um posterior.
+Essa propriedade é usada para tarefas com dependências e para calcular maior caminho em DAG.
+
+============================================================
+2. TEOREMAS E PROPRIEDADES IMPORTANTES
+============================================================
+
+1) Lema do aperto de mãos
+
+Teorema:
+Em todo grafo não-direcionado, a soma dos graus dos vértices é igual a 2 vezes o número de arestas:
+
+∑ grau(v) = 2|E|
+
+Explicação:
+Cada aresta tem duas extremidades.
+Ao somar os graus, cada aresta é contada uma vez em cada extremidade.
+Por isso, a soma total dos graus sempre é par.
+
+------------------------------------------------------------
+
+2) Número de vértices de grau ímpar
+
+Teorema:
+Em todo grafo não-direcionado, a quantidade de vértices de grau ímpar é par.
+
+Explicação:
+Pelo lema do aperto de mãos, a soma dos graus é par.
+Os vértices de grau par não mudam a paridade da soma.
+Logo, os vértices de grau ímpar precisam aparecer em quantidade par.
+
+------------------------------------------------------------
+
+3) Dois vértices com o mesmo grau
+
+Teorema:
+Todo grafo simples não-direcionado e conexo com |V| >= 2 possui pelo menos dois vértices com o mesmo grau.
+
+Explicação:
+Se |V| = n, os graus possíveis em um grafo conexo são 1, 2, ..., n - 1.
+Existem n vértices, mas apenas n - 1 valores possíveis de grau.
+Pelo princípio das gavetas, dois vértices precisam ter o mesmo grau.
+
+Observação:
+Também existe uma versão mais geral para grafos simples não-direcionados com pelo menos 2 vértices, mesmo sem exigir conexidade.
+Nesse caso, os graus possíveis seriam de 0 até n - 1, mas não é possível ter ao mesmo tempo um vértice de grau 0 e outro de grau n - 1.
+Assim, continuam existindo no máximo n - 1 valores de grau possíveis.
+
+------------------------------------------------------------
+
+4) Princípio das gavetas
+
+Teorema:
+Se n objetos são colocados em menos de n caixas, então pelo menos uma caixa recebe dois ou mais objetos.
+
+Explicação:
+Nas provas, esse princípio aparece para provar que dois vértices têm o mesmo grau.
+Os vértices são os objetos.
+Os valores possíveis de grau são as caixas.
+
+------------------------------------------------------------
+
+5) Grafo completo maximiza o número de arestas
+
+Teorema:
+Entre os grafos simples não-direcionados com n vértices, o maior número possível de arestas é n(n - 1)/2, atingido por K_n.
+
+Explicação:
+Como cada aresta liga um par de vértices distintos, o máximo ocorre quando todos os pares estão ligados.
+Esse grafo é o completo K_n.
+
+------------------------------------------------------------
+
+6) Máximo de arestas em bipartidos
+
+Teorema:
+Todo grafo bipartido simples com n vértices possui no máximo floor(n²/4) arestas.
+
+Explicação:
+Se as partes têm r e s vértices, então o máximo de arestas é r · s.
+Com r + s = n, o produto é máximo quando r e s são o mais próximos possível.
+
+------------------------------------------------------------
+
+7) Complemento divide as arestas possíveis
+
+Teorema:
+Para um grafo simples G com n vértices:
+
+|E(G)| + |E(Ḡ)| = C(n, 2)
+
+Explicação:
+Cada par de vértices distintos está em uma de duas situações:
+ou é aresta de G, ou é aresta do complemento Ḡ.
+Não pode estar nos dois ao mesmo tempo.
+
+------------------------------------------------------------
+
+8) Condição necessária para grafo auto-complementar
+
+Teorema:
+Se G é auto-complementar e tem n vértices, então n ≡ 0 ou 1 (mod 4).
+
+Explicação:
+Se G é isomorfo ao complemento, ambos têm o mesmo número de arestas.
+Logo:
+
+|E(G)| = n(n - 1)/4
+
+Para isso ser inteiro, n(n - 1) precisa ser divisível por 4.
+Isso acontece quando n deixa resto 0 ou 1 na divisão por 4.
+
+------------------------------------------------------------
+
+9) BFS calcula menor caminho em grafo não ponderado
+
+Teorema:
+Em um grafo não ponderado, a BFS iniciada em v calcula a menor distância de v até todos os vértices alcançáveis.
+
+Explicação:
+A BFS visita primeiro os vértices a distância 1, depois os de distância 2, depois os de distância 3, e assim por diante.
+Por isso, a primeira vez que um vértice é encontrado, ele foi encontrado pelo menor caminho em número de arestas.
+
+------------------------------------------------------------
+
+10) DFS encontra componentes conexas
+
+Teorema:
+Em um grafo não-direcionado, cada DFS iniciada em um vértice ainda não visitado visita exatamente uma componente conexa.
+
+Explicação:
+A DFS alcança todos os vértices ligados ao vértice inicial por algum caminho.
+Se outro vértice não for visitado, ele está em outra componente.
+Assim, contar quantas vezes uma nova DFS é iniciada conta o número de componentes conexas.
+
+------------------------------------------------------------
+
+11) DFS e ciclo em grafo direcionado
+
+Teorema:
+Um grafo direcionado possui ciclo se, durante uma DFS, aparece uma aresta de retorno para um vértice que ainda está na pilha de recursão.
+
+Explicação:
+Um vértice na pilha de recursão é um ancestral do vértice atual.
+Se existe uma aresta voltando para esse ancestral, então há um caminho descendo pela DFS e uma aresta voltando, formando um ciclo.
+
+------------------------------------------------------------
+
+12) DAG e ordenação topológica
+
+Teorema:
+Um grafo direcionado é acíclico se, e somente se, possui uma ordenação topológica.
+
+Explicação:
+Se o grafo tem ciclo, não há como ordenar os vértices respeitando todas as arestas, porque algum vértice teria que vir antes de si mesmo indiretamente.
+Se o grafo não tem ciclo, sempre existe pelo menos uma fonte, e podemos remover fontes repetidamente para construir a ordenação.
+
+------------------------------------------------------------
+
+13) Em todo DAG existe uma fonte e um sorvedouro
+
+Teorema:
+Todo grafo direcionado acíclico finito não vazio possui pelo menos uma fonte e pelo menos um sorvedouro.
+
+Explicação:
+Fonte é vértice com grau de entrada 0.
+Sorvedouro é vértice com grau de saída 0.
+Se todo vértice tivesse alguma entrada, poderíamos voltar indefinidamente por predecessores até repetir vértice, formando ciclo.
+Como DAG não tem ciclo, alguma fonte precisa existir.
+O raciocínio para sorvedouro é análogo seguindo sucessores.
+
+------------------------------------------------------------
+
+14) Base mínima em DAG
+
+Teorema:
+Em um DAG, o conjunto de todas as fontes é uma base mínima.
+
+Explicação:
+Todo vértice de um DAG é alcançável a partir de alguma fonte.
+Além disso, uma fonte não pode ser alcançada a partir de outro vértice, pois não tem arestas de entrada.
+Então qualquer base precisa conter todas as fontes.
+Logo, o conjunto das fontes é mínimo.
+
+------------------------------------------------------------
+
+15) Anti-base mínima em DAG
+
+Teorema:
+Em um DAG, o conjunto de todos os sorvedouros é uma anti-base mínima.
+
+Explicação:
+Todo vértice de um DAG consegue chegar a algum sorvedouro.
+Como um sorvedouro não possui arestas de saída, ele precisa estar na anti-base para ser coberto.
+Assim, o conjunto dos sorvedouros é mínimo.
+
+------------------------------------------------------------
+
+16) Componentes fortemente conexas
+
+Teorema/propriedade:
+Em uma componente fortemente conexa, para quaisquer u, v ∈ V, existe caminho direcionado de u até v e de v até u.
+
+Explicação:
+Essa é a ideia central da conectividade forte.
+Algoritmos como Kosaraju usam duas DFS:
+uma no grafo original para obter tempos de término, e outra no grafo transposto para separar as componentes fortemente conexas.
+
+------------------------------------------------------------
+
+17) Raio e diâmetro
+
+Teorema:
+Em todo grafo não-direcionado conexo:
+
+raio(G) <= diametro(G) <= 2 · raio(G)
+
+Explicação:
+O raio é a menor excentricidade e o diâmetro é a maior distância do grafo.
+Escolhendo um vértice central c, todo vértice está a distância no máximo raio(G) de c.
+Então a distância entre quaisquer u e v é no máximo d(u, c) + d(c, v), que é no máximo 2 · raio(G).
+
+------------------------------------------------------------
+
+18) Centro de árvore
+
+Teorema:
+Toda árvore possui centro com exatamente 1 ou 2 vértices.
+
+Explicação:
+O centro da árvore fica no meio de um caminho de diâmetro.
+Se o diâmetro tem comprimento par, sobra um vértice central.
+Se o diâmetro tem comprimento ímpar, sobram dois vértices centrais.
+O algoritmo de remover folhas em camadas encontra esse centro.
+
+------------------------------------------------------------
+
+19) Caracterização de árvores
+
+Teorema:
+Para um grafo não-direcionado com n vértices, as seguintes ideias são equivalentes em muitos exercícios:
+- ser árvore;
+- ser conexo e acíclico;
+- ser conexo e ter n - 1 arestas;
+- ser acíclico e ter n - 1 arestas;
+- existir exatamente um caminho simples entre quaisquer dois vértices.
+
+Explicação:
+Essas propriedades são formas diferentes de reconhecer árvores.
+Elas ajudam a justificar algoritmos e provas envolvendo conexidade e ausência de ciclos.
+
+------------------------------------------------------------
+
+20) Critério de caminho e circuito euleriano
+
+Teorema:
+Em um grafo não-direcionado conexo, considerando apenas os vértices com grau maior que zero:
+- existe circuito euleriano se, e somente se, todos os vértices têm grau par;
+- existe caminho euleriano aberto se, e somente se, exatamente dois vértices têm grau ímpar.
+
+Explicação:
+Um circuito euleriano passa por todas as arestas exatamente uma vez e volta ao início.
+Para entrar e sair de cada vértice sem sobrar aresta, os graus precisam ser pares.
+No caminho euleriano aberto, há dois vértices especiais: o início e o fim. Eles ficam com grau ímpar.
+Esse critério aparece em problemas de planta de casa/portas, em que cômodos viram vértices e portas viram arestas.
+
+------------------------------------------------------------
+
+21) Maior caminho em DAG por programação dinâmica
+
+Teorema/propriedade:
+Em um DAG, o maior caminho pode ser calculado processando os vértices em ordem topológica.
+
+Explicação:
+Como não há ciclos, quando chegamos a um vértice na ordem topológica, todos os caminhos que poderiam chegar nele já foram considerados.
+Assim, podemos atualizar dp[v] usando seus predecessores e obter o maior caminho do grafo.
+
+------------------------------------------------------------
+
+22) Remoção de arestas de retorno para tornar um grafo direcionado acíclico
+
+Propriedade:
+Se uma DFS em grafo direcionado encontra arestas de retorno, essas arestas indicam ciclos.
+Remover arestas de retorno é uma estratégia para quebrar ciclos e obter um grafo acíclico.
+
+Explicação:
+Aresta de retorno aponta para um ancestral na árvore DFS.
+Esse retorno fecha um ciclo.
+Ao remover essas arestas, removemos pelo menos os ciclos detectados por elas.
+
+============================================================
+3. RESUMO RÁPIDO PARA PROVA 01
+============================================================
+
+Itens que mais aparecem nas Provas 01:
+- ∑ grau(v) = 2|E|.
+- Número de vértices de grau ímpar é par.
+- m <= n(n - 1)/2.
+- Em grafo completo, |E| = n(n - 1)/2.
+- Em grafo com c componentes, m_min = n - c e m_max = C(n - c + 1, 2).
+- Para conectar c componentes, precisa de c - 1 arestas.
+- Em grafo r-regular, 2m = nr.
+- Em grafo bipartido, m <= floor(n²/4).
+- Em K_{r,s,t}, |V| = r + s + t e |E| = rs + rt + st.
+- No complemento, |E(Ḡ)| = C(n, 2) - |E(G)|.
+- Se G é auto-complementar, |E(G)| = n(n - 1)/4 e n ≡ 0 ou 1 (mod 4).
+- Número de subgrafos de K_n: ∑(k = 0 até n) C(n, k) · 2^(C(k, 2)).
+- BFS calcula menores distâncias em grafos não ponderados.
+- DFS ajuda a encontrar componentes, classificar arestas e detectar ciclos.
+- Em grafo não-direcionado conexo, raio(G) <= diametro(G) <= 2 · raio(G).
+- Centro: C(G) = {v ∈ V | ecc(v) = raio(G)}.
+- Toda árvore tem centro com 1 ou 2 vértices.
+- DAG tem ordenação topológica.
+- Em DAG, fontes formam uma base mínima e sorvedouros formam uma anti-base mínima.
+- Em grafo não-direcionado conexo, circuito euleriano exige todos os graus pares; caminho euleriano aberto exige exatamente dois graus ímpares.
