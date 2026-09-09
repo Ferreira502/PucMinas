@@ -46,6 +46,8 @@ int main()
         printf("\nMostrar Lista de adjacencia\n");
         getchar();
         mostrarLista(&grafo);
+
+        
     }
     else if( x == 1 )
     {
