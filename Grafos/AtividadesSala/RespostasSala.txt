@@ -2246,3 +2246,655 @@ C = C+(G)
 
 Conclusao:
 Em grafos direcionados, o centro pode ser definido como o conjunto dos vertices com menor excentricidade de saida. O algoritmo calcula corretamente esse centro, pois usa BFS direcionada para obter as distancias respeitando o sentido das arestas e escolhe exatamente os vertices cuja excentricidade e minima.
+
+
+Questao 18)
+
+Enunciado:
+Seja G = (V, E) um grafo direcionado. Projete um algoritmo para identificar se G e fortemente conexo.
+
+Ideia principal:
+Um grafo direcionado e fortemente conexo quando todo vertice consegue alcancar todos os outros vertices respeitando o sentido das arestas. Uma forma eficiente de testar isso e fazer uma busca em profundidade a partir de um vertice qualquer no grafo original e depois fazer outra busca a partir do mesmo vertice no grafo transposto, isto e, no grafo com todas as arestas invertidas. Se as duas buscas visitarem todos os vertices, entao o grafo e fortemente conexo.
+
+Pseudocodigo:
+
+Algoritmo EhFortementeConexo(G)
+Entrada: um grafo direcionado G = (V, E)
+Saida: verdadeiro se G for fortemente conexo; falso caso contrario
+
+inicio
+    escolha um vertice s pertencente a V
+
+    visitado <- DFS(G, s)
+
+    se existe v pertencente a V tal que visitado[v] = falso entao
+        retorne falso
+    fim-se
+
+    GT <- grafo transposto de G
+
+    visitadoT <- DFS(GT, s)
+
+    se existe v pertencente a V tal que visitadoT[v] = falso entao
+        retorne falso
+    fim-se
+
+    retorne verdadeiro
+fim
+
+Procedimento GrafoTransposto(G)
+inicio
+    crie GT com o mesmo conjunto de vertices de G
+
+    para cada aresta (u, v) pertencente a E faca
+        adicione a aresta (v, u) em GT
+    fim-para
+
+    retorne GT
+fim
+
+Passo a passo para resolver:
+
+1. Escolha um vertice inicial s.
+2. Execute uma DFS em G a partir de s.
+3. Se algum vertice nao foi visitado, entao s nao alcanca todos os vertices, logo G nao e fortemente conexo.
+4. Construa o grafo transposto GT, invertendo o sentido de todas as arestas.
+5. Execute uma DFS em GT a partir de s.
+6. Se algum vertice nao foi visitado em GT, entao no grafo original esse vertice nao consegue chegar ate s.
+7. Se as duas buscas visitarem todos os vertices, entao s alcanca todos e todos alcancam s.
+8. Logo, todos os vertices alcancam todos os outros, e G e fortemente conexo.
+
+Prova matematica:
+
+Seja G = (V, E) um grafo direcionado e seja s pertencente a V.
+
+Um grafo e fortemente conexo se:
+
+para todo u, v pertencentes a V, existe caminho direcionado de u ate v
+
+Na primeira DFS:
+
+para todo v pertencente a V, visitado[v] = verdadeiro
+
+Isso significa:
+
+para todo v pertencente a V, existe caminho direcionado de s ate v em G
+
+Na segunda DFS, feita no grafo transposto GT:
+
+para todo v pertencente a V, visitadoT[v] = verdadeiro
+
+Isso significa que, em GT, existe caminho de s ate v.
+Como GT tem todas as arestas invertidas, isso equivale a dizer que, em G, existe caminho de v ate s.
+
+Logo:
+
+para todo v pertencente a V, existe caminho de s ate v
+e
+para todo v pertencente a V, existe caminho de v ate s
+
+Agora, para quaisquer u, v pertencentes a V:
+
+u consegue chegar ate s
+e
+s consegue chegar ate v
+
+Portanto, juntando os caminhos:
+
+u -> s -> v
+
+Assim, existe caminho de u ate v.
+Como u e v eram quaisquer, G e fortemente conexo.
+
+Conclusao:
+O algoritmo identifica corretamente se G e fortemente conexo, pois verifica se um vertice s alcanca todos os outros e se todos os outros conseguem alcancar s.
+
+
+Questao 19)
+
+Enunciado:
+Achar todos os componentes fortemente conexos, pensando usando conceito de busca em profundidade.
+
+Ideia principal:
+Uma componente fortemente conexa e um maior conjunto de vertices em que todos conseguem alcancar todos os outros por caminhos direcionados. Podemos encontrar todas as componentes usando o algoritmo de Kosaraju. Ele faz uma DFS no grafo original para calcular os tempos de termino, depois cria o grafo transposto e faz DFS nele seguindo a ordem decrescente dos tempos de termino. Cada DFS no grafo transposto encontra uma componente fortemente conexa.
+
+Pseudocodigo:
+
+Algoritmo ComponentesFortementeConexas(G)
+Entrada: um grafo direcionado G = (V, E)
+Saida: lista das componentes fortemente conexas de G
+
+inicio
+    para cada vertice v pertencente a V faca
+        visitado[v] <- falso
+    fim-para
+
+    pilha <- pilha vazia
+
+    para cada vertice v pertencente a V faca
+        se visitado[v] = falso entao
+            DFS_TempoTermino(G, v, visitado, pilha)
+        fim-se
+    fim-para
+
+    GT <- grafo transposto de G
+
+    para cada vertice v pertencente a V faca
+        visitado[v] <- falso
+    fim-para
+
+    componentes <- lista vazia
+
+    enquanto pilha nao estiver vazia faca
+        v <- desempilhe(pilha)
+
+        se visitado[v] = falso entao
+            componente <- conjunto vazio
+            DFS_Coleta(GT, v, visitado, componente)
+            adicione componente em componentes
+        fim-se
+    fim-enquanto
+
+    retorne componentes
+fim
+
+Procedimento DFS_TempoTermino(G, v, visitado, pilha)
+inicio
+    visitado[v] <- verdadeiro
+
+    para cada vertice w sucessor de v faca
+        se visitado[w] = falso entao
+            DFS_TempoTermino(G, w, visitado, pilha)
+        fim-se
+    fim-para
+
+    empilhe v em pilha
+fim
+
+Procedimento DFS_Coleta(GT, v, visitado, componente)
+inicio
+    visitado[v] <- verdadeiro
+    adicione v em componente
+
+    para cada vertice w sucessor de v em GT faca
+        se visitado[w] = falso entao
+            DFS_Coleta(GT, w, visitado, componente)
+        fim-se
+    fim-para
+fim
+
+Passo a passo para resolver:
+
+1. Execute DFS no grafo original.
+2. Quando um vertice terminar sua visita, coloque esse vertice em uma pilha.
+3. Inverta todas as arestas do grafo, formando o grafo transposto GT.
+4. Reinicie todos os vertices como nao visitados.
+5. Retire vertices da pilha, isto e, siga a ordem decrescente de tempo de termino.
+6. Para cada vertice ainda nao visitado, execute DFS no grafo transposto.
+7. Todos os vertices visitados nessa DFS formam uma componente fortemente conexa.
+8. Repita ate a pilha ficar vazia.
+
+Justificativa:
+Os tempos de termino da primeira DFS ajudam a escolher um vertice que representa uma componente "mais externa" no grafo de componentes. Ao inverter as arestas e buscar nessa ordem, a DFS fica presa exatamente dentro de uma componente fortemente conexa, sem misturar componentes diferentes.
+
+Conclusao:
+O algoritmo de Kosaraju encontra todas as componentes fortemente conexas usando duas buscas em profundidade e o grafo transposto.
+
+
+Questao 20)
+
+Enunciado:
+Seja G = (V, E) um grafo direcionado. Apresente, pelo menos, duas estrategias diferentes para determinar se G e ciclico.
+
+Ideia principal:
+Um grafo direcionado e ciclico quando existe um caminho direcionado que sai de um vertice e volta para ele. Duas estrategias comuns para detectar ciclos sao: DFS com pilha de recursao e ordenacao topologica pelo algoritmo de Kahn.
+
+Estrategia 1: DFS com pilha de recursao
+
+Pseudocodigo:
+
+Algoritmo TemCicloDFS(G)
+Entrada: um grafo direcionado G = (V, E)
+Saida: verdadeiro se G possuir ciclo
+
+inicio
+    para cada vertice v pertencente a V faca
+        cor[v] <- branco
+    fim-para
+
+    para cada vertice v pertencente a V faca
+        se cor[v] = branco entao
+            se DFS_Ciclo(G, v, cor) = verdadeiro entao
+                retorne verdadeiro
+            fim-se
+        fim-se
+    fim-para
+
+    retorne falso
+fim
+
+Procedimento DFS_Ciclo(G, v, cor)
+inicio
+    cor[v] <- cinza
+
+    para cada sucessor w de v faca
+        se cor[w] = cinza entao
+            retorne verdadeiro
+        fim-se
+
+        se cor[w] = branco entao
+            se DFS_Ciclo(G, w, cor) = verdadeiro entao
+                retorne verdadeiro
+            fim-se
+        fim-se
+    fim-para
+
+    cor[v] <- preto
+    retorne falso
+fim
+
+Explicacao:
+Branco significa nao visitado.
+Cinza significa que o vertice esta sendo visitado, ou seja, esta na pilha da DFS.
+Preto significa que a visita terminou.
+Se encontramos uma aresta para um vertice cinza, encontramos uma aresta de retorno, logo existe ciclo.
+
+Estrategia 2: Ordenacao topologica por Kahn
+
+Pseudocodigo:
+
+Algoritmo TemCicloKahn(G)
+Entrada: um grafo direcionado G = (V, E)
+Saida: verdadeiro se G possuir ciclo
+
+inicio
+    para cada vertice v pertencente a V faca
+        grauEntrada[v] <- quantidade de arestas que chegam em v
+    fim-para
+
+    fila <- vertices com grauEntrada igual a 0
+    removidos <- 0
+
+    enquanto fila nao estiver vazia faca
+        v <- desenfileire fila
+        removidos <- removidos + 1
+
+        para cada sucessor w de v faca
+            grauEntrada[w] <- grauEntrada[w] - 1
+
+            se grauEntrada[w] = 0 entao
+                enfileire w em fila
+            fim-se
+        fim-para
+    fim-enquanto
+
+    se removidos < |V| entao
+        retorne verdadeiro
+    senao
+        retorne falso
+    fim-se
+fim
+
+Explicacao:
+Todo DAG possui pelo menos uma fonte, isto e, um vertice com grau de entrada zero.
+O algoritmo remove fontes repetidamente.
+Se ao final nem todos os vertices foram removidos, os vertices restantes fazem parte de algum ciclo ou dependem de um ciclo.
+
+Conclusao:
+As duas estrategias funcionam para grafos direcionados. Pela DFS, ciclo aparece como aresta de retorno. Pela ordenacao topologica, ciclo aparece quando nao conseguimos remover todos os vertices.
+
+
+Questao 21)
+
+Enunciado:
+Seja G = (V, E) um grafo direcionado aciclico. Apresente, pelo menos, duas estrategias para encontrar o maior caminho de G.
+
+Ideia principal:
+Como G e direcionado e aciclico, ele e um DAG. Em DAGs, o maior caminho pode ser encontrado sem cair em repeticoes infinitas, pois nao existem ciclos. Duas estrategias sao: programacao dinamica em ordem topologica e DFS com memoizacao.
+
+Estrategia 1: Programacao dinamica usando ordenacao topologica
+
+Pseudocodigo:
+
+Algoritmo MaiorCaminhoDAG_Topologico(G)
+Entrada: um DAG G = (V, E)
+Saida: tamanho do maior caminho de G em numero de arestas
+
+inicio
+    ordem <- OrdenacaoTopologica(G)
+
+    para cada vertice v pertencente a V faca
+        dist[v] <- 0
+    fim-para
+
+    para cada vertice u em ordem faca
+        para cada sucessor v de u faca
+            se dist[v] < dist[u] + 1 entao
+                dist[v] <- dist[u] + 1
+            fim-se
+        fim-para
+    fim-para
+
+    retorne maior valor de dist[v], para v pertencente a V
+fim
+
+Explicacao:
+dist[v] guarda o tamanho do maior caminho que termina em v.
+Ao processar os vertices em ordem topologica, todo predecessor de v ja foi considerado antes de v.
+Para cada aresta (u, v), podemos estender um caminho que termina em u e obter um caminho que termina em v.
+
+Estrategia 2: DFS com memoizacao
+
+Pseudocodigo:
+
+Algoritmo MaiorCaminhoDAG_DFS(G)
+Entrada: um DAG G = (V, E)
+Saida: tamanho do maior caminho de G em numero de arestas
+
+inicio
+    para cada vertice v pertencente a V faca
+        memo[v] <- indefinido
+    fim-para
+
+    resposta <- 0
+
+    para cada vertice v pertencente a V faca
+        resposta <- max(resposta, MaiorAPartirDe(v))
+    fim-para
+
+    retorne resposta
+fim
+
+Funcao MaiorAPartirDe(v)
+inicio
+    se memo[v] esta definido entao
+        retorne memo[v]
+    fim-se
+
+    melhor <- 0
+
+    para cada sucessor w de v faca
+        melhor <- max(melhor, 1 + MaiorAPartirDe(w))
+    fim-para
+
+    memo[v] <- melhor
+    retorne melhor
+fim
+
+Explicacao:
+MaiorAPartirDe(v) calcula o tamanho do maior caminho que comeca em v.
+Como o grafo nao tem ciclos, a recursao sempre termina.
+A memoizacao evita recalcular a resposta para o mesmo vertice varias vezes.
+
+Conclusao:
+Em DAGs, o maior caminho pode ser resolvido de forma eficiente porque a ausencia de ciclos permite ordenar dependencias e reaproveitar resultados.
+
+
+Questao 22)
+
+Enunciado:
+Qual a caracteristica importante que ha em grafo aciclico?
+
+Ideia principal:
+A caracteristica mais importante de um grafo direcionado aciclico e que ele nao possui ciclos e, por isso, admite ordenacao topologica. Isso permite organizar os vertices em uma ordem de dependencia: se existe uma aresta (u, v), entao u deve aparecer antes de v.
+
+Resposta:
+Em um grafo direcionado aciclico, chamado DAG, e possivel fazer uma ordenacao topologica dos vertices.
+
+Isso significa que podemos numerar ou ordenar os vertices de modo que toda aresta respeite a ordem:
+
+se (u, v) pertence a E, entao u aparece antes de v
+
+Explicacao:
+Essa propriedade e muito importante porque permite modelar problemas de dependencia.
+Por exemplo:
+- tarefas de uma obra;
+- disciplinas com pre-requisitos;
+- etapas de compilacao;
+- processos que precisam acontecer em ordem.
+
+Outra caracteristica importante e que todo DAG finito nao vazio possui pelo menos uma fonte e pelo menos um sorvedouro.
+Fonte e um vertice com grau de entrada zero.
+Sorvedouro e um vertice com grau de saida zero.
+
+Justificativa:
+Se um grafo direcionado finito nao tivesse fonte, todo vertice teria pelo menos uma aresta chegando.
+Entao poderiamos voltar por predecessores indefinidamente.
+Como o grafo e finito, em algum momento um vertice repetiria, formando um ciclo.
+Isso contradiz o fato de o grafo ser aciclico.
+Logo, deve existir pelo menos uma fonte.
+
+Conclusao:
+A caracteristica essencial de um DAG e permitir uma ordem topologica, o que torna possivel resolver problemas de dependencias, detectar ciclos e calcular maior caminho de forma organizada.
+
+
+Questao 23)
+
+Enunciado:
+Seja G = (V, E) um grafo direcionado. Identifique uma base de V, com a menor quantidade possivel de vertices.
+
+Ideia principal:
+Uma base e um conjunto S de vertices tal que o fecho transitivo direto de S cobre todos os vertices do grafo. Em outras palavras, a partir dos vertices de S conseguimos atingir todos os vertices de V. Para um grafo direcionado geral, uma forma correta e contrair as componentes fortemente conexas, formando o grafo condensado. Esse grafo condensado sempre e aciclico. Entao escolhemos uma componente fonte, isto e, com grau de entrada zero, e pegamos um vertice representante de cada uma dessas componentes. Esses representantes formam uma base minima.
+
+Pseudocodigo:
+
+Algoritmo BaseMinimaGrafoDirecionado(G)
+Entrada: um grafo direcionado G = (V, E)
+Saida: uma base minima S
+
+inicio
+    componentes <- ComponentesFortementeConexas(G)
+
+    construa o grafo condensado GC
+    cada componente fortemente conexa vira um vertice em GC
+
+    para cada aresta (u, v) pertencente a E faca
+        Cu <- componente que contem u
+        Cv <- componente que contem v
+
+        se Cu diferente de Cv entao
+            adicione a aresta (Cu, Cv) em GC
+        fim-se
+    fim-para
+
+    S <- conjunto vazio
+
+    para cada componente C em GC faca
+        se grauEntrada(C) = 0 entao
+            escolha um vertice x pertencente a C
+            adicione x em S
+        fim-se
+    fim-para
+
+    retorne S
+fim
+
+Passo a passo para resolver:
+
+1. Encontre as componentes fortemente conexas do grafo.
+2. Contraia cada componente em um unico vertice.
+3. O grafo resultante e chamado grafo condensado.
+4. O grafo condensado e sempre um DAG.
+5. Encontre as fontes do grafo condensado.
+6. Para cada componente fonte, escolha um vertice representante.
+7. O conjunto desses representantes e uma base minima.
+
+Justificativa:
+Dentro de uma componente fortemente conexa, qualquer vertice alcanca todos os outros da mesma componente.
+No grafo condensado, uma componente fonte nao pode ser alcancada por nenhuma outra componente, pois ela nao tem entrada.
+Portanto, qualquer base precisa escolher pelo menos um vertice de cada componente fonte.
+Escolhendo exatamente um vertice de cada componente fonte, conseguimos alcancar todas as componentes do grafo condensado e, consequentemente, todos os vertices de G.
+
+Conclusao:
+A base minima de um grafo direcionado geral pode ser obtida escolhendo um representante de cada componente fonte do grafo condensado.
+
+
+Questao 24)
+
+Enunciado:
+Seja G = (V, E) um grafo direcionado aciclico. Faca:
+1) Encontre o maior caminho do grafo usando, pelo menos, duas estrategias diferentes.
+2) De numeros para os vertices entre [1, |V|] de forma que a numeracao respeite as arestas do grafo.
+
+Ideia principal:
+Como G e aciclico e direcionado, G e um DAG. Em um DAG podemos fazer ordenacao topologica. Essa ordenacao permite numerar os vertices e tambem calcular o maior caminho. Para o maior caminho, podemos usar programacao dinamica em ordem topologica ou DFS com memoizacao.
+
+Parte 1: maior caminho usando duas estrategias
+
+Estrategia A: programacao dinamica em ordem topologica
+
+Pseudocodigo:
+
+Algoritmo MaiorCaminhoTopologico(G)
+Entrada: um DAG G = (V, E)
+Saida: maior caminho em numero de arestas
+
+inicio
+    ordem <- OrdenacaoTopologica(G)
+
+    para cada v pertencente a V faca
+        dist[v] <- 0
+        anterior[v] <- nulo
+    fim-para
+
+    para cada u em ordem faca
+        para cada aresta (u, v) pertencente a E faca
+            se dist[v] < dist[u] + 1 entao
+                dist[v] <- dist[u] + 1
+                anterior[v] <- u
+            fim-se
+        fim-para
+    fim-para
+
+    fimCaminho <- vertice com maior dist[v]
+    reconstrua o caminho voltando por anterior
+
+    retorne caminho e dist[fimCaminho]
+fim
+
+Estrategia B: DFS com memoizacao
+
+Pseudocodigo:
+
+Algoritmo MaiorCaminhoMemoizacao(G)
+Entrada: um DAG G = (V, E)
+Saida: maior caminho em numero de arestas
+
+inicio
+    para cada v pertencente a V faca
+        memo[v] <- indefinido
+        proximo[v] <- nulo
+    fim-para
+
+    melhorInicio <- nulo
+    melhorValor <- 0
+
+    para cada v pertencente a V faca
+        valor <- MaiorAPartirDe(v)
+
+        se valor > melhorValor entao
+            melhorValor <- valor
+            melhorInicio <- v
+        fim-se
+    fim-para
+
+    reconstrua o caminho a partir de melhorInicio usando proximo
+
+    retorne caminho e melhorValor
+fim
+
+Funcao MaiorAPartirDe(v)
+inicio
+    se memo[v] esta definido entao
+        retorne memo[v]
+    fim-se
+
+    memo[v] <- 0
+
+    para cada sucessor w de v faca
+        valor <- 1 + MaiorAPartirDe(w)
+
+        se valor > memo[v] entao
+            memo[v] <- valor
+            proximo[v] <- w
+        fim-se
+    fim-para
+
+    retorne memo[v]
+fim
+
+Explicacao:
+As duas estrategias funcionam porque o grafo nao tem ciclos.
+Na primeira, a ordem topologica garante que os predecessores sejam processados antes dos sucessores.
+Na segunda, a DFS calcula o maior caminho a partir de cada vertice e guarda o resultado para nao recalcular.
+
+Parte 2: numeracao dos vertices
+
+Objetivo:
+Dar numeros de 1 ate |V| para os vertices de modo que, se existe uma aresta (u, v), entao u recebe numero menor que v.
+
+Formula da propriedade:
+
+se (u, v) pertence a E, entao f(u) < f(v)
+
+Pseudocodigo:
+
+Algoritmo NumerarVerticesDAG(G)
+Entrada: um DAG G = (V, E)
+Saida: funcao f que numera os vertices de 1 ate |V|
+
+inicio
+    ordem <- OrdenacaoTopologica(G)
+    i <- 1
+
+    para cada vertice v em ordem faca
+        f[v] <- i
+        i <- i + 1
+    fim-para
+
+    retorne f
+fim
+
+Algoritmo OrdenacaoTopologica(G)
+Entrada: um DAG G = (V, E)
+Saida: uma ordem topologica dos vertices
+
+inicio
+    para cada v pertencente a V faca
+        grauEntrada[v] <- quantidade de arestas que chegam em v
+    fim-para
+
+    fila <- todos os vertices com grauEntrada igual a 0
+    ordem <- lista vazia
+
+    enquanto fila nao estiver vazia faca
+        v <- desenfileire fila
+        adicione v ao final de ordem
+
+        para cada sucessor w de v faca
+            grauEntrada[w] <- grauEntrada[w] - 1
+
+            se grauEntrada[w] = 0 entao
+                enfileire w em fila
+            fim-se
+        fim-para
+    fim-enquanto
+
+    retorne ordem
+fim
+
+Justificativa:
+Em um DAG sempre existe pelo menos uma fonte.
+Ao remover uma fonte, os vertices que dependiam dela podem se tornar novas fontes.
+Repetindo esse processo, obtemos uma ordem em que todo vertice aparece antes de seus sucessores.
+Assim, se existe uma aresta (u, v), entao u aparece antes de v na ordem e recebe um numero menor.
+
+Observacao sobre a escrita do enunciado:
+Se o professor escrever a condicao usando a aresta (v, u), entao a desigualdade aparece invertida:
+
+se (v, u) pertence a E, entao f(v) < f(u)
+
+As duas formas dizem a mesma ideia: a origem da aresta vem antes do destino.
+
+Conclusao:
+Para um DAG, usamos ordenacao topologica para numerar os vertices e tambem para calcular o maior caminho. O maior caminho pode ser encontrado por programacao dinamica em ordem topologica ou por DFS com memoizacao.
