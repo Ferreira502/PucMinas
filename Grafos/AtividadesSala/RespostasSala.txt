@@ -1,48 +1,48 @@
-Questao 01)
+﻿Questão 01)
 
 Enunciado:
-Prove que, se G e um grafo simples nao-direcionado, entao a soma dos graus de todos os vertices e par.
+Prove que, se G é um grafo simples não-direcionado, então a soma dos graus de todos os vértices é par.
 
 Ideia principal:
-Em um grafo nao-direcionado, cada aresta liga dois vertices. Portanto, quando somamos os graus de todos os vertices, cada aresta e contada duas vezes: uma vez em cada extremidade. Assim, a soma total dos graus e igual a 2 vezes o numero de arestas, logo e um numero par.
+Em um grafo não-direcionado, cada aresta liga dois vértices. Portanto, quando somamos os graus de todos os vértices, cada aresta é contada duas vezes: uma vez em cada extremidade. Assim, a soma total dos graus é igual a 2 vezes o número de arestas, logo é um número par.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo SomaGrausPar(G)
-Entrada: um grafo simples nao-direcionado G = (V, E)
-Saida: verdadeiro se a soma dos graus dos vertices for par
+Entrada: um grafo simples não-direcionado G = (V, E)
+Saída: verdadeiro se a soma dos graus dos vértices for par
 
-inicio
+início
     soma <- 0
 
-    para cada vertice v pertencente a V faca
+    para cada vértice v pertencente a V faça
         soma <- soma + grau(v)
     fim-para
 
-    se soma mod 2 = 0 entao
+    se soma mod 2 = 0 então
         retorne verdadeiro
-    senao
+    senão
         retorne falso
     fim-se
 fim
 
 Passo a passo para resolver:
 
-1. Considere o grafo G = (V, E), em que V e o conjunto de vertices e E e o conjunto de arestas.
-2. Para cada vertice v pertencente a V, calcule o grau de v, isto e, a quantidade de arestas incidentes em v.
-3. Some todos os graus dos vertices.
+1. Considere o grafo G = (V, E), em que V é o conjunto de vértices e E é o conjunto de arestas.
+2. Para cada vértice v pertencente a V, calcule o grau de v, isto é, a quantidade de arestas incidentes em v.
+3. Some todos os graus dos vértices.
 4. Observe que cada aresta {u, v} pertencente a E contribui com 1 no grau de u e com 1 no grau de v.
 5. Logo, cada aresta contribui com 2 unidades na soma total dos graus.
-6. Assim, a soma dos graus de todos os vertices e igual a 2|E|.
-7. Como 2|E| e multiplo de 2, essa soma e par.
+6. Assim, a soma dos graus de todos os vértices é igual a 2|E|.
+7. Como 2|E| é múltiplo de 2, essa soma é par.
 
-Prova matematica:
+Prova matemática:
 
-Seja G = (V, E) um grafo simples nao-direcionado.
+Seja G = (V, E) um grafo simples não-direcionado.
 
 Para todo e pertencente a E, existe u, v pertencentes a V tal que e = {u, v}.
 
-Como G e nao-direcionado:
+Como G é não-direcionado:
 
 ∀ e = {u, v} ∈ E, e incide em u ∧ e incide em v
 
@@ -66,55 +66,55 @@ Logo:
 
 ∑ grau(v), para todo v ∈ V = 2 · |E| ⇒ ∑ grau(v) é par
 
-Conclusao:
-A soma dos graus de todos os vertices de um grafo simples nao-direcionado sempre e par.
+Conclusão:
+A soma dos graus de todos os vértices de um grafo simples não-direcionado sempre é par.
 
 
-Questao 02)
+Questão 02)
 
 Enunciado:
-Mostre que o numero de vertices de grau impar de um grafo G nao-direcionado e sempre par.
+Mostre que o número de vértices de grau ímpar de um grafo G não-direcionado é sempre par.
 
 Ideia principal:
-Pela Questao 01, sabemos que a soma dos graus de todos os vertices de um grafo nao-direcionado e par. Os vertices de grau par contribuem com valores pares para essa soma. Portanto, a paridade da soma depende apenas dos vertices de grau impar. Como a soma total e par, a quantidade de vertices com grau impar tambem deve ser par.
+Pela Questão 01, sabemos que a soma dos graus de todos os vértices de um grafo não-direcionado é par. Os vértices de grau par contribuem com valores pares para essa soma. Portanto, a paridade da soma depende apenas dos vértices de grau ímpar. Como a soma total é par, a quantidade de vértices com grau ímpar também deve ser par.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo QuantidadeGrausImparesPar(G)
-Entrada: um grafo nao-direcionado G = (V, E)
-Saida: verdadeiro se a quantidade de vertices de grau impar for par
+Entrada: um grafo não-direcionado G = (V, E)
+Saída: verdadeiro se a quantidade de vértices de grau ímpar for par
 
-inicio
+início
     qtdImpares <- 0
 
-    para cada vertice v pertencente a V faca
-        se grau(v) mod 2 = 1 entao
+    para cada vértice v pertencente a V faça
+        se grau(v) mod 2 = 1 então
             qtdImpares <- qtdImpares + 1
         fim-se
     fim-para
 
-    se qtdImpares mod 2 = 0 entao
+    se qtdImpares mod 2 = 0 então
         retorne verdadeiro
-    senao
+    senão
         retorne falso
     fim-se
 fim
 
 Passo a passo para resolver:
 
-1. Considere o grafo G = (V, E), em que V e o conjunto de vertices e E e o conjunto de arestas.
-2. Separe os vertices de V em dois conjuntos: os vertices de grau par e os vertices de grau impar.
-3. Chame de P o conjunto dos vertices de grau par.
-4. Chame de I o conjunto dos vertices de grau impar.
-5. Pela Questao 01, a soma dos graus de todos os vertices e par.
-6. A soma dos graus dos vertices de P tambem e par, pois e uma soma de numeros pares.
-7. Entao a soma dos graus dos vertices de I tambem precisa ser par.
-8. Como cada vertice de I possui grau impar, a soma desses graus so sera par se a quantidade de vertices em I for par.
-9. Logo, o numero de vertices de grau impar e sempre par.
+1. Considere o grafo G = (V, E), em que V é o conjunto de vértices e E é o conjunto de arestas.
+2. Separe os vértices de V em dois conjuntos: os vértices de grau par e os vértices de grau ímpar.
+3. Chame de P o conjunto dos vértices de grau par.
+4. Chame de I o conjunto dos vértices de grau ímpar.
+5. Pela Questão 01, a soma dos graus de todos os vértices é par.
+6. A soma dos graus dos vértices de P também é par, pois é uma soma de números pares.
+7. Então a soma dos graus dos vértices de I também precisa ser par.
+8. Como cada vértice de I possui grau ímpar, a soma desses graus só será par se a quantidade de vértices em I for par.
+9. Logo, o número de vértices de grau ímpar é sempre par.
 
-Prova matematica:
+Prova matemática:
 
-Seja G = (V, E) um grafo nao-direcionado.
+Seja G = (V, E) um grafo não-direcionado.
 
 Definimos:
 
@@ -126,7 +126,7 @@ Assim:
 
 V = P ∪ I ∧ P ∩ I = ∅
 
-Pela Questao 01:
+Pela Questão 01:
 
 ∑ grau(v), para todo v ∈ V = 2 · |E|
 
@@ -151,7 +151,7 @@ Então:
 
 ∑ grau(v), para todo v ∈ P é par
 
-Como a soma total é par e a soma dos graus dos vertices de P é par:
+Como a soma total é par e a soma dos graus dos vértices de P é par:
 
 ∑ grau(v), para todo v ∈ V é par ∧ ∑ grau(v), para todo v ∈ P é par
 ⇒ ∑ grau(v), para todo v ∈ I é par
@@ -160,38 +160,41 @@ Agora, para todo v ∈ I:
 
 ∀ v ∈ I, grau(v) é ímpar
 
-A soma de numeros impares e par se, e somente se, a quantidade de parcelas impares for par:
+A soma de números ímpares é par se e somente se, a quantidade dé parcelas ímpares for par:
 
 ∀ v ∈ I, grau(v) é ímpar ∧ ∑ grau(v), para todo v ∈ I é par
 ⇒ |I| é par
 
-Conclusao:
-Como I representa o conjunto dos vertices de grau impar, concluimos que o numero de vertices de grau impar em um grafo nao-direcionado sempre e par.
+Conclusão:
+Como I representa o conjunto dos vértices de grau ímpar, concluímos que o número de vértices de grau ímpar em um grafo não-direcionado sempre é par.
 
 
-Questao 03)
+Questão 03)
 
 Enunciado:
-Projete um algoritmo para encontrar o numero de componentes conexos de um grafo nao-direcionado.
+Projete um algoritmo para encontrar o número de componentes conexos de um grafo não-direcionado.
 
 Ideia principal:
-Uma componente conexa e um conjunto de vertices em que todos conseguem alcancar uns aos outros por algum caminho. Para encontrar o numero de componentes conexos, percorremos todos os vertices do grafo. Sempre que encontramos um vertice ainda nao visitado, iniciamos uma busca em profundidade (DFS) a partir dele. Essa DFS visita todos os vertices da mesma componente conexa. Cada vez que precisamos iniciar uma nova DFS, encontramos uma nova componente.
+Uma componente conexa é um conjunto de vértices em que todos conseguem alcançar uns aos outros por algum caminho. 
+Para encontrar o número de componentes conexos, percorremos todos os vértices do grafo. 
+Sempre que encontramos um vértice ainda não visitado, iniciamos uma busca em profundidade (DFS) a partir dele. Essa DFS visita todos os vértices da mesma componente conexa. 
+Cada vez que precisamos iniciar uma nova DFS, encontramos uma nova componente.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo NumeroComponentesConexos(G)
-Entrada: um grafo nao-direcionado G = (V, E)
-Saida: quantidade de componentes conexos de G
+Entrada: um grafo não-direcionado G = (V, E)
+Saída: quantidade de componentes conexos de G
 
-inicio
-    para cada vertice v pertencente a V faca
+início
+    para cada vértice v pertencente a V faça
         visitado[v] <- falso
     fim-para
 
     componentes <- 0
 
-    para cada vertice v pertencente a V faca
-        se visitado[v] = falso entao
+    para cada vértice v pertencente a V faça
+        se visitado[v] = falso então
             componentes <- componentes + 1
             DFS(G, v, visitado)
         fim-se
@@ -201,11 +204,11 @@ inicio
 fim
 
 Procedimento DFS(G, v, visitado)
-inicio
+início
     visitado[v] <- verdadeiro
 
-    para cada vertice u adjacente a v faca
-        se visitado[u] = falso entao
+    para cada vértice u adjacente a v faça
+        se visitado[u] = falso então
             DFS(G, u, visitado)
         fim-se
     fim-para
@@ -213,26 +216,26 @@ fim
 
 Passo a passo para resolver:
 
-1. Considere o grafo G = (V, E), em que V e o conjunto de vertices e E e o conjunto de arestas.
-2. Marque todos os vertices como nao visitados.
+1. Considere o grafo G = (V, E), em que V é o conjunto de vértices e E é o conjunto de arestas.
+2. Marque todos os vértices como não visitados.
 3. Crie uma variavel componentes com valor inicial 0.
-4. Percorra todos os vertices do grafo.
-5. Se o vertice atual ainda nao foi visitado, significa que ele pertence a uma componente conexa que ainda nao foi contada.
+4. Percorra todos os vértices do grafo.
+5. Se o vértice atual ainda não foi visitado, significa que ele pertence a uma componente conexa que ainda não foi contada.
 6. Some 1 na variavel componentes.
-7. Execute uma DFS a partir desse vertice.
-8. A DFS marcara como visitados todos os vertices que pertencem a essa mesma componente conexa.
-9. Continue percorrendo os vertices restantes.
-10. No final, o valor de componentes sera exatamente o numero de componentes conexos do grafo.
+7. Execute uma DFS a partir desse vértice.
+8. A DFS marcará como visitados todos os vértices que pertencem a essa mesma componente conexa.
+9. Continue percorrendo os vértices restantes.
+10. No final, o valor de componentes será exatamente o número de componentes conexos do grafo.
 
-Prova matematica:
+Prova matemática:
 
-Seja G = (V, E) um grafo nao-direcionado.
+Seja G = (V, E) um grafo não-direcionado.
 
-Definimos a relacao de alcance entre vertices:
+Definimos a relação de alcance entre vértices:
 
 u ~ v ⇔ existe um caminho entre u e v em G
 
-Como G e nao-direcionado, a relacao ~ separa V em classes de equivalencia, chamadas componentes conexas:
+Como G é não-direcionado, a relação ~ separa V em classes de equivalencia, chamadas componentes conexas:
 
 C1, C2, ..., Ck
 
@@ -252,31 +255,31 @@ e:
 
 ∀ i, j ∈ {1, 2, ..., k}, i ≠ j ∧ u ∈ Ci ∧ v ∈ Cj ⇒ não existe caminho entre u e v
 
-Quando o algoritmo encontra um vertice v ainda nao visitado, temos:
+Quando o algoritmo encontra um vértice v ainda não visitado, temos:
 
-v ∈ Ci ∧ visitado[v] = falso ⇒ a componente Ci ainda nao foi contada
+v ∈ Ci ∧ visitado[v] = falso ⇒ a componente Ci ainda não foi contada
 
-Ao executar DFS(G, v), todos os vertices alcancaveis a partir de v sao visitados:
+Ao executar DFS(G, v), todos os vértices alcançáveis a partir de v são visitados:
 
 ∀ u ∈ V, existe caminho entre v e u ⇒ visitado[u] = verdadeiro
 
-Como v ∈ Ci, entao todos os vertices de Ci sao alcancaveis a partir de v:
+Como v ∈ Ci, então todos os vértices de Ci são alcançáveis a partir de v:
 
 ∀ u ∈ Ci, existe caminho entre v e u ⇒ visitado[u] = verdadeiro
 
-E nenhum vertice fora de Ci e visitado por essa DFS:
+E nenhum vértice fora de Ci é visitado por essa DFS:
 
-∀ u ∈ V, u ∉ Ci ⇒ não existe caminho entre v e u ⇒ u nao e visitado pela DFS iniciada em v
+∀ u ∈ V, u ∉ Ci ⇒ não existe caminho entre v e u ⇒ u não é visitado pela DFS iniciada em v
 
-Logo, cada execucao da DFS corresponde exatamente a uma componente conexa:
+Logo, cada execução da DFS correspondé exatamente a uma componente conexa:
 
 DFS iniciada em v ∈ Ci ⇒ conta exatamente Ci
 
-Como o algoritmo percorre todos os vertices:
+Como o algoritmo percorre todos os vértices:
 
 ∀ Ci, existe v ∈ Ci
 
-Se Ci ainda nao foi contada, entao algum v ∈ Ci estara nao visitado quando for analisado:
+Se Ci ainda não foi contada, então algum v ∈ Ci estará não visitado quando for analisado:
 
 ∃ v ∈ Ci, visitado[v] = falso ⇒ componentes <- componentes + 1
 
@@ -284,31 +287,32 @@ Portanto:
 
 componentes = k
 
-Conclusao:
-O algoritmo conta uma vez cada componente conexa do grafo e nao conta nenhuma componente mais de uma vez. Portanto, ele retorna corretamente o numero de componentes conexos de G.
+Conclusão:
+O algoritmo conta uma vez cada componente conexa do grafo é não conta nenhuma componente mais de uma vez. 
+Portanto, ele retorna corretamente o número de componentes conexos de G.
 
 
-Questao 04)
+Questão 04)
 
 Enunciado:
-Seja G = (V, E) um grafo nao-direcionado simples conexo tal que |V| >= 2. Mostre que ha, pelo menos, dois vertices que possuem o mesmo grau.
+Seja G = (V, E) um grafo não-direcionado simples conexo tal que |V| >= 2. Mostre que há, pelo menos, dois vértices que possuem o mesmo grau.
 
 Ideia principal:
-Se o grafo e simples, nao-direcionado e possui n vertices, entao o grau de qualquer vertice esta entre 0 e n - 1. Porem, como o grafo e conexo e n >= 2, nenhum vertice pode ter grau 0. Logo, os graus possiveis sao apenas 1, 2, 3, ..., n - 1. Existem n vertices, mas apenas n - 1 valores possiveis de grau. Pelo principio das gavetas, pelo menos dois vertices devem ter o mesmo grau.
+Se o grafo é simples, não-direcionado e possui n vértices, então o grau de qualquer vértice está entre 0 e n - 1. Porém, como o grafo é conexo e n >= 2, nenhum vértice pode ter grau 0. Logo, os graus possíveis são apenas 1, 2, 3, ..., n - 1. Existem n vértices, mas apenas n - 1 valores possíveis de grau. Pelo princípio das gavetas, pelo menos dois vértices devem ter o mesmo grau.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo ExisteDoisVerticesMesmoGrau(G)
-Entrada: um grafo simples nao-direcionado conexo G = (V, E), com |V| >= 2
-Saida: dois vertices que possuem o mesmo grau
+Entrada: um grafo simples não-direcionado conexo G = (V, E), com |V| >= 2
+Saída: dois vértices que possuem o mesmo grau
 
-inicio
-    para cada vertice v pertencente a V faca
+início
+    para cada vértice v pertencente a V faça
         grauV <- grau(v)
 
-        se tabela[grauV] existe entao
+        se tabela[grauV] existe então
             retorne tabela[grauV], v
-        senao
+        senão
             tabela[grauV] <- v
         fim-se
     fim-para
@@ -317,29 +321,29 @@ fim
 Passo a passo para resolver:
 
 1. Considere o grafo G = (V, E), com |V| = n e n >= 2.
-2. Como G e simples, um vertice pode estar ligado no maximo aos outros n - 1 vertices.
-3. Assim, para todo vertice v pertencente a V, grau(v) <= n - 1.
-4. Como G e conexo e n >= 2, nenhum vertice pode estar isolado.
-5. Assim, para todo vertice v pertencente a V, grau(v) >= 1.
-6. Portanto, os graus possiveis sao 1, 2, 3, ..., n - 1.
-7. Existem n vertices no grafo.
-8. Existem apenas n - 1 valores possiveis de grau.
-9. Pelo principio das gavetas, se n vertices recebem apenas n - 1 valores possiveis de grau, entao pelo menos dois vertices recebem o mesmo valor.
-10. Logo, existem pelo menos dois vertices em G que possuem o mesmo grau.
+2. Como G é simples, um vértice pode estar ligado no máximo aos outros n - 1 vértices.
+3. Assim, para todo vértice v pertencente a V, grau(v) <= n - 1.
+4. Como G é conexo e n >= 2, nenhum vértice pode estar isolado.
+5. Assim, para todo vértice v pertencente a V, grau(v) >= 1.
+6. Portanto, os graus possíveis são 1, 2, 3, ..., n - 1.
+7. Existem n vértices no grafo.
+8. Existem apenas n - 1 valores possíveis de grau.
+9. Pelo princípio das gavetas, se n vértices recebem apenas n - 1 valores possíveis de grau, então pelo menos dois vértices recebem o mesmo valor.
+10. Logo, existem pelo menos dois vértices em G que possuem o mesmo grau.
 
-Prova matematica:
+Prova matemática:
 
-Seja G = (V, E) um grafo simples nao-direcionado conexo.
+Seja G = (V, E) um grafo simples não-direcionado conexo.
 
 Seja:
 
 |V| = n, com n >= 2
 
-Como G e simples, um vertice nao possui laco e nao possui arestas repetidas. Entao, cada vertice pode se ligar no maximo aos outros n - 1 vertices:
+Como G é simples, um vértice não possui laço e não possui arestas repetidas. Então, cada vértice pode se ligar no máximo aos outros n - 1 vértices:
 
 ∀ v ∈ V, grau(v) <= n - 1
 
-Como G e conexo e n >= 2, nao pode existir vertice isolado:
+Como G é conexo e n >= 2, não pode existir vértice isolado:
 
 ∀ v ∈ V, grau(v) >= 1
 
@@ -347,7 +351,7 @@ Logo:
 
 ∀ v ∈ V, grau(v) ∈ {1, 2, 3, ..., n - 1}
 
-Definimos a funcao:
+Definimos a função:
 
 f: V -> {1, 2, 3, ..., n - 1}
 
@@ -367,7 +371,7 @@ Assim:
 
 |V| > |{1, 2, 3, ..., n - 1}|
 
-Pelo principio das gavetas:
+Pelo princípio das gavetas:
 
 |V| > |{1, 2, 3, ..., n - 1}| ⇒ ∃ u, v ∈ V, u ≠ v ∧ f(u) = f(v)
 
@@ -375,29 +379,29 @@ Como f(x) = grau(x), temos:
 
 ∃ u, v ∈ V, u ≠ v ∧ grau(u) = grau(v)
 
-Conclusao:
-Portanto, em todo grafo simples nao-direcionado conexo com |V| >= 2, existem pelo menos dois vertices que possuem o mesmo grau.
+Conclusão:
+Portanto, em todo grafo simples não-direcionado conexo com |V| >= 2, existem pelo menos dois vértices que possuem o mesmo grau.
 
 
-Questao 05)
+Questão 05)
 
 Enunciado:
-Seja G = (V, E) um grafo nao-direcionado completo. Encontre o numero de subgrafos que podem ser encontrados em G.
+Seja G = (V, E) um grafo não-direcionado completo. Encontre o número de subgrafos que podem ser encontrados em G.
 
 Ideia principal:
-Se G e um grafo completo com n vertices, entao todo par de vertices possui uma aresta. Para formar um subgrafo, primeiro escolhemos um subconjunto de vertices. Se esse subconjunto possui k vertices, entao existem C(k, 2) arestas possiveis entre eles. Como um subgrafo pode conter qualquer subconjunto dessas arestas, existem 2^(C(k, 2)) formas de escolher as arestas. Como existem C(n, k) formas de escolher k vertices, o total de subgrafos e a soma desses valores para k indo de 0 ate n.
+Se G é um grafo completo com n vértices, então todo par de vértices possui uma aresta. Para formar um subgrafo, primeiro escolhemos um subconjunto de vértices. Se esse subconjunto possui k vértices, então existem C(k, 2) arestas possíveis entre eles. Como um subgrafo pode conter qualquer subconjunto dessas arestas, existem 2^(C(k, 2)) formas de escolher as arestas. Como existem C(n, k) formas de escolher k vértices, o total de subgrafos é a soma desses valores para k indo de 0 até n.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo NumeroSubgrafosGrafoCompleto(G)
-Entrada: um grafo completo nao-direcionado G = (V, E)
-Saida: numero de subgrafos de G
+Entrada: um grafo completo não-direcionado G = (V, E)
+Saída: número de subgrafos de G
 
-inicio
+início
     n <- |V|
     total <- 0
 
-    para k <- 0 ate n faca
+    para k <- 0 até n faça
         qtdVertices <- combinacao(n, k)
         qtdArestasPossiveis <- k * (k - 1) / 2
         qtdSubgrafosComKVertices <- qtdVertices * 2^qtdArestasPossiveis
@@ -409,26 +413,26 @@ fim
 
 Passo a passo para resolver:
 
-1. Considere G = (V, E) um grafo completo nao-direcionado.
-2. Seja n = |V|, isto e, n e o numero de vertices de G.
-3. Como G e completo, todo par de vertices distintos possui uma aresta.
-4. Para montar um subgrafo, primeiro escolhemos quantos vertices ele tera. Chame essa quantidade de k.
-5. Existem C(n, k) formas de escolher k vertices entre os n vertices de G.
-6. Depois de escolher esses k vertices, existem C(k, 2) arestas possiveis entre eles.
-7. Cada uma dessas arestas pode aparecer ou nao aparecer no subgrafo.
-8. Portanto, para k vertices escolhidos, existem 2^(C(k, 2)) formas de escolher as arestas.
-9. Assim, para cada k, existem C(n, k) · 2^(C(k, 2)) subgrafos com k vertices.
-10. Para obter o numero total de subgrafos, somamos esse valor para todo k de 0 ate n.
+1. Considere G = (V, E) um grafo completo não-direcionado.
+2. Seja n = |V|, isto é, n é o número de vértices de G.
+3. Como G é completo, todo par de vértices distintos possui uma aresta.
+4. Para montar um subgrafo, primeiro escolhemos quantos vértices ele terá. Chame essa quantidade de k.
+5. Existem C(n, k) formas de escolher k vértices entre os n vértices de G.
+6. Depois de escolher esses k vértices, existem C(k, 2) arestas possíveis entre eles.
+7. Cada uma dessas arestas pode aparecer ou não aparecer no subgrafo.
+8. Portanto, para k vértices escolhidos, existem 2^(C(k, 2)) formas de escolher as arestas.
+9. Assim, para cada k, existem C(n, k) · 2^(C(k, 2)) subgrafos com k vértices.
+10. Para obter o número total de subgrafos, somamos esse valor para todo k de 0 até n.
 
-Prova matematica:
+Prova matemática:
 
-Seja G = (V, E) um grafo completo nao-direcionado.
+Seja G = (V, E) um grafo completo não-direcionado.
 
 Seja:
 
 |V| = n
 
-Como G e completo:
+Como G é completo:
 
 ∀ u, v ∈ V, u ≠ v ⇒ {u, v} ∈ E
 
@@ -444,74 +448,74 @@ e:
 
 E' ⊆ {{u, v} | u, v ∈ V' ∧ u ≠ v}
 
-Para todo V' ⊆ V, se |V'| = k, entao o numero de arestas possiveis em V' e:
+Para todo V' ⊆ V, se |V'| = k, então o número de arestas possíveis em V' e:
 
 |{{u, v} | u, v ∈ V' ∧ u ≠ v}| = C(k, 2)
 
-Como cada aresta pode pertencer ou nao pertencer a E':
+Como cada aresta pode pertencer ou não pertencer a E':
 
 ∀ e ∈ {{u, v} | u, v ∈ V' ∧ u ≠ v}, e ∈ E' ∨ e ∉ E'
 
-Logo, para um conjunto V' com k vertices:
+Logo, para um conjunto V' com k vértices:
 
-numero de escolhas para E' = 2^(C(k, 2))
+número de escolhas para E' = 2^(C(k, 2))
 
-Como existem C(n, k) formas de escolher V' com k vertices:
+Como existem C(n, k) formas de escolher V' com k vértices:
 
-numero de subgrafos com k vertices = C(n, k) · 2^(C(k, 2))
+número de subgrafos com k vértices = C(n, k) · 2^(C(k, 2))
 
-Portanto, o numero total de subgrafos de G e:
+Portanto, o número total de subgrafos de G é:
 
 ∑ C(n, k) · 2^(C(k, 2)), para todo k ∈ {0, 1, 2, ..., n}
 
 Ou seja:
 
-Total = ∑(k = 0 ate n) C(n, k) · 2^(k(k - 1)/2)
+Total = ∑(k = 0 até n) C(n, k) · 2^(k(k - 1)/2)
 
-Conclusao:
-Se G e um grafo completo nao-direcionado com n vertices, entao o numero total de subgrafos de G e:
+Conclusão:
+Se G é um grafo completo não-direcionado com n vértices, então o número total de subgrafos de G é:
 
-Total = ∑(k = 0 ate n) C(n, k) · 2^(k(k - 1)/2)
+Total = ∑(k = 0 até n) C(n, k) · 2^(k(k - 1)/2)
 
 
-Questao 06)
+Questão 06)
 
 Enunciado:
-Seja G = (V, E) um grafo direcionado. Seja u pertencente a V um vertice qualquer do grafo. Projete um algoritmo para encontrar todos os vertices que podem ser atingidos a partir de u.
+Seja G = (V, E) um grafo direcionado. Seja u pertencente a V um vértice qualquer do grafo. Projete um algoritmo para encontrar todos os vértices que podem ser atingidos a partir de u.
 
 Ideia principal:
-Para encontrar todos os vertices atingiveis a partir de u, basta iniciar uma busca em profundidade (DFS) em u e seguir apenas as arestas no sentido correto. Sempre que existir uma aresta direcionada (v, w), saindo de v e chegando em w, a busca pode ir de v para w. Ao final, todos os vertices marcados como visitados sao exatamente os vertices que podem ser atingidos a partir de u.
+Para encontrar todos os vértices atingíveis a partir de u, basta iniciar uma busca em profundidade (DFS) em u e seguir apenas as arestas no sentido correto. Sempre que existir uma aresta direcionada (v, w), saindo de v e chegando em w, a busca pode ir de v para w. Ao final, todos os vértices marcados como visitados são exatamente os vértices que podem ser atingidos a partir de u.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo VerticesAtingiveis(G, u)
-Entrada: um grafo direcionado G = (V, E) e um vertice u pertencente a V
-Saida: conjunto de vertices atingiveis a partir de u
+Entrada: um grafo direcionado G = (V, E) e um vértice u pertencente a V
+Saída: conjunto de vértices atingíveis a partir de u
 
-inicio
-    para cada vertice v pertencente a V faca
+início
+    para cada vértice v pertencente a V faça
         visitado[v] <- falso
     fim-para
 
     DFS_Direcionada(G, u, visitado)
 
-    atingiveis <- conjunto vazio
+    atingíveis <- conjunto vazio
 
-    para cada vertice v pertencente a V faca
-        se visitado[v] = verdadeiro entao
-            adicione v em atingiveis
+    para cada vértice v pertencente a V faça
+        se visitado[v] = verdadeiro então
+            adicione v em atingíveis
         fim-se
     fim-para
 
-    retorne atingiveis
+    retorne atingíveis
 fim
 
 Procedimento DFS_Direcionada(G, v, visitado)
-inicio
+início
     visitado[v] <- verdadeiro
 
-    para cada aresta (v, w) pertencente a E faca
-        se visitado[w] = falso entao
+    para cada aresta (v, w) pertencente a E faça
+        se visitado[w] = falso então
             DFS_Direcionada(G, w, visitado)
         fim-se
     fim-para
@@ -520,39 +524,39 @@ fim
 Passo a passo para resolver:
 
 1. Considere G = (V, E) um grafo direcionado.
-2. Escolha o vertice inicial u pertencente a V.
-3. Marque todos os vertices como nao visitados.
+2. Escolha o vértice inicial u pertencente a V.
+3. Marque todos os vértices como não visitados.
 4. Inicie uma DFS a partir de u.
-5. Durante a DFS, siga apenas as arestas que saem do vertice atual.
-6. Se existe uma aresta direcionada (v, w), entao a busca pode ir de v para w.
-7. Sempre que um novo vertice for encontrado, marque-o como visitado.
-8. Continue a busca ate nao existir mais nenhum vertice novo que possa ser alcancado.
-9. Ao final, todos os vertices marcados como visitados formam o conjunto dos vertices atingiveis a partir de u.
+5. Durante a DFS, siga apenas as arestas que saem do vértice atual.
+6. Se existe uma aresta direcionada (v, w), então a busca pode ir de v para w.
+7. Sempre que um novo vértice for encontrado, marque-o como visitado.
+8. Continue a busca até não existir mais nenhum vértice novo que possa ser alcançado.
+9. Ao final, todos os vértices marcados como visitados formam o conjunto dos vértices atingíveis a partir de u.
 10. Retorne esse conjunto.
 
-Prova matematica:
+Prova matemática:
 
-Seja G = (V, E) um grafo direcionado e seja u ∈ V.
+Seja G = (V, E) um grafo direcionado é seja u ∈ V.
 
-Definimos o conjunto dos vertices atingiveis a partir de u:
+Definimos o conjunto dos vértices atingíveis a partir de u:
 
-R(u) = {v ∈ V | existe um caminho direcionado de u ate v}
+R(u) = {v ∈ V | existe um caminho direcionado de u até v}
 
 Queremos provar que o algoritmo retorna exatamente R(u).
 
-Primeiro, mostramos que todo vertice visitado pelo algoritmo pertence a R(u).
+Primeiro, mostramos que todo vértice visitado pelo algoritmo pertence a R(u).
 
-No inicio:
+No início:
 
 visitado[u] = verdadeiro
 
-Como existe um caminho de tamanho 0 de u ate u:
+Como existe um caminho de tamanho 0 de u até u:
 
 u ∈ R(u)
 
-Durante a DFS, se o algoritmo visita w a partir de v, entao existe uma aresta direcionada (v, w) ∈ E.
+Durante a DFS, se o algoritmo visita w a partir de v, então existe uma aresta direcionada (v, w) ∈ E.
 
-Se v ∈ R(u) ∧ (v, w) ∈ E, entao existe caminho direcionado de u ate v e uma aresta de v ate w.
+Se v ∈ R(u) ∧ (v, w) ∈ E, então existe caminho direcionado de u até v e uma aresta de v até w.
 
 Logo:
 
@@ -562,9 +566,9 @@ Portanto:
 
 ∀ w ∈ V, visitado[w] = verdadeiro ⇒ w ∈ R(u)
 
-Agora, mostramos que todo vertice pertencente a R(u) sera visitado pelo algoritmo.
+Agora, mostramos que todo vértice pertencente a R(u) será visitado pelo algoritmo.
 
-Se x ∈ R(u), entao existe um caminho direcionado de u ate x:
+Se x ∈ R(u), então existe um caminho direcionado de u até x:
 
 u = v0, v1, v2, ..., vk = x
 
@@ -572,11 +576,11 @@ tal que:
 
 ∀ i ∈ {0, 1, ..., k - 1}, (vi, vi+1) ∈ E
 
-Como a DFS comeca em u:
+Como a DFS começa em u:
 
 visitado[v0] = verdadeiro
 
-Se visitado[vi] = verdadeiro e (vi, vi+1) ∈ E, entao a DFS analisa a aresta que sai de vi e chega em vi+1.
+Se visitado[vi] = verdadeiro e (vi, vi+1) ∈ E, então a DFS analisa a aresta que sai de vi e chega em vi+1.
 
 Logo:
 
@@ -598,26 +602,26 @@ Juntando as duas partes:
 
 ∀ x ∈ V, visitado[x] = verdadeiro ⇔ x ∈ R(u)
 
-Conclusao:
-O algoritmo retorna exatamente o conjunto dos vertices que podem ser atingidos a partir de u, pois um vertice e visitado se, e somente se, existe um caminho direcionado de u ate ele.
+Conclusão:
+O algoritmo retorna exatamente o conjunto dos vértices que podem ser atingidos a partir de u, pois um vértice é visitado se e somente se, existe um caminho direcionado de u até ele.
 
 
-Questao 07)
+Questão 07)
 
 Enunciado:
-Seja G = (V, E) um grafo direcionado. Seja u pertencente a V um vertice qualquer do grafo. Implemente um algoritmo para encontrar todos os vertices que podem ser atingidos a partir de u.
+Seja G = (V, E) um grafo direcionado. Seja u pertencente a V um vértice qualquer do grafo. Implemente um algoritmo para encontrar todos os vértices que podem ser atingidos a partir de u.
 
 Ideia principal:
-Para implementar a solucao, podemos representar o grafo por lista de adjacencia. Em um grafo direcionado, a lista de adjacencia de um vertice v contem apenas os vertices w tais que existe uma aresta saindo de v e chegando em w, isto e, (v, w) pertencente a E. Assim, basta iniciar uma DFS em u e seguir somente essas arestas de saida. Todos os vertices visitados pela DFS sao os vertices atingiveis a partir de u.
+Para implementar a solução, podemos representar o grafo por lista de adjacência. Em um grafo direcionado, a lista de adjacência de um vértice v contém apenas os vértices w tais que existe uma aresta saindo de v e chegando em w, isto é, (v, w) pertencente a E. Assim, basta iniciar uma DFS em u e seguir somente essas arestas de saída. Todos os vértices visitados pela DFS são os vértices atingíveis a partir de u.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo EncontrarAtingiveis(G, u)
-Entrada: grafo direcionado G = (V, E), representado por lista de adjacencia, e um vertice u pertencente a V
-Saida: lista com todos os vertices atingiveis a partir de u
+Entrada: grafo direcionado G = (V, E), representado por lista de adjacência, e um vértice u pertencente a V
+Saída: lista com todos os vértices atingíveis a partir de u
 
-inicio
-    para cada vertice v pertencente a V faca
+início
+    para cada vértice v pertencente a V faça
         visitado[v] <- falso
     fim-para
 
@@ -629,12 +633,12 @@ inicio
 fim
 
 Procedimento Buscar(G, v, visitado, resultado)
-inicio
+início
     visitado[v] <- verdadeiro
     adicione v em resultado
 
-    para cada vertice w pertencente a Adj[v] faca
-        se visitado[w] = falso entao
+    para cada vértice w pertencente a Adj[v] faça
+        se visitado[w] = falso então
             Buscar(G, w, visitado, resultado)
         fim-se
     fim-para
@@ -643,27 +647,27 @@ fim
 Passo a passo para resolver:
 
 1. Considere G = (V, E) um grafo direcionado.
-2. Represente G usando lista de adjacencia.
-3. Para cada vertice v, Adj[v] deve conter apenas os vertices w para os quais existe a aresta direcionada (v, w).
-4. Escolha o vertice inicial u pertencente a V.
-5. Marque todos os vertices como nao visitados.
+2. Represente G usando lista de adjacência.
+3. Para cada vértice v, Adj[v] deve conter apenas os vértices w para os quais existe a aresta direcionada (v, w).
+4. Escolha o vértice inicial u pertencente a V.
+5. Marque todos os vértices como não visitados.
 6. Crie uma lista vazia chamada resultado.
 7. Execute a busca a partir de u.
-8. Ao visitar um vertice v, marque v como visitado e adicione v em resultado.
-9. Para cada w pertencente a Adj[v], se w ainda nao foi visitado, continue a busca a partir de w.
-10. Quando a busca terminar, resultado contem exatamente todos os vertices atingiveis a partir de u.
+8. Ao visitar um vértice v, marque v como visitado e adicione v em resultado.
+9. Para cada w pertencente a Adj[v], se w ainda não foi visitado, continue a busca a partir de w.
+10. Quando a busca terminar, resultado contém exatamente todos os vértices atingíveis a partir de u.
 
-Prova matematica:
+Prova matemática:
 
-Seja G = (V, E) um grafo direcionado e seja u ∈ V.
+Seja G = (V, E) um grafo direcionado é seja u ∈ V.
 
-Pela representacao por lista de adjacencia:
+Pela representacao por lista de adjacência:
 
 ∀ v, w ∈ V, w ∈ Adj[v] ⇔ (v, w) ∈ E
 
-Definimos o conjunto dos vertices atingiveis a partir de u:
+Definimos o conjunto dos vértices atingíveis a partir de u:
 
-A(u) = {x ∈ V | existe caminho direcionado de u ate x}
+A(u) = {x ∈ V | existe caminho direcionado de u até x}
 
 O algoritmo retorna o conjunto:
 
@@ -675,21 +679,21 @@ R = A(u)
 
 Primeiro, provamos que R ⊆ A(u).
 
-O primeiro vertice visitado e u:
+O primeiro vértice visitado é u:
 
 visitado[u] = verdadeiro
 
-Como existe caminho de tamanho 0 de u ate u:
+Como existe caminho de tamanho 0 de u até u:
 
 u ∈ A(u)
 
-Durante a busca, um vertice w so e visitado a partir de algum vertice v ja visitado, quando w ∈ Adj[v].
+Durante a busca, um vértice w só é visitado a partir de algum vértice v já visitado, quando w ∈ Adj[v].
 
-Pela definicao da lista de adjacencia:
+Pela definição da lista de adjacência:
 
 w ∈ Adj[v] ⇒ (v, w) ∈ E
 
-Se v ∈ A(u) e (v, w) ∈ E, entao existe caminho direcionado de u ate v e uma aresta de v ate w.
+Se v ∈ A(u) e (v, w) ∈ E, então existe caminho direcionado de u até v e uma aresta de v até w.
 
 Logo:
 
@@ -701,7 +705,7 @@ Portanto:
 
 Agora, provamos que A(u) ⊆ R.
 
-Se x ∈ A(u), entao existe um caminho direcionado:
+Se x ∈ A(u), então existe um caminho direcionado:
 
 u = v0, v1, v2, ..., vk = x
 
@@ -709,15 +713,15 @@ tal que:
 
 ∀ i ∈ {0, 1, ..., k - 1}, (vi, vi+1) ∈ E
 
-Pela lista de adjacencia:
+Pela lista de adjacência:
 
 ∀ i ∈ {0, 1, ..., k - 1}, (vi, vi+1) ∈ E ⇒ vi+1 ∈ Adj[vi]
 
-Como a busca comeca em u:
+Como a busca começa em u:
 
 visitado[v0] = verdadeiro
 
-Se visitado[vi] = verdadeiro e vi+1 ∈ Adj[vi], entao o algoritmo analisa vi+1 na lista Adj[vi].
+Se visitado[vi] = verdadeiro e vi+1 ∈ Adj[vi], então o algoritmo analisa vi+1 na lista Adj[vi].
 
 Assim:
 
@@ -743,32 +747,32 @@ Logo:
 
 R = A(u)
 
-Conclusao:
-O algoritmo implementado com lista de adjacencia e DFS retorna exatamente todos os vertices que podem ser atingidos a partir de u, pois ele visita um vertice se, e somente se, existe um caminho direcionado de u ate esse vertice.
+Conclusão:
+O algoritmo implementado com lista de adjacência e DFS retorna exatamente todos os vértices que podem ser atingidos a partir de u, pois ele visita um vértice se e somente se, existe um caminho direcionado de u até esse vértice.
 
 
-Questao 08)
+Questão 08)
 
 Enunciado:
-Seja G = (V, E) um grafo direcionado. Projete uma solucao para dizer se ha um ciclo em G.
+Seja G = (V, E) um grafo direcionado. Projete uma solução para dizer se há um ciclo em G.
 
 Ideia principal:
-Para descobrir se existe ciclo em um grafo direcionado, usamos uma DFS com tres estados para os vertices: nao visitado, em processamento e finalizado. Um vertice em processamento e um vertice que ja foi visitado, mas cuja DFS ainda nao terminou. Se durante a DFS encontramos uma aresta para um vertice que ainda esta em processamento, entao encontramos um ciclo.
+Para descobrir se existe ciclo em um grafo direcionado, usamos uma DFS com três estados para os vértices: não visitado, em processamento e finalizado. Um vértice em processamento é um vértice que já foi visitado, mas cuja DFS ainda não terminou. Se durante a DFS encontramos uma aresta para um vértice que ainda está em processamento, então encontramos um ciclo.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo ExisteCicloDirecionado(G)
 Entrada: um grafo direcionado G = (V, E)
-Saida: verdadeiro se G possui ciclo, falso caso contrario
+Saída: verdadeiro se G possui ciclo, falso caso contrário
 
-inicio
-    para cada vertice v pertencente a V faca
+início
+    para cada vértice v pertencente a V faça
         estado[v] <- nao_visitado
     fim-para
 
-    para cada vertice v pertencente a V faca
-        se estado[v] = nao_visitado entao
-            se DFS_Ciclo(G, v, estado) = verdadeiro entao
+    para cada vértice v pertencente a V faça
+        se estado[v] = nao_visitado então
+            se DFS_Ciclo(G, v, estado) = verdadeiro então
                 retorne verdadeiro
             fim-se
         fim-se
@@ -778,16 +782,16 @@ inicio
 fim
 
 Procedimento DFS_Ciclo(G, v, estado)
-inicio
+início
     estado[v] <- em_processamento
 
-    para cada aresta (v, w) pertencente a E faca
-        se estado[w] = em_processamento entao
+    para cada aresta (v, w) pertencente a E faça
+        se estado[w] = em_processamento então
             retorne verdadeiro
         fim-se
 
-        se estado[w] = nao_visitado entao
-            se DFS_Ciclo(G, w, estado) = verdadeiro entao
+        se estado[w] = nao_visitado então
+            se DFS_Ciclo(G, w, estado) = verdadeiro então
                 retorne verdadeiro
             fim-se
         fim-se
@@ -800,29 +804,29 @@ fim
 Passo a passo para resolver:
 
 1. Considere G = (V, E) um grafo direcionado.
-2. Inicialmente, marque todos os vertices como nao visitados.
-3. Percorra todos os vertices do grafo.
-4. Sempre que encontrar um vertice nao visitado, inicie uma DFS a partir dele.
-5. Ao entrar em um vertice v na DFS, marque v como em processamento.
+2. Inicialmente, marque todos os vértices como não visitados.
+3. Percorra todos os vértices do grafo.
+4. Sempre que encontrar um vértice não visitado, inicie uma DFS a partir dele.
+5. Ao entrar em um vértice v na DFS, marque v como em processamento.
 6. Analise todas as arestas que saem de v.
-7. Se existir uma aresta (v, w) e w estiver em processamento, entao existe um caminho de w ate v na pilha da DFS e uma aresta de v para w, formando um ciclo.
-8. Se w nao foi visitado, continue a DFS a partir de w.
+7. Se existir uma aresta (v, w) e w estiver em processamento, então existe um caminho de w até v na pilha da DFS e uma aresta de v para w, formando um ciclo.
+8. Se w não foi visitado, continue a DFS a partir de w.
 9. Quando terminar de analisar todas as arestas que saem de v, marque v como finalizado.
-10. Se nenhuma aresta para vertice em processamento for encontrada, entao o grafo nao possui ciclo.
+10. Se nenhuma aresta para vértice em processamento for encontrada, então o grafo não possui ciclo.
 
-Prova matematica:
+Prova matemática:
 
 Seja G = (V, E) um grafo direcionado.
 
 Durante a DFS, definimos:
 
-estado[v] = em_processamento ⇔ v pertence a pilha atual da recursao
+estado[v] = em_processamento ⇔ v pertence a pilha atual da recursão
 
 Ou seja:
 
-∀ v ∈ V, estado[v] = em_processamento ⇒ existe caminho direcionado do primeiro vertice da DFS ate v na pilha
+∀ v ∈ V, estado[v] = em_processamento ⇒ existe caminho direcionado do primeiro vértice da DFS até v na pilha
 
-Primeiro, mostramos que se o algoritmo retorna verdadeiro, entao G possui ciclo.
+Primeiro, mostramos que se o algoritmo retorna verdadeiro, então G possui ciclo.
 
 O algoritmo retorna verdadeiro quando encontra uma aresta:
 
@@ -832,19 +836,19 @@ tal que:
 
 estado[w] = em_processamento
 
-Como w esta em processamento, w esta na pilha da DFS antes de v. Logo, existe um caminho direcionado de w ate v:
+Como w está em processamento, w está na pilha da DFS antes de v. Logo, existe um caminho direcionado de w até v:
 
-estado[w] = em_processamento ∧ estado[v] = em_processamento ⇒ existe caminho direcionado de w ate v
+estado[w] = em_processamento ∧ estado[v] = em_processamento ⇒ existe caminho direcionado de w até v
 
-Como tambem existe a aresta (v, w):
+Como também existe a aresta (v, w):
 
-existe caminho de w ate v ∧ (v, w) ∈ E ⇒ existe ciclo
+existe caminho de w até v ∧ (v, w) ∈ E ⇒ existe ciclo
 
 Portanto:
 
 ∀ v, w ∈ V, estado[w] = em_processamento ∧ (v, w) ∈ E ⇒ G possui ciclo
 
-Agora, mostramos que se G possui ciclo, entao o algoritmo retorna verdadeiro.
+Agora, mostramos que se G possui ciclo, então o algoritmo retorna verdadeiro.
 
 Suponha que exista um ciclo direcionado em G:
 
@@ -858,19 +862,19 @@ e:
 
 (vk, v0) ∈ E
 
-Como o algoritmo percorre todos os vertices:
+Como o algoritmo percorre todos os vértices:
 
-∀ v ∈ V, v sera analisado pela DFS ou ja tera sido visitado
+∀ v ∈ V, v será analisado pela DFS ou já terá sido visitado
 
-Considere o primeiro vertice do ciclo C que for visitado pela DFS. Chame esse vertice de vi.
+Considere o primeiro vértice do ciclo C que for visitado pela DFS. Chame esse vértice de vi.
 
 Como as arestas do ciclo seguem o sentido:
 
 vi -> vi+1 -> ... -> vk -> v0 -> ... -> vi
 
-a DFS pode seguir os vertices do ciclo enquanto eles ainda nao estiverem finalizados.
+a DFS pode seguir os vértices do ciclo enquanto eles ainda não estiverem finalizados.
 
-Antes de finalizar vi, a DFS encontra uma aresta que aponta para algum vertice do ciclo que ainda esta em processamento.
+Antes de finalizar vi, a DFS encontra uma aresta que aponta para algum vértice do ciclo que ainda está em processamento.
 
 Assim:
 
@@ -886,59 +890,59 @@ Juntando os dois resultados:
 
 algoritmo retorna verdadeiro ⇔ G possui ciclo
 
-Conclusao:
-O algoritmo detecta corretamente se ha ciclo em um grafo direcionado, pois retorna verdadeiro se, e somente se, encontra uma aresta para um vertice que ainda esta em processamento na DFS, o que caracteriza um ciclo direcionado.
+Conclusão:
+O algoritmo detecta corretamente se há ciclo em um grafo direcionado, pois retorna verdadeiro se e somente se, encontra uma aresta para um vértice que ainda está em processamento na DFS, o que caracteriza um ciclo direcionado.
 
 
-Questao 09)
+Questão 09)
 
 Enunciado:
-Use a ordem alfabetica para tratar empates. Classifique as arestas. Para cada vertice, crie dois tempos que marquem o inicio da visita e o fim da visita.
+Use a ordem alfabética para tratar empates. Classifique as arestas. Para cada vértice, crie dois tempos que marquem o início da visita e o fim da visita.
 
 Ideia principal:
-Para resolver essa questao, usamos uma busca em profundidade (DFS). A ordem alfabetica e usada sempre que houver escolha entre vertices: primeiro ordenamos os vertices alfabeticamente e tambem ordenamos alfabeticamente a lista de adjacencia de cada vertice. Durante a DFS, cada vertice recebe um tempo de descoberta, quando a visita comeca, e um tempo de finalizacao, quando todos os seus vizinhos ja foram analisados. As arestas sao classificadas de acordo com o estado do vertice de destino no momento em que a aresta e analisada.
+Para resolver essa questão, usamos uma busca em profundidade (DFS). A ordem alfabética é usada sempre que houver escolha entre vértices: primeiro ordenamos os vértices alfabéticamente e também ordenamos alfabéticamente a lista de adjacência de cada vértice. Durante a DFS, cada vértice recebe um tempo de descoberta, quando a visita começa, é um tempo de finalização, quando todos os seus vizinhos já foram analisados. As arestas são classificadas de acordo com o estado do vértice de destino no momento em que a aresta e analisada.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo DFS_ClassificarArestas(G)
 Entrada: um grafo direcionado G = (V, E)
-Saida: tempo de inicio, tempo de fim e classificacao das arestas
+Saída: tempo de início, tempo de fim e classificacao das arestas
 
-inicio
-    ordene V em ordem alfabetica
+início
+    ordene V em ordem alfabética
 
-    para cada vertice v pertencente a V faca
-        ordene Adj[v] em ordem alfabetica
+    para cada vértice v pertencente a V faça
+        ordene Adj[v] em ordem alfabética
         cor[v] <- branco
         pai[v] <- nulo
     fim-para
 
     tempo <- 0
 
-    para cada vertice v pertencente a V, em ordem alfabetica, faca
-        se cor[v] = branco entao
+    para cada vértice v pertencente a V, em ordem alfabética, faça
+        se cor[v] = branco então
             DFS_Visita(G, v)
         fim-se
     fim-para
 fim
 
 Procedimento DFS_Visita(G, v)
-inicio
+início
     cor[v] <- cinza
     tempo <- tempo + 1
-    inicio[v] <- tempo
+    início[v] <- tempo
 
-    para cada vertice w pertencente a Adj[v], em ordem alfabetica, faca
-        se cor[w] = branco entao
-            classificar (v, w) como aresta de arvore
+    para cada vértice w pertencente a Adj[v], em ordem alfabética, faça
+        se cor[w] = branco então
+            classificar (v, w) como aresta de árvore
             pai[w] <- v
             DFS_Visita(G, w)
-        senao se cor[w] = cinza entao
+        senão se cor[w] = cinza então
             classificar (v, w) como aresta de retorno
-        senao
-            se inicio[v] < inicio[w] entao
-                classificar (v, w) como aresta de avanco
-            senao
+        senão
+            se início[v] < início[w] então
+                classificar (v, w) como aresta de avanço
+            senão
                 classificar (v, w) como aresta de cruzamento
             fim-se
         fim-se
@@ -952,141 +956,141 @@ fim
 Passo a passo para resolver:
 
 1. Considere G = (V, E) um grafo direcionado.
-2. Ordene todos os vertices de V em ordem alfabetica.
-3. Para cada vertice v, ordene tambem sua lista de adjacencia Adj[v] em ordem alfabetica.
-4. Marque todos os vertices inicialmente com a cor branco.
+2. Ordene todos os vértices de V em ordem alfabética.
+3. Para cada vértice v, ordene também sua lista de adjacência Adj[v] em ordem alfabética.
+4. Marque todos os vértices inicialmente com a cor branco.
 5. Crie uma variavel tempo iniciando em 0.
-6. Percorra os vertices em ordem alfabetica.
-7. Quando encontrar um vertice branco, inicie uma DFS a partir dele.
-8. Ao iniciar a visita de um vertice v, marque v como cinza e registre inicio[v].
+6. Percorra os vértices em ordem alfabética.
+7. Quando encontrar um vértice branco, inicie uma DFS a partir dele.
+8. Ao iniciar a visita de um vértice v, marque v como cinza e registre início[v].
 9. Para cada aresta (v, w), observe a cor de w.
-10. Se w estiver branco, a aresta (v, w) e uma aresta de arvore.
-11. Se w estiver cinza, a aresta (v, w) e uma aresta de retorno.
-12. Se w estiver preto e inicio[v] < inicio[w], a aresta (v, w) e uma aresta de avanco.
-13. Se w estiver preto e inicio[v] > inicio[w], a aresta (v, w) e uma aresta de cruzamento.
+10. Se w estiver branco, a aresta (v, w) é uma aresta de árvore.
+11. Se w estiver cinza, a aresta (v, w) é uma aresta de retorno.
+12. Se w estiver preto e início[v] < início[w], a aresta (v, w) é uma aresta de avanço.
+13. Se w estiver preto e início[v] > início[w], a aresta (v, w) é uma aresta de cruzamento.
 14. Quando todos os vizinhos de v forem analisados, marque v como preto e registre fim[v].
-15. Ao final, todos os vertices terao tempo de inicio e fim, e todas as arestas terao uma classificacao.
+15. Ao final, todos os vértices teráo tempo de início e fim, e todas as arestas teráo uma classificacao.
 
-Prova matematica:
+Prova matemática:
 
 Seja G = (V, E) um grafo direcionado.
 
-Para todo vertice v pertencente a V, a DFS registra dois tempos:
+Para todo vértice v pertencente a V, a DFS registra dois tempos:
 
-∀ v ∈ V, inicio[v] ∈ N ∧ fim[v] ∈ N
+∀ v ∈ V, início[v] ∈ N ∧ fim[v] ∈ N
 
-Como o tempo aumenta ao iniciar e ao finalizar cada vertice:
+Como o tempo aumenta ao iniciar e ao finalizar cada vértice:
 
-∀ v ∈ V, inicio[v] < fim[v]
+∀ v ∈ V, início[v] < fim[v]
 
-Durante a DFS, cada vertice possui uma cor:
+Durante a DFS, cada vértice possui uma cor:
 
-branco: ainda nao foi visitado
+branco: ainda não foi visitado
 
-cinza: foi iniciado, mas ainda nao foi finalizado
+cinza: foi iniciado, mas ainda não foi finalizado
 
-preto: ja foi finalizado
+preto: já foi finalizado
 
 Assim, no momento em que uma aresta (u, v) ∈ E e analisada, temos exatamente um dos casos:
 
 ∀ (u, v) ∈ E, cor[v] = branco ∨ cor[v] = cinza ∨ cor[v] = preto
 
-Caso 1: se cor[v] = branco, entao v ainda nao foi descoberto. Logo, a DFS descobre v a partir de u:
+Caso 1: se cor[v] = branco, então v ainda não foi descoberto. Logo, a DFS descobre v a partir de u:
 
 ∀ (u, v) ∈ E, cor[v] = branco ⇒ pai[v] = u
 
 Portanto:
 
-cor[v] = branco ⇒ (u, v) e aresta de arvore
+cor[v] = branco ⇒ (u, v) e aresta de árvore
 
-Caso 2: se cor[v] = cinza, entao v esta na pilha atual da recursao. Logo, existe um caminho de v ate u na arvore DFS:
+Caso 2: se cor[v] = cinza, então v está na pilha atual da recursão. Logo, existe um caminho de v até u na árvore DFS:
 
-cor[v] = cinza ⇒ existe caminho de v ate u na arvore DFS
+cor[v] = cinza ⇒ existe caminho de v até u na árvore DFS
 
-Como tambem existe a aresta (u, v):
+Como também existe a aresta (u, v):
 
-existe caminho de v ate u ∧ (u, v) ∈ E ⇒ (u, v) fecha um ciclo
+existe caminho de v até u ∧ (u, v) ∈ E ⇒ (u, v) fecha um ciclo
 
 Portanto:
 
 cor[v] = cinza ⇒ (u, v) e aresta de retorno
 
-Caso 3: se cor[v] = preto e inicio[u] < inicio[v], entao v foi descoberto depois de u e ja foi finalizado. Nesse caso, v e descendente de u na arvore DFS:
+Caso 3: se cor[v] = preto e início[u] < início[v], então v foi descoberto depois de u e já foi finalizado. Nesse caso, v e descendente de u na árvore DFS:
 
-cor[v] = preto ∧ inicio[u] < inicio[v] ⇒ v e descendente de u
-
-Portanto:
-
-cor[v] = preto ∧ inicio[u] < inicio[v] ⇒ (u, v) e aresta de avanco
-
-Caso 4: se cor[v] = preto e inicio[u] > inicio[v], entao v foi descoberto antes de u e ja foi finalizado. Nesse caso, a aresta liga vertices que nao estao na mesma relacao direta de descendencia de u para v:
-
-cor[v] = preto ∧ inicio[u] > inicio[v] ⇒ v nao e descendente de u
+cor[v] = preto ∧ início[u] < início[v] ⇒ v e descendente de u
 
 Portanto:
 
-cor[v] = preto ∧ inicio[u] > inicio[v] ⇒ (u, v) e aresta de cruzamento
+cor[v] = preto ∧ início[u] < início[v] ⇒ (u, v) e aresta de avanço
 
-Como cada aresta (u, v) ∈ E cai em exatamente um desses casos, todas as arestas sao classificadas corretamente:
+Caso 4: se cor[v] = preto e início[u] > início[v], então v foi descoberto antes de u e já foi finalizado. Nesse caso, a aresta liga vértices que não estão na mesma relação direta de descendencia de u para v:
+
+cor[v] = preto ∧ início[u] > início[v] ⇒ v não e descendente de u
+
+Portanto:
+
+cor[v] = preto ∧ início[u] > início[v] ⇒ (u, v) e aresta de cruzamento
+
+Como cada aresta (u, v) ∈ E cai em exatamente um desses casos, todas as arestas são classificadas corretamente:
 
 ∀ (u, v) ∈ E, (u, v) pertence a exatamente uma classe
 
-A ordem alfabetica garante que os empates sejam tratados sempre da mesma forma:
+A ordem alfabética garante que os empates sejam tratados sempre da mesma forma:
 
-∀ a, b ∈ V, a < b alfabeticamente ⇒ a e analisado antes de b
+∀ a, b ∈ V, a < b alfabéticamente ⇒ a e analisado antes de b
 
-Conclusao:
-O algoritmo executa uma DFS em ordem alfabetica, registra corretamente inicio[v] e fim[v] para todo v pertencente a V, e classifica cada aresta de G como arvore, retorno, avanco ou cruzamento de acordo com os tempos e estados da DFS.
+Conclusão:
+O algoritmo executa uma DFS em ordem alfabética, registra corretamente início[v] e fim[v] para todo v pertencente a V, e classifica cada aresta de G como árvore, retorno, avanço ou cruzamento de acordo com os tempos e estados da DFS.
 
 
-Questao 10)
+Questão 10)
 
 Enunciado:
-Projete uma solucao para encontrar o menor caminho entre dois vertices quaisquer.
+Projete uma solução para encontrar o menor caminho entre dois vértices quaisquer.
 
 Ideia principal:
-Como o enunciado nao informa pesos nas arestas, consideramos que todas as arestas possuem o mesmo custo. Nesse caso, o menor caminho entre dois vertices e o caminho com a menor quantidade de arestas. Para encontrar esse caminho, usamos a busca em largura (BFS), pois ela visita primeiro os vertices que estao a distancia 1, depois distancia 2, depois distancia 3, e assim por diante. Quando o vertice destino e encontrado, a distancia registrada e minima.
+Como o enunciado não informa pesos nas arestas, consideramos que todas as arestas possuem o mesmo custo. Nesse caso, o menor caminho entre dois vértices é o caminho com a menor quantidade de arestas. Para encontrar esse caminho, usamos a busca em largura (BFS), pois ela visita primeiro os vértices que estão a distância 1, depois distância 2, depois distância 3, e assim por diante. Quando o vértice destino é encontrado, a distância registrada é mínima.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo MenorCaminho(G, origem, destino)
-Entrada: um grafo G = (V, E), um vertice origem pertencente a V e um vertice destino pertencente a V
-Saida: menor caminho entre origem e destino, ou informa que nao existe caminho
+Entrada: um grafo G = (V, E), um vértice origem pertencente a V e um vértice destino pertencente a V
+Saída: menor caminho entre origem e destino, ou informa que não existe caminho
 
-inicio
-    para cada vertice v pertencente a V faca
+início
+    para cada vértice v pertencente a V faça
         visitado[v] <- falso
-        distancia[v] <- infinito
+        distância[v] <- infinito
         pai[v] <- nulo
     fim-para
 
     visitado[origem] <- verdadeiro
-    distancia[origem] <- 0
+    distância[origem] <- 0
     fila <- fila vazia
     enfileire origem em fila
 
-    enquanto fila nao estiver vazia faca
+    enquanto fila não estiver vazia faça
         v <- desenfileire fila
 
-        para cada vertice w adjacente a v faca
-            se visitado[w] = falso entao
+        para cada vértice w adjacente a v faça
+            se visitado[w] = falso então
                 visitado[w] <- verdadeiro
-                distancia[w] <- distancia[v] + 1
+                distância[w] <- distância[v] + 1
                 pai[w] <- v
                 enfileire w em fila
             fim-se
         fim-para
     fim-enquanto
 
-    se visitado[destino] = falso entao
-        retorne "nao existe caminho"
+    se visitado[destino] = falso então
+        retorne "não existe caminho"
     fim-se
 
     caminho <- lista vazia
     atual <- destino
 
-    enquanto atual != nulo faca
-        adicione atual no inicio de caminho
+    enquanto atual != nulo faça
+        adicione atual no início de caminho
         atual <- pai[atual]
     fim-enquanto
 
@@ -1096,69 +1100,69 @@ fim
 Passo a passo para resolver:
 
 1. Considere G = (V, E), com origem e destino pertencentes a V.
-2. Marque todos os vertices como nao visitados.
-3. Defina a distancia de todos os vertices como infinito.
-4. Defina pai[v] como nulo para todos os vertices.
-5. Marque a origem como visitada e coloque distancia[origem] = 0.
+2. Marque todos os vértices como não visitados.
+3. Defina a distância de todos os vértices como infinito.
+4. Defina pai[v] como nulo para todos os vértices.
+5. Marque a origem como visitada e coloque distância[origem] = 0.
 6. Coloque a origem em uma fila.
-7. Enquanto a fila nao estiver vazia, remova o primeiro vertice da fila.
-8. Para cada vizinho ainda nao visitado, marque-o como visitado.
-9. A distancia do vizinho sera a distancia do vertice atual mais 1.
-10. Guarde o vertice atual como pai do vizinho.
+7. Enquanto a fila não estiver vazia, remova o primeiro vértice da fila.
+8. Para cada vizinho ainda não visitado, marque-o como visitado.
+9. A distância do vizinho será a distância do vértice atual mais 1.
+10. Guarde o vértice atual como pai do vizinho.
 11. Coloque o vizinho na fila.
-12. Ao final da BFS, se o destino nao foi visitado, nao existe caminho.
+12. Ao final da BFS, se o destino não foi visitado, não existe caminho.
 13. Se o destino foi visitado, use o vetor pai para reconstruir o caminho de tras para frente.
-14. O caminho reconstruido sera o menor caminho entre origem e destino.
+14. O caminho reconstruido será o menor caminho entre origem e destino.
 
-Prova matematica:
+Prova matemática:
 
-Seja G = (V, E) um grafo nao ponderado.
+Seja G = (V, E) um grafo não ponderado.
 
 Sejam:
 
-s ∈ V, o vertice de origem
+s ∈ V, o vértice de origem
 
-t ∈ V, o vertice de destino
+t ∈ V, o vértice de destino
 
-Definimos a distancia minima entre s e v como:
+Definimos a distância mínima entre s e v como:
 
-δ(s, v) = menor numero de arestas em um caminho de s ate v
+δ(s, v) = menor número de arestas em um caminho de s até v
 
-Se nao existir caminho de s ate v, entao:
+Se não existir caminho de s até v, então:
 
 δ(s, v) = infinito
 
 A BFS define:
 
-distancia[s] = 0
+distância[s] = 0
 
 e, sempre que visita w a partir de v:
 
-distancia[w] = distancia[v] + 1
+distância[w] = distância[v] + 1
 
-Primeiro, mostramos que toda distancia calculada corresponde a algum caminho real.
+Primeiro, mostramos que toda distância calculada corresponde a algum caminho real.
 
-Se distancia[w] = distancia[v] + 1 e (v, w) ∈ E, entao existe um caminho de s ate v seguido da aresta (v, w).
+Se distância[w] = distância[v] + 1 e (v, w) ∈ E, então existe um caminho de s até v seguido da aresta (v, w).
 
 Logo:
 
-∀ v, w ∈ V, (v, w) ∈ E ∧ distancia[v] = k ⇒ distancia[w] = k + 1
+∀ v, w ∈ V, (v, w) ∈ E ∧ distância[v] = k ⇒ distância[w] = k + 1
 
 Portanto:
 
-∀ x ∈ V, distancia[x] = k ⇒ existe caminho de s ate x com k arestas
+∀ x ∈ V, distância[x] = k ⇒ existe caminho de s até x com k arestas
 
-Agora, mostramos que a BFS nao deixa de encontrar um caminho menor.
+Agora, mostramos que a BFS não deixa de encontrar um caminho menor.
 
-A BFS usa uma fila. Assim, todos os vertices com distancia k sao processados antes dos vertices com distancia k + 1:
+A BFS usa uma fila. Assim, todos os vértices com distância k são processados antes dos vértices com distância k + 1:
 
-∀ x, y ∈ V, distancia[x] < distancia[y] ⇒ x e processado antes de y
+∀ x, y ∈ V, distância[x] < distância[y] ⇒ x e processado antes de y
 
-Suponha, por contradicao, que exista um caminho menor ate algum vertice x do que o valor encontrado pela BFS:
+Suponha, por contradicao, que exista um caminho menor até algum vértice x do que o valor encontrado pela BFS:
 
-δ(s, x) < distancia[x]
+δ(s, x) < distância[x]
 
-Se δ(s, x) = k, entao existe um caminho:
+Se δ(s, x) = k, então existe um caminho:
 
 s = v0, v1, v2, ..., vk = x
 
@@ -1168,66 +1172,66 @@ tal que:
 
 Pela ordem da BFS:
 
-distancia[v0] = 0
+distância[v0] = 0
 
 e:
 
-∀ i ∈ {0, 1, ..., k - 1}, distancia[vi+1] <= distancia[vi] + 1
+∀ i ∈ {0, 1, ..., k - 1}, distância[vi+1] <= distância[vi] + 1
 
 Logo:
 
-distancia[x] <= k
+distância[x] <= k
 
 Como k = δ(s, x), temos:
 
-distancia[x] <= δ(s, x)
+distância[x] <= δ(s, x)
 
-Mas toda distancia da BFS corresponde a um caminho real, entao:
+Mas toda distância da BFS corresponde a um caminho real, então:
 
-δ(s, x) <= distancia[x]
+δ(s, x) <= distância[x]
 
 Portanto:
 
-distancia[x] = δ(s, x)
+distância[x] = δ(s, x)
 
 Assim:
 
-∀ x ∈ V, visitado[x] = verdadeiro ⇒ distancia[x] = δ(s, x)
+∀ x ∈ V, visitado[x] = verdadeiro ⇒ distância[x] = δ(s, x)
 
 Para o destino t:
 
-t ∈ V ∧ visitado[t] = verdadeiro ⇒ distancia[t] = δ(s, t)
+t ∈ V ∧ visitado[t] = verdadeiro ⇒ distância[t] = δ(s, t)
 
-Como pai[w] guarda o vertice anterior usado para descobrir w:
+Como pai[w] guarda o vértice anterior usado para descobrir w:
 
 ∀ w ∈ V, pai[w] = v ⇒ (v, w) ∈ E
 
-Logo, seguir os pais de t ate s reconstrui um caminho real de tamanho distancia[t]:
+Logo, seguir os pais de t até s reconstrui um caminho real de tamanho distância[t]:
 
-pai reconstrui caminho de s ate t ⇒ tamanho do caminho = distancia[t] = δ(s, t)
+pai reconstrui caminho de s até t ⇒ tamanho do caminho = distância[t] = δ(s, t)
 
-Conclusao:
-O algoritmo encontra corretamente o menor caminho entre origem e destino, pois a BFS calcula a menor distancia em numero de arestas e o vetor pai permite reconstruir esse caminho minimo.
+Conclusão:
+O algoritmo encontra corretamente o menor caminho entre origem e destino, pois a BFS calcula a menor distância em número de arestas e o vetor pai permite reconstruir esse caminho mínimo.
 
 
-Questao 11)
+Questão 11)
 
 Enunciado:
-Seja G = (V, E) um grafo direcionado. Projete uma solucao para encontrar um conjunto de vertices cujo fecho transitivo direto seja V.
+Seja G = (V, E) um grafo direcionado. Projete uma solução para encontrar um conjunto de vértices cujo fecho transitivo direto seja V.
 
 Ideia principal:
-O fecho transitivo direto de um conjunto S e o conjunto de vertices que podem ser atingidos a partir de algum vertice de S. Como a questao pede apenas um conjunto, e nao o menor conjunto, uma solucao sempre correta e escolher S = V. Assim, todo vertice do grafo pertence ao conjunto inicial e, portanto, pertence ao seu proprio fecho transitivo direto.
+O fecho transitivo direto de um conjunto S é o conjunto de vértices que podem ser atingidos a partir de algum vértice de S. Como a questão pede apenas um conjunto, e não o menor conjunto, uma solução sempre correta é escolher S = V. Assim, todo vértice do grafo pertence ao conjunto inicial e, portanto, pertence ao seu próprio fecho transitivo direto.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo ConjuntoFechoDiretoTotal(G)
 Entrada: um grafo direcionado G = (V, E)
-Saida: um conjunto S tal que o fecho transitivo direto de S seja V
+Saída: um conjunto S tal que o fecho transitivo direto de S seja V
 
-inicio
+início
     S <- conjunto vazio
 
-    para cada vertice v pertencente a V faca
+    para cada vértice v pertencente a V faça
         adicione v em S
     fim-para
 
@@ -1237,21 +1241,21 @@ fim
 Passo a passo para resolver:
 
 1. Considere G = (V, E) um grafo direcionado.
-2. Queremos encontrar um conjunto S de vertices tal que todos os vertices de V sejam atingiveis a partir de S.
-3. Como a questao nao exige o menor conjunto, podemos escolher todos os vertices do grafo.
+2. Queremos encontrar um conjunto S de vértices tal que todos os vértices de V sejam atingíveis a partir de S.
+3. Como a questão não exige o menor conjunto, podemos escolher todos os vértices do grafo.
 4. Defina S = V.
-5. Para todo vertice v pertencente a V, temos que v tambem pertence a S.
-6. Todo vertice v e atingivel a partir dele mesmo por um caminho de tamanho 0.
-7. Logo, todo vertice v pertencente a V pertence ao fecho transitivo direto de S.
-8. Portanto, o fecho transitivo direto de S e igual a V.
+5. Para todo vértice v pertencente a V, temos que v também pertence a S.
+6. Todo vértice v e atingível a partir dele mesmo por um caminho de tamanho 0.
+7. Logo, todo vértice v pertencente a V pertence ao fecho transitivo direto de S.
+8. Portanto, o fecho transitivo direto de S é igual a V.
 
-Prova matematica:
+Prova matemática:
 
 Seja G = (V, E) um grafo direcionado.
 
 Definimos o fecho transitivo direto de um conjunto S como:
 
-F+(S) = {x ∈ V | ∃ s ∈ S tal que existe caminho direcionado de s ate x}
+F+(S) = {x ∈ V | ∃ s ∈ S tal que existe caminho direcionado de s até x}
 
 Escolhemos:
 
@@ -1267,13 +1271,13 @@ Como S = V:
 
 ∀ x ∈ V, x ∈ S
 
-Todo vertice alcanca a si mesmo por um caminho de tamanho 0:
+Todo vértice alcanca a si mesmo por um caminho de tamanho 0:
 
-∀ x ∈ V, existe caminho direcionado de x ate x
+∀ x ∈ V, existe caminho direcionado de x até x
 
 Logo:
 
-∀ x ∈ V, x ∈ S ∧ existe caminho direcionado de x ate x ⇒ x ∈ F+(S)
+∀ x ∈ V, x ∈ S ∧ existe caminho direcionado de x até x ⇒ x ∈ F+(S)
 
 Portanto:
 
@@ -1285,9 +1289,9 @@ V ⊆ F+(S)
 
 Agora, mostramos que F+(S) ⊆ V.
 
-Pela definicao de fecho transitivo direto:
+Pela definição de fecho transitivo direto:
 
-F+(S) = {x ∈ V | ∃ s ∈ S tal que existe caminho direcionado de s ate x}
+F+(S) = {x ∈ V | ∃ s ∈ S tal que existe caminho direcionado de s até x}
 
 Todo elemento de F+(S) pertence a V:
 
@@ -1305,45 +1309,45 @@ Concluimos:
 
 F+(S) = V
 
-Conclusao:
-O conjunto S = V sempre possui fecho transitivo direto igual a V. Portanto, o algoritmo retorna corretamente um conjunto de vertices cujo fecho transitivo direto e todo o conjunto de vertices do grafo.
+Conclusão:
+O conjunto S = V sempre possui fecho transitivo direto igual a V. Portanto, o algoritmo retorna corretamente um conjunto de vértices cujo fecho transitivo direto e todo o conjunto de vértices do grafo.
 
 
-Questao 12)
+Questão 12)
 
 Enunciado:
-Seja G = (V, E) um grafo direcionado. Projete uma solucao para encontrar o menor conjunto de vertices cujo fecho transitivo direto seja V.
+Seja G = (V, E) um grafo direcionado. Projete uma solução para encontrar o menor conjunto de vértices cujo fecho transitivo direto seja V.
 
 Ideia principal:
-Para encontrar o menor conjunto de vertices cujo fecho transitivo direto seja V, devemos analisar as componentes fortemente conexas do grafo. Dentro de uma componente fortemente conexa, qualquer vertice alcanca todos os outros vertices da mesma componente. Depois, contraimos cada componente fortemente conexa em um unico vertice, formando o grafo condensado. Esse grafo condensado e aciclico. Para que todos os vertices sejam atingidos, precisamos escolher pelo menos um vertice de cada componente que nao recebe aresta de nenhuma outra componente. Essas componentes sao chamadas componentes-fonte. Escolher um vertice de cada componente-fonte gera o menor conjunto possivel.
+Para encontrar o menor conjunto de vértices cujo fecho transitivo direto seja V, devemos analisar as componentes fortemente conexas do grafo. Dentro de uma componente fortemente conexa, qualquer vértice alcanca todos os outros vértices da mesma componente. Depois, contraimos cada componente fortemente conexa em um único vértice, formando o grafo condensado. Esse grafo condensado é acíclico. Para que todos os vértices sejam atingidos, precisamos escolher pelo menos um vértice de cada componente que não recebe aresta de nenhuma outra componente. Essas componentes são chamadas componentes-fonte. Escolher um vértice de cada componente-fonte gera o menor conjunto possível.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo MenorConjuntoFechoDireto(G)
 Entrada: um grafo direcionado G = (V, E)
-Saida: menor conjunto S tal que o fecho transitivo direto de S seja V
+Saída: menor conjunto S tal que o fecho transitivo direto de S seja V
 
-inicio
+início
     componentes <- CalcularComponentesFortementeConexas(G)
 
-    para cada componente C pertencente a componentes faca
+    para cada componente C pertencente a componentes faça
         entrada[C] <- falso
     fim-para
 
-    para cada aresta (u, v) pertencente a E faca
-        Cu <- componente que contem u
-        Cv <- componente que contem v
+    para cada aresta (u, v) pertencente a E faça
+        Cu <- componente que contém u
+        Cv <- componente que contém v
 
-        se Cu != Cv entao
+        se Cu != Cv então
             entrada[Cv] <- verdadeiro
         fim-se
     fim-para
 
     S <- conjunto vazio
 
-    para cada componente C pertencente a componentes faca
-        se entrada[C] = falso entao
-            escolha um vertice x pertencente a C
+    para cada componente C pertencente a componentes faça
+        se entrada[C] = falso então
+            escolha um vértice x pertencente a C
             adicione x em S
         fim-se
     fim-para
@@ -1355,24 +1359,24 @@ Passo a passo para resolver:
 
 1. Considere G = (V, E) um grafo direcionado.
 2. Encontre todas as componentes fortemente conexas de G.
-3. Lembre que, dentro de uma componente fortemente conexa, qualquer vertice alcanca qualquer outro vertice da mesma componente.
-4. Contraia cada componente fortemente conexa em um unico vertice.
-5. O grafo obtido e chamado grafo condensado.
-6. Verifique quais componentes do grafo condensado nao recebem arestas de outras componentes.
-7. Essas componentes sao chamadas componentes-fonte.
-8. Para cada componente-fonte, escolha exatamente um vertice pertencente a ela.
-9. Coloque esses vertices escolhidos no conjunto S.
+3. Lembre que, dentro de uma componente fortemente conexa, qualquer vértice alcanca qualquer outro vértice da mesma componente.
+4. Contraia cada componente fortemente conexa em um único vértice.
+5. O grafo obtido é chamado grafo condensado.
+6. Verifique quais componentes do grafo condensado não recebem arestas de outras componentes.
+7. Essas componentes são chamadas componentes-fonte.
+8. Para cada componente-fonte, escolha exatamente um vértice pertencente a ela.
+9. Coloque esses vértices escolhidos no conjunto S.
 10. Retorne S.
-11. Esse conjunto e minimo, pois nenhuma componente-fonte pode ser atingida a partir de outra componente.
-12. Logo, precisamos escolher pelo menos um vertice de cada componente-fonte.
+11. Esse conjunto é mínimo, pois nenhuma componente-fonte pode ser atingida a partir de outra componente.
+12. Logo, precisamos escolher pelo menos um vértice de cada componente-fonte.
 
-Prova matematica:
+Prova matemática:
 
 Seja G = (V, E) um grafo direcionado.
 
 Definimos o fecho transitivo direto de S como:
 
-F+(S) = {x ∈ V | ∃ s ∈ S tal que existe caminho direcionado de s ate x}
+F+(S) = {x ∈ V | ∃ s ∈ S tal que existe caminho direcionado de s até x}
 
 Sejam:
 
@@ -1382,7 +1386,7 @@ as componentes fortemente conexas de G.
 
 Para toda componente Ci:
 
-∀ u, v ∈ Ci, existe caminho direcionado de u ate v
+∀ u, v ∈ Ci, existe caminho direcionado de u até v
 
 Construimos o grafo condensado Gc = (Vc, Ec), em que:
 
@@ -1392,7 +1396,7 @@ e:
 
 (Ci, Cj) ∈ Ec ⇔ ∃ u ∈ Ci, ∃ v ∈ Cj tal que (u, v) ∈ E ∧ Ci ≠ Cj
 
-No grafo condensado, uma componente-fonte e uma componente que nao possui aresta de entrada:
+No grafo condensado, uma componente-fonte é uma componente que não possui aresta de entrada:
 
 Fonte(Ci) ⇔ não existe Cj ∈ Vc tal que Cj ≠ Ci ∧ (Cj, Ci) ∈ Ec
 
@@ -1400,29 +1404,29 @@ Seja P o conjunto das componentes-fonte:
 
 P = {Ci ∈ Vc | Fonte(Ci)}
 
-O algoritmo escolhe um vertice de cada componente-fonte:
+O algoritmo escolhe um vértice de cada componente-fonte:
 
 ∀ Ci ∈ P, ∃ s ∈ S tal que s ∈ Ci
 
 Primeiro, mostramos que F+(S) = V.
 
-Como Gc e aciclico, toda componente de Gc e uma componente-fonte ou e atingivel a partir de alguma componente-fonte:
+Como Gc é acíclico, toda componente de Gc é uma componente-fonte ou e atingível a partir de alguma componente-fonte:
 
-∀ Cj ∈ Vc, ∃ Ci ∈ P tal que existe caminho direcionado de Ci ate Cj em Gc
+∀ Cj ∈ Vc, ∃ Ci ∈ P tal que existe caminho direcionado de Ci até Cj em Gc
 
-Como o algoritmo escolhe s ∈ Ci para cada Ci ∈ P, e dentro de Ci todos os vertices se alcancam:
+Como o algoritmo escolhe s ∈ Ci para cada Ci ∈ P, e dentro de Ci todos os vértices se alcancam:
 
-s ∈ Ci ∧ existe caminho de Ci ate Cj ⇒ ∀ x ∈ Cj, existe caminho direcionado de s ate x
+s ∈ Ci ∧ existe caminho de Ci até Cj ⇒ ∀ x ∈ Cj, existe caminho direcionado de s até x
 
 Logo:
 
-∀ x ∈ V, ∃ s ∈ S tal que existe caminho direcionado de s ate x
+∀ x ∈ V, ∃ s ∈ S tal que existe caminho direcionado de s até x
 
 Portanto:
 
 V ⊆ F+(S)
 
-Pela definicao de F+(S):
+Pela definição de F+(S):
 
 ∀ x, x ∈ F+(S) ⇒ x ∈ V
 
@@ -1438,21 +1442,21 @@ Concluimos:
 
 F+(S) = V
 
-Agora, mostramos que S e minimo.
+Agora, mostramos que S é mínimo.
 
-Se Ci e uma componente-fonte, entao nenhuma outra componente chega ate Ci:
+Se Ci é uma componente-fonte, então nenhuma outra componente chega até Ci:
 
-Fonte(Ci) ⇒ ∀ Cj ∈ Vc, Cj ≠ Ci ⇒ não existe caminho direcionado de Cj ate Ci
+Fonte(Ci) ⇒ ∀ Cj ∈ Vc, Cj ≠ Ci ⇒ não existe caminho direcionado de Cj até Ci
 
-Logo, para algum vertice de Ci ser atingido, e necessario escolher pelo menos um vertice dentro de Ci:
+Logo, para algum vértice de Ci ser atingido, é necessário escolher pelo menos um vértice dentro de Ci:
 
 Fonte(Ci) ⇒ ∀ S' ⊆ V, F+(S') = V ⇒ ∃ s ∈ S' tal que s ∈ Ci
 
-Portanto, qualquer conjunto S' cujo fecho transitivo direto seja V precisa ter pelo menos um vertice de cada componente-fonte:
+Portanto, qualquer conjunto S' cujo fecho transitivo direto seja V precisa ter pelo menos um vértice de cada componente-fonte:
 
 ∀ S' ⊆ V, F+(S') = V ⇒ |S'| >= |P|
 
-O algoritmo escolhe exatamente um vertice de cada componente-fonte:
+O algoritmo escolhé exatamente um vértice de cada componente-fonte:
 
 |S| = |P|
 
@@ -1460,47 +1464,47 @@ Assim:
 
 ∀ S' ⊆ V, F+(S') = V ⇒ |S| <= |S'|
 
-Conclusao:
-O algoritmo retorna um conjunto S cujo fecho transitivo direto e V e cujo tamanho e minimo. Esse conjunto e formado escolhendo exatamente um vertice de cada componente fortemente conexa que nao possui aresta de entrada no grafo condensado.
+Conclusão:
+O algoritmo retorna um conjunto S cujo fecho transitivo direto é V e cujo tamanho é mínimo. Esse conjunto é formado escolhendo exatamente um vértice de cada componente fortemente conexa que não possui aresta de entrada no grafo condensado.
 
 
-Questao 13)
+Questão 13)
 
 Enunciado:
-Seja G = (V, E) um grafo direcionado. Projete uma solucao para encontrar o menor conjunto de vertices cujo fecho transitivo direto seja V. Caso G seja ciclico, remova arestas para deixa-lo aciclico.
+Seja G = (V, E) um grafo direcionado. Projete uma solução para encontrar o menor conjunto de vértices cujo fecho transitivo direto seja V. Caso G seja cíclico, remova arestas para deixa-lo acíclico.
 
 Ideia principal:
-Primeiro verificamos se o grafo possui ciclos. Para remover ciclos, usamos DFS com estados: branco, cinza e preto. Quando encontramos uma aresta que aponta para um vertice cinza, essa aresta e uma aresta de retorno e fecha um ciclo. Entao removemos essa aresta. Depois que todas as arestas de retorno forem removidas, o grafo fica aciclico. Em um grafo direcionado aciclico, o menor conjunto de vertices cujo fecho transitivo direto e V e formado por todos os vertices com grau de entrada zero.
+Primeiro verificamos se o grafo possui ciclos. Para remover ciclos, usamos DFS com estados: branco, cinza e preto. Quando encontramos uma aresta que aponta para um vértice cinza, essa aresta é uma aresta de retorno e fecha um ciclo. Então removemos essa aresta. Depois que todas as arestas de retorno forem removidas, o grafo fica acíclico. Em um grafo direcionado acíclico, o menor conjunto de vértices cujo fecho transitivo direto é V é formado por todos os vértices com grau de entrada zero.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo MenorConjuntoAposRemoverCiclos(G)
 Entrada: um grafo direcionado G = (V, E)
-Saida: menor conjunto S tal que o fecho transitivo direto de S seja V no grafo aciclico resultante
+Saída: menor conjunto S tal que o fecho transitivo direto de S seja V no grafo acíclico resultante
 
-inicio
-    para cada vertice v pertencente a V faca
+início
+    para cada vértice v pertencente a V faça
         cor[v] <- branco
     fim-para
 
-    para cada vertice v pertencente a V faca
-        se cor[v] = branco entao
+    para cada vértice v pertencente a V faça
+        se cor[v] = branco então
             DFS_RemoverCiclos(G, v)
         fim-se
     fim-para
 
-    para cada vertice v pertencente a V faca
+    para cada vértice v pertencente a V faça
         entrada[v] <- 0
     fim-para
 
-    para cada aresta (u, v) pertencente a E faca
+    para cada aresta (u, v) pertencente a E faça
         entrada[v] <- entrada[v] + 1
     fim-para
 
     S <- conjunto vazio
 
-    para cada vertice v pertencente a V faca
-        se entrada[v] = 0 entao
+    para cada vértice v pertencente a V faça
+        se entrada[v] = 0 então
             adicione v em S
         fim-se
     fim-para
@@ -1509,13 +1513,13 @@ inicio
 fim
 
 Procedimento DFS_RemoverCiclos(G, v)
-inicio
+início
     cor[v] <- cinza
 
-    para cada aresta (v, w) pertencente a E faca
-        se cor[w] = cinza entao
+    para cada aresta (v, w) pertencente a E faça
+        se cor[w] = cinza então
             remova a aresta (v, w) de E
-        senao se cor[w] = branco entao
+        senão se cor[w] = branco então
             DFS_RemoverCiclos(G, w)
         fim-se
     fim-para
@@ -1526,78 +1530,78 @@ fim
 Passo a passo para resolver:
 
 1. Considere G = (V, E) um grafo direcionado.
-2. Marque todos os vertices inicialmente como branco.
+2. Marque todos os vértices inicialmente como branco.
 3. Execute uma DFS no grafo.
-4. Quando um vertice comeca a ser visitado, marque-o como cinza.
-5. Quando a visita desse vertice termina, marque-o como preto.
-6. Durante a DFS, se encontrar uma aresta (v, w) em que w esta cinza, remova essa aresta.
-7. Essa aresta e uma aresta de retorno, pois aponta para um vertice que ainda esta na pilha da recursao.
+4. Quando um vértice começa a ser visitado, marque-o como cinza.
+5. Quando a visita desse vértice termina, marque-o como preto.
+6. Durante a DFS, se encontrar uma aresta (v, w) em que w está cinza, remova essa aresta.
+7. Essa aresta é uma aresta de retorno, pois aponta para um vértice que ainda está na pilha da recursão.
 8. Remover as arestas de retorno elimina os ciclos do grafo.
-9. Depois disso, o grafo resultante e direcionado aciclico.
-10. Calcule o grau de entrada de cada vertice no grafo resultante.
-11. Escolha todos os vertices com grau de entrada zero.
-12. Esses vertices formam o conjunto S.
+9. Depois disso, o grafo resultante e direcionado acíclico.
+10. Calcule o grau de entrada de cada vértice no grafo resultante.
+11. Escolha todos os vértices com grau de entrada zero.
+12. Esses vértices formam o conjunto S.
 13. Retorne S.
 
-Prova matematica:
+Prova matemática:
 
 Seja G = (V, E) um grafo direcionado.
 
 Durante a DFS, usamos:
 
-cor[v] = cinza ⇔ v pertence a pilha atual da recursao
+cor[v] = cinza ⇔ v pertence a pilha atual da recursão
 
-Se a DFS encontra uma aresta (u, v) tal que cor[v] = cinza, entao v e ancestral de u na arvore DFS.
+Se a DFS encontra uma aresta (u, v) tal que cor[v] = cinza, então v e ancestral de u na árvore DFS.
 
 Logo:
 
-cor[v] = cinza ∧ (u, v) ∈ E ⇒ existe caminho direcionado de v ate u
+cor[v] = cinza ∧ (u, v) ∈ E ⇒ existe caminho direcionado de v até u
 
-Como tambem existe a aresta (u, v):
+Como também existe a aresta (u, v):
 
-existe caminho de v ate u ∧ (u, v) ∈ E ⇒ existe ciclo direcionado
+existe caminho de v até u ∧ (u, v) ∈ E ⇒ existe ciclo direcionado
 
 Portanto, toda aresta removida pertence a algum ciclo:
 
 ∀ (u, v) ∈ E, cor[v] = cinza ⇒ (u, v) pertence a um ciclo
 
-Chamemos de G' = (V, E') o grafo apos a remocao das arestas de retorno.
+Chamemos de G' = (V, E') o grafo após a remocao das arestas de retorno.
 
-Como em uma DFS de grafo direcionado existe ciclo se, e somente se, existe aresta de retorno:
+Como em uma DFS de grafo direcionado éxiste ciclo se e somente se, existe aresta de retorno:
 
 G possui ciclo ⇔ ∃ (u, v) ∈ E tal que v e ancestral de u na DFS
 
 Como o algoritmo remove toda aresta de retorno:
 
-∀ (u, v) ∈ E', v nao e ancestral de u na DFS
+∀ (u, v) ∈ E', v não e ancestral de u na DFS
 
 Logo:
 
-não existe aresta de retorno em E' ⇒ G' e aciclico
+não existe aresta de retorno em E' ⇒ G' é acíclico
 
-Agora, como G' e aciclico, todo vertice de G' e uma fonte ou e atingivel a partir de alguma fonte.
+Agora, como G' é acíclico, todo vértice de G' é uma fonte ou e atingível a partir de alguma fonte.
 
 Definimos o conjunto de fontes:
 
 S = {v ∈ V | grauEntrada(v) = 0}
 
-Para todo vertice x ∈ V:
+Para todo vértice x ∈ V:
 
 x ∈ S ∨ grauEntrada(x) > 0
 
-Se x ∉ S, entao existe uma aresta entrando em x:
+Se x ∉ S, então existe uma aresta éntrando em x:
 
 x ∉ S ⇒ ∃ y ∈ V tal que (y, x) ∈ E'
 
-Seguindo esse raciocinio para tras, como G' e aciclico, o processo nao pode continuar infinitamente nem formar ciclo. Portanto, ele termina em algum vertice s com grau de entrada zero:
+Seguindo esse raciocinio para tras, como G' é acíclico, o processo não pode continuar infinitamente nem formar ciclo. Portanto, ele termina em algum vértice s com grau de entrada zero:
 
-∀ x ∈ V, ∃ s ∈ S tal que existe caminho direcionado de s ate x
+∀ x ∈ V, ∃ s ∈ S tal que existe caminho direcionado de s até x
 
 Assim, o fecho transitivo direto de S em G' e:
 
-F+(S) = {x ∈ V | ∃ s ∈ S tal que existe caminho direcionado de s ate x}
+F+(S) = {x ∈ V | ∃ s ∈ S tal que existe caminho direcionado de s até x}
 
-Como todo x ∈ V e atingivel a partir de algum s ∈ S:
+Como todo x ∈ V e atingível a partir de algum s ∈ S:
 
 ∀ x ∈ V, x ∈ F+(S)
 
@@ -1605,11 +1609,11 @@ Logo:
 
 V ⊆ F+(S)
 
-Pela definicao de fecho:
+Pela definição de fecho:
 
 ∀ x, x ∈ F+(S) ⇒ x ∈ V
 
-Entao:
+Então:
 
 F+(S) ⊆ V
 
@@ -1617,13 +1621,13 @@ Portanto:
 
 V ⊆ F+(S) ∧ F+(S) ⊆ V ⇒ F+(S) = V
 
-Agora, provamos que S e minimo.
+Agora, provamos que S é mínimo.
 
-Se s ∈ S, entao grauEntrada(s) = 0. Portanto, nenhum outro vertice chega em s por uma aresta de entrada direta. Em um grafo aciclico, se uma fonte fosse atingivel a partir de outro vertice, existiria uma aresta de entrada em algum ponto antes dela, contradizendo que ela e fonte.
+Se s ∈ S, então grauEntrada(s) = 0. Portanto, nenhum outro vértice chega em s por uma aresta de entrada direta. Em um grafo acíclico, se uma fonte fosse atingível a partir de outro vértice, existiria uma aresta de entrada em algum ponto antes dela, contradizendo que ela e fonte.
 
 Assim:
 
-∀ s ∈ S, ∀ x ∈ V, x ≠ s ⇒ não existe caminho direcionado de x ate s
+∀ s ∈ S, ∀ x ∈ V, x ≠ s ⇒ não existe caminho direcionado de x até s
 
 Logo, qualquer conjunto S' cujo fecho transitivo direto seja V precisa conter cada fonte:
 
@@ -1633,43 +1637,43 @@ Portanto:
 
 ∀ S' ⊆ V, F+(S') = V ⇒ |S| <= |S'|
 
-Conclusao:
-O algoritmo remove as arestas de retorno encontradas pela DFS, deixando o grafo aciclico. Depois escolhe todos os vertices com grau de entrada zero. Esse conjunto possui fecho transitivo direto igual a V e e minimo no grafo aciclico resultante.
+Conclusão:
+O algoritmo remove as arestas de retorno encontradas pela DFS, deixando o grafo acíclico. Depois escolhe todos os vértices com grau de entrada zero. Esse conjunto possui fecho transitivo direto igual a V e é mínimo no grafo acíclico resultante.
 
 
-Questao 14)
+Questão 14)
 
 Enunciado:
-Seja G = (V, E) um grafo nao-direcionado. Projete uma solucao para encontrar, dado v pertencente a V, o vertice mais distante de v.
+Seja G = (V, E) um grafo não-direcionado. Projete uma solução para encontrar, dado v pertencente a V, o vértice mais distante de v.
 
 Ideia principal:
-Como o grafo nao possui pesos nas arestas, a distancia entre dois vertices e a menor quantidade de arestas em um caminho entre eles. Para encontrar o vertice mais distante de v, usamos BFS a partir de v. A BFS calcula a menor distancia de v ate todos os vertices alcancaveis. Depois, basta escolher o vertice que possui a maior distancia calculada. Se o grafo nao for conexo, consideramos apenas os vertices alcancaveis a partir de v.
+Como o grafo não possui pesos nas arestas, a distância entre dois vértices é a menor quantidade de arestas em um caminho entre eles. Para encontrar o vértice mais distante de v, usamos BFS a partir de v. A BFS calcula a menor distância de v até todos os vértices alcançáveis. Depois, basta escolher o vértice que possui a maior distância calculada. Se o grafo não for conexo, consideramos apenas os vértices alcançáveis a partir de v.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo VerticeMaisDistante(G, v)
-Entrada: um grafo nao-direcionado G = (V, E) e um vertice v pertencente a V
-Saida: um vertice mais distante de v entre os vertices alcancaveis
+Entrada: um grafo não-direcionado G = (V, E) e um vértice v pertencente a V
+Saída: um vértice mais distante de v entre os vértices alcançáveis
 
-inicio
-    para cada vertice x pertencente a V faca
+início
+    para cada vértice x pertencente a V faça
         visitado[x] <- falso
-        distancia[x] <- infinito
+        distância[x] <- infinito
     fim-para
 
     visitado[v] <- verdadeiro
-    distancia[v] <- 0
+    distância[v] <- 0
 
     fila <- fila vazia
     enfileire v em fila
 
-    enquanto fila nao estiver vazia faca
+    enquanto fila não estiver vazia faça
         atual <- desenfileire fila
 
-        para cada vertice w adjacente a atual faca
-            se visitado[w] = falso entao
+        para cada vértice w adjacente a atual faça
+            se visitado[w] = falso então
                 visitado[w] <- verdadeiro
-                distancia[w] <- distancia[atual] + 1
+                distância[w] <- distância[atual] + 1
                 enfileire w em fila
             fim-se
         fim-para
@@ -1677,8 +1681,8 @@ inicio
 
     maisDistante <- v
 
-    para cada vertice x pertencente a V faca
-        se visitado[x] = verdadeiro e distancia[x] > distancia[maisDistante] entao
+    para cada vértice x pertencente a V faça
+        se visitado[x] = verdadeiro e distância[x] > distância[maisDistante] então
             maisDistante <- x
         fim-se
     fim-para
@@ -1688,74 +1692,74 @@ fim
 
 Passo a passo para resolver:
 
-1. Considere G = (V, E) um grafo nao-direcionado.
-2. Escolha o vertice inicial v pertencente a V.
-3. Marque todos os vertices como nao visitados.
-4. Defina a distancia de todos os vertices como infinito.
-5. Coloque distancia[v] = 0 e marque v como visitado.
+1. Considere G = (V, E) um grafo não-direcionado.
+2. Escolha o vértice inicial v pertencente a V.
+3. Marque todos os vértices como não visitados.
+4. Defina a distância de todos os vértices como infinito.
+5. Coloque distância[v] = 0 e marque v como visitado.
 6. Insira v em uma fila.
-7. Enquanto a fila nao estiver vazia, remova o primeiro vertice da fila.
-8. Para cada vizinho ainda nao visitado, marque-o como visitado.
-9. A distancia desse vizinho sera a distancia do vertice atual mais 1.
+7. Enquanto a fila não estiver vazia, remova o primeiro vértice da fila.
+8. Para cada vizinho ainda não visitado, marque-o como visitado.
+9. A distância desse vizinho será a distância do vértice atual mais 1.
 10. Coloque o vizinho na fila.
-11. Ao final da BFS, todos os vertices alcancaveis a partir de v terao suas menores distancias calculadas.
-12. Percorra todos os vertices visitados.
-13. Escolha o vertice que possui a maior distancia em relacao a v.
-14. Retorne esse vertice como o mais distante.
+11. Ao final da BFS, todos os vértices alcançáveis a partir de v teráo suas menores distâncias calculadas.
+12. Percorra todos os vértices visitados.
+13. Escolha o vértice que possui a maior distância em relação a v.
+14. Retorne esse vértice como o mais distante.
 
-Prova matematica:
+Prova matemática:
 
-Seja G = (V, E) um grafo nao-direcionado e seja v ∈ V.
+Seja G = (V, E) um grafo não-direcionado é seja v ∈ V.
 
-Definimos a distancia minima entre v e x como:
+Definimos a distância mínima entre v e x como:
 
-δ(v, x) = menor numero de arestas em um caminho de v ate x
+δ(v, x) = menor número de arestas em um caminho de v até x
 
-Se x nao for alcancavel a partir de v:
+Se x não for alcançável a partir de v:
 
 δ(v, x) = infinito
 
 A BFS inicia com:
 
-distancia[v] = 0
+distância[v] = 0
 
-Como existe caminho de tamanho 0 de v ate v:
+Como existe caminho de tamanho 0 de v até v:
 
-distancia[v] = δ(v, v) = 0
+distância[v] = δ(v, v) = 0
 
-Durante a BFS, se um vertice w e descoberto a partir de atual, entao existe uma aresta entre atual e w:
+Durante a BFS, se um vértice w é descoberto a partir de atual, então existe uma aresta entre atual e w:
 
 {atual, w} ∈ E
 
 e:
 
-distancia[w] = distancia[atual] + 1
+distância[w] = distância[atual] + 1
 
 Logo:
 
-∀ atual, w ∈ V, {atual, w} ∈ E ∧ distancia[atual] = k ⇒ distancia[w] = k + 1
+∀ atual, w ∈ V, {atual, w} ∈ E ∧ distância[atual] = k ⇒ distância[w] = k + 1
 
-Como a BFS usa fila, todos os vertices a distancia k sao processados antes dos vertices a distancia k + 1:
+Como a BFS usa fila, todos os vértices a distância k são processados antes dos vértices a distância k + 1:
 
-∀ a, b ∈ V, distancia[a] < distancia[b] ⇒ a e processado antes de b
+∀ a, b ∈ V, distância[a] < distância[b] ⇒ a e processado antes de b
 
-Assim, a primeira vez que um vertice x e visitado, ele foi encontrado pelo menor caminho possivel:
+Assim, a primeira vez que um vértice x é visitado, ele foi encontrado pelo menor caminho possível:
 
-∀ x ∈ V, visitado[x] = verdadeiro ⇒ distancia[x] = δ(v, x)
+∀ x ∈ V, visitado[x] = verdadeiro ⇒ distância[x] = δ(v, x)
 
 O algoritmo escolhe maisDistante tal que:
 
-∀ x ∈ V, visitado[x] = verdadeiro ⇒ distancia[x] <= distancia[maisDistante]
+∀ x ∈ V, visitado[x] = verdadeiro ⇒ distância[x] <= distância[maisDistante]
 
 Como:
 
-distancia[x] = δ(v, x)
+distância[x] = δ(v, x)
 
 temos:
 
 ∀ x ∈ V, visitado[x] = verdadeiro ⇒ δ(v, x) <= δ(v, maisDistante)
 
-Portanto, maisDistante possui a maior distancia em relacao a v entre todos os vertices alcancaveis.
+Portanto, maisDistante possui a maior distância em relação a v entre todos os vértices alcançáveis.
 
 Se o grafo for conexo:
 
@@ -1765,52 +1769,52 @@ Logo:
 
 ∀ x ∈ V, δ(v, x) <= δ(v, maisDistante)
 
-Conclusao:
-O algoritmo encontra corretamente o vertice mais distante de v, pois a BFS calcula a menor distancia de v ate cada vertice alcancavel, e depois o algoritmo escolhe aquele cuja distancia e maxima.
+Conclusão:
+O algoritmo encontra corretamente o vértice mais distante de v, pois a BFS calcula a menor distância de v até cada vértice alcançável, e depois o algoritmo escolhe aquele cuja distância é máxima.
 
 
-Questao 15)
+Questão 15)
 
 Enunciado:
-Existe algum tipo de grafo em que o centro tera sempre um vertice? No maximo 2 vertices no centro?
+Existe algum tipo de grafo em que o centro terá sempre um vértice? No máximo 2 vértices no centro?
 
 Ideia principal:
-Sim. Em uma arvore, o centro sempre possui exatamente 1 ou 2 vertices. O centro de um grafo e o conjunto dos vertices com menor excentricidade. A excentricidade de um vertice v e a maior distancia de v ate qualquer outro vertice do grafo. Em uma arvore, podemos encontrar o centro removendo repetidamente todas as folhas. Quando esse processo termina, sobra exatamente 1 vertice ou 2 vertices. Esse conjunto restante e o centro da arvore.
+Sim. Em uma árvore, o centro sempre possui exatamente 1 ou 2 vértices. O centro de um grafo é o conjunto dos vértices com menor excentricidade. A excentricidade de um vértice v é a maior distância de v até qualquer outro vértice do grafo. Em uma árvore, podemos encontrar o centro removendo repetidamente todas as folhas. Quando esse processo termina, sobra exatamente 1 vértice ou 2 vértices. Esse conjunto restante é o centro da árvore.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo CentroDaArvore(T)
-Entrada: uma arvore T = (V, E)
-Saida: centro da arvore, contendo 1 ou 2 vertices
+Entrada: uma árvore T = (V, E)
+Saída: centro da árvore, contendo 1 ou 2 vértices
 
-inicio
-    se |V| <= 2 entao
+início
+    se |V| <= 2 então
         retorne V
     fim-se
 
-    para cada vertice v pertencente a V faca
+    para cada vértice v pertencente a V faça
         grau[v] <- quantidade de vizinhos de v
     fim-para
 
     folhas <- conjunto vazio
 
-    para cada vertice v pertencente a V faca
-        se grau[v] = 1 entao
+    para cada vértice v pertencente a V faça
+        se grau[v] = 1 então
             adicione v em folhas
         fim-se
     fim-para
 
     restantes <- |V|
 
-    enquanto restantes > 2 faca
+    enquanto restantes > 2 faça
         novasFolhas <- conjunto vazio
         restantes <- restantes - |folhas|
 
-        para cada vertice f pertencente a folhas faca
-            para cada vertice u adjacente a f faca
+        para cada vértice f pertencente a folhas faça
+            para cada vértice u adjacente a f faça
                 grau[u] <- grau[u] - 1
 
-                se grau[u] = 1 entao
+                se grau[u] = 1 então
                     adicione u em novasFolhas
                 fim-se
             fim-para
@@ -1824,30 +1828,30 @@ fim
 
 Passo a passo para resolver:
 
-1. Considere T = (V, E) uma arvore.
-2. O centro de T e formado pelos vertices que possuem menor excentricidade.
-3. A excentricidade de um vertice v e a maior distancia de v ate qualquer outro vertice da arvore.
-4. Em uma arvore, os vertices mais externos sao as folhas.
+1. Considere T = (V, E) uma árvore.
+2. O centro de T é formado pelos vértices que possuem menor excentricidade.
+3. A excentricidade de um vértice v é a maior distância de v até qualquer outro vértice da árvore.
+4. Em uma árvore, os vértices mais externos são as folhas.
 5. Remova todas as folhas ao mesmo tempo.
-6. Depois da remocao, novos vertices podem se tornar folhas.
+6. Depois da remocao, novos vértices podem se tornar folhas.
 7. Repita o processo de remover folhas camada por camada.
-8. Quando sobrarem 1 ou 2 vertices, pare.
-9. Os vertices restantes formam o centro da arvore.
-10. Portanto, em arvores, o centro sempre possui 1 ou 2 vertices.
+8. Quando sobrarem 1 ou 2 vértices, pare.
+9. Os vértices restantes formam o centro da árvore.
+10. Portanto, em árvores, o centro sempre possui 1 ou 2 vértices.
 
-Prova matematica:
+Prova matemática:
 
-Seja T = (V, E) uma arvore.
+Seja T = (V, E) uma árvore.
 
-Definimos a distancia entre dois vertices u e v como:
+Definimos a distância entre dois vértices u e v como:
 
-d(u, v) = numero de arestas no unico caminho entre u e v
+d(u, v) = número de arestas no único caminho entre u e v
 
-A excentricidade de um vertice v e:
+A excentricidade de um vértice v e:
 
 ecc(v) = max {d(v, x) | x ∈ V}
 
-O centro da arvore e:
+O centro da árvore e:
 
 C(T) = {v ∈ V | ∀ u ∈ V, ecc(v) <= ecc(u)}
 
@@ -1855,11 +1859,11 @@ Queremos mostrar que:
 
 |C(T)| = 1 ∨ |C(T)| = 2
 
-Em uma arvore, entre quaisquer dois vertices existe um unico caminho:
+Em uma árvore, entre quaisquer dois vértices existe um único caminho:
 
 ∀ u, v ∈ V, ∃! caminho simples entre u e v
 
-Considere um caminho mais longo da arvore, chamado diametro:
+Considere um caminho mais longo da árvore, chamado diâmetro:
 
 P = v0, v1, v2, ..., vk
 
@@ -1871,9 +1875,9 @@ e:
 
 d(v0, vk) = k
 
-O centro da arvore esta no meio desse caminho mais longo.
+O centro da árvore está no meio desse caminho mais longo.
 
-Se k e par, existe um unico vertice central:
+Se k é par, existe um único vértice central:
 
 k = 2m ⇒ centro = {vm}
 
@@ -1889,7 +1893,7 @@ Portanto:
 
 k = 2m ⇒ |C(T)| = 1
 
-Se k e impar, existem dois vertices centrais:
+Se k é ímpar, existem dois vértices centrais:
 
 k = 2m + 1 ⇒ centro = {vm, vm+1}
 
@@ -1907,103 +1911,103 @@ k = 2m + 1 ⇒ |C(T)| = 2
 
 Agora relacionamos isso com o algoritmo de remover folhas.
 
-As folhas estao nas extremidades dos caminhos mais longos da arvore:
+As folhas estão nas extremidades dos caminhos mais longos da árvore:
 
-∀ f ∈ V, grau(f) = 1 ⇒ f pode estar em uma camada externa da arvore
+∀ f ∈ V, grau(f) = 1 ⇒ f pode estar em uma camada externa da árvore
 
 Ao remover todas as folhas, diminuimos igualmente as extremidades dos caminhos mais longos:
 
-∀ camada removida, o comprimento do diametro diminui em 2
+∀ camada removida, o comprimento do diâmetro diminui em 2
 
-Assim, o processo preserva o meio do diametro:
+Assim, o processo preserva o meio do diâmetro:
 
 ∀ i >= 0, remover a i-esima camada de folhas ⇒ o centro permanece o mesmo
 
-Quando o processo termina, restam apenas os vertices centrais:
+Quando o processo termina, restam apenas os vértices centrais:
 
 restantes <= 2 ⇒ restantes = C(T)
 
 Portanto:
 
-T e arvore ⇒ |C(T)| <= 2
+T é árvore ⇒ |C(T)| <= 2
 
-Como toda arvore nao vazia possui pelo menos um vertice:
+Como toda árvore não vazia possui pelo menos um vértice:
 
 |V| >= 1 ⇒ |C(T)| >= 1
 
 Logo:
 
-T e arvore ∧ |V| >= 1 ⇒ 1 <= |C(T)| <= 2
+T é árvore ∧ |V| >= 1 ⇒ 1 <= |C(T)| <= 2
 
-Conclusao:
-Sim. As arvores sao um tipo de grafo em que o centro sempre possui pelo menos 1 vertice e no maximo 2 vertices. O algoritmo de remover folhas encontra esse centro corretamente, pois remove as camadas externas da arvore ate restar exatamente o meio do diametro.
+Conclusão:
+Sim. As árvores são um tipo de grafo em que o centro sempre possui pelo menos 1 vértice e no máximo 2 vértices. O algoritmo de remover folhas encontra esse centro corretamente, pois remove as camadas externas da árvore até restar exatamente o meio do diâmetro.
 
 
-Questao 16)
+Questão 16)
 
 Enunciado:
-Dado um grafo nao-direcionado e conexo, prove que:
+Dado um grafo não-direcionado é conexo, prove que:
 
-raio(G) <= diametro(G) <= 2 · raio(G)
+raio(G) <= diâmetro(G) <= 2 · raio(G)
 
 Ideia principal:
-Em um grafo conexo, a excentricidade de um vertice v e a maior distancia de v ate qualquer outro vertice. O raio do grafo e a menor excentricidade entre todos os vertices. O diametro e a maior distancia entre dois vertices quaisquer, ou seja, a maior excentricidade. Como o raio e o menor valor e o diametro e o maior valor, temos raio(G) <= diametro(G). Alem disso, se c e um vertice central, entao todo vertice esta a distancia no maximo raio(G) de c. Assim, quaisquer dois vertices u e v estao a distancia no maximo raio(G) + raio(G), logo diametro(G) <= 2 · raio(G).
+Em um grafo conexo, a excentricidade de um vértice v é a maior distância de v até qualquer outro vértice. O raio do grafo é a menor excentricidade entre todos os vértices. O diâmetro é a maior distância entre dois vértices quaisquer, ou seja, a maior excentricidade. Como o raio é o menor valor e o diâmetro é o maior valor, temos raio(G) <= diâmetro(G). Além disso, se c é um vértice central, então todo vértice está a distância no máximo raio(G) de c. Assim, quaisquer dois vértices u e v estão a distância no máximo raio(G) + raio(G), logo diâmetro(G) <= 2 · raio(G).
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo VerificarRaioDiametro(G)
-Entrada: um grafo nao-direcionado conexo G = (V, E)
-Saida: raio(G), diametro(G) e verificacao da desigualdade
+Entrada: um grafo não-direcionado conexo G = (V, E)
+Saída: raio(G), diâmetro(G) e verificacao da desigualdade
 
-inicio
-    para cada vertice v pertencente a V faca
-        distancia <- BFS(G, v)
-        excentricidade[v] <- maior distancia de v ate qualquer vertice de V
+início
+    para cada vértice v pertencente a V faça
+        distância <- BFS(G, v)
+        excentricidade[v] <- maior distância de v até qualquer vértice de V
     fim-para
 
     raio <- infinito
-    diametro <- 0
+    diâmetro <- 0
 
-    para cada vertice v pertencente a V faca
-        se excentricidade[v] < raio entao
+    para cada vértice v pertencente a V faça
+        se excentricidade[v] < raio então
             raio <- excentricidade[v]
         fim-se
 
-        se excentricidade[v] > diametro entao
-            diametro <- excentricidade[v]
+        se excentricidade[v] > diâmetro então
+            diâmetro <- excentricidade[v]
         fim-se
     fim-para
 
-    se raio <= diametro e diametro <= 2 * raio entao
-        retorne raio, diametro, verdadeiro
-    senao
-        retorne raio, diametro, falso
+    se raio <= diâmetro e diâmetro <= 2 * raio então
+        retorne raio, diâmetro, verdadeiro
+    senão
+        retorne raio, diâmetro, falso
     fim-se
 fim
 
 Passo a passo para resolver:
 
-1. Considere G = (V, E) um grafo nao-direcionado e conexo.
-2. Para cada vertice v pertencente a V, calcule a distancia de v ate todos os outros vertices usando BFS.
-3. Para cada v, encontre sua excentricidade, isto e, a maior distancia de v ate algum vertice do grafo.
-4. O raio de G e a menor excentricidade entre todos os vertices.
-5. O diametro de G e a maior excentricidade entre todos os vertices.
-6. Como o raio e o menor valor das excentricidades e o diametro e o maior valor, entao raio(G) <= diametro(G).
-7. Escolha um vertice central c, isto e, um vertice cuja excentricidade e igual ao raio.
-8. Para quaisquer vertices u e v, a distancia de u ate v e no maximo a distancia de u ate c mais a distancia de c ate v.
+1. Considere G = (V, E) um grafo não-direcionado é conexo.
+2. Para cada vértice v pertencente a V, calcule a distância de v até todos os outros vértices usando BFS.
+3. Para cada v, encontre sua excentricidade, isto é, a maior distância de v até algum vértice do grafo.
+4. O raio de G é a menor excentricidade entre todos os vértices.
+5. O diâmetro de G é a maior excentricidade entre todos os vértices.
+6. Como o raio é o menor valor das excentricidades e o diâmetro é o maior valor, então raio(G) <= diâmetro(G).
+7. Escolha um vértice central c, isto é, um vértice cuja excentricidade é igual ao raio.
+8. Para quaisquer vértices u e v, a distância de u até v e no máximo a distância de u até c mais a distância de c até v.
 9. Como c e central, d(c, u) <= raio(G) e d(c, v) <= raio(G).
 10. Logo, d(u, v) <= 2 · raio(G).
-11. Como o diametro e a maior distancia entre dois vertices quaisquer, concluimos que diametro(G) <= 2 · raio(G).
+11. Como o diâmetro é a maior distância entre dois vértices quaisquer, concluímos que diâmetro(G) <= 2 · raio(G).
 
-Prova matematica:
+Prova matemática:
 
-Seja G = (V, E) um grafo nao-direcionado conexo.
+Seja G = (V, E) um grafo não-direcionado conexo.
 
-Definimos a distancia entre dois vertices u e v como:
+Definimos a distância entre dois vértices u e v como:
 
-d(u, v) = menor numero de arestas em um caminho entre u e v
+d(u, v) = menor número de arestas em um caminho entre u e v
 
-Como G e conexo:
+Como G é conexo:
 
 ∀ u, v ∈ V, existe caminho entre u e v
 
@@ -2011,31 +2015,31 @@ Logo:
 
 ∀ u, v ∈ V, d(u, v) ∈ N
 
-A excentricidade de um vertice v e:
+A excentricidade de um vértice v e:
 
 ecc(v) = max {d(v, x) | x ∈ V}
 
-O raio de G e:
+O raio de G é:
 
 raio(G) = min {ecc(v) | v ∈ V}
 
-O diametro de G e:
+O diâmetro de G é:
 
-diametro(G) = max {ecc(v) | v ∈ V}
+diâmetro(G) = max {ecc(v) | v ∈ V}
 
-Como o minimo de um conjunto e menor ou igual ao maximo do mesmo conjunto:
+Como o mínimo de um conjunto é menor ou igual ao máximo do mesmo conjunto:
 
 min {ecc(v) | v ∈ V} <= max {ecc(v) | v ∈ V}
 
 Portanto:
 
-raio(G) <= diametro(G)
+raio(G) <= diâmetro(G)
 
-Agora, seja c ∈ V um vertice central, isto e:
+Agora, seja c ∈ V um vértice central, isto é:
 
 ecc(c) = raio(G)
 
-Pela definicao de excentricidade:
+Pela definição de excentricidade:
 
 ∀ x ∈ V, d(c, x) <= ecc(c)
 
@@ -2047,7 +2051,7 @@ Para quaisquer u, v ∈ V, pela desigualdade triangular:
 
 d(u, v) <= d(u, c) + d(c, v)
 
-Como o grafo e nao-direcionado:
+Como o grafo é não-direcionado:
 
 d(u, c) = d(c, u)
 
@@ -2063,48 +2067,48 @@ Logo:
 
 ∀ u, v ∈ V, d(u, v) <= 2 · raio(G)
 
-Como o diametro e a maior distancia entre dois vertices:
+Como o diâmetro é a maior distância entre dois vértices:
 
-diametro(G) = max {d(u, v) | u, v ∈ V}
+diâmetro(G) = max {d(u, v) | u, v ∈ V}
 
-Entao:
+Então:
 
-∀ u, v ∈ V, d(u, v) <= 2 · raio(G) ⇒ diametro(G) <= 2 · raio(G)
+∀ u, v ∈ V, d(u, v) <= 2 · raio(G) ⇒ diâmetro(G) <= 2 · raio(G)
 
 Juntando os dois resultados:
 
-raio(G) <= diametro(G) ∧ diametro(G) <= 2 · raio(G)
+raio(G) <= diâmetro(G) ∧ diâmetro(G) <= 2 · raio(G)
 
 Portanto:
 
-raio(G) <= diametro(G) <= 2 · raio(G)
+raio(G) <= diâmetro(G) <= 2 · raio(G)
 
-Conclusao:
-Em todo grafo nao-direcionado conexo, o raio e sempre menor ou igual ao diametro, e o diametro e sempre menor ou igual ao dobro do raio.
+Conclusão:
+Em todo grafo não-direcionado conexo, o raio é sempre menor ou igual ao diâmetro, e o diâmetro é sempre menor ou igual ao dobro do raio.
 
 
-Questao 17)
+Questão 17)
 
 Enunciado:
-Seja G um grafo direcionado. Como seria o conceito de centro em G? Adapte da definicao de grafo nao-direcionado.
+Seja G um grafo direcionado. Como seria o conceito de centro em G? Adapte da definição de grafo não-direcionado.
 
 Ideia principal:
-Em um grafo nao-direcionado, o centro e formado pelos vertices que possuem menor excentricidade, isto e, pelos vertices cuja maior distancia ate os outros vertices e a menor possivel. Em um grafo direcionado, a diferenca e que a distancia deve respeitar o sentido das arestas. Assim, a distancia de u ate v pode ser diferente da distancia de v ate u. O centro direcionado pode ser definido como o conjunto dos vertices com menor excentricidade de saida, ou seja, aqueles que conseguem atingir todos os outros vertices com a menor maior distancia possivel. Se algum vertice nao puder ser atingido a partir de u, entao a excentricidade de u e infinita.
+Em um grafo não-direcionado, o centro é formado pelos vértices que possuem menor excentricidade, isto é, pelos vértices cuja maior distância até os outros vértices é a menor possível. Em um grafo direcionado, a diferença é que a distância deve respeitar o sentido das arestas. Assim, a distância de u até v pode ser diferente da distância de v até u. O centro direcionado pode ser definido como o conjunto dos vértices com menor excentricidade de saída, ou seja, aqueles que conseguem atingir todos os outros vértices com a menor maior distância possível. Se algum vértice não puder ser atingido a partir de u, então a excentricidade de u é infinita.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo CentroGrafoDirecionado(G)
 Entrada: um grafo direcionado G = (V, E)
-Saida: conjunto C com os vertices centrais de G
+Saída: conjunto C com os vértices centrais de G
 
-inicio
-    para cada vertice v pertencente a V faca
-        distancia <- BFS_Direcionada(G, v)
+início
+    para cada vértice v pertencente a V faça
+        distância <- BFS_Direcionada(G, v)
 
-        se existe x pertencente a V tal que distancia[x] = infinito entao
+        se existe x pertencente a V tal que distância[x] = infinito então
             excentricidade[v] <- infinito
-        senao
-            excentricidade[v] <- maior distancia de v ate qualquer x pertencente a V
+        senão
+            excentricidade[v] <- maior distância de v até qualquer x pertencente a V
         fim-se
     fim-para
 
@@ -2112,8 +2116,8 @@ inicio
 
     C <- conjunto vazio
 
-    para cada vertice v pertencente a V faca
-        se excentricidade[v] = raio entao
+    para cada vértice v pertencente a V faça
+        se excentricidade[v] = raio então
             adicione v em C
         fim-se
     fim-para
@@ -2122,55 +2126,55 @@ inicio
 fim
 
 Procedimento BFS_Direcionada(G, origem)
-inicio
-    para cada vertice x pertencente a V faca
-        distancia[x] <- infinito
+início
+    para cada vértice x pertencente a V faça
+        distância[x] <- infinito
         visitado[x] <- falso
     fim-para
 
-    distancia[origem] <- 0
+    distância[origem] <- 0
     visitado[origem] <- verdadeiro
     fila <- fila vazia
     enfileire origem em fila
 
-    enquanto fila nao estiver vazia faca
+    enquanto fila não estiver vazia faça
         u <- desenfileire fila
 
-        para cada aresta (u, w) pertencente a E faca
-            se visitado[w] = falso entao
+        para cada aresta (u, w) pertencente a E faça
+            se visitado[w] = falso então
                 visitado[w] <- verdadeiro
-                distancia[w] <- distancia[u] + 1
+                distância[w] <- distância[u] + 1
                 enfileire w em fila
             fim-se
         fim-para
     fim-enquanto
 
-    retorne distancia
+    retorne distância
 fim
 
 Passo a passo para resolver:
 
 1. Considere G = (V, E) um grafo direcionado.
-2. Para adaptar o conceito de centro, use distancias direcionadas.
-3. A distancia d(u, v) e o menor caminho direcionado de u ate v.
-4. Se nao existir caminho direcionado de u ate v, entao d(u, v) = infinito.
-5. Para cada vertice v, execute uma BFS direcionada a partir de v.
-6. Essa BFS deve seguir apenas as arestas que saem do vertice atual.
-7. Calcule a excentricidade de v como a maior distancia de v ate qualquer outro vertice.
-8. Se algum vertice nao for alcancavel a partir de v, a excentricidade de v sera infinita.
+2. Para adaptar o conceito de centro, use distâncias direcionadas.
+3. A distância d(u, v) é o menor caminho direcionado de u até v.
+4. Se não existir caminho direcionado de u até v, então d(u, v) = infinito.
+5. Para cada vértice v, execute uma BFS direcionada a partir de v.
+6. Essa BFS deve seguir apenas as arestas que saem do vértice atual.
+7. Calcule a excentricidade de v como a maior distância de v até qualquer outro vértice.
+8. Se algum vértice não for alcançável a partir de v, a excentricidade de v será infinita.
 9. Depois de calcular todas as excentricidades, encontre o menor valor entre elas.
-10. Esse menor valor e o raio direcionado do grafo.
-11. O centro direcionado e o conjunto de todos os vertices cuja excentricidade e igual ao raio direcionado.
+10. Esse menor valor é o raio direcionado do grafo.
+11. O centro direcionado é o conjunto de todos os vértices cuja excentricidade é igual ao raio direcionado.
 
-Prova matematica:
+Prova matemática:
 
 Seja G = (V, E) um grafo direcionado.
 
-Definimos a distancia direcionada de u ate v como:
+Definimos a distância direcionada de u até v como:
 
-d+(u, v) = menor numero de arestas em um caminho direcionado de u ate v
+d+(u, v) = menor número de arestas em um caminho direcionado de u até v
 
-Se nao existir caminho direcionado de u ate v:
+Se não existir caminho direcionado de u até v:
 
 d+(u, v) = infinito
 
@@ -2178,41 +2182,41 @@ Assim:
 
 ∀ u, v ∈ V, d+(u, v) ∈ N ∪ {infinito}
 
-A excentricidade de saida de um vertice u e:
+A excentricidade de saída de um vértice u e:
 
 ecc+(u) = max {d+(u, x) | x ∈ V}
 
-O raio direcionado de G e:
+O raio direcionado de G é:
 
 raio+(G) = min {ecc+(u) | u ∈ V}
 
-O centro direcionado de G e:
+O centro direcionado de G é:
 
 C+(G) = {u ∈ V | ecc+(u) = raio+(G)}
 
 O algoritmo calcula BFS_Direcionada(G, u) para todo u ∈ V.
 
-Pela corretude da BFS em grafo nao ponderado:
+Pela corretude da BFS em grafo não ponderado:
 
-∀ u, x ∈ V, BFS_Direcionada(G, u) calcula distancia[x] = d+(u, x)
+∀ u, x ∈ V, BFS_Direcionada(G, u) calcula distância[x] = d+(u, x)
 
-Como a BFS direcionada segue somente arestas de saida:
+Como a BFS direcionada segue somente arestas de saída:
 
-∀ a, b ∈ V, b e visitado a partir de a ⇒ (a, b) ∈ E
+∀ a, b ∈ V, b é visitado a partir de a ⇒ (a, b) ∈ E
 
-Logo, toda distancia calculada respeita o sentido das arestas:
+Logo, toda distância calculada respeita o sentido das arestas:
 
-∀ u, x ∈ V, distancia[x] = k ⇒ existe caminho direcionado de u ate x com k arestas
+∀ u, x ∈ V, distância[x] = k ⇒ existe caminho direcionado de u até x com k arestas
 
-Se x nao e alcancavel a partir de u:
+Se x não e alcançável a partir de u:
 
-não existe caminho direcionado de u ate x ⇒ distancia[x] = infinito
+não existe caminho direcionado de u até x ⇒ distância[x] = infinito
 
 Portanto, para cada u ∈ V, o algoritmo calcula:
 
-excentricidade[u] = max {distancia[x] | x ∈ V}
+excentricidade[u] = max {distância[x] | x ∈ V}
 
-Como distancia[x] = d+(u, x), temos:
+Como distância[x] = d+(u, x), temos:
 
 ∀ u ∈ V, excentricidade[u] = max {d+(u, x) | x ∈ V}
 
@@ -2236,7 +2240,7 @@ Por fim, o algoritmo retorna:
 
 C = {u ∈ V | excentricidade[u] = raio}
 
-Substituindo pelas definicoes:
+Substituindo pelas definições:
 
 C = {u ∈ V | ecc+(u) = raio+(G)}
 
@@ -2244,30 +2248,30 @@ Portanto:
 
 C = C+(G)
 
-Conclusao:
-Em grafos direcionados, o centro pode ser definido como o conjunto dos vertices com menor excentricidade de saida. O algoritmo calcula corretamente esse centro, pois usa BFS direcionada para obter as distancias respeitando o sentido das arestas e escolhe exatamente os vertices cuja excentricidade e minima.
+Conclusão:
+Em grafos direcionados, o centro pode ser definido como o conjunto dos vértices com menor excentricidade de saída. O algoritmo calcula corretamente esse centro, pois usa BFS direcionada para obter as distâncias respeitando o sentido das arestas e escolhé exatamente os vértices cuja excentricidade é mínima.
 
 
-Questao 18)
+Questão 18)
 
 Enunciado:
-Seja G = (V, E) um grafo direcionado. Projete um algoritmo para identificar se G e fortemente conexo.
+Seja G = (V, E) um grafo direcionado. Projete um algoritmo para identificar se G é fortemente conexo.
 
 Ideia principal:
-Um grafo direcionado e fortemente conexo quando todo vertice consegue alcancar todos os outros vertices respeitando o sentido das arestas. Uma forma eficiente de testar isso e fazer uma busca em profundidade a partir de um vertice qualquer no grafo original e depois fazer outra busca a partir do mesmo vertice no grafo transposto, isto e, no grafo com todas as arestas invertidas. Se as duas buscas visitarem todos os vertices, entao o grafo e fortemente conexo.
+Um grafo direcionado é fortemente conexo quando todo vértice consegue alcançar todos os outros vértices respeitando o sentido das arestas. Uma forma eficiente de testar isso e fazer uma busca em profundidade a partir de um vértice qualquer no grafo original e depois fazer outra busca a partir do mesmo vértice no grafo transposto, isto é, no grafo com todas as arestas invertidas. Se as duas buscas visitarem todos os vértices, então o grafo é fortemente conexo.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo EhFortementeConexo(G)
 Entrada: um grafo direcionado G = (V, E)
-Saida: verdadeiro se G for fortemente conexo; falso caso contrario
+Saída: verdadeiro se G for fortemente conexo; falso caso contrário
 
-inicio
-    escolha um vertice s pertencente a V
+início
+    escolha um vértice s pertencente a V
 
     visitado <- DFS(G, s)
 
-    se existe v pertencente a V tal que visitado[v] = falso entao
+    se existe v pertencente a V tal que visitado[v] = falso então
         retorne falso
     fim-se
 
@@ -2275,7 +2279,7 @@ inicio
 
     visitadoT <- DFS(GT, s)
 
-    se existe v pertencente a V tal que visitadoT[v] = falso entao
+    se existe v pertencente a V tal que visitadoT[v] = falso então
         retorne falso
     fim-se
 
@@ -2283,10 +2287,10 @@ inicio
 fim
 
 Procedimento GrafoTransposto(G)
-inicio
-    crie GT com o mesmo conjunto de vertices de G
+início
+    crie GT com o mesmo conjunto de vértices de G
 
-    para cada aresta (u, v) pertencente a E faca
+    para cada aresta (u, v) pertencente a E faça
         adicione a aresta (v, u) em GT
     fim-para
 
@@ -2295,22 +2299,22 @@ fim
 
 Passo a passo para resolver:
 
-1. Escolha um vertice inicial s.
+1. Escolha um vértice inicial s.
 2. Execute uma DFS em G a partir de s.
-3. Se algum vertice nao foi visitado, entao s nao alcanca todos os vertices, logo G nao e fortemente conexo.
+3. Se algum vértice não foi visitado, então s não alcanca todos os vértices, logo G não é fortemente conexo.
 4. Construa o grafo transposto GT, invertendo o sentido de todas as arestas.
 5. Execute uma DFS em GT a partir de s.
-6. Se algum vertice nao foi visitado em GT, entao no grafo original esse vertice nao consegue chegar ate s.
-7. Se as duas buscas visitarem todos os vertices, entao s alcanca todos e todos alcancam s.
-8. Logo, todos os vertices alcancam todos os outros, e G e fortemente conexo.
+6. Se algum vértice não foi visitado em GT, então no grafo original esse vértice não consegue chegar até s.
+7. Se as duas buscas visitarem todos os vértices, então s alcanca todos e todos alcancam s.
+8. Logo, todos os vértices alcancam todos os outros, e G é fortemente conexo.
 
-Prova matematica:
+Prova matemática:
 
-Seja G = (V, E) um grafo direcionado e seja s pertencente a V.
+Seja G = (V, E) um grafo direcionado é seja s pertencente a V.
 
-Um grafo e fortemente conexo se:
+Um grafo é fortemente conexo se:
 
-para todo u, v pertencentes a V, existe caminho direcionado de u ate v
+para todo u, v pertencentes a V, existe caminho direcionado de u até v
 
 Na primeira DFS:
 
@@ -2318,77 +2322,77 @@ para todo v pertencente a V, visitado[v] = verdadeiro
 
 Isso significa:
 
-para todo v pertencente a V, existe caminho direcionado de s ate v em G
+para todo v pertencente a V, existe caminho direcionado de s até v em G
 
 Na segunda DFS, feita no grafo transposto GT:
 
 para todo v pertencente a V, visitadoT[v] = verdadeiro
 
-Isso significa que, em GT, existe caminho de s ate v.
-Como GT tem todas as arestas invertidas, isso equivale a dizer que, em G, existe caminho de v ate s.
+Isso significa que, em GT, existe caminho de s até v.
+Como GT tem todas as arestas invertidas, isso equivale a dizer que, em G, existe caminho de v até s.
 
 Logo:
 
-para todo v pertencente a V, existe caminho de s ate v
+para todo v pertencente a V, existe caminho de s até v
 e
-para todo v pertencente a V, existe caminho de v ate s
+para todo v pertencente a V, existe caminho de v até s
 
 Agora, para quaisquer u, v pertencentes a V:
 
-u consegue chegar ate s
+u consegue chegar até s
 e
-s consegue chegar ate v
+s consegue chegar até v
 
 Portanto, juntando os caminhos:
 
 u -> s -> v
 
-Assim, existe caminho de u ate v.
-Como u e v eram quaisquer, G e fortemente conexo.
+Assim, existe caminho de u até v.
+Como u e v eram quaisquer, G é fortemente conexo.
 
-Conclusao:
-O algoritmo identifica corretamente se G e fortemente conexo, pois verifica se um vertice s alcanca todos os outros e se todos os outros conseguem alcancar s.
+Conclusão:
+O algoritmo identifica corretamente se G é fortemente conexo, pois verifica se um vértice s alcanca todos os outros e se todos os outros conseguem alcançar s.
 
 
-Questao 19)
+Questão 19)
 
 Enunciado:
 Achar todos os componentes fortemente conexos, pensando usando conceito de busca em profundidade.
 
 Ideia principal:
-Uma componente fortemente conexa e um maior conjunto de vertices em que todos conseguem alcancar todos os outros por caminhos direcionados. Podemos encontrar todas as componentes usando o algoritmo de Kosaraju. Ele faz uma DFS no grafo original para calcular os tempos de termino, depois cria o grafo transposto e faz DFS nele seguindo a ordem decrescente dos tempos de termino. Cada DFS no grafo transposto encontra uma componente fortemente conexa.
+Uma componente fortemente conexa é um maior conjunto de vértices em que todos conseguem alcançar todos os outros por caminhos direcionados. Podemos encontrar todas as componentes usando o algoritmo de Kosaraju. Ele faz uma DFS no grafo original para calcular os tempos de termino, depois cria o grafo transposto e faz DFS nele seguindo a ordem decrescente dos tempos de termino. Cada DFS no grafo transposto encontra uma componente fortemente conexa.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo ComponentesFortementeConexas(G)
 Entrada: um grafo direcionado G = (V, E)
-Saida: lista das componentes fortemente conexas de G
+Saída: lista das componentes fortemente conexas de G
 
-inicio
-    para cada vertice v pertencente a V faca
+início
+    para cada vértice v pertencente a V faça
         visitado[v] <- falso
     fim-para
 
     pilha <- pilha vazia
 
-    para cada vertice v pertencente a V faca
-        se visitado[v] = falso entao
+    para cada vértice v pertencente a V faça
+        se visitado[v] = falso então
             DFS_TempoTermino(G, v, visitado, pilha)
         fim-se
     fim-para
 
     GT <- grafo transposto de G
 
-    para cada vertice v pertencente a V faca
+    para cada vértice v pertencente a V faça
         visitado[v] <- falso
     fim-para
 
     componentes <- lista vazia
 
-    enquanto pilha nao estiver vazia faca
+    enquanto pilha não estiver vazia faça
         v <- desempilhe(pilha)
 
-        se visitado[v] = falso entao
+        se visitado[v] = falso então
             componente <- conjunto vazio
             DFS_Coleta(GT, v, visitado, componente)
             adicione componente em componentes
@@ -2399,11 +2403,11 @@ inicio
 fim
 
 Procedimento DFS_TempoTermino(G, v, visitado, pilha)
-inicio
+início
     visitado[v] <- verdadeiro
 
-    para cada vertice w sucessor de v faca
-        se visitado[w] = falso entao
+    para cada vértice w sucessor de v faça
+        se visitado[w] = falso então
             DFS_TempoTermino(G, w, visitado, pilha)
         fim-se
     fim-para
@@ -2412,12 +2416,12 @@ inicio
 fim
 
 Procedimento DFS_Coleta(GT, v, visitado, componente)
-inicio
+início
     visitado[v] <- verdadeiro
     adicione v em componente
 
-    para cada vertice w sucessor de v em GT faca
-        se visitado[w] = falso entao
+    para cada vértice w sucessor de v em GT faça
+        se visitado[w] = falso então
             DFS_Coleta(GT, w, visitado, componente)
         fim-se
     fim-para
@@ -2426,45 +2430,45 @@ fim
 Passo a passo para resolver:
 
 1. Execute DFS no grafo original.
-2. Quando um vertice terminar sua visita, coloque esse vertice em uma pilha.
+2. Quando um vértice terminar sua visita, coloque esse vértice em uma pilha.
 3. Inverta todas as arestas do grafo, formando o grafo transposto GT.
-4. Reinicie todos os vertices como nao visitados.
-5. Retire vertices da pilha, isto e, siga a ordem decrescente de tempo de termino.
-6. Para cada vertice ainda nao visitado, execute DFS no grafo transposto.
-7. Todos os vertices visitados nessa DFS formam uma componente fortemente conexa.
-8. Repita ate a pilha ficar vazia.
+4. Reinicie todos os vértices como não visitados.
+5. Retire vértices da pilha, isto é, siga a ordem decrescente de tempo de termino.
+6. Para cada vértice ainda não visitado, execute DFS no grafo transposto.
+7. Todos os vértices visitados nessa DFS formam uma componente fortemente conexa.
+8. Repita até a pilha ficar vazia.
 
 Justificativa:
-Os tempos de termino da primeira DFS ajudam a escolher um vertice que representa uma componente "mais externa" no grafo de componentes. Ao inverter as arestas e buscar nessa ordem, a DFS fica presa exatamente dentro de uma componente fortemente conexa, sem misturar componentes diferentes.
+Os tempos de termino da primeira DFS ajudam a escolher um vértice que representa uma componente "mais externa" no grafo de componentes. Ao inverter as arestas e buscar nessa ordem, a DFS fica presa exatamente dentro de uma componente fortemente conexa, sem misturar componentes diferentes.
 
-Conclusao:
+Conclusão:
 O algoritmo de Kosaraju encontra todas as componentes fortemente conexas usando duas buscas em profundidade e o grafo transposto.
 
 
-Questao 20)
+Questão 20)
 
 Enunciado:
-Seja G = (V, E) um grafo direcionado. Apresente, pelo menos, duas estrategias diferentes para determinar se G e ciclico.
+Seja G = (V, E) um grafo direcionado. Apresente, pelo menos, duas estratégias diferentes para determinar se G é cíclico.
 
 Ideia principal:
-Um grafo direcionado e ciclico quando existe um caminho direcionado que sai de um vertice e volta para ele. Duas estrategias comuns para detectar ciclos sao: DFS com pilha de recursao e ordenacao topologica pelo algoritmo de Kahn.
+Um grafo direcionado é cíclico quando existe um caminho direcionado que sai de um vértice é volta para ele. Duas estratégias comuns para detectar ciclos são: DFS com pilha de recursão e ordenação topológica pelo algoritmo de Kahn.
 
-Estrategia 1: DFS com pilha de recursao
+Estrategia 1: DFS com pilha de recursão
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo TemCicloDFS(G)
 Entrada: um grafo direcionado G = (V, E)
-Saida: verdadeiro se G possuir ciclo
+Saída: verdadeiro se G possuir ciclo
 
-inicio
-    para cada vertice v pertencente a V faca
+início
+    para cada vértice v pertencente a V faça
         cor[v] <- branco
     fim-para
 
-    para cada vertice v pertencente a V faca
-        se cor[v] = branco entao
-            se DFS_Ciclo(G, v, cor) = verdadeiro entao
+    para cada vértice v pertencente a V faça
+        se cor[v] = branco então
+            se DFS_Ciclo(G, v, cor) = verdadeiro então
                 retorne verdadeiro
             fim-se
         fim-se
@@ -2474,16 +2478,16 @@ inicio
 fim
 
 Procedimento DFS_Ciclo(G, v, cor)
-inicio
+início
     cor[v] <- cinza
 
-    para cada sucessor w de v faca
-        se cor[w] = cinza entao
+    para cada sucessor w de v faça
+        se cor[w] = cinza então
             retorne verdadeiro
         fim-se
 
-        se cor[w] = branco entao
-            se DFS_Ciclo(G, w, cor) = verdadeiro entao
+        se cor[w] = branco então
+            se DFS_Ciclo(G, w, cor) = verdadeiro então
                 retorne verdadeiro
             fim-se
         fim-se
@@ -2493,83 +2497,83 @@ inicio
     retorne falso
 fim
 
-Explicacao:
-Branco significa nao visitado.
-Cinza significa que o vertice esta sendo visitado, ou seja, esta na pilha da DFS.
+Explicação:
+Branco significa não visitado.
+Cinza significa que o vértice está sendo visitado, ou seja, está na pilha da DFS.
 Preto significa que a visita terminou.
-Se encontramos uma aresta para um vertice cinza, encontramos uma aresta de retorno, logo existe ciclo.
+Se encontramos uma aresta para um vértice cinza, encontramos uma aresta de retorno, logo existe ciclo.
 
-Estrategia 2: Ordenacao topologica por Kahn
+Estrategia 2: Ordenação topológica por Kahn
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo TemCicloKahn(G)
 Entrada: um grafo direcionado G = (V, E)
-Saida: verdadeiro se G possuir ciclo
+Saída: verdadeiro se G possuir ciclo
 
-inicio
-    para cada vertice v pertencente a V faca
+início
+    para cada vértice v pertencente a V faça
         grauEntrada[v] <- quantidade de arestas que chegam em v
     fim-para
 
-    fila <- vertices com grauEntrada igual a 0
+    fila <- vértices com grauEntrada igual a 0
     removidos <- 0
 
-    enquanto fila nao estiver vazia faca
+    enquanto fila não estiver vazia faça
         v <- desenfileire fila
         removidos <- removidos + 1
 
-        para cada sucessor w de v faca
+        para cada sucessor w de v faça
             grauEntrada[w] <- grauEntrada[w] - 1
 
-            se grauEntrada[w] = 0 entao
+            se grauEntrada[w] = 0 então
                 enfileire w em fila
             fim-se
         fim-para
     fim-enquanto
 
-    se removidos < |V| entao
+    se removidos < |V| então
         retorne verdadeiro
-    senao
+    senão
         retorne falso
     fim-se
 fim
 
-Explicacao:
-Todo DAG possui pelo menos uma fonte, isto e, um vertice com grau de entrada zero.
+Explicação:
+Todo DAG possui pelo menos uma fonte, isto é, um vértice com grau de entrada zero.
 O algoritmo remove fontes repetidamente.
-Se ao final nem todos os vertices foram removidos, os vertices restantes fazem parte de algum ciclo ou dependem de um ciclo.
+Se ao final nem todos os vértices foram removidos, os vértices restantes fazem parte de algum ciclo ou dependem de um ciclo.
 
-Conclusao:
-As duas estrategias funcionam para grafos direcionados. Pela DFS, ciclo aparece como aresta de retorno. Pela ordenacao topologica, ciclo aparece quando nao conseguimos remover todos os vertices.
+Conclusão:
+As duas estratégias funcionam para grafos direcionados. Pela DFS, ciclo aparece como aresta de retorno. Pela ordenação topológica, ciclo aparece quando não conseguimos remover todos os vértices.
 
 
-Questao 21)
+Questão 21)
 
 Enunciado:
-Seja G = (V, E) um grafo direcionado aciclico. Apresente, pelo menos, duas estrategias para encontrar o maior caminho de G.
+Seja G = (V, E) um grafo direcionado acíclico. Apresente, pelo menos, duas estratégias para encontrar o maior caminho de G.
 
 Ideia principal:
-Como G e direcionado e aciclico, ele e um DAG. Em DAGs, o maior caminho pode ser encontrado sem cair em repeticoes infinitas, pois nao existem ciclos. Duas estrategias sao: programacao dinamica em ordem topologica e DFS com memoizacao.
+Como G é direcionado é acíclico, ele é um DAG. Em DAGs, o maior caminho pode ser encontrado sem cair em repeticoes infinitas, pois não existem ciclos. Duas estratégias são: programação dinâmica em ordem topológica e DFS com memoização.
 
-Estrategia 1: Programacao dinamica usando ordenacao topologica
+Estrategia 1: Programacao dinâmica usando ordenação topológica
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo MaiorCaminhoDAG_Topologico(G)
 Entrada: um DAG G = (V, E)
-Saida: tamanho do maior caminho de G em numero de arestas
+Saída: tamanho do maior caminho de G em número de arestas
 
-inicio
-    ordem <- OrdenacaoTopologica(G)
+início
+    ordem <- OrdenaçãoTopologica(G)
 
-    para cada vertice v pertencente a V faca
+    para cada vértice v pertencente a V faça
         dist[v] <- 0
     fim-para
 
-    para cada vertice u em ordem faca
-        para cada sucessor v de u faca
-            se dist[v] < dist[u] + 1 entao
+    para cada vértice u em ordem faça
+        para cada sucessor v de u faça
+            se dist[v] < dist[u] + 1 então
                 dist[v] <- dist[u] + 1
             fim-se
         fim-para
@@ -2578,42 +2582,42 @@ inicio
     retorne maior valor de dist[v], para v pertencente a V
 fim
 
-Explicacao:
+Explicação:
 dist[v] guarda o tamanho do maior caminho que termina em v.
-Ao processar os vertices em ordem topologica, todo predecessor de v ja foi considerado antes de v.
+Ao processar os vértices em ordem topológica, todo predecessor de v já foi considerado antes de v.
 Para cada aresta (u, v), podemos estender um caminho que termina em u e obter um caminho que termina em v.
 
-Estrategia 2: DFS com memoizacao
+Estrategia 2: DFS com memoização
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo MaiorCaminhoDAG_DFS(G)
 Entrada: um DAG G = (V, E)
-Saida: tamanho do maior caminho de G em numero de arestas
+Saída: tamanho do maior caminho de G em número de arestas
 
-inicio
-    para cada vertice v pertencente a V faca
+início
+    para cada vértice v pertencente a V faça
         memo[v] <- indefinido
     fim-para
 
     resposta <- 0
 
-    para cada vertice v pertencente a V faca
+    para cada vértice v pertencente a V faça
         resposta <- max(resposta, MaiorAPartirDe(v))
     fim-para
 
     retorne resposta
 fim
 
-Funcao MaiorAPartirDe(v)
-inicio
-    se memo[v] esta definido entao
+Função MaiorAPartirDe(v)
+início
+    se memo[v] está definido então
         retorne memo[v]
     fim-se
 
     melhor <- 0
 
-    para cada sucessor w de v faca
+    para cada sucessor w de v faça
         melhor <- max(melhor, 1 + MaiorAPartirDe(w))
     fim-para
 
@@ -2621,31 +2625,31 @@ inicio
     retorne melhor
 fim
 
-Explicacao:
-MaiorAPartirDe(v) calcula o tamanho do maior caminho que comeca em v.
-Como o grafo nao tem ciclos, a recursao sempre termina.
-A memoizacao evita recalcular a resposta para o mesmo vertice varias vezes.
+Explicação:
+MaiorAPartirDe(v) calcula o tamanho do maior caminho que começa em v.
+Como o grafo não tem ciclos, a recursão sempre termina.
+A memoização evita recalcular a resposta para o mesmo vértice várias vezes.
 
-Conclusao:
+Conclusão:
 Em DAGs, o maior caminho pode ser resolvido de forma eficiente porque a ausencia de ciclos permite ordenar dependencias e reaproveitar resultados.
 
 
-Questao 22)
+Questão 22)
 
 Enunciado:
-Qual a caracteristica importante que ha em grafo aciclico?
+Qual a caracteristica importante que há em grafo acíclico?
 
 Ideia principal:
-A caracteristica mais importante de um grafo direcionado aciclico e que ele nao possui ciclos e, por isso, admite ordenacao topologica. Isso permite organizar os vertices em uma ordem de dependencia: se existe uma aresta (u, v), entao u deve aparecer antes de v.
+A caracteristica mais importante de um grafo direcionado acíclico e que ele não possui ciclos e, por isso, admite ordenação topológica. Isso permite organizar os vértices em uma ordem de dependencia: se existe uma aresta (u, v), então u deve aparecer antes de v.
 
 Resposta:
-Em um grafo direcionado aciclico, chamado DAG, e possivel fazer uma ordenacao topologica dos vertices.
+Em um grafo direcionado acíclico, chamado DAG, é possível fazer uma ordenação topológica dos vértices.
 
-Isso significa que podemos numerar ou ordenar os vertices de modo que toda aresta respeite a ordem:
+Isso significa que podemos numerar ou ordenar os vértices de modo que toda aresta respeite a ordem:
 
-se (u, v) pertence a E, entao u aparece antes de v
+se (u, v) pertence a E, então u aparece antes de v
 
-Explicacao:
+Explicação:
 Essa propriedade e muito importante porque permite modelar problemas de dependencia.
 Por exemplo:
 - tarefas de uma obra;
@@ -2653,55 +2657,55 @@ Por exemplo:
 - etapas de compilacao;
 - processos que precisam acontecer em ordem.
 
-Outra caracteristica importante e que todo DAG finito nao vazio possui pelo menos uma fonte e pelo menos um sorvedouro.
-Fonte e um vertice com grau de entrada zero.
-Sorvedouro e um vertice com grau de saida zero.
+Outra caracteristica importante e que todo DAG finito não vazio possui pelo menos uma fonte e pelo menos um sorvedouro.
+Fonte é um vértice com grau de entrada zero.
+Sorvedouro é um vértice com grau de saída zero.
 
 Justificativa:
-Se um grafo direcionado finito nao tivesse fonte, todo vertice teria pelo menos uma aresta chegando.
-Entao poderiamos voltar por predecessores indefinidamente.
-Como o grafo e finito, em algum momento um vertice repetiria, formando um ciclo.
-Isso contradiz o fato de o grafo ser aciclico.
+Se um grafo direcionado finito não tivesse fonte, todo vértice teria pelo menos uma aresta chegando.
+Então poderíamos voltar por predecessores indefinidamente.
+Como o grafo é finito, em algum momento um vértice repetiria, formando um ciclo.
+Isso contradiz o fato de o grafo ser acíclico.
 Logo, deve existir pelo menos uma fonte.
 
-Conclusao:
-A caracteristica essencial de um DAG e permitir uma ordem topologica, o que torna possivel resolver problemas de dependencias, detectar ciclos e calcular maior caminho de forma organizada.
+Conclusão:
+A caracteristica essencial de um DAG e permitir uma ordem topológica, o que torna possível resolver problemas de dependencias, detectar ciclos e calcular maior caminho de forma organizada.
 
 
-Questao 23)
+Questão 23)
 
 Enunciado:
-Seja G = (V, E) um grafo direcionado. Identifique uma base de V, com a menor quantidade possivel de vertices.
+Seja G = (V, E) um grafo direcionado. Identifique uma base de V, com a menor quantidadé possível de vértices.
 
 Ideia principal:
-Uma base e um conjunto S de vertices tal que o fecho transitivo direto de S cobre todos os vertices do grafo. Em outras palavras, a partir dos vertices de S conseguimos atingir todos os vertices de V. Para um grafo direcionado geral, uma forma correta e contrair as componentes fortemente conexas, formando o grafo condensado. Esse grafo condensado sempre e aciclico. Entao escolhemos uma componente fonte, isto e, com grau de entrada zero, e pegamos um vertice representante de cada uma dessas componentes. Esses representantes formam uma base minima.
+Uma base é um conjunto S de vértices tal que o fecho transitivo direto de S cobre todos os vértices do grafo. Em outras palavras, a partir dos vértices de S conseguimos atingir todos os vértices de V. Para um grafo direcionado geral, uma forma correta e contrair as componentes fortemente conexas, formando o grafo condensado. Esse grafo condensado sempre é acíclico. Então escolhemos uma componente fonte, isto é, com grau de entrada zero, e pegamos um vértice representante de cada uma dessas componentes. Esses representantes formam uma base mínima.
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo BaseMinimaGrafoDirecionado(G)
 Entrada: um grafo direcionado G = (V, E)
-Saida: uma base minima S
+Saída: uma base mínima S
 
-inicio
+início
     componentes <- ComponentesFortementeConexas(G)
 
     construa o grafo condensado GC
-    cada componente fortemente conexa vira um vertice em GC
+    cada componente fortemente conexa vira um vértice ém GC
 
-    para cada aresta (u, v) pertencente a E faca
-        Cu <- componente que contem u
-        Cv <- componente que contem v
+    para cada aresta (u, v) pertencente a E faça
+        Cu <- componente que contém u
+        Cv <- componente que contém v
 
-        se Cu diferente de Cv entao
+        se Cu diferente de Cv então
             adicione a aresta (Cu, Cv) em GC
         fim-se
     fim-para
 
     S <- conjunto vazio
 
-    para cada componente C em GC faca
-        se grauEntrada(C) = 0 entao
-            escolha um vertice x pertencente a C
+    para cada componente C em GC faça
+        se grauEntrada(C) = 0 então
+            escolha um vértice x pertencente a C
             adicione x em S
         fim-se
     fim-para
@@ -2712,76 +2716,76 @@ fim
 Passo a passo para resolver:
 
 1. Encontre as componentes fortemente conexas do grafo.
-2. Contraia cada componente em um unico vertice.
-3. O grafo resultante e chamado grafo condensado.
+2. Contraia cada componente em um único vértice.
+3. O grafo resultante é chamado grafo condensado.
 4. O grafo condensado e sempre um DAG.
 5. Encontre as fontes do grafo condensado.
-6. Para cada componente fonte, escolha um vertice representante.
-7. O conjunto desses representantes e uma base minima.
+6. Para cada componente fonte, escolha um vértice representante.
+7. O conjunto desses representantes é uma base mínima.
 
 Justificativa:
-Dentro de uma componente fortemente conexa, qualquer vertice alcanca todos os outros da mesma componente.
-No grafo condensado, uma componente fonte nao pode ser alcancada por nenhuma outra componente, pois ela nao tem entrada.
-Portanto, qualquer base precisa escolher pelo menos um vertice de cada componente fonte.
-Escolhendo exatamente um vertice de cada componente fonte, conseguimos alcancar todas as componentes do grafo condensado e, consequentemente, todos os vertices de G.
+Dentro de uma componente fortemente conexa, qualquer vértice alcanca todos os outros da mesma componente.
+No grafo condensado, uma componente fonte não pode ser alcançada por nenhuma outra componente, pois ela não tem entrada.
+Portanto, qualquer base precisa escolher pelo menos um vértice de cada componente fonte.
+Escolhendo exatamente um vértice de cada componente fonte, conseguimos alcançar todas as componentes do grafo condensado e, consequentemente, todos os vértices de G.
 
-Conclusao:
-A base minima de um grafo direcionado geral pode ser obtida escolhendo um representante de cada componente fonte do grafo condensado.
+Conclusão:
+A base mínima de um grafo direcionado geral pode ser obtida escolhendo um representante de cada componente fonte do grafo condensado.
 
 
-Questao 24)
+Questão 24)
 
 Enunciado:
-Seja G = (V, E) um grafo direcionado aciclico. Faca:
-1) Encontre o maior caminho do grafo usando, pelo menos, duas estrategias diferentes.
-2) De numeros para os vertices entre [1, |V|] de forma que a numeracao respeite as arestas do grafo.
+Seja G = (V, E) um grafo direcionado acíclico. Faça:
+1) Encontre o maior caminho do grafo usando, pelo menos, duas estratégias diferentes.
+2) De números para os vértices entre [1, |V|] de forma que a numeração respeite as arestas do grafo.
 
 Ideia principal:
-Como G e aciclico e direcionado, G e um DAG. Em um DAG podemos fazer ordenacao topologica. Essa ordenacao permite numerar os vertices e tambem calcular o maior caminho. Para o maior caminho, podemos usar programacao dinamica em ordem topologica ou DFS com memoizacao.
+Como G é acíclico e direcionado, G é um DAG. Em um DAG podemos fazer ordenação topológica. Essa ordenação permite numerar os vértices e também calcular o maior caminho. Para o maior caminho, podemos usar programação dinâmica em ordem topológica ou DFS com memoização.
 
-Parte 1: maior caminho usando duas estrategias
+Parte 1: maior caminho usando duas estratégias
 
-Estrategia A: programacao dinamica em ordem topologica
+Estrategia A: programação dinâmica em ordem topológica
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo MaiorCaminhoTopologico(G)
 Entrada: um DAG G = (V, E)
-Saida: maior caminho em numero de arestas
+Saída: maior caminho em número de arestas
 
-inicio
-    ordem <- OrdenacaoTopologica(G)
+início
+    ordem <- OrdenaçãoTopologica(G)
 
-    para cada v pertencente a V faca
+    para cada v pertencente a V faça
         dist[v] <- 0
         anterior[v] <- nulo
     fim-para
 
-    para cada u em ordem faca
-        para cada aresta (u, v) pertencente a E faca
-            se dist[v] < dist[u] + 1 entao
+    para cada u em ordem faça
+        para cada aresta (u, v) pertencente a E faça
+            se dist[v] < dist[u] + 1 então
                 dist[v] <- dist[u] + 1
                 anterior[v] <- u
             fim-se
         fim-para
     fim-para
 
-    fimCaminho <- vertice com maior dist[v]
+    fimCaminho <- vértice com maior dist[v]
     reconstrua o caminho voltando por anterior
 
     retorne caminho e dist[fimCaminho]
 fim
 
-Estrategia B: DFS com memoizacao
+Estrategia B: DFS com memoização
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo MaiorCaminhoMemoizacao(G)
 Entrada: um DAG G = (V, E)
-Saida: maior caminho em numero de arestas
+Saída: maior caminho em número de arestas
 
-inicio
-    para cada v pertencente a V faca
+início
+    para cada v pertencente a V faça
         memo[v] <- indefinido
         proximo[v] <- nulo
     fim-para
@@ -2789,10 +2793,10 @@ inicio
     melhorInicio <- nulo
     melhorValor <- 0
 
-    para cada v pertencente a V faca
+    para cada v pertencente a V faça
         valor <- MaiorAPartirDe(v)
 
-        se valor > melhorValor entao
+        se valor > melhorValor então
             melhorValor <- valor
             melhorInicio <- v
         fim-se
@@ -2803,18 +2807,18 @@ inicio
     retorne caminho e melhorValor
 fim
 
-Funcao MaiorAPartirDe(v)
-inicio
-    se memo[v] esta definido entao
+Função MaiorAPartirDe(v)
+início
+    se memo[v] está definido então
         retorne memo[v]
     fim-se
 
     memo[v] <- 0
 
-    para cada sucessor w de v faca
+    para cada sucessor w de v faça
         valor <- 1 + MaiorAPartirDe(w)
 
-        se valor > memo[v] entao
+        se valor > memo[v] então
             memo[v] <- valor
             proximo[v] <- w
         fim-se
@@ -2823,31 +2827,31 @@ inicio
     retorne memo[v]
 fim
 
-Explicacao:
-As duas estrategias funcionam porque o grafo nao tem ciclos.
-Na primeira, a ordem topologica garante que os predecessores sejam processados antes dos sucessores.
-Na segunda, a DFS calcula o maior caminho a partir de cada vertice e guarda o resultado para nao recalcular.
+Explicação:
+As duas estratégias funcionam porque o grafo não tem ciclos.
+Na primeira, a ordem topológica garante que os predecessores sejam processados antes dos sucessores.
+Na segunda, a DFS calcula o maior caminho a partir de cada vértice e guarda o resultado para não recalcular.
 
-Parte 2: numeracao dos vertices
+Parte 2: numeração dos vértices
 
 Objetivo:
-Dar numeros de 1 ate |V| para os vertices de modo que, se existe uma aresta (u, v), entao u recebe numero menor que v.
+Dar números de 1 até |V| para os vértices de modo que, se existe uma aresta (u, v), então u recebe número menor que v.
 
-Formula da propriedade:
+Fórmula da propriedade:
 
-se (u, v) pertence a E, entao f(u) < f(v)
+se (u, v) pertence a E, então f(u) < f(v)
 
-Pseudocodigo:
+Pseudocódigo:
 
 Algoritmo NumerarVerticesDAG(G)
 Entrada: um DAG G = (V, E)
-Saida: funcao f que numera os vertices de 1 ate |V|
+Saída: função f que numera os vértices de 1 até |V|
 
-inicio
-    ordem <- OrdenacaoTopologica(G)
+início
+    ordem <- OrdenaçãoTopologica(G)
     i <- 1
 
-    para cada vertice v em ordem faca
+    para cada vértice v em ordem faça
         f[v] <- i
         i <- i + 1
     fim-para
@@ -2855,26 +2859,26 @@ inicio
     retorne f
 fim
 
-Algoritmo OrdenacaoTopologica(G)
+Algoritmo OrdenaçãoTopologica(G)
 Entrada: um DAG G = (V, E)
-Saida: uma ordem topologica dos vertices
+Saída: uma ordem topológica dos vértices
 
-inicio
-    para cada v pertencente a V faca
+início
+    para cada v pertencente a V faça
         grauEntrada[v] <- quantidade de arestas que chegam em v
     fim-para
 
-    fila <- todos os vertices com grauEntrada igual a 0
+    fila <- todos os vértices com grauEntrada igual a 0
     ordem <- lista vazia
 
-    enquanto fila nao estiver vazia faca
+    enquanto fila não estiver vazia faça
         v <- desenfileire fila
         adicione v ao final de ordem
 
-        para cada sucessor w de v faca
+        para cada sucessor w de v faça
             grauEntrada[w] <- grauEntrada[w] - 1
 
-            se grauEntrada[w] = 0 entao
+            se grauEntrada[w] = 0 então
                 enfileire w em fila
             fim-se
         fim-para
@@ -2885,16 +2889,21 @@ fim
 
 Justificativa:
 Em um DAG sempre existe pelo menos uma fonte.
-Ao remover uma fonte, os vertices que dependiam dela podem se tornar novas fontes.
-Repetindo esse processo, obtemos uma ordem em que todo vertice aparece antes de seus sucessores.
-Assim, se existe uma aresta (u, v), entao u aparece antes de v na ordem e recebe um numero menor.
+Ao remover uma fonte, os vértices que dependiam dela podem se tornar novas fontes.
+Repetindo esse processo, obtemos uma ordem em que todo vértice aparece antes de seus sucessores.
+Assim, se existe uma aresta (u, v), então u aparece antes de v na ordem e recebe um número menor.
 
-Observacao sobre a escrita do enunciado:
-Se o professor escrever a condicao usando a aresta (v, u), entao a desigualdade aparece invertida:
+Observação sobre a escrita do enunciado:
+Se o professor escrever a condição usando a aresta (v, u), então a desigualdade aparece invertida:
 
-se (v, u) pertence a E, entao f(v) < f(u)
+se (v, u) pertence a E, então f(v) < f(u)
 
 As duas formas dizem a mesma ideia: a origem da aresta vem antes do destino.
 
-Conclusao:
-Para um DAG, usamos ordenacao topologica para numerar os vertices e tambem para calcular o maior caminho. O maior caminho pode ser encontrado por programacao dinamica em ordem topologica ou por DFS com memoizacao.
+Conclusão:
+Para um DAG, usamos ordenação topológica para numerar os vértices e também para calcular o maior caminho. O maior caminho pode ser encontrado por programação dinâmica em ordem topológica ou por DFS com memoização.
+
+
+
+
+
