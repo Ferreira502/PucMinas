@@ -298,7 +298,9 @@ Enunciado:
 Seja G = (V, E) um grafo não-direcionado simples conexo tal que |V| >= 2. Mostre que há, pelo menos, dois vértices que possuem o mesmo grau.
 
 Ideia principal:
-Se o grafo é simples, não-direcionado e possui n vértices, então o grau de qualquer vértice está entre 0 e n - 1. Porém, como o grafo é conexo e n >= 2, nenhum vértice pode ter grau 0. Logo, os graus possíveis são apenas 1, 2, 3, ..., n - 1. Existem n vértices, mas apenas n - 1 valores possíveis de grau. Pelo princípio das gavetas, pelo menos dois vértices devem ter o mesmo grau.
+Se o grafo é simples, não-direcionado e possui n vértices, então o grau de qualquer vértice está entre 0 e n - 1.
+Porém, como o grafo é conexo e n >= 2, nenhum vértice pode ter grau 0. Logo, os graus possíveis são apenas 1, 2, 3, ..., n - 1. 
+Existem n vértices, mas apenas n - 1 valores possíveis de grau. Pelo princípio das gavetas, pelo menos dois vértices devem ter o mesmo grau.
 
 Pseudocódigo:
 
@@ -389,7 +391,11 @@ Enunciado:
 Seja G = (V, E) um grafo não-direcionado completo. Encontre o número de subgrafos que podem ser encontrados em G.
 
 Ideia principal:
-Se G é um grafo completo com n vértices, então todo par de vértices possui uma aresta. Para formar um subgrafo, primeiro escolhemos um subconjunto de vértices. Se esse subconjunto possui k vértices, então existem C(k, 2) arestas possíveis entre eles. Como um subgrafo pode conter qualquer subconjunto dessas arestas, existem 2^(C(k, 2)) formas de escolher as arestas. Como existem C(n, k) formas de escolher k vértices, o total de subgrafos é a soma desses valores para k indo de 0 até n.
+Se G é um grafo completo com n vértices, então todo par de vértices possui uma aresta. 
+Para formar um subgrafo, primeiro escolhemos um subconjunto de vértices. 
+Se esse subconjunto possui k vértices, então existem C(k, 2) arestas possíveis entre eles. 
+Como um subgrafo pode conter qualquer subconjunto dessas arestas, existem 2^(C(k, 2)) formas de escolher as arestas. Como existem C(n, k) formas de escolher k vértices, 
+o total de subgrafos é a soma desses valores para k indo de 0 até n.
 
 Pseudocódigo:
 
