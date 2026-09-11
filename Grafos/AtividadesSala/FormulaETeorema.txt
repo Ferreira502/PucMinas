@@ -56,7 +56,23 @@ Então o maior número de arestas acontece quando todos os pares de vértices es
 
 ------------------------------------------------------------
 
-4) Número de arestas do grafo completo K_n
+4) Número máximo de arestas em grafo simples direcionado
+
+Fórmula:
+m <= n(n - 1)
+
+Explicação:
+Em um grafo simples direcionado, não há laços nem arestas repetidas.
+Para cada vértice, podem sair arestas para os outros n - 1 vértices.
+Como existem n vértices, o número máximo de arestas é n(n - 1).
+Nesse caso, (u, v) e (v, u) contam como arestas diferentes.
+
+Observação:
+Se o grafo direcionado permitir laços, então o máximo passa a ser n².
+
+------------------------------------------------------------
+
+5) Número de arestas do grafo completo K_n
 
 Fórmula:
 |E(K_n)| = C(n, 2) = n(n - 1)/2
@@ -67,7 +83,7 @@ Como existem C(n, 2) formas de escolher 2 vértices entre n, existem n(n - 1)/2 
 
 ------------------------------------------------------------
 
-5) Grau máximo em grafo simples com n vértices
+6) Grau máximo em grafo simples com n vértices
 
 Fórmula:
 0 <= grau(v) <= n - 1
@@ -80,7 +96,7 @@ Se o grafo for conexo e tiver n >= 2, nenhum vértice pode ser isolado; nesse ca
 
 ------------------------------------------------------------
 
-6) Soma dos graus em grafo não-direcionado
+7) Soma dos graus em grafo não-direcionado
 
 Fórmula:
 ∑ grau(v) = 2|E|, para todo v ∈ V
@@ -92,7 +108,7 @@ Por isso, a soma dos graus é sempre igual a 2 vezes o número de arestas.
 
 ------------------------------------------------------------
 
-7) Soma dos graus é par
+8) Soma dos graus é par
 
 Fórmula:
 ∑ grau(v) = 2|E| ⇒ ∑ grau(v) é par
@@ -103,7 +119,7 @@ Essa ideia aparece várias vezes nas atividades e nas Provas 01.
 
 ------------------------------------------------------------
 
-8) Quantidade de vértices de grau ímpar
+9) Quantidade de vértices de grau ímpar
 
 Fórmula:
 |{v ∈ V | grau(v) é ímpar}| é par
@@ -116,7 +132,7 @@ Uma soma de números ímpares só é par quando há uma quantidade par de parcel
 
 ------------------------------------------------------------
 
-9) Grafo r-regular
+10) Grafo r-regular
 
 Fórmulas:
 grau(v) = r, para todo v ∈ V
@@ -131,7 +147,7 @@ Isso ajuda a testar se um grafo regular com n vértices e grau r pode existir: n
 
 ------------------------------------------------------------
 
-10) Número mínimo e máximo de arestas com c componentes
+11) Número mínimo e máximo de arestas com c componentes
 
 Fórmulas:
 m_min = n - c
@@ -144,7 +160,7 @@ Para um grafo simples não-direcionado com n vértices e exatamente c componente
 
 ------------------------------------------------------------
 
-11) Quantas arestas faltam para conectar c componentes
+12) Quantas arestas faltam para conectar c componentes
 
 Fórmula:
 arestas necessárias = c - 1
@@ -156,7 +172,7 @@ Portanto, são necessárias pelo menos c - 1 arestas.
 
 ------------------------------------------------------------
 
-12) Grafo completo bipartido K_{r,s}
+13) Grafo completo bipartido K_{r,s}
 
 Fórmulas:
 |V| = r + s
@@ -170,7 +186,7 @@ Por isso, o total de arestas é r · s.
 
 ------------------------------------------------------------
 
-13) Máximo de arestas em grafo bipartido com n vértices
+14) Máximo de arestas em grafo bipartido com n vértices
 
 Fórmula:
 m <= floor(n²/4)
@@ -182,7 +198,7 @@ O produto r · s é máximo quando r e s são próximos.
 
 ------------------------------------------------------------
 
-14) Grafo completo tripartido K_{r,s,t}
+15) Grafo completo tripartido K_{r,s,t}
 
 Fórmulas:
 |V| = r + s + t
@@ -196,7 +212,7 @@ Por isso, somamos as ligações entre os três pares de partes: rs, rt e st.
 
 ------------------------------------------------------------
 
-15) Máximo de arestas em grafo tripartido com n vértices
+16) Máximo de arestas em grafo tripartido com n vértices
 
 Fórmula:
 m_max = ab + ac + bc, com a + b + c = n e a, b, c o mais equilibrados possível
@@ -209,7 +225,7 @@ Exemplo:
 
 ------------------------------------------------------------
 
-16) Complemento de um grafo
+17) Complemento de um grafo
 
 Fórmulas:
 V' = V
@@ -223,7 +239,7 @@ Como o total de arestas possíveis em um grafo simples com n vértices é C(n, 2
 
 ------------------------------------------------------------
 
-17) Grafo auto-complementar
+18) Grafo auto-complementar
 
 Fórmulas:
 G ≅ Ḡ
@@ -245,7 +261,7 @@ O que precisa ser divisível por 4 é n(n - 1).
 
 ------------------------------------------------------------
 
-18) Número de subgrafos de um grafo completo K_n
+19) Número de subgrafos de um grafo completo K_n
 
 Fórmula:
 Total = ∑(k = 0 até n) C(n, k) · 2^(C(k, 2))
@@ -262,7 +278,7 @@ Somamos isso para todos os valores de k.
 
 ------------------------------------------------------------
 
-19) Matriz de adjacência de grafo simples não-direcionado
+20) Matriz de adjacência de grafo simples não-direcionado
 
 Fórmulas:
 A[i][j] = 1 ⇔ {i, j} ∈ E
@@ -276,7 +292,7 @@ Em grafo simples não há laços, então a diagonal principal é formada por zer
 
 ------------------------------------------------------------
 
-20) Grau pela matriz de adjacência em grafo não-direcionado
+21) Grau pela matriz de adjacência em grafo não-direcionado
 
 Fórmula:
 grau(v_i) = ∑ A[i][j], para j = 1 até n
@@ -287,7 +303,7 @@ Como a matriz é simétrica, a soma da coluna dá o mesmo valor.
 
 ------------------------------------------------------------
 
-21) Graus de entrada e saída em grafo direcionado
+22) Graus de entrada e saída em grafo direcionado
 
 Fórmulas:
 grau_saida(v_i) = ∑ A[i][j], para j = 1 até n
@@ -299,7 +315,7 @@ A coluna i mostra as arestas que chegam em v_i.
 
 ------------------------------------------------------------
 
-22) Soma dos graus de entrada e saída em grafo direcionado
+23) Soma dos graus de entrada e saída em grafo direcionado
 
 Fórmulas:
 ∑ grau_saida(v) = |E|
@@ -312,7 +328,7 @@ Então cada aresta contribui uma vez para a soma dos graus de saída e uma vez p
 
 ------------------------------------------------------------
 
-23) Fecho transitivo direto
+24) Fecho transitivo direto
 
 Fórmulas:
 F⁺(u) = {x ∈ V | existe caminho direcionado de u até x}
@@ -324,7 +340,7 @@ Para um conjunto S, juntamos tudo que pode ser alcançado a partir de algum vér
 
 ------------------------------------------------------------
 
-24) Fecho transitivo inverso
+25) Fecho transitivo inverso
 
 Fórmula:
 F⁻(u) = {x ∈ V | existe caminho direcionado de x até u}
@@ -334,7 +350,7 @@ O fecho transitivo inverso de u olha o caminho ao contrário da pergunta: em vez
 
 ------------------------------------------------------------
 
-25) Base de um grafo direcionado
+26) Base de um grafo direcionado
 
 Fórmula:
 S é base ⇔ F⁺(S) = V
@@ -345,7 +361,7 @@ Nas atividades, o objetivo é geralmente encontrar uma base com a menor quantida
 
 ------------------------------------------------------------
 
-26) Anti-base de um grafo direcionado
+27) Anti-base de um grafo direcionado
 
 Fórmula:
 S é anti-base ⇔ F⁻(S) = V
@@ -356,7 +372,7 @@ Em outras palavras, todo vértice do grafo consegue chegar a algum vértice da a
 
 ------------------------------------------------------------
 
-27) Distância entre vértices
+28) Distância entre vértices
 
 Fórmula:
 d(u, v) = menor número de arestas em um caminho de u até v
@@ -368,7 +384,7 @@ Em grafo direcionado, a distância precisa respeitar o sentido das arestas.
 
 ------------------------------------------------------------
 
-28) Excentricidade
+29) Excentricidade
 
 Fórmula:
 ecc(v) = max {d(v, x) | x ∈ V}
@@ -379,7 +395,7 @@ Ela mede o quão longe v está do vértice mais distante dele.
 
 ------------------------------------------------------------
 
-29) Raio
+30) Raio
 
 Fórmula:
 raio(G) = min {ecc(v) | v ∈ V}
@@ -390,7 +406,7 @@ Ele representa a melhor posição possível para um vértice central: o vértice
 
 ------------------------------------------------------------
 
-30) Diâmetro
+31) Diâmetro
 
 Fórmula:
 diametro(G) = max {ecc(v) | v ∈ V}
@@ -404,7 +420,7 @@ Também pode ser visto como a maior excentricidade.
 
 ------------------------------------------------------------
 
-31) Centro de um grafo
+32) Centro de um grafo
 
 Fórmula:
 C(G) = {v ∈ V | ecc(v) = raio(G)}
@@ -415,7 +431,7 @@ Um vértice pertence ao centro quando sua excentricidade é igual ao raio.
 
 ------------------------------------------------------------
 
-32) Centro em grafo direcionado
+33) Centro em grafo direcionado
 
 Fórmulas:
 d⁺(u, v) = menor caminho direcionado de u até v
@@ -430,7 +446,7 @@ Se algum vértice não for alcançável a partir de u, a excentricidade de u pod
 
 ------------------------------------------------------------
 
-33) Relação entre raio e diâmetro
+34) Relação entre raio e diâmetro
 
 Fórmula:
 raio(G) <= diametro(G) <= 2 · raio(G)
@@ -442,7 +458,7 @@ Para a segunda parte, se c é um vértice central, qualquer caminho entre u e v 
 
 ------------------------------------------------------------
 
-34) Árvore
+35) Árvore
 
 Fórmulas:
 T é árvore ⇔ T é conexo e acíclico
@@ -454,7 +470,7 @@ Se uma árvore tem n vértices, então possui exatamente n - 1 arestas.
 
 ------------------------------------------------------------
 
-35) Floresta
+36) Floresta
 
 Fórmula:
 Se uma floresta tem n vértices e c componentes, então m = n - c
@@ -466,7 +482,7 @@ Somando as arestas de todas as árvores componentes, obtemos n - c.
 
 ------------------------------------------------------------
 
-36) Maior caminho em DAG
+37) Maior caminho em DAG
 
 Fórmula:
 dp[v] = max {dp[u] + 1 | (u, v) ∈ E}
@@ -481,7 +497,7 @@ Se existe uma aresta (u, v), então um caminho que termina em u pode ser estendi
 
 ------------------------------------------------------------
 
-37) Tempo mínimo em tarefas com dependências
+38) Tempo mínimo em tarefas com dependências
 
 Fórmula:
 tempo[v] = duracao(v) + max {tempo[u] | (u, v) ∈ E}
@@ -496,7 +512,7 @@ Se todas as tarefas duram 1 semana, a fórmula vira a do maior caminho em DAG co
 
 ------------------------------------------------------------
 
-38) Ordenação topológica
+39) Ordenação topológica
 
 Fórmula/propriedade:
 Se (u, v) ∈ E, então u aparece antes de v na ordenação topológica.
