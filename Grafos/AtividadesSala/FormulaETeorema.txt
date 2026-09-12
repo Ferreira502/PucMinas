@@ -114,7 +114,8 @@ Fórmula:
 ∑ grau(v) = 2|E| ⇒ ∑ grau(v) é par
 
 Explicação:
-Como 2|E| é múltiplo de 2, a soma dos graus de todos os vértices em um grafo não-direcionado sempre é par.
+Como 2|E| é múltiplo de 2, a 
+soma dos graus de todos os vértices em um grafo não-direcionado sempre é par.
 Essa ideia aparece várias vezes nas atividades e nas Provas 01.
 
 ------------------------------------------------------------
@@ -143,7 +144,8 @@ Explicação:
 Um grafo é r-regular quando todos os vértices têm o mesmo grau r.
 Como a soma dos graus é 2m e existem n vértices, todos com grau r, a soma também é nr.
 Logo, 2m = nr.
-Isso ajuda a testar se um grafo regular com n vértices e grau r pode existir: nr precisa ser par.
+Isso ajuda a testar se um grafo regular com n vértices e grau r pode existir: 
+nr precisa ser par.
 
 ------------------------------------------------------------
 
@@ -155,8 +157,11 @@ m_max = C(n - c + 1, 2) = (n - c + 1)(n - c)/2
 
 Explicação:
 Para um grafo simples não-direcionado com n vértices e exatamente c componentes:
-- O menor número de arestas ocorre quando cada componente é uma árvore. Uma árvore com k vértices tem k - 1 arestas. Somando as c componentes, dá n - c.
-- O maior número de arestas ocorre quando uma componente concentra o máximo possível de vértices, n - c + 1, e as outras c - 1 componentes ficam isoladas. A componente grande vira um grafo completo.
+- O menor número de arestas ocorre quando cada componente é uma árvore. 
+Uma árvore com k vértices tem k - 1 arestas. Somando as c componentes, dá n - c.
+- O maior número de arestas ocorre quando uma componente concentra o máximo possível de 
+vértices, n - c + 1, e as outras c - 1 componentes ficam isoladas. 
+A componente grande vira um grafo completo.
 
 ------------------------------------------------------------
 
@@ -166,7 +171,8 @@ Fórmula:
 arestas necessárias = c - 1
 
 Explicação:
-Para transformar um grafo com c componentes conexas em um grafo conexo, basta ligar as componentes entre si.
+Para transformar um grafo com c componentes conexas em um grafo conexo, 
+basta ligar as componentes entre si.
 Cada nova aresta pode reduzir o número de componentes em 1.
 Portanto, são necessárias pelo menos c - 1 arestas.
 
@@ -235,7 +241,8 @@ E' = {{u, v} | u, v ∈ V, u ≠ v e {u, v} ∉ E}
 Explicação:
 O complemento Ḡ tem os mesmos vértices de G.
 Uma aresta aparece em Ḡ exatamente quando ela não aparece em G.
-Como o total de arestas possíveis em um grafo simples com n vértices é C(n, 2), o complemento fica com o que falta.
+Como o total de arestas possíveis em um grafo simples com n vértices é C(n, 2), 
+o complemento fica com o que falta.
 
 ------------------------------------------------------------
 
@@ -335,7 +342,8 @@ F⁺(u) = {x ∈ V | existe caminho direcionado de u até x}
 F⁺(S) = ⋃ F⁺(s), para s ∈ S
 
 Explicação:
-O fecho transitivo direto de u é o conjunto de vértices que podem ser atingidos a partir de u seguindo o sentido das arestas.
+O fecho transitivo direto de u é o conjunto de vértices que podem ser atingidos 
+a partir de u seguindo o sentido das arestas.
 Para um conjunto S, juntamos tudo que pode ser alcançado a partir de algum vértice de S.
 
 ------------------------------------------------------------
@@ -346,7 +354,8 @@ Fórmula:
 F⁻(u) = {x ∈ V | existe caminho direcionado de x até u}
 
 Explicação:
-O fecho transitivo inverso de u olha o caminho ao contrário da pergunta: em vez de perguntar quem u alcança, pergunta quem consegue chegar até u.
+O fecho transitivo inverso de u olha o caminho ao contrário da pergunta: 
+em vez de perguntar quem u alcança, pergunta quem consegue chegar até u.
 
 ------------------------------------------------------------
 
