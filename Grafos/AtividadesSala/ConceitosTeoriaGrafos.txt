@@ -48,6 +48,10 @@ grafo tripartido completo: grafo tripartido em que existem todas as arestas poss
 
 grafos isomorfos: dois grafos que possuem a mesma estrutura de conexões, mesmo que os nomes dos vértices ou o desenho sejam diferentes. Se for possível renomear os vértices de um grafo para obter o outro, então eles são isomorfos.
 
+complemento de um grafo: grafo com os mesmos vértices do grafo original, mas com as arestas que faltavam nele. Em um grafo simples, dois vértices são ligados no complemento quando não eram ligados no grafo original.
+
+grafo autocomplementar: grafo que é isomorfo ao seu próprio complemento. Isso significa que o grafo e seu complemento têm a mesma estrutura, mesmo que as arestas sejam diferentes antes de renomear os vértices.
+
 Grafo Direcionado Acíclico - DAG: é um grafo com arestas direcionadas que não possui ciclos.
 
 grafo associado: grafo não-direcionado obtido a partir de um grafo direcionado ao ignorar o sentido das arestas. Por exemplo, a aresta direcionada (u, v) passa a ser tratada como uma aresta não-direcionada {u, v}.
