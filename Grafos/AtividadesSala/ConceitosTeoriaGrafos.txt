@@ -38,6 +38,16 @@ grafo ponderado: grafo em que as arestas possuem pesos ou custos associados. Ess
 
 grafo completo: grafo simples não-direcionado em que todo par de vértices distintos possui uma aresta entre si.
 
+grafo bipartido: grafo cujos vértices podem ser separados em dois conjuntos disjuntos, de modo que toda aresta liga um vértice de um conjunto a um vértice do outro. Não existem arestas entre vértices do mesmo conjunto.
+
+grafo tripartido: grafo cujos vértices podem ser separados em três conjuntos disjuntos, de modo que as arestas ligam apenas vértices de conjuntos diferentes. Não existem arestas dentro de um mesmo conjunto.
+
+grafo bipartido completo: grafo bipartido em que todo vértice do primeiro conjunto está ligado a todo vértice do segundo conjunto. Costuma ser representado por K_{r,s}, em que r e s são os tamanhos das duas partes.
+
+grafo tripartido completo: grafo tripartido em que existem todas as arestas possíveis entre vértices de conjuntos diferentes. Costuma ser representado por K_{r,s,t}, em que r, s e t são os tamanhos das três partes.
+
+grafos isomorfos: dois grafos que possuem a mesma estrutura de conexões, mesmo que os nomes dos vértices ou o desenho sejam diferentes. Se for possível renomear os vértices de um grafo para obter o outro, então eles são isomorfos.
+
 Grafo Direcionado Acíclico - DAG: é um grafo com arestas direcionadas que não possui ciclos.
 
 grafo associado: grafo não-direcionado obtido a partir de um grafo direcionado ao ignorar o sentido das arestas. Por exemplo, a aresta direcionada (u, v) passa a ser tratada como uma aresta não-direcionada {u, v}.
@@ -86,6 +96,12 @@ fonte: em grafo direcionado, vértice com grau de entrada zero. Em um DAG, as fo
 caminho: sequência de vértices ligados por arestas. Em grafo direcionado, o caminho deve respeitar o sentido das arestas.
 
 caminho direcionado: caminho em que cada aresta usada segue o sentido correto, por exemplo u -> v -> w.
+
+caminho euleriano: caminho que passa por todas as arestas do grafo exatamente uma vez. Ele pode repetir vértices, mas não pode repetir arestas.
+
+circuito euleriano: caminho euleriano que começa e termina no mesmo vértice.
+
+grafo euleriano: grafo que possui um circuito euleriano. Em um grafo não-direcionado conexo, isso acontece quando todos os vértices possuem grau par.
 
 alcançabilidade: um vértice x é alcançável a partir de u quando existe um caminho de u até x.
 
