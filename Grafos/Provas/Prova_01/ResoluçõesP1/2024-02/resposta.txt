@@ -1,0 +1,105 @@
+RESOLUÇÃO - PROVA 01 - 2024-02
+
+Questão 1
+
+Seja G = (V, E) um grafo simples com pelo menos dois vértices. Provar que G possui pelo menos dois vértices de mesmo grau.
+
+Seja |V| = n, com n >= 2.
+
+Em um grafo simples, o grau de qualquer vértice está entre 0 e n - 1.
+
+Se existisse um vértice de grau n - 1, ele estaria ligado a todos os outros vértices. Nesse caso, nenhum outro vértice poderia ter grau 0.
+
+Logo, em um grafo simples, não é possível aparecerem ao mesmo tempo os graus 0 e n - 1.
+
+Assim, embora existam n vértices, existem no máximo n - 1 valores possíveis de grau.
+
+Pelo princípio das gavetas, se n vértices são distribuídos em no máximo n - 1 valores possíveis de grau, então pelo menos dois vértices possuem o mesmo grau.
+
+Portanto, G contém pelo menos dois vértices de mesmo grau.
+
+
+Questão 2
+
+Seja G = (V, E) um grafo não-direcionado completo com n vértices. Determinar o número de subgrafos de G.
+
+Para formar um subgrafo de K_n:
+
+1. Escolhemos k vértices entre os n vértices.
+2. Isso pode ser feito de C(n, k) formas.
+3. Entre esses k vértices existem C(k, 2) arestas possíveis.
+4. Cada uma dessas arestas pode pertencer ou não ao subgrafo.
+5. Portanto, para cada escolha de k vértices, existem 2^(C(k, 2)) escolhas de arestas.
+
+Somando para todos os valores de k:
+
+Total = soma de k = 0 até n de C(n, k) . 2^(C(k, 2))
+
+Como C(k, 2) = k(k - 1)/2:
+
+Total = soma de k = 0 até n de C(n, k) . 2^(k(k - 1)/2)
+
+
+Questão 3
+
+Grafo simples e direcionado. Determinar se possui ciclo e, se houver, encontrar vértices que compõem esse ciclo.
+
+Uma solução correta é usar DFS com três estados:
+
+branco: vértice ainda não visitado;
+cinza: vértice descoberto, mas ainda em processamento;
+preto: vértice já finalizado.
+
+Algoritmo:
+
+1. Marque todos os vértices como branco.
+2. Para cada vértice ainda branco, execute uma DFS.
+3. Ao entrar em um vértice v, marque v como cinza.
+4. Para cada aresta (v, u):
+   - se u é branco, continue a DFS em u;
+   - se u é cinza, então existe ciclo;
+   - se u é preto, a aresta não indica ciclo.
+5. Ao terminar de explorar v, marque v como preto.
+
+Para recuperar um ciclo, guardamos o predecessor de cada vértice na DFS. Quando encontramos uma aresta (v, u) com u cinza, voltamos pelos predecessores de v até chegar em u. Esses vértices, junto com a aresta (v, u), formam um ciclo.
+
+Justificativa:
+
+Em grafo direcionado, uma aresta para um vértice cinza é uma aresta de retorno. Ela aponta para um ancestral ainda ativo na pilha da DFS. Portanto, existe um caminho de u até v pela árvore da DFS e a aresta v -> u fecha o ciclo.
+
+
+Questão 4
+
+Seja G = (V, E) um grafo acíclico e direcionado. Encontrar o número de arestas do maior caminho.
+
+Como G é direcionado e acíclico, G é um DAG. Em um DAG, podemos calcular o maior caminho usando ordenação topológica e programação dinâmica.
+
+Algoritmo:
+
+1. Calcule uma ordenação topológica dos vértices.
+2. Para cada vértice v, inicialize dist[v] = 0.
+3. Percorra os vértices na ordem topológica.
+4. Para cada aresta (u, v), atualize:
+
+dist[v] = max(dist[v], dist[u] + 1)
+
+5. No final, o maior valor de dist[v] é o número de arestas do maior caminho.
+
+Pseudocódigo:
+
+MaiorCaminhoDAG(G)
+    ordem = OrdenacaoTopologica(G)
+
+    para cada v em V:
+        dist[v] = 0
+
+    para cada u em ordem:
+        para cada sucessor v de u:
+            se dist[v] < dist[u] + 1:
+                dist[v] = dist[u] + 1
+
+    retorne maior valor de dist[v]
+
+Justificativa:
+
+A ordenação topológica garante que, quando processamos um vértice, todos os caminhos que poderiam chegar nele já foram considerados. Como não existem ciclos, não há risco de repetição infinita. Por isso, a programação dinâmica calcula corretamente o maior caminho.

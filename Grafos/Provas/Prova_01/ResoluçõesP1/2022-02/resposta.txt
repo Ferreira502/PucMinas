@@ -1,0 +1,261 @@
+RESOLUÇÃO - PROVA 01 - 2022-02
+
+Questão 1
+
+Grafo simples não-direcionado com n = 11 vértices e c = 6 componentes.
+
+a) É possível possuir 5 arestas?
+
+Sim. O menor número de arestas em um grafo com n vértices e c componentes é:
+
+m_min = n - c = 11 - 6 = 5
+
+Logo, 5 arestas é exatamente o mínimo possível.
+
+b) É possível que a soma dos graus seja 12?
+
+Sim. Pelo lema do aperto de mãos:
+
+soma dos graus = 2|E|
+
+Se a soma dos graus é 12, então |E| = 6. Como 6 está entre o mínimo possível, 5, e o máximo possível, isso pode acontecer.
+
+c) É possível que a soma dos graus seja maior que 100?
+
+Não. O máximo de arestas ocorre quando uma componente concentra 6 vértices e as outras 5 componentes ficam isoladas:
+
+m_max = C(n - c + 1, 2) = C(6, 2) = 15
+
+Logo, a maior soma dos graus é:
+
+2m_max = 30
+
+Portanto, não pode ser maior que 100.
+
+
+Questão 2
+
+Pela matriz de adjacência, as arestas do grafo direcionado são:
+
+A -> B, D
+B -> nenhum
+C -> A
+D -> C, F
+E -> B, D
+F -> C
+
+a) Fecho transitivo direto de A
+
+O fecho transitivo direto de A é o conjunto dos vértices alcançáveis a partir de A.
+
+Partindo de A:
+
+A alcança B e D.
+D alcança C e F.
+C alcança A.
+F alcança C.
+B não alcança ninguém.
+
+Portanto:
+
+F+(A) = {A, B, C, D, F}
+
+b) Fecho transitivo inverso de {B, F}
+
+O fecho transitivo inverso de {B, F} é o conjunto de vértices que conseguem chegar em B ou em F.
+
+B e F pertencem ao conjunto por caminho de tamanho zero.
+A chega em B diretamente e chega em F por A -> D -> F.
+D chega em F diretamente.
+C chega em B por C -> A -> B e chega em F por C -> A -> D -> F.
+E chega em B diretamente e chega em F por E -> D -> F.
+
+Logo:
+
+F-({B, F}) = {A, B, C, D, E, F}
+
+c) Algoritmo para identificar uma base
+
+Uma base é um conjunto S de vértices tal que:
+
+F+(S) = V
+
+Ou seja, a partir dos vértices de S é possível alcançar todos os vértices do grafo.
+
+Algoritmo direto:
+
+1. Calcule F+(v) para cada vértice v, usando DFS ou BFS seguindo o sentido das arestas.
+2. Teste primeiro conjuntos com 1 vértice.
+3. Se nenhum vértice sozinho alcançar todo V, teste conjuntos com 2 vértices.
+4. Continue aumentando o tamanho do conjunto.
+5. O primeiro conjunto S encontrado tal que a união dos fechos F+(v), para v em S, seja igual a V é uma base mínima.
+
+Essa solução funciona para grafos direcionados, pois usa fecho transitivo direto.
+
+d) Algoritmo para identificar uma anti-base
+
+Uma anti-base é um conjunto S de vértices tal que:
+
+F-(S) = V
+
+Ou seja, todo vértice do grafo consegue chegar em algum vértice de S.
+
+Algoritmo direto:
+
+1. Calcule F-(v) para cada vértice v, isto é, quem consegue chegar até v.
+2. Teste primeiro conjuntos com 1 vértice.
+3. Se nenhum vértice sozinho for alcançável por todos, teste conjuntos com 2 vértices.
+4. Continue aumentando o tamanho do conjunto.
+5. O primeiro conjunto S encontrado tal que a união dos fechos inversos F-(v), para v em S, seja igual a V é uma anti-base mínima.
+
+Essa solução também funciona para grafos direcionados. Para calcular F-(v), pode-se fazer uma busca no grafo transposto, isto é, com todas as arestas invertidas.
+
+
+Questão 3
+
+Lista de sucessores:
+
+A -> B, F
+B -> nenhum
+C -> A, D
+D -> C, F
+E -> C, D
+F -> E
+G -> A, E, J
+H -> G, I
+I -> H, J
+J -> K, L
+K -> M
+L -> E, M
+M -> J
+
+a) Ordem de visita da DFS iniciando em A, com ordem alfabética
+
+Começando em A:
+
+A -> B
+
+B não possui sucessores. Voltamos para A e seguimos o próximo sucessor:
+
+A -> F -> E -> C -> D
+
+Em D, os sucessores C e F já foram visitados.
+
+Assim, a ordem de descoberta dos vértices é:
+
+A, B, F, E, C, D
+
+b) O grafo é acíclico?
+
+Não. O grafo possui ciclos.
+
+Um ciclo é:
+
+A -> F -> E -> C -> A
+
+Outro ciclo é:
+
+J -> K -> M -> J
+
+Algoritmo para detectar ciclos em grafo direcionado:
+
+1. Marque todos os vértices como branco, isto é, não visitados.
+2. Ao iniciar a DFS em um vértice, marque-o como cinza, isto é, em processamento.
+3. Ao terminar de explorar o vértice, marque-o como preto.
+4. Se durante a DFS aparecer uma aresta para um vértice cinza, existe uma aresta de retorno.
+5. Uma aresta de retorno indica ciclo em grafo direcionado.
+
+Como no grafo existe o caminho A -> F -> E -> C e a aresta C -> A, encontramos uma volta para um vértice ainda no caminho da DFS. Portanto, o grafo é cíclico.
+
+
+Questão 4
+
+a) É possível um grafo auto-complementar com mais de 3 vértices?
+
+Sim. Um exemplo é o caminho P4, com vértices {1, 2, 3, 4} e arestas:
+
+E = {{1,2}, {2,3}, {3,4}}
+
+Seu complemento possui as arestas:
+
+E' = {{1,3}, {1,4}, {2,4}}
+
+Esse complemento também é um caminho com 4 vértices. Logo, P4 é isomorfo ao seu complemento e é auto-complementar.
+
+b) O número de arestas de um grafo auto-complementar é divisível por 4?
+
+Não necessariamente. A afirmação, como está escrita, é falsa.
+
+Se G é auto-complementar, então G é isomorfo ao seu complemento. Portanto:
+
+|E(G)| = |E(complemento de G)|
+
+Como G e seu complemento dividem todas as arestas possíveis de um grafo simples com n vértices:
+
+2|E(G)| = C(n, 2)
+
+Logo:
+
+|E(G)| = n(n - 1) / 4
+
+O que precisa ser divisível por 4 é n(n - 1), não necessariamente o número de arestas.
+
+Contraexemplo: o ciclo C5 é auto-complementar e possui 5 arestas. Como 5 não é divisível por 4, a afirmação é falsa.
+
+
+Questão 5
+
+a) Todos os subgrafos de um grafo completo com 3 vértices
+
+Considere K3 com vértices {1, 2, 3} e arestas possíveis:
+
+{1,2}, {1,3}, {2,3}
+
+Subgrafos com 0 vértices:
+
+1. V' = vazio, E' = vazio
+
+Subgrafos com 1 vértice:
+
+2. V' = {1}, E' = vazio
+3. V' = {2}, E' = vazio
+4. V' = {3}, E' = vazio
+
+Subgrafos com 2 vértices:
+
+5. V' = {1,2}, E' = vazio
+6. V' = {1,2}, E' = {{1,2}}
+7. V' = {1,3}, E' = vazio
+8. V' = {1,3}, E' = {{1,3}}
+9. V' = {2,3}, E' = vazio
+10. V' = {2,3}, E' = {{2,3}}
+
+Subgrafos com 3 vértices:
+
+11. V' = {1,2,3}, E' = vazio
+12. V' = {1,2,3}, E' = {{1,2}}
+13. V' = {1,2,3}, E' = {{1,3}}
+14. V' = {1,2,3}, E' = {{2,3}}
+15. V' = {1,2,3}, E' = {{1,2}, {1,3}}
+16. V' = {1,2,3}, E' = {{1,2}, {2,3}}
+17. V' = {1,2,3}, E' = {{1,3}, {2,3}}
+18. V' = {1,2,3}, E' = {{1,2}, {1,3}, {2,3}}
+
+Portanto, K3 possui 18 subgrafos.
+
+b) Número de subgrafos de um grafo completo com n vértices
+
+Para construir um subgrafo de K_n:
+
+1. Escolhemos k vértices entre os n vértices, o que pode ser feito de C(n, k) formas.
+2. Entre esses k vértices existem C(k, 2) arestas possíveis.
+3. Cada aresta pode entrar ou não no subgrafo, gerando 2^(C(k, 2)) escolhas.
+4. Somamos para k de 0 até n.
+
+Logo:
+
+Total = soma de k = 0 até n de C(n, k) . 2^(C(k, 2))
+
+Como C(k, 2) = k(k - 1)/2:
+
+Total = soma de k = 0 até n de C(n, k) . 2^(k(k - 1)/2)

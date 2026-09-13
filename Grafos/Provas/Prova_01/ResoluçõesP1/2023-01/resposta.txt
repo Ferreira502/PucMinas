@@ -1,0 +1,254 @@
+RESOLUÇÃO - PROVA 01 - 2023-01
+
+Questão 1
+
+Seja G = (V, E) um grafo não-direcionado, com |V| = n e |E| = m.
+
+a) Mostrar que m <= n(n - 1)/2
+
+Em um grafo simples não-direcionado, cada aresta liga dois vértices distintos e não existem arestas repetidas. Portanto, o maior número de arestas ocorre quando todo par de vértices está ligado.
+
+O número de pares de vértices em um conjunto com n vértices é:
+
+C(n, 2) = n(n - 1)/2
+
+Logo:
+
+m <= n(n - 1)/2
+
+b) Se G é bipartido, mostrar que m <= n^2/4
+
+Se G é bipartido, seus vértices podem ser separados em duas partes, A e B, com |A| = r e |B| = s.
+
+Como r + s = n, o máximo de arestas ocorre no grafo bipartido completo K_{r,s}, que possui:
+
+m = r.s
+
+O produto r.s é máximo quando r e s são o mais próximos possível. Assim:
+
+m <= floor(n^2/4)
+
+Como floor(n^2/4) <= n^2/4, também vale:
+
+m <= n^2/4
+
+c) Pode ser regular se n = 15 e grau 3?
+
+Não. Em um grafo r-regular, a soma dos graus é:
+
+n.r
+
+Se n = 15 e r = 3:
+
+n.r = 15 . 3 = 45
+
+Mas a soma dos graus de um grafo não-direcionado precisa ser par, pois é igual a 2|E|. Como 45 é ímpar, esse grafo não pode existir.
+
+d) A sequência 1,1,3,3,3,3,5,6,8,9 pode representar um grafo G?
+
+Não. A sequência tem 10 vértices. Se há um vértice de grau 9, ele precisa estar ligado a todos os outros 9 vértices.
+
+Isso obrigaria os dois vértices de grau 1 a estarem ligados ao vértice de grau 9. Como eles já gastariam sua única aresta, eles não poderiam se ligar a mais ninguém.
+
+Removendo o vértice de grau 9 e subtraindo 1 dos outros graus, obtemos:
+
+7, 5, 4, 2, 2, 2, 2, 0, 0
+
+Depois descartando os zeros e aplicando Havel-Hakimi, aparece uma impossibilidade, pois em certo passo seria necessário ligar um vértice a mais vértices do que existem disponíveis. Logo, a sequência não é gráfica.
+
+e) Se G é tripartido, qual o maior número de arestas?
+
+Em um grafo tripartido, os vértices são divididos em três conjuntos. Não existem arestas dentro do mesmo conjunto; só entre conjuntos diferentes.
+
+Se os tamanhos das três partes são a, b e c, com:
+
+a + b + c = n
+
+então o número máximo de arestas ocorre no grafo tripartido completo:
+
+m = ab + ac + bc
+
+Esse valor é máximo quando as três partes têm tamanhos o mais equilibrados possível.
+
+Assim:
+
+m_max = floor(n^2 / 3)
+
+
+Questão 2
+
+Grafo simples não-direcionado com n = 13 vértices e c = 6 componentes.
+
+a) É possível possuir 6 arestas?
+
+Não. O mínimo de arestas para n vértices e c componentes é:
+
+m_min = n - c = 13 - 6 = 7
+
+Logo, 6 arestas não bastam para formar exatamente 6 componentes.
+
+b) É possível que a soma dos graus seja 14?
+
+Sim. Se a soma dos graus é 14, então:
+
+2|E| = 14
+|E| = 7
+
+Como 7 é exatamente o mínimo possível, isso pode acontecer.
+
+c) É possível que a soma dos graus seja maior que 56?
+
+Não. O máximo de arestas ocorre com uma componente de tamanho 8 e as outras 5 componentes isoladas:
+
+m_max = C(13 - 6 + 1, 2) = C(8, 2) = 28
+
+Logo, a maior soma dos graus é:
+
+2 . 28 = 56
+
+Portanto, não pode ser maior que 56.
+
+d) É possível transformar esse grafo em conexo com a inclusão de 5 arestas?
+
+Sim. Um grafo com c componentes precisa de pelo menos c - 1 arestas para se tornar conexo.
+
+Como c = 6:
+
+c - 1 = 5
+
+Logo, com 5 novas arestas é possível conectar as 6 componentes.
+
+e) É possível que esse grafo seja regular?
+
+Não, considerando exatamente 13 vértices e 6 componentes.
+
+Se fosse 0-regular, todos os vértices seriam isolados, formando 13 componentes, não 6.
+
+Se fosse 1-regular, cada componente seria uma aresta isolada K2; isso exigiria um número par de vértices, mas n = 13 é ímpar.
+
+Para grau 2 ou maior, cada componente conexa regular precisaria ter pelo menos 3 vértices, e 6 componentes exigiriam pelo menos 18 vértices. Como há apenas 13 vértices, não é possível.
+
+
+Questão 3
+
+a) Dois exemplos de grafos auto-complementares com mais de 4 vértices
+
+Exemplo 1: ciclo C5.
+
+V = {1, 2, 3, 4, 5}
+E = {{1,2}, {2,3}, {3,4}, {4,5}, {5,1}}
+
+O complemento de C5 também é um ciclo com 5 vértices. Portanto, C5 é auto-complementar.
+
+Exemplo 2: grafo com 8 vértices obtido duplicando a estrutura auto-complementar de forma compatível.
+
+Uma construção possível é:
+
+V = {1,2,3,4,5,6,7,8}
+
+E = {
+{1,2}, {1,3}, {1,4}, {1,5}, {1,7},
+{2,7},
+{3,4}, {3,5}, {3,6}, {3,7},
+{5,6}, {5,7}, {5,8},
+{7,8}
+}
+
+Esse grafo tem 8 vértices e 14 arestas, exatamente metade das 28 arestas possíveis. A bijeção f dada por:
+
+f(1)=2, f(2)=3, f(3)=4, f(4)=5, f(5)=6, f(6)=7, f(7)=8, f(8)=1
+
+leva cada aresta de G para uma aresta que não estava em G, isto é, para uma aresta do complemento. Logo, G é isomorfo ao seu complemento e é auto-complementar.
+
+b) Provar que um grafo auto-complementar tem 4k ou 4k + 1 vértices
+
+Se G é auto-complementar, então G é isomorfo ao seu complemento. Logo, os dois têm a mesma quantidade de arestas:
+
+|E(G)| = |E(complemento de G)|
+
+Em um grafo simples com n vértices, o total de arestas possíveis é:
+
+C(n, 2) = n(n - 1)/2
+
+Como G e seu complemento dividem todas essas arestas:
+
+2|E(G)| = n(n - 1)/2
+
+Logo:
+
+|E(G)| = n(n - 1)/4
+
+Como |E(G)| precisa ser inteiro, n(n - 1) deve ser divisível por 4.
+
+Isso só acontece quando:
+
+n = 4k
+
+ou
+
+n = 4k + 1
+
+Portanto, um grafo auto-complementar só pode ter 4k ou 4k + 1 vértices.
+
+
+Questão 4
+
+a) Uma matriz simétrica quadrada, formada por 0 e 1, com zeros na diagonal principal, representa a matriz de adjacência de um grafo simples?
+
+Sim, representa a matriz de adjacência de um grafo simples não-direcionado.
+
+Justificativa:
+
+Como a diagonal principal tem apenas zeros, não existem laços.
+Como a matriz é simétrica, se existe aresta de i para j, também existe de j para i, o que caracteriza grafo não-direcionado.
+Como as entradas são apenas 0 e 1, não existem arestas paralelas.
+
+b) O que representa a soma das entradas de uma coluna?
+
+Em um grafo não-direcionado, a soma de uma coluna da matriz de adjacência representa o grau do vértice correspondente. Como a matriz é simétrica, a soma da coluna é igual à soma da linha.
+
+Em um grafo direcionado, a soma de uma coluna representa o grau de entrada do vértice, isto é, quantas arestas chegam nele. A soma da linha representa o grau de saída.
+
+
+Questão 5
+
+Algoritmo para encontrar o número de arestas entre v e todos os outros vértices
+
+Como o grafo é não-direcionado e não ponderado, o número de arestas no menor caminho entre v e os demais vértices pode ser calculado com BFS.
+
+Algoritmo:
+
+1. Marque todos os vértices como não visitados.
+2. Defina distancia[v] = 0.
+3. Coloque v em uma fila.
+4. Enquanto a fila não estiver vazia, remova o primeiro vértice u.
+5. Para cada vizinho w de u ainda não visitado, defina:
+
+distancia[w] = distancia[u] + 1
+
+6. Coloque w na fila.
+7. Ao final, distancia[u] indica o número mínimo de arestas entre v e u.
+
+Pseudocódigo:
+
+BFS_Distancias(G, v)
+    para cada u em V:
+        distancia[u] = infinito
+        visitado[u] = falso
+
+    distancia[v] = 0
+    visitado[v] = verdadeiro
+    fila = {v}
+
+    enquanto fila não estiver vazia:
+        u = remover primeiro da fila
+
+        para cada w adjacente a u:
+            se visitado[w] = falso:
+                visitado[w] = verdadeiro
+                distancia[w] = distancia[u] + 1
+                inserir w na fila
+
+    retorne distancia
+
+Se algum vértice permanecer com distância infinita, significa que ele não é alcançável a partir de v.

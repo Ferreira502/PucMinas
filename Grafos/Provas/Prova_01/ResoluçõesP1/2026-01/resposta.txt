@@ -1,0 +1,175 @@
+RESOLUÇÃO - PROVA 01 - 2026-01
+
+Questão 1
+
+1) Provar que G contém pelo menos dois vértices de mesmo grau
+
+Seja G um grafo simples e não-direcionado com n vértices, n >= 2.
+
+Em um grafo simples, o grau de um vértice pode variar de 0 até n - 1.
+
+Porém, não é possível existir ao mesmo tempo um vértice de grau 0 e um vértice de grau n - 1. Se um vértice tem grau n - 1, ele é adjacente a todos os outros vértices, então nenhum vértice pode ter grau 0.
+
+Assim, existem no máximo n - 1 valores possíveis de grau para n vértices.
+
+Pelo princípio das gavetas, pelo menos dois vértices devem possuir o mesmo grau.
+
+2) Número de subgrafos de G, caso G seja completo
+
+Se G é completo com n vértices, então qualquer subconjunto de vértices pode formar um subgrafo.
+
+Escolhendo k vértices, há:
+
+C(n, k)
+
+formas de escolher os vértices.
+
+Entre esses k vértices existem:
+
+C(k, 2)
+
+arestas possíveis.
+
+Cada aresta pode entrar ou não no subgrafo. Então, para k vértices escolhidos, há:
+
+2^(C(k, 2))
+
+possibilidades de arestas.
+
+Somando para k de 0 até n:
+
+Total = soma de k = 0 até n de C(n, k) . 2^(C(k, 2))
+
+
+Questão 2
+
+Grafo euleriano e semi-euleriano
+
+Um grafo não-direcionado é euleriano se possui um circuito simples que passa por todas as arestas exatamente uma vez.
+
+Um grafo é semi-euleriano se possui um caminho simples que passa por todas as arestas exatamente uma vez, mas não necessariamente termina no vértice inicial.
+
+Critério:
+
+Considerando apenas os vértices com grau maior que zero, o grafo precisa ser conexo.
+
+Se todos os vértices têm grau par, o grafo é euleriano.
+Se exatamente dois vértices têm grau ímpar, o grafo é semi-euleriano.
+Se possui mais de dois vértices de grau ímpar, não é euleriano nem semi-euleriano.
+
+Algoritmo:
+
+1. Remova da análise os vértices isolados.
+2. Verifique se o grafo restante é conexo usando DFS ou BFS.
+3. Conte quantos vértices possuem grau ímpar.
+4. Se a quantidade for 0, o grafo é euleriano.
+5. Se a quantidade for 2, o grafo é semi-euleriano.
+6. Caso contrário, o grafo não possui caminho euleriano.
+
+Transformar semi-euleriano em euleriano:
+
+Se o grafo é semi-euleriano, ele possui exatamente dois vértices de grau ímpar. Para transformá-lo em euleriano, adicionamos uma aresta ligando esses dois vértices ímpares.
+
+Com isso, ambos passam a ter grau par, e o grafo passa a ter circuito euleriano.
+
+Para encontrar o circuito euleriano, pode-se usar o algoritmo de Hierholzer:
+
+1. Comece em qualquer vértice com grau maior que zero.
+2. Siga arestas ainda não usadas até voltar ao vértice inicial.
+3. Se ainda existirem arestas não usadas em algum vértice do circuito, inicie outro circuito a partir dele.
+4. Una os circuitos.
+5. Ao final, obtemos um circuito euleriano.
+
+
+Questão 3
+
+Processo de construção de uma casa com tarefas e dependências
+
+Podemos modelar o processo usando um grafo direcionado acíclico.
+
+Cada tarefa é um vértice.
+Cada dependência é uma aresta direcionada.
+Se a tarefa B depende da tarefa A, criamos a aresta:
+
+A -> B
+
+Exemplo de tarefas:
+
+fundação;
+paredes;
+telhado;
+instalação elétrica;
+instalação hidráulica;
+acabamento.
+
+Exemplo de dependências:
+
+fundação -> paredes
+paredes -> telhado
+paredes -> elétrica
+paredes -> hidráulica
+elétrica -> acabamento
+hidráulica -> acabamento
+telhado -> acabamento
+
+Como algumas tarefas podem ser feitas em paralelo, o tempo mínimo total não é a soma de todas as durações. O tempo mínimo é o tamanho do caminho crítico, isto é, o maior caminho considerando as durações das tarefas.
+
+Algoritmo para calcular o tempo mínimo:
+
+1. Modele as tarefas como vértices e as dependências como arestas.
+2. Verifique que o grafo é acíclico.
+3. Calcule uma ordenação topológica.
+4. Para cada tarefa v, guarde tempo[v], que representa o menor instante em que v termina.
+5. Se v não tem predecessores, então:
+
+tempo[v] = duração(v)
+
+6. Se v tem predecessores, então:
+
+tempo[v] = duração(v) + max{tempo[u] | u é predecessor de v}
+
+7. A resposta final é o maior valor de tempo[v].
+
+Se todas as tarefas duram uma semana, o tempo mínimo é o número de tarefas no maior caminho de dependências.
+
+
+Questão 4
+
+Duas soluções para definir se um grafo direcionado é acíclico ou possui ciclos
+
+Solução 1: DFS com cores
+
+Use três estados:
+
+branco: não visitado;
+cinza: em processamento;
+preto: finalizado.
+
+Algoritmo:
+
+1. Marque todos os vértices como branco.
+2. Execute DFS a partir dos vértices ainda não visitados.
+3. Ao entrar em um vértice, marque-o como cinza.
+4. Se durante a DFS aparecer uma aresta para um vértice cinza, existe ciclo.
+5. Ao terminar o vértice, marque-o como preto.
+6. Se nenhuma aresta para vértice cinza for encontrada, o grafo é acíclico.
+
+Justificativa:
+
+Uma aresta para um vértice cinza aponta para um ancestral ainda presente na pilha da DFS. Isso fecha um ciclo direcionado.
+
+Solução 2: Ordenação topológica pelo algoritmo de Kahn
+
+Algoritmo:
+
+1. Calcule o grau de entrada de todos os vértices.
+2. Coloque em uma fila todos os vértices com grau de entrada zero.
+3. Remova um vértice da fila e diminua o grau de entrada de seus sucessores.
+4. Quando algum sucessor ficar com grau de entrada zero, coloque-o na fila.
+5. Conte quantos vértices foram removidos.
+6. Se todos os vértices forem removidos, o grafo é acíclico.
+7. Se sobrarem vértices, o grafo possui ciclo.
+
+Justificativa:
+
+Todo DAG possui pelo menos uma fonte. Se o algoritmo não consegue remover todos os vértices, os vértices restantes fazem parte de um ciclo ou dependem de um ciclo.

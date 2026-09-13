@@ -1,0 +1,161 @@
+RESOLUÇÃO - PROVA 01 - 2025-01
+
+Questão 1
+
+Grafo não-direcionado simples com n = 13 vértices e c = 7 componentes.
+
+a) É possível possuir 6 arestas?
+
+Sim. O menor número de arestas em um grafo com n vértices e c componentes é:
+
+m_min = n - c = 13 - 7 = 6
+
+Logo, 6 arestas é exatamente o mínimo possível.
+
+b) É possível que a soma dos graus seja igual a 12?
+
+Sim. Pelo lema do aperto de mãos:
+
+soma dos graus = 2|E|
+
+Se |E| = 6, então a soma dos graus é:
+
+2 . 6 = 12
+
+Portanto, é possível.
+
+c) É possível que a soma dos graus seja maior que 100?
+
+Não. O número máximo de arestas com n = 13 e c = 7 ocorre quando uma componente tem 7 vértices e as outras 6 componentes são isoladas:
+
+m_max = C(13 - 7 + 1, 2) = C(7, 2) = 21
+
+Logo, a maior soma dos graus é:
+
+2 . 21 = 42
+
+Portanto, não pode ser maior que 100.
+
+
+Questão 2
+
+É correto afirmar que o número de arestas de um grafo auto-complementar é divisível por 4?
+
+Não. A afirmação não é correta.
+
+Um grafo auto-complementar é isomorfo ao seu complemento. Logo, ele e seu complemento possuem a mesma quantidade de arestas.
+
+Em um grafo simples com n vértices, o número total de arestas possíveis é:
+
+C(n, 2) = n(n - 1)/2
+
+Como G e seu complemento dividem esse total:
+
+2|E(G)| = n(n - 1)/2
+
+Assim:
+
+|E(G)| = n(n - 1)/4
+
+Portanto, o que precisa ser divisível por 4 é n(n - 1), para que |E(G)| seja inteiro.
+
+Contraexemplo: o ciclo C5 é auto-complementar e tem 5 arestas. Como 5 não é divisível por 4, a afirmação é falsa.
+
+
+Questão 3
+
+Grafo tripartido completo K_{r,s,t}
+
+Um grafo tripartido completo possui três conjuntos de vértices, com tamanhos r, s e t. Não existem arestas dentro de um mesmo conjunto. Existem todas as arestas possíveis entre vértices de conjuntos diferentes.
+
+a) K_{1,2,2}
+
+Partes:
+
+A = {a1}
+B = {b1, b2}
+C = {c1, c2}
+
+Arestas:
+
+a1-b1, a1-b2, a1-c1, a1-c2,
+b1-c1, b1-c2, b2-c1, b2-c2
+
+b) K_{2,3,3}
+
+Partes:
+
+A = {a1, a2}
+B = {b1, b2, b3}
+C = {c1, c2, c3}
+
+Existem todas as arestas entre A e B, entre A e C, e entre B e C. Não existem arestas dentro de A, dentro de B ou dentro de C.
+
+Quantidade de vértices e arestas em K_{r,s,t}:
+
+|V| = r + s + t
+
+|E| = rs + rt + st
+
+
+Questão 4
+
+Seja G = (V, E) um grafo não-direcionado, simples e conexo. Provar que existem pelo menos dois vértices com o mesmo grau.
+
+Seja |V| = n.
+
+Como o grafo é simples, nenhum vértice pode ter grau maior que n - 1.
+
+Como o grafo é conexo e possui pelo menos dois vértices, nenhum vértice pode ter grau 0.
+
+Portanto, os graus possíveis são:
+
+1, 2, 3, ..., n - 1
+
+Existem n vértices, mas apenas n - 1 valores possíveis de grau.
+
+Pelo princípio das gavetas, pelo menos dois vértices devem possuir o mesmo grau.
+
+
+Questão 5
+
+Serialização de estruturas com dependências
+
+Podemos modelar o problema usando um grafo direcionado.
+
+Cada estrutura ou objeto é representado por um vértice.
+Se um objeto A faz referência a um objeto B, criamos uma aresta direcionada A -> B.
+
+a) Garantir que cada estrutura/objeto seja serializada uma única vez antes das estruturas/objetos referenciadas
+
+Uma solução é usar DFS com marcação de visitados.
+
+Algoritmo:
+
+1. Cada objeto começa como não visitado.
+2. Inicie uma DFS no objeto principal.
+3. Ao encontrar uma referência para outro objeto, visite esse objeto.
+4. Se um objeto já foi visitado, não serialize novamente; apenas grave sua referência ou identificador.
+5. A serialização mantém uma tabela que associa cada objeto a um identificador único.
+
+Assim, cada objeto é serializado uma única vez, mesmo que seja referenciado por vários outros objetos.
+
+Se for necessário serializar dependências antes dos objetos que dependem delas, usamos uma ordem topológica quando o grafo não possui ciclos. Se houver ciclos de referência, é necessário primeiro criar identificadores para os objetos e depois preencher suas referências, evitando serialização infinita.
+
+b) Como identificar o tamanho mínimo de buffer necessário
+
+Se todos os objetos têm o mesmo tamanho e o recurso é limitado, devemos armazenar apenas os objetos realmente alcançáveis a partir do objeto inicial.
+
+Algoritmo:
+
+1. Modele os objetos como vértices e as referências como arestas.
+2. Escolha o objeto inicial que será serializado.
+3. Execute uma DFS ou BFS a partir dele.
+4. Marque todos os objetos alcançáveis.
+5. Conte quantos objetos distintos foram alcançados.
+
+Se cada objeto tem tamanho t e foram alcançados k objetos distintos, então o tamanho mínimo do buffer é:
+
+buffer_minimo = k . t
+
+Como cada objeto é contado uma única vez, não há desperdício de espaço com duplicação de objetos já referenciados.
