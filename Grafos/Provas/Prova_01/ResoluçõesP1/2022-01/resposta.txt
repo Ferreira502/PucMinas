@@ -1,0 +1,315 @@
+RESOLUÇÃO - PROVA 01 - 2022-01
+
+Questão 1
+
+Considerando um grafo não-direcionado simples G = (V, E), com 10 vértices e 5 componentes conexas:
+
+a) É possível esse grafo possuir 4 arestas?
+
+Não. Em um grafo não-direcionado com n vértices e c componentes conexas, o menor número possível de arestas é:
+
+m_min = n - c
+
+Como n = 10 e c = 5:
+
+m_min = 10 - 5 = 5
+
+Portanto, o grafo precisa ter pelo menos 5 arestas. Logo, não é possível possuir apenas 4 arestas.
+
+b) É possível que a soma dos graus de todos os vértices seja igual a 10?
+
+Sim. Pelo lema do aperto de mãos, em todo grafo não-direcionado:
+
+soma dos graus = 2|E|
+
+Para a soma dos graus ser 10, precisamos ter:
+
+2|E| = 10
+|E| = 5
+
+Como 5 é exatamente o número mínimo de arestas para um grafo com 10 vértices e 5 componentes conexas, isso é possível.
+
+c) É possível que a soma dos graus de todos os vértices seja maior que 100?
+
+Não. O maior número de arestas em um grafo simples com 10 vértices e 5 componentes conexas ocorre quando uma componente tem 6 vértices formando um grafo completo, e as outras 4 componentes são vértices isolados.
+
+Assim:
+
+m_max = C(10 - 5 + 1, 2)
+m_max = C(6, 2)
+m_max = 15
+
+Logo, a maior soma possível dos graus é:
+
+2m_max = 2 . 15 = 30
+
+Portanto, a soma dos graus não pode ser maior que 100.
+
+Conclusão da questão 1:
+
+a) Não.
+b) Sim.
+c) Não.
+
+
+Questão 2
+
+O grafo direcionado tem vértices {A, B, C, D, E, F} e matriz de adjacência equivalente às seguintes arestas:
+
+A -> B, D
+B -> nenhum
+C -> A
+D -> C, F
+E -> B, D
+F -> C
+
+a) Qual o fecho transitivo direto do vértice A?
+
+O fecho transitivo direto de A é o conjunto dos vértices que podem ser alcançados a partir de A seguindo o sentido das arestas.
+
+Partindo de A:
+
+A alcança B e D.
+D alcança C e F.
+C alcança A.
+F alcança C.
+B não alcança ninguém.
+
+Assim, os vértices alcançáveis a partir de A são:
+
+F+(A) = {A, B, C, D, F}
+
+O vértice E não pertence ao fecho transitivo direto de A, pois não existe caminho direcionado de A até E.
+
+b) Qual o fecho transitivo inverso do conjunto {B, F}?
+
+O fecho transitivo inverso de um conjunto S é o conjunto dos vértices que conseguem chegar a algum vértice de S.
+
+Como S = {B, F}, devemos procurar quem consegue chegar em B ou em F.
+
+B pertence ao conjunto, pois chega em B por caminho de tamanho zero.
+F pertence ao conjunto, pois chega em F por caminho de tamanho zero.
+A chega em B diretamente e também chega em F pelo caminho A -> D -> F.
+D chega em F diretamente.
+C chega em B pelo caminho C -> A -> B e chega em F pelo caminho C -> A -> D -> F.
+E chega em B diretamente e chega em F pelo caminho E -> D -> F.
+
+Logo:
+
+F-({B, F}) = {A, B, C, D, E, F}
+
+c) Como identificar uma base em um grafo? A solução funciona para quais tipos de grafos?
+
+Uma base de um grafo direcionado é um conjunto de vértices S tal que o fecho transitivo direto de S contém todos os vértices do grafo:
+
+F+(S) = V
+
+Uma forma direta de identificar uma base é calcular o fecho transitivo direto dos vértices. Para isso, fazemos buscas no grafo respeitando o sentido das arestas.
+
+Algoritmo:
+
+1. Comece com S vazio.
+2. Para cada vértice v do grafo, calcule F+(v), isto é, todos os vértices alcançáveis a partir de v.
+3. Verifique se algum vértice sozinho alcança todos os vértices. Se existir v tal que F+(v) = V, então {v} é uma base.
+4. Se nenhum vértice sozinho alcançar todos os vértices, teste conjuntos com 2 vértices, unindo seus fechos transitivos diretos.
+5. Um conjunto S é base quando a união dos fechos dos seus vértices cobre todo V:
+
+F+(S) = união de F+(v), para todo v em S
+
+6. Para encontrar uma base com a menor quantidade possível de vértices, testamos primeiro conjuntos de tamanho 1, depois de tamanho 2, depois de tamanho 3, e assim por diante, até encontrar um conjunto que alcance todos os vértices.
+
+Essa solução funciona para grafos direcionados, pois o conceito de fecho transitivo direto depende do sentido das arestas. Para grafos não-direcionados, a ideia de base por fecho transitivo direto não é aplicada da mesma forma, porque as arestas não possuem direção.
+
+No grafo da questão, como F-({B, F}) = {A, B, C, D, E, F}, todos os vértices conseguem chegar em B ou F. Já para uma base, olhamos o contrário: queremos vértices de onde seja possível alcançar todos os outros.
+
+
+Questão 3
+
+Isomorfismo em grafos direcionados
+
+Em grafos não-direcionados, dois grafos são isomorfos quando possuem a mesma estrutura de adjacência, mesmo que seus vértices tenham nomes diferentes ou estejam desenhados de maneiras diferentes.
+
+Sejam G = (V, E) e H = (V', E') dois grafos não-direcionados. Dizemos que G e H são isomorfos se existe uma função bijetora f: V -> V' tal que, para quaisquer u, v pertencentes a V:
+
+{u, v} pertence a E se, e somente se, {f(u), f(v)} pertence a E'
+
+Para grafos direcionados, a definição é semelhante, mas é necessário preservar também o sentido das arestas. Assim, sejam G = (V, E) e H = (V', E') dois grafos direcionados. Dizemos que G e H são isomorfos se existe uma bijeção f: V -> V' tal que, para quaisquer u, v pertencentes a V:
+
+(u, v) pertence a E se, e somente se, (f(u), f(v)) pertence a E'
+
+Portanto, se existe uma aresta saindo de u e chegando em v no grafo G, deve existir uma aresta saindo de f(u) e chegando em f(v) no grafo H. Não basta preservar a existência da ligação; é necessário preservar também a orientação da aresta.
+
+Exemplo:
+
+Considere o grafo direcionado G:
+
+V = {a, b, c, d, e, f}
+E = {(a,b), (a,c), (b,d), (c,d), (d,e), (e,f)}
+
+Considere o grafo direcionado H:
+
+V' = {1, 2, 3, 4, 5, 6}
+E' = {(1,2), (1,3), (2,4), (3,4), (4,5), (5,6)}
+
+Defina f por:
+
+f(a) = 1
+f(b) = 2
+f(c) = 3
+f(d) = 4
+f(e) = 5
+f(f) = 6
+
+Essa função é bijetora e preserva todas as arestas direcionadas:
+
+(a,b) corresponde a (1,2)
+(a,c) corresponde a (1,3)
+(b,d) corresponde a (2,4)
+(c,d) corresponde a (3,4)
+(d,e) corresponde a (4,5)
+(e,f) corresponde a (5,6)
+
+Logo, G e H são isomorfos como grafos direcionados.
+
+
+Questão 4
+
+Algoritmo para calcular o diâmetro de um grafo não-direcionado
+
+O diâmetro de um grafo conexo é a maior distância entre dois vértices do grafo. Também pode ser definido como a maior excentricidade entre todos os vértices.
+
+A distância entre dois vértices é o tamanho do menor caminho entre eles. Em grafos não ponderados, essa distância pode ser calculada com BFS.
+
+Algoritmo:
+
+1. Para cada vértice v do grafo, execute uma BFS começando em v.
+2. A BFS calcula a menor distância de v até todos os outros vértices.
+3. A excentricidade de v é a maior distância encontrada a partir de v.
+4. Depois de calcular a excentricidade de todos os vértices, escolha o maior valor.
+5. Esse maior valor é o diâmetro do grafo.
+
+Pseudocódigo:
+
+Algoritmo Diametro(G)
+Entrada: grafo não-direcionado conexo G = (V, E)
+Saída: diâmetro de G
+
+início
+    diametro <- 0
+
+    para cada vértice v pertencente a V faça
+        dist <- BFS(G, v)
+        ecc <- maior distância em dist
+
+        se ecc > diametro então
+            diametro <- ecc
+        fim-se
+    fim-para
+
+    retorne diametro
+fim
+
+Exemplo:
+
+Considere o caminho:
+
+A - B - C - D
+
+As distâncias a partir de A são:
+
+d(A,A) = 0
+d(A,B) = 1
+d(A,C) = 2
+d(A,D) = 3
+
+Logo, ecc(A) = 3.
+
+As distâncias a partir de B são:
+
+d(B,A) = 1
+d(B,B) = 0
+d(B,C) = 1
+d(B,D) = 2
+
+Logo, ecc(B) = 2.
+
+As distâncias a partir de C são:
+
+d(C,A) = 2
+d(C,B) = 1
+d(C,C) = 0
+d(C,D) = 1
+
+Logo, ecc(C) = 2.
+
+As distâncias a partir de D são:
+
+d(D,A) = 3
+d(D,B) = 2
+d(D,C) = 1
+d(D,D) = 0
+
+Logo, ecc(D) = 3.
+
+Portanto:
+
+diametro(G) = max{3, 2, 2, 3} = 3
+
+
+Questão 5
+
+Determinar os componentes fortemente conexos do grafo G.
+
+Pela lista de sucessores da prova:
+
+A -> B, F
+B -> nenhum
+C -> A, D
+D -> C, F
+E -> C, D
+F -> E
+G -> A, E, J
+H -> G, I
+I -> H, J
+J -> K, L
+K -> M
+L -> E, M
+M -> J
+
+Um componente fortemente conexo é um conjunto maximal de vértices em que, para todo par de vértices u e v, existe caminho direcionado de u até v e também de v até u.
+
+Os componentes fortemente conexos são:
+
+{A, C, D, E, F}
+{B}
+{G}
+{H, I}
+{J, K, L, M}
+
+Justificativa:
+
+No conjunto {A, C, D, E, F}, os vértices conseguem alcançar uns aos outros. Por exemplo:
+
+A -> F -> E -> C -> A
+C -> D -> F -> E -> C
+D -> C e D -> F -> E -> C
+F -> E -> C -> A -> F
+
+O vértice B forma um componente sozinho, pois recebe aresta de A, mas não possui sucessores. Assim, B não consegue voltar para os demais vértices.
+
+O vértice G forma um componente sozinho, pois possui arestas para A, E e J, mas não há caminho voltando desses vértices para G.
+
+O conjunto {H, I} é fortemente conexo, pois H -> I e I -> H.
+
+O conjunto {J, K, L, M} é fortemente conexo, pois:
+
+J -> K -> M -> J
+J -> L -> M -> J
+K -> M -> J -> L
+L -> M -> J -> K
+
+Assim, todos os vértices desse conjunto alcançam uns aos outros.
+
+Portanto, a resposta final é:
+
+CFC(G) = {{A, C, D, E, F}, {B}, {G}, {H, I}, {J, K, L, M}}
