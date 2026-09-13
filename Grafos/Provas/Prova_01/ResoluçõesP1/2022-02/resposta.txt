@@ -108,7 +108,7 @@ Algoritmo direto:
 4. Continue aumentando o tamanho do conjunto.
 5. O primeiro conjunto S encontrado tal que a união dos fechos inversos F-(v), para v em S, seja igual a V é uma anti-base mínima.
 
-Essa solução também funciona para grafos direcionados. Para calcular F-(v), pode-se fazer uma busca no grafo transposto, isto é, com todas as arestas invertidas.
+Essa solução funciona para grafos direcionados. Para calcular F-(v), pode-se fazer uma busca no grafo transposto, isto é, com todas as arestas invertidas.
 
 
 Questão 3
