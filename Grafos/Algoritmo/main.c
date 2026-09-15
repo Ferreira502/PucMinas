@@ -47,6 +47,9 @@ int main()
         getchar();
         mostrarLista(&grafo);
 
+        getchar();
+        mostrarGrauNDirecionado(&grafo);
+
         
     }
     else if( x == 1 )
@@ -82,6 +85,10 @@ int main()
         printf("\nMostrar Lista de adjacencia\n");
         getchar();
         mostrarLista(&grafo);
+
+        getchar();
+
+        mostrarGrauDirecionado(&grafo);
     }
 
     else if ( x != 1 && x != 0)

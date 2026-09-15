@@ -61,29 +61,29 @@ void adicionarArestaNDirecionado(Grafo *grafo)
 	}
 }
 
-	void adicionarArestaDirecionado(Grafo *grafo)
-	{
-		printf("\nDigite os pares de arestas direcionadas\n");
-		printf("\nExemplo: A B significa A -> B\n");
-		printf("\nSe digitar 0 acaba de inserir arestas\n");
+void adicionarArestaDirecionado(Grafo *grafo)
+{
+	printf("\nDigite os pares de arestas direcionadas\n");
+	printf("\nExemplo: A B significa A -> B\n");
+	printf("\nSe digitar 0 acaba de inserir arestas\n");
 
-		char origem = ' ';
-		char destino = ' ';
+	char origem = ' ';
+	char destino = ' ';
+
+	scanf(" %c", &origem);
+
+	while (origem != '0')
+	{
+		scanf(" %c", &destino);
+
+		int i = origem - 'A';
+		int j = destino - 'A';
+
+		grafo->matriz[i][j] = 1;
 
 		scanf(" %c", &origem);
-
-		while (origem != '0')
-		{
-			scanf(" %c", &destino);
-
-			int i = origem - 'A';
-			int j = destino - 'A';
-
-			grafo->matriz[i][j] = 1;
-
-			scanf(" %c", &origem);
-		}
 	}
+}
 
 void mostrarMatriz(Grafo *grafo)
 {
@@ -135,14 +135,20 @@ void mostrarLista(Grafo *grafo)
     }
 }
 
-// int calcularGrau(Grafo *grafo, int vertice)
-// {
-// 	int grau = 0;
-// 	for ( int i = 0; i < grafo; i++ )
-// 	{
+int calcularGrau(Grafo *grafo, int vertice)
+{
+ 	int grau = 0;
+ 	
+	for ( int i = 0; i < grafo->qtdVertices; i++ )
+ 	{
+		if ( grafo -> matriz[vertice][i] == 1 )
+		{
+			grau++;
+		}
+ 	}
 
-// 	}
-// }
+	return grau;
+}
 
 int calcularGrauSaida(Grafo *grafo, int vertice)
 {
@@ -172,23 +178,23 @@ int calcularGrauEntrada(Grafo *grafo, int vertice)
 	return grau;
 }
 
-// void mostrarGrauNDirecionado(Grafo *grafo)
-// {
-// 	printf("\nGraus dos vertices NAO Direcionado:\n");
+void mostrarGrauNDirecionado(Grafo *grafo)
+{
+	printf("\nGraus dos vertices NAO Direcionado:\n");
 
 
-// 	for ( int i = 0; i < grafo->qtdVertices; i++ )
-// 	{
-// 		for ( int j = 0; j < grafo->qtdVertices; j++ )
-// 		{
-// 			if ( grafo->matriz[i][j] == 1 )
-// 			{
-// 				printf("\n%c: grau %d\n", 'A' + i, calcularGrau(grafo, i));
-// 			}
-// 		}
-// 	}
+	for ( int i = 0; i < grafo->qtdVertices; i++ )
+	{
+		for ( int j = 0; j < grafo->qtdVertices; j++ )
+		{
+			if ( grafo->matriz[i][j] == 1 )
+			{
+				printf("\n%c: grau %d\n", 'A' + i, calcularGrau(grafo, i));
+			}
+		}
+	}
 
-// }
+}
 
 void mostrarGrauDirecionado(Grafo *grafo)
 {

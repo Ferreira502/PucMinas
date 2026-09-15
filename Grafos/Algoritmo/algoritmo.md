@@ -47,8 +47,8 @@ implementos:
 - Feito: adicionar arestas para grafo direcionado
 - Feito: imprimir matriz de adjacência
 - Feito: imprimir lista de adjacência
-- Fazer: calcular grau dos vértices em grafo não direcionado
-- Fazer: calcular grau de entrada e grau de saída em grafo direcionado
+- Feito: calcular grau dos vértices em grafo não direcionado
+- Feito: calcular grau de entrada e grau de saída em grafo direcionado
 - Fazer: verificar se existe ciclo no grafo não direcionado
 - Fazer: verificar se existe ciclo no grafo direcionado
 - Fazer: implementar BFS
