@@ -9,13 +9,6 @@ typedef struct
     int qtdVertices;
 } Grafo;
 
-typedef struct
-{
-    char x;
-    int aponta;
-    
-} Vertice;
-
 void inicializarGrafo(Grafo *grafo, int qtdVertices);
 void bfs(Grafo *grafo);
 void dfs(Grafo *grafo);
