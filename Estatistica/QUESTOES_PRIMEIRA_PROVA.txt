@@ -1,0 +1,290 @@
+QUESTÕES DA APOSTILA PARA A 1ª PROVA — ESTATÍSTICA E PROBABILIDADE
+=================================================================
+
+Fonte do conteúdo: Cronograma de aulas e atividades — CCOMP — 2º/2026
+Fonte dos exercícios: Apostila Estatística e Probabilidade — 2º/2026
+Data prevista da 1ª avaliação: 22/09/2026 (30 pontos)
+
+COMO FOI FEITO O RECORTE
+------------------------
+A prova está marcada depois das aulas de 11/08 a 15/09. Portanto, entram:
+
+1. Introdução, conceitos básicos e classificação de variáveis;
+2. Estatística descritiva;
+3. Probabilidade: conceitos, regras, probabilidade condicional e independência;
+4. Teorema de Bayes;
+5. Variáveis aleatórias discretas: função de probabilidade, função acumulada,
+   valor esperado, variância e desvio-padrão;
+6. Distribuição Binomial;
+7. Distribuição Hipergeométrica;
+8. Distribuição de Poisson.
+
+Na apostila, isso corresponde a TODOS os exercícios dos blocos:
+
+- AI.1 — Análise Descritiva de Dados: 1.1 a 1.10 (páginas 81 a 84);
+- AI.2 — Probabilidade: 2.1 a 2.23 (páginas 85 a 89);
+- AI.3 — Distribuições Discretas: 3.1 a 3.51 (páginas 89 a 96).
+
+Não entram, conforme o cronograma, os exercícios do bloco AI.4 — Distribuições
+Contínuas de Probabilidade, iniciado na página 96.
+
+PÁGINAS DO CONTEÚDO TEÓRICO
+---------------------------
+
+- Introdução e classificação de variáveis: páginas 2 e 3;
+- Estatística descritiva: páginas 4 a 19;
+  - tabelas de frequências: páginas 5 e 6;
+  - gráficos, diagrama de pontos e ramo-e-folhas: páginas 7 a 9;
+  - média, mediana e moda: páginas 10 a 12;
+  - quartis: página 13;
+  - amplitude, variância, desvio-padrão e coeficiente de variação:
+    páginas 14 a 17;
+  - boxplot: páginas 18 e 19;
+- Probabilidade — conceitos, eventos e regras: páginas 20 a 24;
+- Probabilidade condicional e independência: páginas 25 e 26;
+- Teorema de Bayes e probabilidade total: páginas 27 a 29;
+- Variáveis aleatórias discretas: páginas 30 a 32;
+- Distribuição Binomial: páginas 33 e 34;
+- Distribuição de Poisson: páginas 35 e 36;
+- Distribuição Hipergeométrica: páginas 37 e 38.
+
+Observação: algumas questões cobram mais de uma matéria. Elas aparecem em mais
+de uma categoria abaixo, marcadas como “questão mista”.
+
+
+1. INTRODUÇÃO, CONCEITOS BÁSICOS E CLASSIFICAÇÃO DE VARIÁVEIS
+-------------------------------------------------------------
+
+Conteúdo teórico na apostila: páginas 2 e 3.81
+Exercícios relacionados: páginas 81 a 84, nos itens indicados abaixo.
+
+- 1.1 (a–c), p. 81 — população, tamanho da amostra, identificação e
+  classificação das variáveis da tabela de empresas.
+- 1.2 (a), p. 81 — identificar e classificar a variável “preço da diária”.
+- 1.4 (a), p. 82 — identificar e classificar a variável “salário anual”.
+- 1.7 (a), p. 83 — classificar retração linear, resistência mecânica e absorção
+  de água.
+- 1.10 (a), p. 84 — identificar e classificar a variável “teor final”.
+
+
+2. ESTATÍSTICA DESCRITIVA
+-------------------------
+
+Conteúdo teórico na apostila: páginas 4 a 19.
+Exercícios relacionados: páginas 81 a 84.
+
+2.1 Dados qualitativos, quantitativos, tabelas e frequências
+
+- 1.1 (d–e), p. 81 — porcentagens por setor e por avaliação.
+- 1.2 (b–d), pp. 81–82 — ramo-e-folhas, tabela de frequências e histograma.
+- 1.3 (a–b), p. 82 — tabela com frequências absoluta, relativa e acumuladas;
+  histograma.
+- 1.4 (b–d), p. 82 — ramo-e-folhas, tabela de frequências e histograma.
+- 1.5 (a–b), pp. 82–83 — completar frequências simples e acumuladas e
+  interpretar a tabela.
+- 1.6 (a–b), p. 83 — tabela de frequências e histograma das temperaturas.
+- 1.7 (b), p. 83 — histogramas de X1, X2 e X3 e análise das formas.
+
+2.2 Medidas de tendência central, posição e variabilidade
+
+- 1.1 (f–g), p. 81 — média, mediana, moda, amplitude, variância,
+  desvio-padrão e coeficiente de variação.
+- 1.2 (e, g–h), pp. 81–82 — quartis, AIQ, medidas de centro e dispersão e
+  análise de homogeneidade.
+- 1.3 (c), p. 82 — medidas de posição, dispersão e quartis.
+- 1.6 (c), p. 83 — mediana e quartis.
+- 1.7 (d–f), p. 83 — média, desvio-padrão, mediana, quartis, variabilidade e
+  homogeneidade.
+- 1.9 (b–c), p. 84 — completar média, mediana, moda, variância,
+  desvio-padrão e amplitude; comparar homogeneidade.
+- 1.10 (b–c), p. 84 — completar medidas descritivas por temperatura e
+  comparar homogeneidade.
+
+2.3 Quartis, boxplot, diagrama de pontos e comparação de distribuições
+
+- 1.2 (e–f), pp. 81–82 — quartis, AIQ e boxplot.
+- 1.6 (c–d), p. 83 — mediana, quartis e boxplot.
+- 1.7 (b–c, e–f), p. 83 — histogramas, boxplots e comparação de três
+  variáveis.
+- 1.8 (a–b), pp. 83–84 — comparação das empresas AAA e BBB e diagrama de
+  pontos.
+- 1.9 (a), p. 84 — diagrama de pontos comparando carros médios e pequenos.
+- 1.10 (d), p. 84 — boxplots comparando quatro temperaturas.
+
+Resumo do bloco: fazer integralmente as questões 1.1 a 1.10.
+
+
+3. PROBABILIDADE — CONCEITOS, EVENTOS E REGRAS
+----------------------------------------------
+
+Conteúdo teórico na apostila: páginas 20 a 24.
+Exercícios relacionados: páginas 85 a 88, nos itens indicados abaixo.
+
+3.1 Experimentos, espaço amostral, eventos e propriedades
+
+- 2.1, p. 85 — escrever espaços amostrais de cinco experimentos.
+- 2.2, p. 85 — representar eventos como conjuntos e intervalos reais.
+- 2.3, p. 85 — interpretar complemento e interseção de eventos.
+- 2.4, p. 85 — decidir quais valores podem ser probabilidades e justificar.
+- 2.5, p. 85 — probabilidade de um evento impossível.
+- 2.6, p. 85 — carta que não é de ouros; carta de ouros ou figura.
+- 2.7, p. 85 — probabilidades proporcionais ao número de funcionários e
+  evento complementar.
+
+3.2 Regra da adição, regra da multiplicação, complemento e diagramas
+
+- 2.6, p. 85 — complemento e união (questão mista).
+- 2.8, p. 85 — complemento, interseção, união e diagrama de Venn.
+- 2.9, p. 86 — componentes independentes ligados em série e em paralelo.
+- 2.10 (a), p. 86 — probabilidade de chuva em A ou B.
+- 2.12 (a i–iii), p. 86 — eventos simples, interseção e união em tabela de
+  contingência.
+- 2.13 (a–d), p. 87 — probabilidades simples, interseção e união em tabela.
+- 2.14, p. 87 — interseção, união e diagrama de Venn.
+- 2.15 (a–c), p. 87 — eventos simples, interseção e união em tabela.
+- 2.16, p. 88 — quatro estudantes escolherem o mesmo pneu.
+
+
+4. PROBABILIDADE CONDICIONAL E INDEPENDÊNCIA
+--------------------------------------------
+
+Conteúdo teórico na apostila: páginas 25 e 26.
+Exercícios relacionados: páginas 85 a 88, nos itens indicados abaixo.
+
+- 2.8, p. 85 — usa P(A|B) para obter interseção e união (questão mista).
+- 2.9, p. 86 — independência em sistemas em série e paralelo.
+- 2.10 (b–c), p. 86 — P(A|B) e P(B|A).
+- 2.11, p. 86 — partida e chegada de ônibus no horário; duas condicionais.
+- 2.12 (a iv, b), p. 86 — probabilidade condicional e teste de independência.
+- 2.13 (e–f), p. 87 — probabilidade condicional e teste de independência.
+- 2.15 (d), p. 87 — tipo do produto dado que a embalagem foi danificada.
+- 2.16, p. 88 — escolhas independentes dos quatro estudantes (questão mista).
+
+
+5. TEOREMA DA PROBABILIDADE TOTAL E TEOREMA DE BAYES
+----------------------------------------------------
+
+Conteúdo teórico na apostila: páginas 27 a 29.
+Exercícios relacionados: páginas 88 e 89.
+
+- 2.17, p. 88 — fraude em cartão dado o uso em várias áreas metropolitanas.
+- 2.18, p. 88 — críticas e grau de aprovação de produtos; total e Bayes.
+- 2.19, p. 88 — linha de produção de uma lata, dado que ela é defeituosa.
+- 2.20, p. 88 — acerto em teste dado que o aluno sabe ou chuta; posterior de
+  ele saber dado que acertou.
+- 2.21, p. 88 — inocência dado resultado “culpado” no soro da verdade.
+- 2.22, p. 88 — emissão excessiva de poluentes dado que o carro foi reprovado.
+- 2.23, p. 89 — câncer dado resultado positivo, com falsos positivos e
+  falsos negativos.
+
+
+6. VARIÁVEIS ALEATÓRIAS DISCRETAS
+---------------------------------
+
+Conteúdo teórico na apostila: páginas 30 a 32.
+Exercícios relacionados: páginas 89 a 92, nos itens indicados abaixo.
+
+6.1 Função de distribuição de probabilidade e função acumulada
+
+- 3.2, p. 89 — determinar k, calcular uma probabilidade intervalar e F(5).
+- 3.3, p. 89 — construir a distribuição do número de vendas em dois contatos.
+- 3.4 (a–b), p. 89 — completar uma distribuição e calcular função acumulada.
+- 3.5, p. 90 — calcular valores de p(x) e discutir a soma das probabilidades.
+- 3.6 (a–b), p. 90 — função acumulada e probabilidades intervalares.
+- 3.7, p. 90 — distribuição do número de rapazes, probabilidades e valores da
+  acumulada (também envolve amostragem sem reposição/hipergeométrica).
+- 3.8 (a–b), p. 90 — função de probabilidade e função acumulada.
+- 3.9 (a–b), pp. 90–91 — distribuição e acumulada da renda anual.
+- 3.10 (b–c), p. 91 — distribuição e acumulada do número de pastilhas aprovadas
+  (também é Binomial).
+- 3.11 (b), p. 91 — distribuição do número de componentes conformes.
+- 3.12, p. 91 — determinar c para que f(x) seja função de probabilidade.
+
+6.2 Valor esperado, variância, desvio-padrão e coeficiente de variação
+
+- 3.4 (c–d), p. 89 — média, variância e desvio-padrão.
+- 3.6 (c–d), p. 90 — número esperado e coeficiente de variação.
+- 3.8 (c), p. 90 — esperança e variância.
+- 3.9 (c), pp. 90–91 — esperança e variância.
+- 3.13, p. 91 — valor esperado e variância de dois investimentos.
+- 3.14, p. 91 — comparar o valor esperado de duas estratégias de venda
+  (questão mista com Binomial).
+- 3.15, p. 92 — escolher comprador pelo retorno esperado (questão mista com
+  Binomial).
+
+
+7. DISTRIBUIÇÃO BINOMIAL
+------------------------
+
+Conteúdo teórico na apostila: páginas 33 e 34.
+Exercícios relacionados: páginas 89 a 96, nos itens indicados abaixo.
+
+- 3.3, p. 89 — número de vendas em dois contatos (Binomial pequena).
+- 3.10, p. 91 — número de pastilhas aprovadas em três testes.
+- 3.14, p. 91 — classificação de lotes pela quantidade de defeituosas.
+- 3.15, p. 92 — ofertas de compradores condicionadas ao número de peças
+  defeituosas.
+- 3.16, p. 92 — número de usuários de PCs IBM; distribuição, média e
+  desvio-padrão.
+- 3.17, p. 92 — número de caras/coroas em dez lançamentos.
+- 3.18, p. 92 — número de vitórias em cinco partidas.
+- 3.19, p. 92 — número de acertos de um atirador em seis tiros.
+- 3.20, p. 92 — acertar 70 de 100 questões certo/errado ao acaso.
+- 3.21, p. 92 — recuperar n e p de uma acumulada Binomial e calcular medidas e
+  probabilidades.
+- 3.22, p. 93 — quantidade de lâmpadas defeituosas numa amostra de 100.
+- 3.23, p. 93 — função acumulada Binomial com n = 3 e p = 1/4.
+- 3.24, p. 93 — bits com erro: Binomial com aproximação por Poisson.
+- 3.25, p. 93 — molas não conformes em bateladas de 50.
+- 3.26, p. 93 — passageiros que comparecem a voo com venda excedente.
+- 3.27, p. 93 — acertos ao chutar 25 questões de quatro alternativas.
+- 3.30, p. 94 — Binomial n = 100 e p = 0,02 aproximada por Poisson.
+- 3.50, p. 96 — 40 ou mais pessoas favoráveis em amostra de 60, com p = 0,5.
+
+
+8. DISTRIBUIÇÃO DE POISSON
+--------------------------
+
+Conteúdo teórico na apostila: páginas 35 e 36.
+Exercícios relacionados: páginas 89 e 93 a 95, nos itens indicados abaixo.
+
+- 3.1, p. 89 — erros ortográficos por página (fórmula de Poisson com λ = 1).
+- 3.24, p. 93 — aproximação da Binomial por Poisson para bits com erro.
+- 3.28, p. 93 — emendas em rolos de fita de diferentes comprimentos.
+- 3.29, p. 93 — cálculos diretos de probabilidades para vários valores de λ.
+- 3.30, p. 94 — aproximação de uma Binomial por Poisson.
+- 3.31, p. 94 — estouros de pneus por distância percorrida.
+- 3.32, p. 94 — chamadas diárias recebidas pelos bombeiros.
+- 3.33, p. 94 — defeitos por área de parede.
+- 3.34, p. 94 — suicídios anuais por tamanho da população.
+- 3.35, p. 94 — erros de impressão por página.
+- 3.36, p. 94 — clientes que chegam à loja em intervalos de tempo.
+- 3.37, p. 94 — chamadas telefônicas em intervalos de tempo.
+- 3.38, p. 94 — sinais de um contador Geiger em seis segundos.
+- 3.39, p. 94 — carros que passam numa estrada em dois minutos.
+- 3.40, p. 95 — chegadas diárias de caminhões acima da capacidade.
+- 3.41, p. 95 — defeitos em duas peças de tecido.
+- 3.42, p. 95 — ordens de serviço por semana e tempo de espera.
+- 3.43, p. 95 — buracos por milha de autoestrada e análise da suposição do
+  modelo.
+- 3.44, p. 95 — falhas de instrumento por hora.
+- 3.45, p. 95 — erros em 100 páginas de um livro.
+
+
+9. DISTRIBUIÇÃO HIPERGEOMÉTRICA
+-------------------------------
+
+Conteúdo teórico na apostila: páginas 37 e 38.
+Exercícios relacionados: páginas 90, 95 e 96, nos itens indicados abaixo.
+
+- 3.7, p. 90 — número de rapazes ao escolher três pessoas sem reposição
+  (também usada para construir uma v.a. discreta).
+- 3.46, p. 95 — acertar exatamente cinco dezenas marcando dez na loteria.
+- 3.47, p. 95 — quantidade de empadinhas de camarão numa bandeja retirada sem
+  reposição.
+- 3.48, pp. 95–96 — pacotes premiados escolhidos entre vinte, sem reposição.
+- 3.49, p. 96 — motores defeituosos numa amostra retirada da produção diária.
+- 3.51, p. 96 — carros aprovados irregularmente numa amostra sem reposição.
+
+Gabarito: o Anexo II da apostila começa na página 106. As respostas desses
+blocos aparecem nas páginas 106 a 115.
