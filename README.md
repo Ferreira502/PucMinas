@@ -22,98 +22,6 @@ A ideia é manter, a evolução dos trabalhos acadêmicos, exercícios, projetos
 
 ---
 
-## Organização
-
-Cada pasta representa uma disciplina, projeto ou área de estudo.
-
-```text
-PucMinas/
-│
-├── 📁 AEDS-01/
-├── 📁 AEDS-02/
-├── 📁 ArquiteturaDeComputadores-01/
-├── 📁 ArquiteturaDeComputadores-02/
-├── 📁 BancoDeDados/
-├── 📁 Calculo I/
-├── 📁 Calculo II/
-├── 📁 Estatistica/
-├── 📁 Grafos/
-├── 📁 IA/
-│
-└── 📄 README.md
-```
-
-A estrutura pode ser expandida conforme novas disciplinas e projetos forem adicionados.
-
----
-
-## Disciplinas
-
-### 💻 Computação
-
-| Disciplina                      | Conteúdo                                        |
-| :------------------------------ | :---------------------------------------------- |
-| **AEDS I**                      | Algoritmos, lógica de programação e fundamentos |
-| **AEDS II**                     | Estruturas de dados e programação               |
-| **Arquitetura de Computadores** | Organização e funcionamento de computadores     |
-| **Banco de Dados**              | Modelagem, SQL e gerenciamento de dados         |
-| **Grafos**                      | Teoria e algoritmos em grafos                   |
-| **Inteligência Artificial**     | Fundamentos e aplicações de IA                  |
-
-### 📐 Matemática e Estatística
-
-| Disciplina      | Conteúdo                                      |
-| :-------------- | :-------------------------------------------- |
-| **Cálculo I**   | Fundamentos de cálculo diferencial e integral |
-| **Cálculo II**  | Continuação de cálculo e aplicações           |
-| **Estatística** | Probabilidade, análise de dados e inferência  |
-
----
-
-## O que você encontrará aqui
-
-Este repositório pode conter:
-
-* 📘 Trabalhos acadêmicos
-* 💻 Projetos de programação
-* 🧩 Exercícios e listas
-* 🗄️ Projetos de banco de dados
-* 📊 Análises estatísticas
-* 🤖 Projetos relacionados à Inteligência Artificial
-* 🖥️ Estudos de arquitetura de computadores
-* 📝 Anotações e materiais de apoio
-* 📚 Outros materiais desenvolvidos durante a graduação
-
----
-
-## Evolução
-
-Este repositório também serve como uma forma de acompanhar minha evolução durante a graduação.
-
-```text
-Aprendizado
-    │
-    ├── 📚 Fundamentos
-    │
-    ├── 💻 Programação
-    │
-    ├── 🗄️ Dados
-    │
-    ├── 🧠 Algoritmos
-    │
-    ├── 🤖 Inteligência Artificial
-    │
-    └── 🚀 Projetos
-             │
-             ▼
-       Desenvolvimento
-          profissional
-```
-
-Os projetos são mantidos com seus respectivos históricos de desenvolvimento sempre que possível.
-
----
-
 ## Tecnologias
 
 As tecnologias utilizadas variam de acordo com a disciplina e o projeto.
@@ -141,7 +49,7 @@ Este repositório possui finalidade principalmente **acadêmica e documental**.
 
 Alguns materiais podem ter sido desenvolvidos especificamente para disciplinas, trabalhos ou atividades da universidade e, portanto, podem não representar projetos destinados a produção.
 
-**Respeite os direitos autorais e as regras acadêmicas aplicáveis ao utilizar qualquer material deste repositório.**
+<div align="center"><strong>Respeite os direitos autorais e as regras acadêmicas aplicáveis ao utilizar qualquer material deste repositório.</div>
 
 ---
 
