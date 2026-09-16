@@ -17,9 +17,12 @@ typedef struct
 } Vertice;
 
 void inicializarGrafo(Grafo *grafo, int qtdVertices);
-void bfs(Grafo *grafo, int inicio);
-void dfs(Grafo *grafo, int inicio);
+void bfs(Grafo *grafo);
+void dfs(Grafo *grafo);
 void componentesConexos(Grafo *grafo);
 int grafoConexo(Grafo *grafo);
+int calcularGrauSaida(Grafo *grafo, int vertice);
+int calcularGrau(Grafo *grafo, int vertice);
+int calcularGrauEntrada(Grafo *grafo, int vertice);
 
 #endif
