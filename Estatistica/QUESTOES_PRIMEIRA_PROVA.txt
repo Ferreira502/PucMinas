@@ -55,7 +55,7 @@ de uma categoria abaixo, marcadas como “questão mista”.
 1. INTRODUÇÃO, CONCEITOS BÁSICOS E CLASSIFICAÇÃO DE VARIÁVEIS
 -------------------------------------------------------------
 
-Conteúdo teórico na apostila: páginas 2 e 3.81
+Conteúdo teórico na apostila: páginas 2 e 3.
 Exercícios relacionados: páginas 81 a 84, nos itens indicados abaixo.
 
 - 1.1 (a–c), p. 81 — população, tamanho da amostra, identificação e
