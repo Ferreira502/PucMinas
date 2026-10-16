@@ -1,0 +1,184 @@
+LISTA 05 - REGRAS DE ASSOCIACAO NO TITANIC
+Questao 07 - Algoritmo Apriori
+
+OBJETIVO
+
+Encontrar associacoes entre o perfil dos passageiros do Titanic e a sobrevivencia,
+incluindo caracteristicas presentes e ausentes.
+
+Notebook da solucao:
+Lista05_Apriori_Titanic.ipynb
+
+Base utilizada:
+titanic completo.csv, com 1.309 passageiros e 14 atributos originais.
+
+
+1. PRE-PROCESSAMENTO
+
+- Foram removidos nome, ticket, cabine, barco, corpo e destino de origem.
+- Identificadores nao generalizam bem para regras de associacao.
+- Barco e corpo foram removidos porque revelam diretamente o desfecho.
+- Idade e tarifa tiveram valores ausentes preenchidos pela mediana.
+- Embarque teve ausencias preenchidas pela moda.
+- Idade foi discretizada em: 0-17, 18-22, 23-40 e 41+.
+- Tarifa foi discretizada em: 0-10, 10-30, 30-80 e 80+.
+
+
+2. CODIFICACAO DAS TRANSACOES
+
+Cada passageiro tornou-se uma transacao. Para cada atributo preditor, a transacao
+contem o item presente e itens de ausencia para as demais categorias.
+
+Exemplo para um passageiro da primeira classe:
+
+Classe=1a
+NAO Classe=2a
+NAO Classe=3a
+
+Para Sobreviveu foi mantido somente o item do desfecho, evitando regras
+tautologicas como:
+
+NAO Sobreviveu=Nao -> Sobreviveu=Sim
+
+
+3. APRENDIZADO E CONFIGURACOES
+
+Foram testadas as seguintes configuracoes de suporte minimo e confianca minima:
+
+0,15 / 0,70
+0,20 / 0,75
+0,25 / 0,80
+0,30 / 0,80
+0,20 / 0,70
+
+A configuracao escolhida foi:
+
+Suporte minimo: 0,20
+Confianca minima: 0,75
+
+Essa configuracao reduz regras muito raras e ainda preserva associacoes
+interpretaveis. A tabela com a quantidade de itemsets e regras de cada configuracao
+e gerada no notebook.
+
+
+4. METRICAS
+
+Suporte: proporcao de transacoes cobertas pela regra.
+
+Confianca: proporcao dos registros que possuem o antecedente e tambem possuem o
+consequente.
+
+Lift: compara a confianca da regra com a frequencia geral do consequente. Lift
+maior que 1 indica associacao positiva.
+
+As tabelas completas com antecedente, consequente, suporte, confianca e lift sao
+geradas no notebook.
+
+
+5. ANALISE DAS REGRAS
+
+O notebook separa as regras cujo consequente e Sobreviveu=Sim das regras cujo
+consequente e Sobreviveu=Nao. As regras sao ordenadas por lift, confianca e suporte.
+
+Tambem e apresentada uma tabela especifica com regras que possuem itens NAO no
+antecedente.
+
+
+6. CINCO REGRAS INTERPRETADAS
+
+Os valores abaixo foram obtidos usando a mesma codificacao implementada no
+notebook.
+
+REGRA 1
+
+Antecedente:
+NAO Sexo=Masculino e NAO Tarifa=0-10
+
+Consequente:
+Sobreviveu=Sim
+
+Suporte: 0,215
+Confianca: 0,781
+Lift: 2,043
+
+Interpretacao: o grupo que nao possui a caracteristica masculina e nao possui
+tarifa baixa apresenta associacao positiva com a sobrevivencia. Esta regra possui
+dois itens de ausencia.
+
+
+REGRA 2
+
+Antecedente:
+NAO Pais/filhos=2+ e NAO Sexo=Masculino
+
+Consequente:
+Sobreviveu=Sim
+
+Suporte: 0,220
+Confianca: 0,756
+Lift: 1,979
+
+Interpretacao: a ausencia de familia numerosa e a ausencia do sexo masculino
+aparecem associadas a sobrevivencia. Esta regra tambem possui itens de ausencia.
+
+
+REGRA 3
+
+Antecedente:
+NAO Sexo=Feminino e Tarifa=0-10
+
+Consequente:
+Sobreviveu=Nao
+
+Suporte: 0,254
+Confianca: 0,865
+Lift: 1,400
+
+Interpretacao: a combinacao de nao ser mulher com tarifa baixa esta fortemente
+associada a nao sobrevivencia.
+
+
+REGRA 4
+
+Antecedente:
+NAO Classe=1a e NAO Sexo=Feminino
+
+Consequente:
+Sobreviveu=Nao
+
+Suporte: 0,431
+Confianca: 0,849
+Lift: 1,374
+
+Interpretacao: nao estar na primeira classe e nao ser mulher descreve um grupo com
+alta associacao com nao sobrevivencia. Ha dois itens de ausencia.
+
+
+REGRA 5
+
+Antecedente:
+Classe=3a e NAO Sexo=Feminino
+
+Consequente:
+Sobreviveu=Nao
+
+Suporte: 0,319
+Confianca: 0,848
+Lift: 1,372
+
+Interpretacao: a terceira classe combinada com a ausencia do sexo feminino esta
+associada a nao sobrevivencia.
+
+
+7. CONCLUSAO
+
+As regras nao sao causais: elas descrevem associacoes observadas na base.
+
+De modo geral, regras de sobrevivencia destacam mulheres e passageiros de maior
+classe ou tarifa. Regras de nao sobrevivencia tendem a destacar homens, terceira
+classe e tarifas menores.
+
+Para a entrega, podem ser utilizadas como imagens as tabelas exibidas pelas celulas
+do notebook: comparacao das configuracoes, regras mais relevantes, regras de
+Sobreviveu=Sim, regras de Sobreviveu=Nao e regras com itens NAO.
+
