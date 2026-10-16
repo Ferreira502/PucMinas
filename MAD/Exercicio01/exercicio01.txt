@@ -1,0 +1,33 @@
+Trabalho: PLANEJAMENTO DE CAPACIDADE
+
+ 
+
+Tema: Proposta de planejamento de capacidade para sistemas computacionais de acordo com a situação de criticidade do mesmo:
+
+Situação 1: Sistema recentemente instalado com ciclo de vida esperado de 4 anos.
+
+Situação 2: Sistema já instalado com ciclo de vida reduzido, expectativa de 2 anos
+
+Situação 3: Sistema em condições críticas, expectativa de vida de 6 meses.
+
+ 
+
+Considere seu número de matrícula:    #####N 
+
+Se N é par, Situação 3
+
+Se N é ímpar, Situação 2
+
+Se N é 0, Situação 1
+
+ 
+
+Entrega: arquivo pdf (pode utilizar MS-Excel ou MS-Project)
+
+Data de entrega: 19/10
+
+Trabalho INDIVIDUAL
+
+Pontuação: 5 pts.
+
+Tipo de entrega: arquivo pdf (pode utilizar MS-Excel ou MS-Project) numa única folha (ajustar o conteúdo para ser avaliado numa única folha)
