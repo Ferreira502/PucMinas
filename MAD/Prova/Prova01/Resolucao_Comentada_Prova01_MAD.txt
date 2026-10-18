@@ -1,0 +1,1505 @@
+PROVA 01 DE MAD — RESOLUÇÃO COMENTADA DAS QUESTÕES 01 A 25
+Modelagem e Avaliação de Desempenho de Sistemas Computacionais
+
+Enunciados consultados: fotografias 01.jpeg a 09.jpeg, nesta pasta.
+Material teórico consultado: arquivos da pasta MAD/Slides.
+
+Este documento apresenta a resposta fundamentada, o raciocínio e a matéria
+de cada questão. Não foi disponibilizado um gabarito oficial do professor.
+Quando a redação não sustenta uma resposta única com a mesma segurança das
+demais questões, a limitação é explicada no próprio comentário.
+
+As referências indicam a posição da página no PDF. Por exemplo, “MAD11,
+p. 16” significa a 16ª página de MAD/Slides/MAD11.pdf.
+
+CONCEITOS E FÓRMULAS QUE SERÃO USADOS
+
+1. Carga de trabalho, L ou lambda: quantidade de requisições por unidade de
+tempo. Pode estar em req/s, req/min etc. Não é o número total de usuários.
+
+2. Tempo médio de serviço, D ou Di: tempo de processamento consumido por
+uma requisição no recurso, sem a espera na fila. Se D = 20 ms/req, então
+D = 0,020 s/req. Na unidade “ms/t”, t significa transação; no modelo
+L(t), a variável t representa o tempo do histórico, normalmente em meses.
+
+3. Tempo médio de resposta, R: inclui processamento e espera. Por isso,
+R e D não são intercambiáveis nas fórmulas.
+
+4. Utilização, U: fração de tempo em que o recurso fica ocupado.
+U = 0,80 significa utilização de 80%. Nos cálculos, usar 0,80, e não 80.
+
+5. Disponibilidade de recurso ou capacidade livre, A: nos exercícios
+numéricos desta disciplina, A = 1 - U. Assim, 20% de disponibilidade de
+recurso significa 80% de utilização. Isso é diferente da disponibilidade
+de serviço medida como percentual de tempo em funcionamento, ou uptime.
+
+6. SLA/LNS: limite de qualidade do serviço. Para tempo de resposta, um SLA
+de 200 ms significa que se deseja R <= 200 ms.
+
+7. Vida útil: período em que o sistema atende ao limite de qualidade ou
+à reserva de recursos exigida. O fim dessa vida útil não significa que o
+computador desligou. O sistema pode continuar funcionando fora do requisito.
+
+8. Superutilização: saturação mantida por um período relevante para o
+negócio. O material associa essa fase a utilização próxima de 100% de
+forma permanente. Ela pode ocorrer depois do fim da vida útil pelo SLA.
+
+Outros termos: CPU é o processador; I/O significa entrada/saída de dados;
+Jobs são trabalhos ou rotinas de processamento, frequentemente executados
+em lote. Throughput, representado por X, é a taxa de requisições concluídas.
+Em equilíbrio de fluxo, a taxa de chegada e o throughput são aproximadamente
+iguais; em sobrecarga, as chegadas podem superar as conclusões.
+
+No modelo simplificado de um recurso usado nos slides:
+
+    U = D * L
+    A = 1 - U
+    R = D / (1 - U) = D / (1 - D * L)
+
+Manter unidades compatíveis: D em s/req com L em req/s, por exemplo.
+O modelo de resposta exige U < 1. Se uma previsão de chegada produzir
+D * L > 1, a demanda excede a capacidade; isso não significa uma CPU
+fisicamente ocupada mais de 100% do tempo.
+
+Para os limites mais utilizados:
+
+    Saturação: Lsat = 1 / D
+    Reserva mínima Amin: Llimite = (1 - Amin) / D
+    Limite de resposta S: Lcap = (S - D) / (S * D)
+
+Para L(t) = a + b*t, com b > 0:
+
+    Instante do limite: tlimite = (Llimite - a) / b
+    Tempo restante: tlimite - H
+
+H é a duração do histórico já transcorrido. Um resultado negativo indica
+que o limite foi atingido antes do momento atual.
+
+Fontes: MAD2, p. 8; MAD10, p. 2–11; MAD11, p. 2–16 e 20–25;
+MAD13, p. 20, para a relação entre utilização, serviço e fluxo.
+
+
+======================================================================
+QUESTÃO 01 — CICLO DE VIDA E SOBREPOSIÇÃO DAS FASES
+======================================================================
+
+Resposta: D — I e II, apenas.
+Foto do enunciado: 01.jpeg.
+
+O que a questão cobra
+
+Reconhecer as quatro fases do ciclo de vida e compreender que elas não
+precisam ocorrer como blocos completamente separados no tempo.
+
+Matéria necessária
+
+Na fase conceitual, a configuração inicial ou uma alteração de configuração
+é proposta. Na aquisição, ocorrem as negociações com diretoria e fornecedores.
+Na operação, o sistema atende à carga e recebe ações de acompanhamento e
+otimização. Na superutilização, a saturação persistente compromete o serviço.
+
+MAD2 apresenta a fase operacional como a que se espera prolongar, com uma
+referência de 3 a 5 anos. Essa referência é uma expectativa de planejamento,
+e não uma garantia de que qualquer configuração durará esse período.
+
+Análise das afirmações
+
+I — Correta na interpretação de expectativa. Deseja-se que a configuração
+inicial proporcione um período longo de operação. A menção da prova a
+3 a 4 anos está dentro da ordem de grandeza apresentada em aula. Não se
+trata de uma vida mínima assegurada para todo sistema.
+
+II — Correta. Em condições críticas, um sistema pode continuar operando
+enquanto a equipe otimiza aplicações, propõe configurações e negocia novas
+aquisições. MAD10 mostra expressamente uma situação em que se vive nas
+quatro fases ao mesmo tempo.
+
+III — Incorreta. A afirmação exclui qualquer sobreposição. Ela contradiz
+o cenário descrito em II e os esquemas finais de MAD10.
+
+IV — Incorreta. Ao assumir um sistema, o responsável deve diagnosticar sua
+condição. Não pode presumir que ele está na fase conceitual e partir
+automaticamente para a compra de hardware.
+
+Ideia para memorizar
+
+O ciclo orienta o planejamento, mas o trabalho real pode envolver várias
+fases simultaneamente. Primeiro se avalia a instalação; depois se justifica
+a ação de otimizar, ampliar ou substituir recursos.
+
+Referências: MAD2, p. 2–3 e 13–18; MAD10, p. 15–16.
+
+
+======================================================================
+QUESTÃO 02 — OBJETIVOS E AÇÕES DO PLANEJAMENTO DE CAPACIDADE
+======================================================================
+
+Resposta: C — I, II, III e V, apenas.
+Foto do enunciado: 01.jpeg.
+
+O que a questão cobra
+
+Compreender que atender às funções de um software não basta: o sistema
+também precisa prestar o serviço dentro dos requisitos de desempenho.
+
+Matéria necessária
+
+O planejamento de capacidade reúne ações corretivas e preventivas para
+prolongar a operação dentro dos padrões de qualidade. Inclui monitorar,
+entender a carga, localizar horários críticos, otimizar, prever demanda,
+modelar e justificar configurações futuras.
+
+Análise das afirmações
+
+I — Correta. Um software pode produzir o resultado certo e ainda ser
+inadequado se levar tempo excessivo para responder. Requisitos funcionais
+e requisitos de desempenho precisam ser considerados.
+
+II — Correta. A metodologia combina correção de problemas presentes e
+prevenção de problemas futuros ao longo do ciclo de vida.
+
+III — Correta. É necessário conhecer a carga: volume de requisições,
+tipos de serviço, consumo de recursos, horários e tendência de crescimento.
+Sem isso, uma intervenção pode atuar sobre o recurso errado.
+
+IV — Incorreta. Comprar servidores imediatamente e só depois avaliar o
+impacto inverte a ordem do planejamento. O investimento deve ser apoiado
+por diagnóstico, análise e previsão.
+
+V — Correta no contexto da metodologia. Os horários de pico devem ser
+priorizados porque expõem os limites da instalação. Priorizar não significa
+proibir intervenções em outros horários ou ignorar efeitos sobre eles.
+
+Exemplo
+
+Se o problema ocorre às 12h, melhorar apenas o desempenho das 3h da manhã
+não demonstra que o problema do usuário foi resolvido. Os indicadores do
+horário crítico precisam melhorar, mantendo a qualidade nos demais períodos.
+
+Referências: MAD2, p. 2–5; MAD3, p. 2–4; MAD4, p. 2.
+
+
+======================================================================
+QUESTÃO 03 — HORÁRIO DE PICO, ESCALONAMENTO E VALIDADE DOS MODELOS
+======================================================================
+
+Resposta: C — IV, apenas, é falsa.
+Fotos do enunciado: 01.jpeg e 02.jpeg.
+
+Atenção: a pergunta solicita a afirmação FALSA.
+
+Matéria necessária
+
+Identificar os picos permite concentrar esforços onde a demanda pressiona
+mais o sistema. O escalonamento desloca Jobs para períodos menos críticos,
+mas essa movimentação também pode criar novos picos. Além disso, um modelo
+depende da carga que representa; ele não é automaticamente válido para
+qualquer combinação de processos ou horário.
+
+Análise das afirmações
+
+I — Verdadeira. Conhecer os picos orienta a otimização e a avaliação dos
+resultados nos períodos mais importantes.
+
+II — Verdadeira. Os demais horários continuam relevantes. É necessário
+verificar se uma solução aplicada ao pico não transfere o problema para
+outro período.
+
+III — Verdadeira. Ao mover muitos Jobs para um horário antes tranquilo,
+a equipe pode transformá-lo em um novo pico. Essa advertência aparece
+diretamente em MAD6, p. 6.
+
+IV — Falsa. O mesmo sistema pode processar cargas diferentes ao longo do
+dia. Um período pode concentrar transações on-line; outro, processamento
+em lote. A composição dos processos e seus tempos de serviço podem exigir
+modelos ou parâmetros diferentes. MAD9 também condiciona a previsão à
+manutenção da natureza da carga.
+
+Ideia para memorizar
+
+Um modelo não é universal apenas por se referir ao mesmo computador.
+Ele precisa representar a carga e as condições de operação analisadas.
+
+Referências: MAD4, p. 2–6; MAD6, p. 4 e 6; MAD9, p. 2–3.
+
+
+======================================================================
+QUESTÃO 04 — TEMPO PARA CONSOLIDAR O ESCALONAMENTO DE JOBS
+======================================================================
+
+Resposta: D — mínimo de 1 ano, conforme a referência adotada nos slides.
+Foto do enunciado: 02.jpeg.
+
+O que a questão cobra
+
+O horizonte de acompanhamento necessário para aplicar o escalonamento de
+forma abrangente, especialmente quando os picos ainda não são conhecidos.
+
+Matéria necessária
+
+Jobs são rotinas de processamento que, em muitos casos, podem ser movidas
+para outro horário. Diferentemente de uma requisição interativa do usuário,
+um relatório ou uma rotina em lote pode admitir uma janela de execução.
+
+O deslocamento exige conhecer as dependências dos Jobs, os períodos
+disponíveis e os picos sazonais. Um mês tranquilo não revela necessariamente
+as condições de fechamento anual, matrícula, faturamento ou campanhas.
+
+Resolução
+
+MAD6, p. 6, afirma que, sem conhecimento prévio dos horários de pico, a
+máxima efetividade pode exigir um ano de acompanhamento. A figura da p. 8
+também utiliza a referência “mínimo 1 ano”. Assim, a alternativa esperada
+para esta prova é D.
+
+Ressalva importante
+
+Não significa que nenhum ganho possa ocorrer antes de um ano, nem que
+qualquer projeto real precise esperar exatamente doze meses. Se os picos
+já são conhecidos e existe histórico confiável, medidas podem ter resultado
+mais cedo. A resposta vem da referência teórica adotada pelo professor.
+
+Referências: MAD4, p. 2–6; MAD6, p. 4 e 6–9.
+
+
+======================================================================
+QUESTÃO 05 — OTIMIZAÇÃO DOS ACESSOS E DA ORGANIZAÇÃO EM DISCO
+======================================================================
+
+Resposta: C.
+Foto do enunciado: 02.jpeg.
+
+O que a questão cobra
+
+As estratégias apresentadas em aula para reduzir o custo de I/O: uso
+adequado de buffers, acesso aos registros, movimentação do braço e
+fragmentação de arquivos em discos magnéticos.
+
+Matéria necessária
+
+Um acesso a disco magnético pode envolver busca da trilha, latência de
+rotação e transferência. Mesmo que o processador esteja pouco ocupado,
+um gargalo de I/O pode manter requisições esperando. Por isso, melhorar
+apenas a CPU pode ter pouco efeito quando o problema principal é o disco.
+
+Buffers e caches podem evitar acessos físicos repetidos. Seu ajuste depende
+do tamanho dos arquivos, da frequência de acesso e do padrão de utilização.
+
+Análise das alternativas
+
+A — Incorreta no contexto do desenho de MAD6, p. 17. A posição proposta
+na prova para os arquivos permanentes e voláteis está invertida em relação
+à organização ilustrada no material: o desenho posiciona os permanentes
+mais frequentes na região externa e os voláteis menos frequentes na interna.
+
+B — Incorreta. Não se pode presumir que os tempos de acesso e a fragmentação
+serão sempre aceitáveis sem organizar e acompanhar o armazenamento.
+
+C — Correta conforme as estratégias da aula. O material discute acesso
+direto a registros em situações específicas e dimensionamento de buffer
+de disco. A escolha depende do padrão de acesso; não significa que aumentar
+cache indiscriminadamente sempre melhora qualquer aplicação.
+
+D — A separação de grupos de arquivos pode ser uma estratégia de projeto,
+mas a justificativa “sempre teremos espaço disponível” não é garantida.
+Sem dimensionamento, qualquer conjunto de discos pode ficar sem espaço.
+Logo, a alternativa completa não é uma afirmação segura.
+
+Observação de contexto
+
+As referências a trilhas, cilindros e braço de leitura tratam de discos
+magnéticos. A questão deve ser respondida dentro desse contexto; um SSD
+não possui braço mecânico nem trilhas acessadas dessa forma.
+
+Referências: MAD6, p. 11–17, especialmente p. 14 e 17.
+
+
+======================================================================
+QUESTÃO 06 — AÇÕES PARA ADIAR A SUPERUTILIZAÇÃO
+======================================================================
+
+Resposta: E — é a alternativa que NÃO está correta.
+Fotos do enunciado: 02.jpeg e 03.jpeg.
+
+Matéria necessária
+
+O planejamento procura extrair benefícios da instalação atual e prever
+quando será necessário ampliar ou substituir recursos. As decisões de
+investimento devem ser justificadas por dados, não por uma compra automática
+antes de avaliar a possibilidade de otimização.
+
+Análise das alternativas
+
+A — Limitar acessos pode reduzir a carga admitida e aliviar a sobrecarga.
+O material chama isso de ação paliativa. Há impacto sobre os usuários que
+não conseguem acessar. Essa ação não aumenta a velocidade intrínseca do
+hardware, mesmo que possa melhorar o processamento efetivo sob sobrecarga.
+
+B — Escalonar Jobs não interativos para horários menos críticos é uma
+estratégia central da metodologia.
+
+C — Prever a demanda futura permite antecipar o crescimento da utilização
+e planejar a configuração antes de uma condição crítica.
+
+D — Conhecer curvas, carga de saturação e evolução da resposta auxilia a
+definir limites de admissão e proteção. Um timeout isolado não cria
+capacidade, mas faz parte de políticas de tratamento de requisições.
+
+E — Incorreta. A recomendação de adquirir recursos antes de qualquer
+avaliação ignora diagnóstico, otimização e justificativa do investimento.
+Compra antecipada pode ser necessária em uma situação concreta, mas não
+é uma regra automática válida para toda instalação.
+
+Ideia para memorizar
+
+Prevenir significa preparar uma decisão com antecedência. Isso não equivale
+a comprar antes de descobrir o problema ou de avaliar as alternativas.
+
+Referências: MAD2, p. 2–3; MAD6, p. 2–9; MAD8, p. 2–4;
+MAD10, p. 12–14.
+
+
+======================================================================
+QUESTÃO 07 — DISPONIBILIDADE E NECESSIDADES DO NEGÓCIO
+======================================================================
+
+Resposta mais coerente com a convenção da disciplina: A — I, apenas,
+é inconsistente no contexto de evitar exageros de provisionamento.
+Foto do enunciado: 03.jpeg.
+
+Esta conclusão corrige a letra B enviada anteriormente na conversa.
+A questão exige uma ressalva de interpretação.
+
+Matéria necessária
+
+Nos exercícios deste material, “disponibilidade de recurso” significa
+capacidade livre: A = 1 - U. Por exemplo, MAD2, p. 8, associa consumo de
+80% a disponibilidade de 20%. Não se trata de afirmar que o site funciona
+apenas 20% do tempo.
+
+O negócio influencia a reserva desejada. Serviços sensíveis a rajadas,
+atrasos ou perdas podem justificar mais folga de capacidade. Entretanto,
+uma reserva muito grande também significa recursos contratados e pouco
+utilizados, devendo ser justificada.
+
+Análise das afirmações
+
+I — Uma reserva de 95% corresponderia a usar apenas 5% dos recursos.
+Afirmar que isso seria necessário para um sistema acadêmico em geral,
+“sem exageros”, é uma exigência excessiva sem justificativa adicional.
+Essa é a afirmação mais claramente questionável na leitura de capacidade
+livre adotada na disciplina.
+
+II — Reserva de 40% em comércio eletrônico significa utilização de 60%.
+Não é correto interpretar isso como uma loja fora do ar durante 60% do
+tempo. Como reserva de processamento, o valor é plausível no cenário.
+
+III — Uma reserva elevada para transações de bolsa pode ser coerente com
+necessidade de baixa latência e absorção de picos. Isso não torna “acima
+de 80%” uma regra universal para toda corretora.
+
+IV — Reserva de 40% para locação de automóveis também é uma escolha
+possível; sua adequação depende da demanda e dos objetivos do serviço.
+
+Limitação da pergunta
+
+Os slides consultados não fornecem uma tabela normativa que fixe um
+percentual obrigatório para cada um desses quatro setores. Portanto, A
+é a resposta contextual mais coerente, e não um resultado matemático
+comprovado apenas pelo nome do negócio. Um requisito real exige SLA,
+histórico, previsões, custos e análise de risco.
+
+Se “disponibilidade” fosse lida como uptime, vários percentuais da questão
+seriam problemáticos e não haveria a mesma resposta única. Não misturar
+os dois significados é a principal matéria desta questão.
+
+Referências: MAD2, p. 8; MAD10, p. 9–10; MAD11, p. 20–25.
+
+
+======================================================================
+QUESTÃO 08 — CRITÉRIOS PARA DECLARAR O FIM DA VIDA ÚTIL
+======================================================================
+
+Resposta: B.
+Foto do enunciado: 03.jpeg.
+
+Matéria necessária
+
+Vida útil, na disciplina, é a permanência dentro dos padrões de qualidade.
+Um sistema pode estar ligado e produzir resultados, mas já não atender
+ao tempo de resposta necessário. Essa declaração deve ser apoiada por
+evidências, pois pode justificar aquisição ou aluguel de recursos.
+
+Análise das alternativas
+
+A — O crescimento da carga e a perda de efeito das otimizações são sinais
+importantes, mas a alternativa não explicita o escalonamento correto nem
+o descumprimento do nível de serviço. É menos completa que B.
+
+B — Correta. Reúne demanda crescente, otimizações sem resultado suficiente,
+escalonamento adequado e resposta acima dos limites de qualidade. O conjunto
+fundamenta melhor a necessidade de uma nova configuração.
+
+C — Prever crescimento não basta para declarar o fim da vida útil atual.
+É possível haver capacidade suficiente para vários meses ou anos.
+
+D — A necessidade de negociar com antecedência é real, mas a pressa para
+comprar não comprova, por si só, que a instalação esgotou a vida útil.
+
+Distinção importante
+
+Ultrapassar o SLA não exige chegar a 100% de utilização. Um SLA rigoroso
+pode ser descumprido com utilização de 70%, por exemplo. Saturação física
+e limite de qualidade são limites diferentes.
+
+Referências: MAD2, p. 2–3 e 17–19; MAD10, p. 9–14;
+MAD11, p. 3–5 e 15.
+
+
+======================================================================
+QUESTÃO 09 — TEMPO DE OBSERVAÇÃO E PERÍODO DE AMOSTRAGEM
+======================================================================
+
+Resposta: D.
+Foto do enunciado: 03.jpeg.
+
+O que a questão cobra
+
+Escolher os parâmetros de monitoramento quando o objetivo é construir
+um modelo matemático, e não apenas fazer um diagnóstico preliminar.
+
+Matéria necessária
+
+To é a duração total da observação. Ts é o intervalo entre amostras.
+Se To = 1 hora e Ts = 3 s, por exemplo, serão aproximadamente 1.200
+instantes de amostragem. Esse exemplo não torna os valores adequados a
+qualquer sistema ou finalidade.
+
+Para modelagem, MAD3 exige ajuste experimental, respeitando:
+
+HEF — Hipótese do Equilíbrio de Fluxo: no intervalo considerado, o número
+de chegadas e o de conclusões devem ser aproximadamente equilibrados,
+com efeito pequeno da diferença de requisições em andamento. Isso permite
+aproximar taxa de chegada e throughput: lambda aproximadamente igual a X.
+
+HTU — Hipótese das Transições Unitárias: a observação deve ter resolução
+compatível com a representação das mudanças de estado do sistema. Um
+intervalo de amostragem muito grande pode esconder várias mudanças e
+prejudicar a modelagem dos estados e transições.
+
+Análise das alternativas
+
+A — Incorreta. Uma hora de observação e dez minutos entre amostras são
+valores arbitrários. O intervalo de dez minutos pode perder quase toda
+a dinâmica relevante.
+
+B — Incorreta. O tempo de observação não pode ser arbitrário para fins
+de modelagem, e três segundos não é uma solução universal.
+
+C — Incorreta. Menciona a HTU para Ts, mas mantém To arbitrário.
+
+D — Correta. Relaciona To à HEF e Ts à HTU, conforme a orientação da aula.
+
+E — Incorreta. Embora cite a HEF, fixa Ts em um segundo sem verificar
+se isso representa corretamente o comportamento do sistema.
+
+Ideia para memorizar
+
+Para diagnóstico, o material admite escolhas práticas mais flexíveis.
+Para modelagem, o monitoramento precisa sustentar as hipóteses do modelo.
+Mais amostras também têm custo: Ts muito pequeno pode aumentar a
+interferência do próprio monitor.
+
+Referências: MAD3, p. 18–20; MAD13, p. 20 e 46, para equilíbrio de fluxo.
+
+
+======================================================================
+QUESTÃO 10 — NÚMERO DE SERVIDORES PARA BALANCEAMENTO DE CARGA
+======================================================================
+
+Resposta: E — 50 servidores.
+Foto do enunciado e do gráfico: 04.jpeg.
+
+Dados
+
+Os servidores são homogêneos.
+Tempo de serviço por requisição: D = 100 ms = 0,1 s.
+Carga global: 24.000 req/min.
+Reserva de capacidade desejada em cada servidor: A = 20%.
+
+Matéria necessária
+
+Com balanceamento uniforme, cada um de N servidores recebe Ltotal/N.
+Para manter A = 20%, cada servidor pode ficar ocupado em até 80% do
+tempo. O gráfico carga versus utilização também permite ler esse limite.
+
+Passo 1 — Converter a carga global
+
+    Ltotal = 24.000 / 60 = 400 req/s.
+
+É necessário dividir por 60 porque um minuto possui 60 segundos. Não
+se pode multiplicar D em segundos por uma carga ainda expressa em req/min.
+
+Passo 2 — Determinar a carga admissível de cada servidor
+
+    Umax = 1 - A = 1 - 0,20 = 0,80.
+    U = D * L.
+    Lservidor = Umax / D = 0,80 / 0,1 = 8 req/s.
+
+Outra forma: cada servidor suporta 8 * 60 = 480 req/min nessa condição.
+
+Passo 3 — Dividir a carga total
+
+    N >= 400 / 8 = 50.
+
+O resultado já é inteiro. Se fosse 50,2, seriam necessários 51 servidores,
+pois arredondar para baixo violaria a reserva mínima.
+
+Conferência
+
+    Carga de cada servidor = 400 / 50 = 8 req/s.
+    Utilização = 0,1 * 8 = 0,80 = 80%.
+    Capacidade livre = 1 - 0,80 = 20%.
+
+Se fossem usados 40 servidores, cada um receberia 10 req/s e chegaria a
+100% de utilização, sem a folga solicitada. A conta considera os servidores
+de aplicação; o enunciado não fornece dados para dimensionar o servidor
+master ou acrescentá-lo ao N calculado.
+
+Referências: MAD2, p. 9; MAD11, p. 12 e 21–23.
+
+
+======================================================================
+QUESTÃO 11 — PERFIS DE UTILIZAÇÃO EM BATCH E ON-LINE
+======================================================================
+
+Resposta: C.
+Foto dos três gráficos: 04.jpeg.
+
+Matéria necessária
+
+Processamento batch é feito em lote, geralmente com Jobs cuja execução
+pode ser planejada. O ambiente on-line atende requisições interativas e
+precisa preservar capacidade para evitar aumento de resposta ao usuário.
+
+MAD3, p. 22, apresenta como perfil esperado: batch próximo de 100%,
+on-line abaixo do batch, ausência de variações abruptas e estabilidade
+compatível com o planejamento.
+
+Análise dos gráficos
+
+A — O batch permanece alto, mas o on-line apresenta oscilações maiores.
+Entre as opções, não representa tão bem o comportamento estável desejado.
+
+B — O on-line aparece próximo de 100%, acima do batch. Isso contraria a
+reserva desejável para serviços interativos e a relação indicada na aula.
+
+C — O batch fica alto e o on-line permanece abaixo dele, com pequenas
+variações. É a representação que melhor corresponde aos critérios do slide.
+
+Ressalva técnica
+
+Isso é um critério de comparação dos gráficos da prova. Não significa que
+manter permanentemente uma CPU a 100% seja uma recomendação universal,
+especialmente para serviços interativos. Também não se deve confundir uma
+janela batch bem utilizada com sobrecarga persistente em qualquer horário.
+
+Referência: MAD3, p. 22.
+
+
+======================================================================
+QUESTÃO 12 — PONTO DE OPERAÇÃO ACIMA DO SLA
+======================================================================
+
+Resposta: D — IV, apenas, é falsa.
+Fotos do enunciado: 04.jpeg e 05.jpeg.
+
+O que a figura mostra
+
+O tempo de resposta do ponto de operação está acima da linha de SLA.
+Entretanto, o gráfico de utilização mostra o recurso abaixo de 100%.
+Portanto, já existe descumprimento de qualidade, mas não está demonstrada
+saturação física.
+
+Matéria necessária
+
+Há duas formas principais de alterar esse cenário: diminuir a carga
+admitida ou melhorar o comportamento do sistema para a mesma carga.
+Há também a possibilidade administrativa de renegociar o SLA, que muda
+o limite de aceitação sem tornar o processamento mais rápido.
+
+Análise das afirmações
+
+I — Verdadeira. Reduzir acessos pode diminuir a carga e o tempo de resposta,
+mas pode deixar usuários sem atendimento. MAD6 classifica a redução de
+portas como ação paliativa.
+
+II — Verdadeira na leitura de possibilidade adotada na afirmação.
+Otimizações podem modificar a curva de desempenho, mas uma alteração não
+garante, sozinha, que o ponto final ficará abaixo do SLA. É necessário
+medir ou calcular o efeito. Diferentes ações têm efeitos diferentes.
+
+III — Verdadeira. O escalonamento pode retirar Jobs do pico e reduzir a
+pressão naquele período, mas isso não garante que a redução seja suficiente
+para satisfazer o SLA. Outras ações podem continuar necessárias.
+
+IV — Falsa. Estar acima do SLA não demonstra que U chegou a 100% de forma
+permanente. A própria figura permite enxergar a diferença entre os limites.
+
+V — Verdadeira como possibilidade administrativa, com a restrição já
+expressa no texto. Aumentar o tempo de resposta permitido pode prolongar
+formalmente a vida útil segundo o novo SLA, mas não remove a deterioração
+do desempenho nem resolve a falta de capacidade física.
+
+Exemplo para entender a IV
+
+Se D = 100 ms e U = 80%, então R = 100 / 0,20 = 500 ms.
+Um SLA de 300 ms já seria descumprido, apesar de U ainda ser 80%.
+
+Referências: MAD6, p. 2–9; MAD10, p. 2 e 9–11;
+MAD11, p. 3–7 e 11–15.
+
+
+======================================================================
+QUESTÃO 13 — VIDA ÚTIL COM RESERVA DE RECURSOS DE 70%
+======================================================================
+
+Resposta: E — a vida útil, segundo esse requisito, já acabou.
+Foto do enunciado: 05.jpeg.
+
+Dados
+
+    L(t) = 5*t + 10, em req/s.
+    Histórico já transcorrido: H = 5 meses.
+    Tempo de serviço: D = 20 ms = 0,020 s/req.
+    Disponibilidade de recurso exigida: A = 70%.
+
+Matéria necessária
+
+O valor de 70% representa capacidade livre. Portanto, o limite de utilização
+é 30%, não 70%. A questão pede vida útil dentro desse requisito, e não o
+tempo até a saturação física.
+
+Passo 1 — Converter a reserva em utilização máxima
+
+    Umax = 1 - 0,70 = 0,30.
+
+Passo 2 — Calcular a carga limite
+
+    Umax = D * Llimite.
+    Llimite = 0,30 / 0,020 = 15 req/s.
+
+Passo 3 — Descobrir quando essa carga foi atingida
+
+    5*t + 10 = 15.
+    5*t = 5.
+    tlimite = 1 mês.
+
+Passo 4 — Descontar o histórico já transcorrido
+
+    Tempo restante = 1 - 5 = -4 meses.
+
+O sinal negativo indica que o limite foi atingido quatro meses antes
+do momento atual. Não existem “menos quatro meses de futuro”; o período
+de atendimento ao requisito já foi ultrapassado.
+
+Conferência no instante atual
+
+    L(5) = 5*5 + 10 = 35 req/s.
+    Uatual = 0,020 * 35 = 0,70 = 70%.
+    Aatual = 1 - 0,70 = 30%.
+
+Há somente 30% de capacidade livre, abaixo dos 70% exigidos. O servidor
+pode continuar funcionando, mas não cumpre o requisito dessa questão.
+Ainda não está necessariamente na fase de superutilização: U atual é 70%.
+
+Erro comum
+
+Substituir U = 0,70 porque o texto informa disponibilidade de 70%.
+Esse valor pertence a A; a utilização correspondente é 0,30.
+
+Referências: MAD2, p. 8; MAD10, p. 7–11; MAD11, p. 20 e 23.
+
+
+======================================================================
+QUESTÃO 14 — TEMPO RESTANTE ATÉ A SUPERUTILIZAÇÃO
+======================================================================
+
+Resposta: C — restam 3 meses.
+Foto do enunciado: 05.jpeg.
+
+Dados
+
+    L(t) = 5*t + 10 req/s.
+    Histórico: H = 5 meses.
+    Tempo de processamento: D = 20 ms = 0,020 s/req.
+
+Matéria necessária
+
+A questão pede a chegada à saturação e não fornece outra reserva mínima
+ou SLA de resposta. Utiliza-se o limite de U = 1, correspondente a 100%.
+O tempo médio de processamento informado é usado como D, sem fila.
+
+Passo 1 — Encontrar a carga de saturação
+
+    Lsat = 1 / D = 1 / 0,020 = 50 req/s.
+
+Passo 2 — Encontrar o instante de saturação no modelo
+
+    5*t + 10 = 50.
+    5*t = 40.
+    tsat = 8 meses.
+
+Passo 3 — Calcular o tempo a partir do presente
+
+    Tempo restante = 8 - 5 = 3 meses.
+
+Conferência
+
+No mês 5, L = 35 req/s e U = 70%. No mês 8, L = 50 req/s e a
+demanda atinge a capacidade de saturação. Para uma fila estável, o sistema
+deve operar abaixo desse limite; ao se aproximar dele, a resposta cresce
+muito no modelo teórico.
+
+Comparação com a questão 13
+
+Os dados de carga e serviço são os mesmos. O que muda é o limite:
+na questão 13, exige-se manter 70% livre; aqui, calcula-se o horizonte até
+100% de utilização. Por isso, vida útil pelo requisito e saturação podem
+produzir respostas distintas para o mesmo servidor.
+
+Referências: MAD10, p. 2–8; MAD11, p. 11–14.
+
+
+======================================================================
+QUESTÃO 15 — AINDA OTIMIZAR OU INVESTIR EM NOVA INFRAESTRUTURA?
+======================================================================
+
+Resposta esperada mais compatível com a ênfase dos slides: C — II, III
+e VI, apenas. A classificação é qualitativa e exige a ressalva abaixo.
+Fotos do enunciado: 05.jpeg e 06.jpeg.
+
+O que a questão cobra
+
+Quais indícios dão mais fundamento para tentar melhorar a instalação atual
+antes de justificar a aquisição imediata de novos recursos.
+
+Matéria necessária
+
+MAD6 diferencia tipos de gargalo e dá destaque ao potencial de otimização
+de I/O e ao escalonamento de Jobs. Também observa que a melhoria de código
+pode ter impacto marginal nos exemplos discutidos. O diagnóstico precisa
+localizar o recurso que efetivamente limita o sistema.
+
+Análise dos itens
+
+I — CPU próxima de 100% e discos em torno de 50% apontam para gargalo
+de processamento. Esse dado identifica um problema, mas, sozinho, não
+comprova grande margem de ganho com as ações enfatizadas na questão.
+Na interpretação esperada das alternativas, esse item não é selecionado.
+
+II — Discos próximos de 100% com CPU em torno de 50% sugerem gargalo
+de I/O. O material apresenta várias intervenções em buffer, acesso,
+organização e fragmentação, justificando investigar otimização.
+
+III — Instalação com menos de dois anos reforça a conveniência de verificar
+ajustes e uso adequado de uma infraestrutura relativamente recente antes
+de substituí-la. A idade é um indício econômico e operacional, não prova
+matemática de que qualquer otimização funcionará.
+
+IV — Mais de quatro anos de instalação, isoladamente, não comprova que
+há boa margem para otimizar. Pode aumentar a conveniência de comparar
+renovação e expansão. Também não obriga uma troca automática.
+
+V — Se a equipe já aplica ações efetivas, como escalonamento correto,
+há menos evidência de que a dificuldade decorra de uma otimização ainda
+não explorada. É necessário avaliar o que já foi realizado e seus limites.
+
+VI — A equipe ainda não demonstra ações efetivas ou aplica incorretamente
+o escalonamento. Esse é um indício direto de espaço para melhorar a
+organização da carga antes de concluir que o hardware é insuficiente.
+
+VII — Crescimento contínuo da carga aumenta a pressão, mas não demonstra,
+por si só, que a instalação possui margem de otimização. Pode até reduzir
+o tempo disponível antes de uma ampliação.
+
+VIII — Carga futura constante facilita a previsão, mas não comprova que
+o desempenho atual seja melhorável por ajustes. Uma carga constante
+também pode já ser excessiva para a configuração.
+
+Ressalva técnica
+
+O item I não é uma impossibilidade de otimização: código, algoritmos,
+escalonamento, paralelismo e redução de trabalho também podem aliviar CPU.
+A fotografia dos percentuais não permite provar que a CPU precisa ser
+substituída. A letra C é a leitura mais alinhada à seleção de indícios
+proposta na prova e à ênfase do material, não um teorema universal.
+
+Em um caso real, seria necessário medir os processos críticos, o tempo
+de serviço, as filas, as otimizações já tentadas e o ganho possível.
+
+Referências: MAD2, p. 2–3 e 17; MAD3, p. 4–8;
+MAD6, p. 2–17; MAD10, p. 9–14.
+
+
+======================================================================
+QUESTÃO 16 — RELAÇÃO ENTRE SLA DE RESPOSTA E RESERVA DE RECURSOS
+======================================================================
+
+Resposta adotada na leitura estrita do impasse: D — nenhuma das opções
+A, B e C, como redigidas, garante resolver simultaneamente os dois requisitos.
+Foto do enunciado: 06.jpeg.
+
+Esta questão é ambígua. A letra C enviada anteriormente só é defensável
+se “ajustar a carga” for entendido como ajustá-la para atender tanto ao
+SLA quanto à reserva. O texto da opção menciona apenas garantir a reserva.
+Sem gabarito oficial, a intenção da banca não pode ser confirmada.
+
+Matéria necessária
+
+Para D fixo, carga, utilização, reserva e resposta estão relacionadas:
+
+    U = D * L.
+    A = 1 - D * L.
+    R = D / A.
+
+Não é possível escolher livremente valores exatos para todos eles sem
+verificar se são compatíveis. Ao mesmo tempo, requisitos mínimos e máximos
+devem ser tratados como desigualdades: reserva pelo menos Amin e resposta
+no máximo S.
+
+Para cumprir os dois limites, a carga admitida deve satisfazer:
+
+    L <= (1 - Amin) / D.
+    L <= (S - D) / (S * D), considerando S > D.
+
+Ou seja, deve ficar abaixo do menor dos dois limites. Outra possibilidade
+é diminuir D por otimização ou nova configuração, dimensionada para a
+carga que o negócio precisa atender.
+
+Análise das alternativas
+
+A — Priorizar sempre a disponibilidade e abandonar o SLA não é uma regra
+geral da metodologia. Pode deixar a resposta fora do que foi acordado.
+
+B — Priorizar sempre o SLA e abandonar a reserva desejada também não é
+uma solução geral. Pode retirar a folga planejada para variações da demanda.
+O fato de o SLA ser um acordo não torna automaticamente dispensável outro
+requisito que também seja obrigatório para o negócio.
+
+C — Ajustar a carga para garantir apenas a reserva desejada não demonstra
+que o SLA de resposta será atendido. É preciso testar as duas restrições.
+
+Exemplo mostrando a limitação da C
+
+Considere D = 0,1 s/req, reserva mínima de 20% e SLA de 0,3 s/req.
+Se a carga for ajustada para exatamente 20% livre:
+
+    U = 80% e L = 0,80 / 0,1 = 8 req/s.
+    R = 0,1 / 0,20 = 0,5 s/req.
+
+A reserva foi garantida, mas a resposta de 0,5 s ultrapassa o SLA de 0,3 s.
+Para respeitar ambos, seria necessário reduzir a carga para no máximo
+(0,3 - 0,1)/(0,3*0,1) = 6,67 req/s, ou melhorar a configuração.
+
+Conclusão para estudar
+
+A solução técnica é verificar os dois requisitos em conjunto. Na leitura
+rigorosa das alternativas, adota-se D. Se o professor considerar que a C
+implicitamente inclui essa verificação conjunta, ela passa a ser uma
+interpretação possível. Essa diferença de redação deve ser distinguida
+das questões numéricas de resposta inequívoca.
+
+Referências: MAD10, p. 9–10; MAD11, p. 11, 15, 20 e 29.
+
+
+======================================================================
+QUESTÃO 17 — QUANDO REJEITAR REQUISIÇÕES PARA PROTEGER O SISTEMA
+======================================================================
+
+Resposta: A.
+Foto do enunciado: 06.jpeg.
+
+Matéria necessária
+
+Controle de admissão é limitar a quantidade de trabalho aceita para que a
+sobrecarga não comprometa todo o atendimento. Ele pode ser necessário quando
+a taxa de chegada se aproxima da capacidade e as filas crescem rapidamente.
+Não é um aumento de capacidade; algumas requisições precisam aguardar fora
+do sistema, receber tentativa posterior ou ser rejeitadas.
+
+O diagnóstico deve combinar carga, utilização e resposta. Um único número
+isolado pode não revelar a causa ou a urgência da intervenção.
+
+Análise das alternativas
+
+A — Correta. Carga aumentando, CPU já alta e aumentando, e resposta acima
+do SLA e piorando formam um conjunto consistente com aproximação da
+sobrecarga. É o padrão mais forte para justificar proteção por admissão.
+
+B — Carga constante e CPU baixa não demonstram, por si só, saturação do
+processador. A resposta alta exige investigar outros gargalos, como disco,
+banco de dados, bloqueios ou dependências externas.
+
+C — Carga constante, CPU alta e constante e resposta constante exigem
+atenção à margem disponível, mas não descrevem a mesma deterioração
+progressiva apresentada na alternativa A.
+
+D — Aumento da carga com CPU ainda baixa e resposta próxima do SLA pede
+acompanhamento e investigação. Não é a indicação mais direta de saturação
+iminente entre as opções fornecidas.
+
+Como isso se relaciona com a curva
+
+No modelo R = D/(1 - U), quando U passa de 0,80 para 0,90, a resposta
+passa de 5*D para 10*D. Uma pequena perda de folga pode ter grande impacto
+quando a utilização já é alta.
+
+Referências: MAD6, p. 2; MAD10, p. 2–6;
+MAD11, p. 6–7 e 11–14.
+
+
+======================================================================
+QUESTÃO 18 — REGIÕES DA CURVA DE DESEMPENHO
+======================================================================
+
+Resposta: C.
+Fotos: texto em 06.jpeg e gráfico no início de 07.jpeg.
+
+Matéria necessária
+
+O material distingue três regiões da curva carga versus tempo de resposta:
+
+R1 — Comportamento aproximadamente constante: com utilização muito baixa,
+a resposta fica próxima do tempo de serviço D. A espera é pequena.
+
+R2 — Comportamento intermediário: a resposta já aumenta com a carga, mas
+a sensibilidade é menor que na região próxima à saturação.
+
+R3 — Comportamento não linear: pequenas variações da carga podem causar
+grandes aumentos da resposta. A capacidade livre é pequena.
+
+Os percentuais de utilização apresentados na aula para identificar regiões
+são referências didáticas, não fronteiras universais para todo sistema.
+
+Análise das alternativas
+
+A — Incorreta. Mesmo que A esteja na região inicial, não é garantido que
+a resposta fique inalterada sob crescimento contínuo e indefinido da carga.
+O sistema eventualmente sai dessa região.
+
+B — Incorreta na comparação entre os pontos do gráfico. O ponto B não é
+o ponto de maior sensibilidade mostrado; estar no entorno do SLA também
+não significa automaticamente estar na região mais próxima da saturação.
+
+C — Correta. O ponto C está na parte íngreme da curva. Nessa região, um
+pequeno aumento da carga pode alterar significativamente a resposta.
+
+D — Incorreta porque C descreve o comportamento esperado.
+
+Explicação matemática
+
+    R(L) = D / (1 - D*L).
+
+À medida que D*L se aproxima de 1, o denominador fica pequeno. Por isso,
+a resposta cresce rapidamente. A sensibilidade é representada pela
+derivada D²/(1 - D*L)², que aumenta muito perto da saturação.
+Não é preciso derivar na prova; basta interpretar a inclinação da curva.
+
+Referências: MAD11, p. 6–8 e 11–14.
+
+
+======================================================================
+QUESTÃO 19 — RETAS DE UTILIZAÇÃO DE SERVIDORES DIFERENTES
+======================================================================
+
+Resposta: B — o tempo de resposta do servidor 1 é maior que o do servidor 3.
+Foto do enunciado e das retas: 07.jpeg.
+
+O que o gráfico informa
+
+As três retas passam pela origem, mas possuem inclinações diferentes.
+A do servidor 1 é a mais inclinada; a do servidor 3 é a menos inclinada.
+A reta horizontal de operação cruza todas no mesmo nível de utilização,
+aproximadamente 80%, mas em cargas diferentes.
+
+Matéria necessária
+
+Na relação U = D*L, a inclinação da reta é D. Uma reta mais inclinada
+significa maior tempo de serviço e menor carga de saturação.
+
+Portanto:
+
+    D1 > D2 > D3.
+    Lsat1 < Lsat2 < Lsat3.
+
+O enunciado informa a mesma natureza de carga, não tempos de serviço
+idênticos para os três servidores. As inclinações distintas indicam
+capacidades distintas no modelo.
+
+Comparando as respostas na linha de operação
+
+Como os três pontos possuem o mesmo U:
+
+    R1 = D1 / (1 - U).
+    R3 = D3 / (1 - U).
+
+O denominador é igual. Como D1 > D3, então R1 > R3.
+
+Análise das alternativas
+
+A — Incorreta. O servidor 1, e não o 3, chega a 100% com a menor carga.
+
+B — Correta pela comparação dos tempos de serviço acima.
+
+C — Incorreta. Mesma utilização percentual não implica mesmo tempo de
+resposta quando os tempos de serviço são diferentes.
+
+D — Incorreta. Na linha horizontal de operação, as utilizações são iguais;
+logo, as reservas de recurso A = 1 - U também são iguais.
+
+E — Incorreta porque B é sustentada pelo modelo.
+
+Referências: MAD11, p. 11–12, 18 e 24–25.
+
+
+======================================================================
+QUESTÃO 20 — COMO IDENTIFICAR O HORÁRIO DE PICO
+======================================================================
+
+Resposta mais diretamente sustentada pelos slides: C.
+Foto do enunciado: 07.jpeg.
+
+Matéria necessária
+
+MAD4 orienta coletar o consumo de processador ao longo do tempo, separar
+períodos do dia e calcular utilizações médias para identificar horários,
+dias, meses e semestres críticos. É necessário olhar o comportamento
+temporal, e não apenas uma leitura isolada de utilização.
+
+Análise das alternativas
+
+A — Conhecer a demanda on-line ajuda, mas a palavra “necessário” torna
+a afirmação excessiva se significar conhecer esse perfil previamente.
+O pico pode ser identificado por monitoramento agregado e pode envolver
+Jobs além das requisições on-line. O procedimento de MAD4 não exige
+dispor antes de um perfil completo da demanda interativa.
+
+B — Incorreta. Observar somente disponibilidade de serviço, no sentido
+de estar acessível ou não, não basta para identificar o pico de consumo.
+Se a palavra fosse usada como ociosidade do recurso, seria necessário
+acompanhar sua evolução no tempo, e não apenas observar um valor.
+
+C — Correta. Observar a utilização do processador é o procedimento
+diretamente recomendado no material para identificar os picos.
+
+D — Incorreta porque C corresponde à orientação da aula.
+
+Limite da interpretação
+
+O perfil de demanda citado em A é informação útil. C é a escolha mais
+precisa para uma pergunta de alternativa única porque apresenta o
+procedimento de medição ensinado. Em um sistema real com gargalo em outro
+recurso, é prudente acompanhar esse recurso e o tempo de resposta também.
+
+Referências: MAD3, p. 4–8 e 11–12; MAD4, p. 2–6.
+
+
+======================================================================
+QUESTÃO 21 — ESCOLHA DE MONITORES RMF E SMF
+======================================================================
+
+Resposta: D — I e IV, apenas, são falsas.
+Foto do enunciado: 07.jpeg.
+
+Atenção: a pergunta solicita as afirmações FALSAS.
+As siglas são usadas aqui com as definições dadas no enunciado e em MAD3.
+
+Matéria necessária
+
+Segundo MAD3, monitores por eventos, chamados RMF nesse material, são
+precisos, mas podem causar grande interferência no desempenho. Monitores
+por amostragem, chamados SMF no material, coletam em instantes separados e
+têm precisão dependente do intervalo de amostragem.
+
+Um monitor de software também usa CPU e memória. Em uma instalação já
+crítica, ele pode agravar exatamente o problema que se deseja medir.
+É necessário equilibrar precisão, resolução e custo da coleta.
+
+Análise das afirmações
+
+I — Falsa no contexto da recomendação da aula. RMF deve ser evitado quando
+a instalação está em condição crítica devido à interferência adicional.
+
+II — Verdadeira. Em condição não crítica, pode haver margem para usar
+monitoramento por eventos e obter dados mais detalhados.
+
+III — Verdadeira. O monitor por amostragem pode ser usado em condições
+críticas e não críticas, com ajuste apropriado de Ts e da carga de coleta.
+“Pode ser usado” não significa ausência total de custo.
+
+IV — Falsa. Não é correto tratar os dois tipos como indiferentes em
+qualquer condição; a criticidade e o custo de monitoramento influenciam
+a escolha.
+
+Referências: MAD3, p. 15–20, especialmente p. 16.
+
+
+======================================================================
+QUESTÃO 22 — METODOLOGIA E REQUISITOS DE DESEMPENHO
+======================================================================
+
+Resposta: D — I, III, IV e V, apenas.
+Foto mais legível do enunciado: 08.jpeg; também aparece em 09.jpeg.
+
+Matéria necessária
+
+Esta questão retoma o conteúdo da questão 2 com as afirmações em outra
+ordem. É necessário avaliar o conteúdo e conferir a combinação das letras,
+pois a letra correta não precisa se repetir quando a ordem muda.
+
+Análise das afirmações
+
+I — Correta. Uma solução deve atender às funções e aos padrões de
+desempenho definidos para seu uso.
+
+II — Incorreta. Não se recomenda comprar servidores imediatamente para
+avaliar só depois o efeito. A decisão deve ser fundamentada antes do gasto.
+
+III — Correta. A metodologia reúne ações corretivas e preventivas ao
+longo do ciclo de vida.
+
+IV — Correta. O comportamento da carga precisa ser conhecido para orientar
+qualquer proposta de melhoria e evitar intervenções inadequadas.
+
+V — Correta no contexto da prioridade dada aos períodos críticos.
+Otimizações devem privilegiar o pico, acompanhando também os efeitos
+sobre os demais períodos.
+
+Como conferir a letra
+
+O conjunto correto é I, III, IV e V. Na foto, esse conjunto corresponde
+à alternativa D. Na questão 2, o conjunto equivalente está na letra C
+porque a afirmação de compra imediata ocupa outra posição.
+
+Referências: MAD2, p. 2–5; MAD3, p. 2–4; MAD4, p. 2–6.
+
+
+======================================================================
+QUESTÃO 23 — CARGA ÓTIMA, CAPACIDADE PELO SLA E SATURAÇÃO
+======================================================================
+
+Resposta:
+a) Carga ótima: aproximadamente 0,9524 req/s, ou 57,14 req/min.
+b) Capacidade pelo SLA: 15 req/s, ou 900 req/min.
+c) Carga de saturação: 20 req/s, ou 1.200 req/min.
+
+Foto do enunciado: 09.jpeg.
+
+Dados
+
+    Tempo de serviço: D = 50 ms = 0,050 s/req.
+    Limite de resposta: S = 200 ms = 0,200 s/req.
+
+Matéria necessária
+
+Os três nomes correspondem a pontos diferentes da curva. MAD11, p. 16,
+define carga ótima pela condição R = 1,05*D: a resposta fica apenas 5%
+acima do tempo de serviço. A capacidade Lcap é a carga que leva R ao SLA.
+A saturação Lsat é o limite em que U chega a 100% no modelo.
+
+Assim, não se deve atribuir a mesma resposta à carga ótima e à capacidade
+no SLA. O valor de 15 req/s pertence à capacidade, não à carga ótima.
+
+Parte a — Carga ótima, segundo a definição da aula
+
+Na condição ótima adotada pelo professor:
+
+    R = 1,05*D = 1,05*0,050 = 0,0525 s = 52,5 ms.
+
+Substituindo no modelo de resposta:
+
+    1,05*D = D / (1 - D*Lotima).
+    1,05 = 1 / (1 - D*Lotima).
+    1 - D*Lotima = 1 / 1,05.
+    D*Lotima = 1 - 1/1,05 = 0,05/1,05.
+
+Logo:
+
+    Lotima = 0,05 / (1,05*D).
+    Lotima = 0,05 / (1,05*0,050).
+    Lotima = 0,95238095 req/s.
+    Lotima = 0,95238095*60 = 57,142857 req/min.
+
+Conferência: U = D*L = 0,047619, aproximadamente 4,76%.
+A resposta é 52,5 ms, próxima do mínimo de 50 ms.
+
+Essa é uma convenção didática de “ótima”, próxima da região de resposta
+quase constante. Ela não representa o ponto de maior throughput possível
+nem uma definição universal de ótimo econômico. A espera média é pequena,
+mas não exatamente zero: R - D = 2,5 ms nesse cálculo.
+
+Parte b — Capacidade do sistema para o SLA informado
+
+Agora impor R = S = 0,200 s:
+
+    S = D / (1 - D*Lcap).
+    S*(1 - D*Lcap) = D.
+    S - D = S*D*Lcap.
+    Lcap = (S - D) / (S*D).
+
+Substituindo:
+
+    Lcap = (0,200 - 0,050) / (0,200*0,050).
+    Lcap = 0,150 / 0,010.
+    Lcap = 15 req/s = 900 req/min.
+
+Conferência:
+
+    Ucap = 0,050*15 = 0,75 = 75%.
+    Acap = 25%.
+    R = 0,050/(1 - 0,75) = 0,200 s = 200 ms.
+
+Parte c — Carga de saturação
+
+Na saturação, U = 1:
+
+    1 = D*Lsat.
+    Lsat = 1/D = 1/0,050.
+    Lsat = 20 req/s = 1.200 req/min.
+
+Relação entre os resultados
+
+    Lotima = 0,9524 < Lcap = 15 < Lsat = 20 req/s.
+
+Até Lcap, o sistema atende ao limite de resposta no modelo. Entre Lcap
+e Lsat, pode continuar processando em regime estável, mas já viola o SLA.
+Quando a carga se aproxima de Lsat, a resposta teórica cresce sem limite.
+O valor de saturação não é um ponto de operação com resposta finita.
+
+Referências: MAD11, p. 4, 8 e 11–17, especialmente p. 15–16;
+MAD10, p. 5–10.
+
+
+======================================================================
+QUESTÃO 24 — DISPONIBILIDADE NO PONTO DO SLA
+======================================================================
+
+Resposta: 20% de disponibilidade de recurso, isto é, capacidade livre.
+Foto do enunciado: 09.jpeg.
+
+Dados
+
+    Tempo de serviço: D = 80 ms = 0,080 s/req.
+    Tempo de resposta no SLA: R = 400 ms = 0,400 s/req.
+
+Matéria necessária
+
+O modelo informa:
+
+    R = D / (1 - U).
+
+Como A = 1 - U:
+
+    R = D / A.
+    A = D / R.
+
+Resolução
+
+    A = 0,080 / 0,400 = 0,20.
+    A = 20%.
+
+Consequentemente:
+
+    U = 1 - A = 0,80 = 80%.
+
+Também é possível usar diretamente 80/400 porque os dois tempos estão
+na mesma unidade, milissegundos. Para misturar esses tempos com uma taxa
+em req/s, porém, é necessário convertê-los para segundos.
+
+Conferência pela carga
+
+    L = U/D = 0,80/0,080 = 10 req/s = 600 req/min.
+    R = 0,080/(1 - 0,80) = 0,400 s/req.
+
+Interpretação
+
+No limite de resposta informado, o recurso fica ocupado em média 80%
+do tempo e conserva 20% de folga. O tempo total de resposta é cinco vezes
+o tempo de serviço: os demais 320 ms correspondem à espera média prevista
+pelo modelo simplificado.
+
+Erro comum
+
+Responder 80% de disponibilidade. Esse é o valor da utilização, que é
+o complemento da disponibilidade de recurso solicitada.
+
+Referências: MAD10, p. 10; MAD11, p. 11, 15 e 20.
+
+
+======================================================================
+QUESTÃO 25 — QUANTO MAIS RÁPIDO DEVE SER O NOVO SERVIDOR?
+======================================================================
+
+Resposta: fator de velocidade mínimo de 5/3, aproximadamente 1,667 vez
+o atual, ou 66,67% mais capacidade de processamento. O novo tempo de
+serviço deve ser de no máximo 80 ms/req.
+Foto do enunciado: 09.jpeg.
+
+Dados
+
+    Carga de saturação do servidor atual: 450 req/min.
+    Demanda futura a atender: 600 req/min.
+    Disponibilidade de recurso desejada: A = 20%.
+
+Matéria necessária
+
+A carga de saturação informa a capacidade física teórica do servidor.
+Para manter reserva, a carga de operação deve ficar abaixo dela.
+O fator de velocidade pode ser calculado por Dantigo/Dnovo, conforme
+MAD11, p. 12 e 18.
+
+Passo 1 — Descobrir o tempo de serviço atual
+
+    Lsat_antigo = 450/60 = 7,5 req/s.
+    Dantigo = 1/Lsat_antigo = 1/7,5.
+    Dantigo = 0,133333... s/req = 133,333... ms/req.
+
+Passo 2 — Aplicar a reserva à demanda futura
+
+    Lfutura = 600/60 = 10 req/s.
+    Umax = 1 - 0,20 = 0,80.
+
+O novo tempo de serviço precisa satisfazer:
+
+    Dnovo*10 <= 0,80.
+    Dnovo <= 0,080 s/req.
+
+O valor limite é Dnovo = 80 ms/req. Um valor menor mantém ainda mais
+reserva, considerando a mesma natureza de carga.
+
+Passo 3 — Calcular o fator de velocidade
+
+    F = Dantigo/Dnovo.
+    F = 0,133333.../0,080.
+    F = 1,666666... = 5/3.
+
+Ganho de capacidade em relação ao servidor anterior:
+
+    (F - 1)*100% = 66,666...%.
+
+Passo 4 — Conferir pela nova saturação
+
+    Lsat_novo = 1/0,080 = 12,5 req/s.
+    Lsat_novo = 12,5*60 = 750 req/min.
+
+Operar com 600 req/min em um servidor cuja saturação é 750 req/min dá:
+
+    U = 600/750 = 0,80 = 80%.
+    A = 20%.
+
+A razão entre as cargas de saturação confirma o fator:
+
+    750/450 = 1,666666...
+
+Erros comuns
+
+1. Calcular apenas 600/450 = 1,333 e responder 33,33% mais rápido.
+Isso faria o novo servidor saturar justamente na demanda futura, sem os
+20% de reserva. A saturação necessária é 600/0,80 = 750 req/min.
+
+2. Confundir ganho de velocidade com redução percentual de tempo.
+Passar de 133,33 ms para 80 ms é redução de 40% no tempo de serviço.
+Como velocidade e tempo são inversamente proporcionais, essa redução
+corresponde a aumento de 66,67% na capacidade, não a redução de 66,67%
+no tempo.
+
+Referências: MAD11, p. 12, 14, 18 e 23; MAD10, p. 9–10.
+
+
+======================================================================
+GABARITO FUNDAMENTADO PARA REVISÃO
+======================================================================
+
+01 — D.
+02 — C.
+03 — C; a questão pede a falsa, IV.
+04 — D; referência de um ano usada no material.
+05 — C.
+06 — E; a questão pede a alternativa não correta.
+07 — A, pela leitura de disponibilidade como capacidade livre; consultar
+      a ressalva da questão, pois não há tabela normativa por setor.
+08 — B.
+09 — D.
+10 — E; 50 servidores.
+11 — C.
+12 — D; a afirmação falsa é IV.
+13 — E; o requisito de reserva já foi ultrapassado.
+14 — C; restam três meses até a saturação.
+15 — C, como resposta esperada segundo os indícios enfatizados em aula;
+      a seleção é qualitativa, conforme explicado na questão.
+16 — D na leitura estrita; C é uma interpretação possível se o ajuste da
+      carga implicitamente respeitar também o SLA. Há ambiguidade de redação.
+17 — A.
+18 — C.
+19 — B.
+20 — C, alternativa diretamente apoiada no procedimento de MAD4.
+21 — D; I e IV são falsas.
+22 — D.
+23 — a) 0,9524 req/s; b) 15 req/s; c) 20 req/s.
+24 — 20% de capacidade livre.
+25 — fator 1,667; 66,67% mais capacidade; Dnovo máximo de 80 ms/req.
+
+REVISÕES IMPORTANTES EM RELAÇÃO ÀS RESPOSTAS ANTERIORES
+
+Questão 7: a indicação anterior de B confundia a interpretação do
+percentual com disponibilidade de serviço. Pela convenção de reserva
+de recursos usada nos slides, a escolha contextual mais coerente é A.
+Os percentuais por setor continuam sendo uma avaliação qualitativa.
+
+Questão 16: a indicação anterior de C foi excessivamente definitiva.
+Garantir apenas a disponibilidade não prova o atendimento do SLA.
+O comentário agora demonstra as duas restrições e explicita a ambiguidade.
+
+Questão 23: o resumo antigo tratava “carga ótima” e “capacidade no SLA”
+como o mesmo valor. MAD11, p. 16, define a carga ótima por R = 1,05*D.
+Portanto, a carga ótima é 0,9524 req/s; 15 req/s é a capacidade no SLA.
+
+Este arquivo reúne a revisão detalhada das fotos e dos slides. As respostas
+marcadas como contextuais ou ambíguas não devem ser tomadas como confirmação
+de um gabarito oficial que não foi fornecido.
+
+
+======================================================================
+ROTEIRO DE ESTUDO POR MATÉRIA
+======================================================================
+
+Ciclo de vida, diagnóstico e decisão de investimento:
+questões 1, 2, 6, 8, 15 e 22; MAD2, MAD3 e MAD10.
+
+Horário de pico e escalonamento:
+questões 3, 4, 11 e 20; MAD3, p. 22; MAD4; MAD6, p. 3–9.
+
+Otimização de disco e gargalos:
+questões 5 e 15; MAD3, p. 5–8; MAD6, p. 11–17.
+
+Monitoramento e hipóteses para modelagem:
+questões 9 e 21; MAD3, p. 15–20; MAD13, p. 20.
+
+Utilização, reserva, SLA e interpretação das curvas:
+questões 7, 12, 16, 17, 18 e 19; MAD10 e MAD11.
+
+Balanceamento e dimensionamento de servidores:
+questões 10, 19 e 25; MAD2, p. 9; MAD11, p. 12 e 18–26.
+
+Previsão da carga, vida útil e saturação:
+questões 13 e 14; MAD8, p. 2–4; MAD10, p. 4–11.
+
+Parâmetros da curva teórica e cálculos com filas:
+questões 23, 24 e 25; MAD11, p. 11–20.
+
+Ao resolver uma nova questão numérica, conferir nesta ordem: qual limite
+foi pedido; se o tempo informado é serviço ou resposta; se os percentuais
+são utilização ou reserva; se as unidades são compatíveis; e, nas previsões,
+se é necessário descontar o histórico já transcorrido.
+

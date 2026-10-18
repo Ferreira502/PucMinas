@@ -1,0 +1,689 @@
+RESUMO COMPLETO - MODELAGEM E AVALIAÇÃO DE DESEMPENHO (MAD)
+
+Fontes analisadas:
+- MAD1.pdf a MAD14.pdf, pasta MAD/Slides.
+- MAD10a.pdf, exemplo de prova.
+- Prova01/01.jpeg a Prova01/09.jpeg, prova fotografada.
+
+Observação sobre referências: “MAD3, p. 4” significa slide 4 do arquivo MAD3.pdf.
+As referências abaixo apontam para o slide onde o conceito, fórmula ou procedimento
+aparece. A prova é referenciada pela imagem e pela questão.
+
+
+1. VISAO GERAL DA DISCIPLINA
+
+MAD trata de planejamento de capacidade, modelagem e avaliação de desempenho de
+sistemas computacionais. A ideia central é substituir decisões baseadas apenas em
+intuição por medição, modelos e previsões, mantendo o desempenho dentro de limites
+de qualidade e aumentando a vida útil do sistema.
+Fonte: MAD1, p. 1-2; MAD2, p. 2-5.
+
+Uma solucao de TI envolve requisitos, especificacao, modelagem, banco de dados,
+IHC, testes, algoritmos, sistema operacional, infraestrutura, segurança e sistemas
+distribuidos. O planejamento de capacidade deve considerar a solucao como um todo.
+Fonte: MAD1, p. 2.
+
+O ambiente de um sistema computacional é formado pelo ambiente de usuários, pela
+carga de trabalho e pelo subsistema de hardware/software. O sistema deve ser
+avaliado considerando nível de serviço, tempo de resposta, utilização,
+disponibilidade e carga.
+Fonte: MAD2, p. 4-5.
+
+Aplicações da area incluem diagnostico de servidores, planejamento de EAD,
+leasing, balanceamento de carga, servidores, virtualizacao e nuvem.
+Fonte: MAD2, p. 6-12.
+
+
+2. CICLO DE VIDA DO SISTEMA COMPUTACIONAL
+
+As quatro fases são:
+
+1) Conceitual: definicao da solucao e da configuração inicial. Pode utilizar
+técnicas menos precisas e baratas, como “Eu acho” e benchmark.
+2) Aquisição: negociação entre responsaveis, diretoria e fornecedores.
+3) Operacional: fase normalmente mais longa, na qual são aplicadas ações de
+monitoramento, correção e otimização.
+4) Super-utilização: ocorre quando o sistema permanece em saturação ou muito
+próximo dela, comprometendo qualidade e tempo de resposta.
+Fonte: MAD2, p. 13-19.
+
+O material não trata a morte como uma fase separada: atualizações e expansoes são
+consideradas evolução natural do sistema. A fase operacional deve ser prolongada
+por ações corretivas e preventivas; a super-utilização depende do negocio e do
+limite aceitável de qualidade.
+Fonte: MAD2, p. 14-18.
+
+O planejamento de capacidade deve ser aplicado durante todo o ciclo de vida, e não
+somente quando o sistema já esta saturado.
+Fonte: MAD3, p. 2; prova, imagem 01, questão 2.
+
+
+3. METODOLOGIA DE PLANEJAMENTO DE CAPACIDADE
+
+A metodologia apresentada possui etapas corretivas e preventivas. O objetivo e
+aumentar a vida útil dentro dos padrões de qualidade, considerando SLA/LNS.
+Fonte: MAD3, p. 2.
+
+Sequencia geral:
+
+Etapa 1 - Diagnostico inicial do desempenho.
+Etapa 2 - Identificação do horário de pico.
+Etapa 3 - Coleta do consumo de recursos por processo.
+Etapa 4 - Seleção dos processos críticos.
+Etapa 5 - Otimizacao do sistema.
+Etapa 6 - Meta-otimização.
+Etapa 7 - Previsao da carga futura.
+Etapa 8 - Modelagem matemática.
+Etapa 9 - Previsao do início da super-utilização.
+Etapa 10 - Proposta de nova configuração.
+Etapa 11 - Negociacao com diretoria e fornecedores.
+Fonte: MAD3, p. 1-2; MAD4, p. 1; MAD5, p. 1; MAD6, p. 1; MAD7, p. 1;
+MAD8, p. 1; MAD9, p. 1; MAD10, p. 1.
+
+
+4. ETAPA 1 - DIAGNOSTICO E MONITORAMENTO
+
+Perguntas do diagnostico:
+- Quais variáveis monitorar
+- Quando monitorar
+- Quais monitores utilizar
+- Durante quanto tempo coletar
+- Como visualizar e analisar os dados
+Fonte: MAD3, p. 3.
+
+Variáveis principais:
+- lambda (carga): requisições por unidade de tempo, por exemplo req/s.
+- R: tempo medio de resposta, em s/req.
+- U: utilização do recurso, normalmente em percentual.
+- Du: disponibilidade do sistema.
+- M: consumo de memória.
+- Pag: paginação.
+- Numero de processos e operações de entrada/saída.
+Fonte: MAD3, p. 4.
+
+No processador devem ser observados tempo ativo, tempo de espera, fila, ociosidade,
+interrupcoes e utilização. Na memória devem ser observados canais, balanceamento,
+sobreposicao, page-in e page-out. No disco importam seek, atraso rotacional,
+utilização, fila e transferencias. Na carga devem ser observados picos, programas
+mais consumidores, nível de multiprogramacao e taxa de chegada.
+Fonte: MAD3, p. 5-8.
+
+Fases do monitoramento:
+1) Coleta durante a operacao normal.
+2) Reducao dos dados por médias, desvios e resumos.
+3) Analise e visualizacao.
+Fonte: MAD3, p. 13-14.
+
+Monitores de hardware usam dispositivos conectados a pontos eletronicos. Monitores
+de software podem ser orientados a eventos (RMF) ou a amostragem (SMF). RMF e mais
+preciso, mas pode interferir bastante no desempenho; SMF tem menor impacto, mas
+perde detalhes entre amostras.
+Fonte: MAD3, p. 15-17.
+
+Tempo de observação (To) e período de amostragem (Ts): para diagnostico, To e Ts
+podem ser escolhidos com flexibilidade, desde que o horário de pico seja coberto.
+Para modelagem, os valores devem respeitar as hipóteses de equilíbrio de fluxo e
+transições unitarias.
+Fonte: MAD3, p. 18-20; prova, imagem 08, questão 21.
+
+Para uma análise confiável, deve-se visualizar carga, tempo de resposta,
+utilização, memória e paginação, inclusive comparando antes e depois de uma
+otimização.
+Fonte: MAD3, p. 21-22.
+
+
+5. ETAPA 2 - HORÁRIO DE PICO
+
+A otimização deve se concentrar nos horários de pico, pois e neles que a carga e
+as utilizações são maiores e os limites de qualidade tendem a ser violados.
+Devem ser identificados semestre, mês, dia da semana e período do dia mais
+críticos. O perfil pode variar entre meses e semestres.
+Fonte: MAD4, p. 2-3.
+
+Procedimento sugerido:
+1) Usar monitor por amostragem.
+2) Considerar To de 365 dias x 24 horas.
+3) Usar Ts de 3 segundos como referencia.
+4) Dividir o dia em períodos, por exemplo P1, P2, P3 e P4.
+5) Calcular a média de utilização de cada janela e de cada período.
+6) Comparar períodos e meses para encontrar o pico.
+Fonte: MAD4, p. 4-6.
+
+Exemplo de contagem: em uma janela de 10 minutos ha 600 segundos; com Ts=3 s,
+são coletados 600/3 = 200 valores.
+Fonte: MAD4, p. 5.
+
+
+6. ETAPAS 3 E 4 - PROCESSOS CRÍTICOS
+
+Depois de localizar o pico, deve-se coletar o consumo de recursos de cada processo
+executado nesse horário. Devem ser consideradas variáveis quantitativas e
+qualitativas.
+Fonte: MAD5, p. 2-3.
+
+Variáveis quantitativas incluem identificador, número de execuções, CPU, memória,
+EXCP, I/O, tempo de fila, tempo de execução e tempo de atendimento. Variáveis
+qualitativas incluem sistema, horário, tipo batch/on-line, categoria e serviço.
+Fonte: MAD5, p. 3.
+
+Relatorios importantes:
+- processos com maior número de execuções;
+- processos com maior quantidade de EXCP;
+- consumo por classe de processos;
+- tempo medio de fila e de execução por classe.
+Fonte: MAD5, p. 4-7.
+
+A selecao de processos críticos prioriza os maiores impactos em CPU, memória,
+número de execuções, I/O, tempo de fila e EXCP. A prioridade é uma recomendacao
+para tornar a otimização eficiente, mas todos os processos devem ser analisados.
+Fonte: MAD5, p. 8.
+
+
+7. ETAPA 5 - OTIMIZAÇÃO
+
+Acoes apresentadas:
+
+A) Reduzir portas de acesso: reduz carga, mas e medida paliativa e pode causar
+insatisfacao no ambiente de usuários.
+B) Recodificar programas: adequada quando o processo consome muito processador.
+C) Escalonar serviços: mover Jobs batch para horários menos críticos.
+D) Otimizar discos: reduzir I/O, tempo de busca, fragmentacao e disputas.
+Fonte: MAD6, p. 2-3 e p. 11-17.
+
+Escalonamento de serviços não significa mover requisições on-line; trata-se de
+reorganizar Jobs, normalmente batch, em horários menos críticos. Deve-se observar
+que a movimentacao pode apenas transferir o problema para outro horário.
+Fonte: MAD6, p. 3-9.
+
+JCL (Job Control Language) pode auxiliar a organizar identificador do processo,
+programa, entradas, saídas, horário de início, finalizacao e tolerancia.
+Fonte: MAD6, p. 10.
+
+Para discos: reduzir operações de I/O, organizar buffers, reduzir movimento do
+braco, usar arrays/espelhamento quando adequado e reduzir fragmentacao. Arquivos
+frequentes e permanentes devem ser organizados de forma diferente de arquivos
+voláteis.
+Fonte: MAD6, p. 11-17.
+
+
+8. ETAPA 6 - META-OTIMIZAÇÃO
+
+Como podem existir centenas de processos no pico, otimizar um por um pode ser
+lento. A meta-otimização procura replicar ações bem-sucedidas em grupos de
+processos semelhantes.
+Fonte: MAD7, p. 2.
+
+Existe diferença entre mínimo local e mínimo global. O mínimo global e difícil de
+alcancar; a estratégia prática e melhorar progressivamente grupos e horários.
+Nem toda acao pode ser replicada: recodificacao depende do codigo, mas ajustes de
+escalonamento podem ser aplicados a processos semelhantes.
+Fonte: MAD7, p. 3-6.
+
+O processo sugerido e classificar os processos por aspectos quantitativos e
+qualitativos, agrupa-los por semelhanca e aplicar ações aos grupos.
+Fonte: MAD7, p. 5-6.
+
+Toda otimização altera as curvas de desempenho. O novo ponto de operacao deve ser
+avaliado novamente em relacao a carga, tempo de resposta, utilização e LNS.
+Fonte: MAD7, p. 7-11.
+
+
+9. ETAPA 7 - PREVISÃO DA CARGA FUTURA
+
+A partir desta etapa iniciam-se as ações preventivas. A carga futura normalmente
+e prevista por regressao linear usando histórico mensal.
+Fonte: MAD8, p. 1-3.
+
+Modelo linear:
+
+L(t) = a + b*t
+
+onde L e a carga prevista e t e o tempo. Os coeficientes são calculados pelo
+histórico; o material apresenta as fórmulas de a e b nas paginas 9-10.
+Fonte: MAD8, p. 8-10.
+
+Deve-se verificar erros de previsão, diferença entre histórico e modelo, e evitar
+extrapolacao sem analisar a qualidade do ajuste.
+Fonte: MAD8, p. 4.
+
+Correlacao de Pearson mede a associacao linear entre duas variáveis. O slide
+apresenta a construcao de Sxx, Syy e Sxy para obter o coeficiente.
+Fonte: MAD8, p. 5-6.
+
+Quando o comportamento não e linear, podem ser usados modelos não lineares; o
+material ilustra um modelo quadratico.
+Fonte: MAD8, p. 7.
+
+Distribuicao de Poisson pode modelar eventos discretos em intervalos, como número
+de requisições. A média estimada e usada para calcular probabilidades de ocorrência.
+Fonte: MAD8, p. 13-14.
+
+
+10. ETAPA 8 - MODELAGEM MATEMÁTICA
+
+A modelagem baseada na teoria das filas permite simular o sistema para cargas
+futuras e avaliar troca ou duplicacao de dispositivos.
+Fonte: MAD9, p. 1-3; MAD13, p. 1-4.
+
+Para dispositivo i:
+
+R_i = S_i / (1 - U_i)
+
+R_i e o tempo medio no dispositivo, S_i e o tempo de serviço e U_i e a utilização.
+
+Para uma rede:
+
+R = soma(R_i * V_i)
+
+V_i e o número medio de visitas da requisição ao dispositivo i.
+Fonte: MAD9, p. 5-12; MAD13, p. 44-67.
+
+Leis importantes:
+- Lei da utilização: U_i = S_i * X_i.
+- Lei do fluxo forcado: X_i = V_i * X_0.
+- Lei do tempo de resposta: R = soma(R_i * V_i).
+- X_0 = C_0 / T_0, throughput do sistema.
+Fonte: MAD13, p. 20; p. 45-47; p. 65-67.
+
+O ponto mais importante da fórmula e o denominador 1-U. Quando U se aproxima de
+100%, o tempo de resposta cresce rapidamente. Por isso, aumentar a carga em 10%
+pode provocar aumento muito maior no tempo de resposta.
+Fonte: MAD9, p. 6-12; MAD13, p. 48-58.
+
+As simulações mostram alternativas: aumentar carga, melhorar codigo, aumentar
+storage, duplicar servidor, triplicar servidor e avaliar SLA.
+Fonte: MAD9, p. 6-12; MAD13, p. 68-84.
+
+
+11. MODELOS MULTI-CARGA
+
+Quando existem classes A e B de requisições, calcula-se a contribuição de cada
+carga em cada dispositivo e depois soma-se o tempo de resposta.
+Fonte: MAD13, p. 85-89.
+
+O material compara aumento isolado da carga A, aumento da carga B, aumento das duas,
+duplicacao de disco, melhoria de CPU e duplicacao/triplicacao de servidor.
+Fonte: MAD13, p. 90-98.
+
+Regra prática: o dispositivo mais próximo da saturação costuma dominar a resposta.
+Uma expansao deve reduzir a utilização do gargalo e ser avaliada para cada classe
+de carga.
+Fonte: MAD13, p. 92-98.
+
+
+12. ETAPA 9 - SUPER-UTILIZAÇÃO E VIDA ÚTIL
+
+A super-utilização inicia quando o sistema atinge saturação de forma permanente.
+“Permanente” depende do negocio: um sistema academico, bancario ou de comercio
+eletronico possui limites e horários críticos diferentes.
+Fonte: MAD10, p. 2-3.
+
+Na saturação:
+
+U_sat = 1
+R tende ao infinito
+L_sat = 1 / D_i, quando se considera um dispositivo com tempo de serviço D_i.
+
+Se a carga futura e L(t), encontra-se o instante de saturação resolvendo:
+
+L(t_sat) = L_sat
+
+O tempo de vida restante e t_sat menos o instante atual do histórico.
+Fonte: MAD10, p. 4-8; MAD11, p. 8.
+
+
+13. ETAPA 10 - NOVA CONFIGURAÇÃO
+
+Para um SLA de tempo de resposta, a carga de capacidade L_cap e o ponto em que
+R = SLA. A utilização correspondente e:
+
+U_cap = D_i * L_cap
+
+e a ociosidade e:
+
+O_cap = 1 - U_cap.
+
+Uma proposta de configuração deve atender vida útil, disponibilidade, QoS e SLA.
+Fonte: MAD10, p. 9-11; MAD1, p. 18-20.
+
+
+14. ETAPA 11 - NEGOCIAÇÃO
+
+A proposta técnica deve ser traduzida em custos, benefícios, risco, prazo e
+capacidade. A negociação envolve diretoria e fornecedores. O responsavel deve
+justificar por que otimizar, comprar, alugar, duplicar ou substituir recursos.
+Fonte: MAD10, p. 12-16.
+
+
+15. CLOUD COMPUTING
+
+Cloud Computing oferece recursos sob demanda em estrutura dinamica e escalavel.
+Recurso pode ser infraestrutura, plataforma, software, serviço ou armazenamento.
+Fonte: MAD12a, p. 1-2.
+
+Vantagens: pagamento pelo uso, elasticidade, menor necessidade de provisionar pico,
+escalabilidade e possibilidade de deslocar o investimento para custo operacional.
+Fonte: MAD12a, p. 3-4.
+
+Desvantagens: privacidade, segurança, dependência do provedor, recuperação de
+desastres, disponibilidade, latência e dificuldade de previsão de custos.
+Fonte: MAD12a, p. 5-6.
+
+Tipos de nuvem: pública, privada e híbrida.
+Fonte: MAD12a, p. 7-9.
+
+Tipos de serviço: IaaS, PaaS e SaaS.
+Fonte: MAD12a, p. 10-12.
+
+No planejamento de nuvem, o usuário escolhe SLAs de resposta, throughput e
+disponibilidade. O custo e a utilidade dependem do nível de SLA escolhido; o
+problema e otimizar a utilidade respeitando custo e qualidade.
+Fonte: MAD12a, p. 13-22.
+
+
+16. CURVA TEÓRICA DE DESEMPENHO
+
+Carga de trabalho L e o número de requisições em um intervalo. Parametros de
+controle incluem tempo medio de resposta R e utilização U.
+Fonte: MAD11, p. 2-4.
+
+O LNS (limite de nível de serviço) e o limite aceitável de resposta. O ponto
+crítico Pc marca a mudanca de comportamento. A curva possui uma regiao de
+comportamento constante, uma regiao de crescimento e uma regiao de saturação.
+Fonte: MAD11, p. 5-7.
+
+Referencias da curva:
+- L_sat: carga de saturação.
+- L_cap: carga limite de capacidade para o SLA.
+- R_SLA: tempo de resposta aceito.
+- U_sat: utilização de saturação.
+- Ponto de operacao: condição atual do sistema.
+Fonte: MAD11, p. 8-18.
+
+Quando a carga aumenta, o tempo de resposta inicialmente cresce pouco e depois
+passa a crescer rapidamente. A utilização geralmente cresce de forma mais próxima
+da linear até a saturação.
+Fonte: MAD11, p. 5-7.
+
+Os exemplos de MAD11 mostram como obter L_sat, L_cap, tempo de resposta, utilização
+e meses de vida a partir de um modelo de carga.
+Fonte: MAD11, p. 20-30.
+
+
+17. TÉCNICAS DE AVALIAÇÃO DE DESEMPENHO
+
+As técnicas se complementam e variam em precisao, custo e tempo de implantacao.
+Fonte: MAD14, p. 1-2.
+
+“Eu acho”: barata e rápida, porém imprecisa e dependente da experiência.
+Fonte: MAD14, p. 3.
+
+Benchmark: compara dispositivos isolados em ambiente controlado. Deve controlar
+processador, sistema operacional, barramento, compilador e carga. Também deve
+identificar variáveis não controladas e seus efeitos.
+Fonte: MAD14, p. 4-7.
+
+Kernel: avalia processadores isolando o modulo mais representativo da aplicacao.
+Na versao classica, extrai-se o codigo assembly e estima-se o tempo em processadores
+diferentes.
+Fonte: MAD14, p. 8-11.
+
+Programa sintetico: alternativa quando não ha especialista ou acesso adequado a
+assembly. Cria-se um programa semelhante ao kernel real, preservando operações e
+proporcoes relevantes, e executa-se em varios processadores.
+Fonte: MAD14, p. 12-14.
+
+
+18. EXEMPLO DE PROVA DOS SLIDES
+
+MAD10a apresenta quatro modelos de questão:
+- ciclo de vida e afirmações sobre fases;
+- metodologia, ações corretivas e preventivas;
+- calculo com tempo de serviço, carga e saturação;
+- uso de L(t) e L_cap para calcular tempo restante.
+Fonte: MAD10a, p. 2-5.
+
+
+19. FORMULARIO RÁPIDO
+
+X0 = Co / To
+
+U_i = S_i * X_i
+
+X_i = V_i * X0
+
+R_i = S_i / (1-U_i)
+
+R = soma(R_i * V_i)
+
+L_sat = 1 / D_i
+
+U_cap = D_i * L_cap
+
+O_cap = 1 - U_cap
+
+Modelo de carga linear: L(t) = a + b*t
+
+Para converter:
+100 ms = 0,1 s; 50 ms = 0,05 s; 20 ms = 0,02 s.
+1 minuto = 60 segundos; 1 hora = 3600 segundos.
+
+
+20. ANÁLISE DA PROVA FOTOGRAFADA
+
+A prova possui 25 questões. Algumas questões continuam na imagem seguinte; as
+referências abaixo usam o número da imagem onde a questão aparece.
+
+QUESTÃO 1 - imagem 01
+Tema: fases do ciclo de vida.
+Ideias corretas: a fase conceitual pode usar técnicas menos precisas; fases podem
+se sobrepor em sistemas críticos. A afirmacao de que sempre são sequenciais e a
+ideia de propor compra sem conhecer a fase são inadequadas.
+Resposta mais provavel: alternativa A, I e II apenas.
+Fonte teórica: MAD2, p. 13-18.
+
+QUESTÃO 2 - imagem 01
+Tema: objetivo e metodologia de planejamento.
+Corretas: atender requisitos e desempenho; metodologia possui ações corretivas e
+preventivas; comportamento da carga deve ser conhecido; ações devem priorizar
+horários de pico. A compra imediata sem avaliar impactos não e a recomendacao.
+Resposta: alternativa C, I, II, III e V.
+Fonte teórica: MAD3, p. 2; MAD4, p. 2.
+
+QUESTÃO 3 - imagens 01-02
+Tema: horário de pico e escalonamento.
+A identificacao do pico orienta o foco, mas não exclui ações nos demais horários.
+Conhecer previamente os picos ajuda o escalonamento; o modelo matemático não e
+automaticamente universal para qualquer horário sem validar suas condições.
+Resposta mais provavel: alternativa D, III e IV apenas.
+Fonte: MAD4, p. 2-6; MAD6, p. 3-9.
+
+QUESTÃO 4 - imagem 02
+Tema: tempo mínimo para escalonamento de Jobs.
+O material associa a estabilizacao das melhorias ao acompanhamento prolongado do
+sistema; a alternativa esperada e “mínimo de 1 ano”.
+Resposta provavel: alternativa D.
+Fonte: MAD6, p. 7-9, especialmente a figura de acompanhamento até reduzir o caos.
+
+QUESTÃO 5 - imagem 02
+Tema: reorganizacao de arquivos em disco.
+A alternativa mais diretamente correta e reduzir acesso direto ou usar cache quando
+o tempo de acesso e crítico. Separar arquivos permanentes e voláteis também e uma
+estratégia apresentada, mas a formulacao da prova indica a alternativa C como a
+resposta objetiva.
+Resposta provavel: alternativa C.
+Fonte: MAD6, p. 11-17.
+
+QUESTÃO 6 - imagens 02-03
+Tema: estratégias para evitar super-utilização.
+Reduzir portas, escalonar Jobs, prever carga e conhecer curvas são estratégias
+validas. A afirmacao incorreta e comprar recursos antes de qualquer tentativa de
+otimização.
+Resposta provavel: alternativa E.
+Fonte: MAD6, p. 2-9; MAD8, p. 2.
+
+QUESTÃO 7 - imagem 03
+Tema: disponibilidade por segmento de negocio.
+Gestao academica exige alta disponibilidade; bolsa de valores também exige nível
+alto. Comercio eletronico não e coerente com apenas 40% de disponibilidade. A
+alternativa IV pode ser coerente para aluguel de carros.
+Resposta: alternativa B, II apenas.
+Fonte: MAD2, p. 6-12; conceito de SLA em MAD11, p. 2-8.
+
+QUESTÃO 8 - imagem 03
+Tema: declaracao de fim da vida útil.
+O fim da vida útil e sustentado quando a carga cresce, a otimização deixa de ser
+efetiva mesmo com escalonamento e o tempo de resposta ultrapassa a qualidade. A
+previsão de crescimento e a rapidez para negociar recursos também são importantes.
+Resposta provavel: alternativa B.
+Fonte: MAD2, p. 17-19; MAD10, p. 2-12.
+
+QUESTÃO 9 - imagem 03
+Tema: To e Ts em monitoramento para modelagem.
+To deve respeitar equilíbrio de fluxo e Ts deve respeitar a hipótese das transições
+unitarias.
+Resposta: alternativa D.
+Fonte: MAD3, p. 18-20.
+
+QUESTÃO 10 - imagens 03-04
+Tema: número de servidores homogeneos para balanceamento.
+Usar a curva carga-utilização para encontrar a carga de um servidor com a
+disponibilidade exigida; depois dividir a carga total pela capacidade por servidor
+e arredondar para cima. A figura fotografada tem eixo pouco legivel, portanto o
+número final deve ser confirmado pela escala original da prova.
+Fonte: MAD2, p. 9; MAD11, p. 5-8.
+
+QUESTÃO 11 - imagem 04
+Tema: utilização de CPU em Batch e On-line.
+O comportamento esperado e Batch mais alto e relativamente estavel, On-line abaixo
+do Batch e sem variações abruptas. Entre os graficos, a alternativa C representa
+melhor esse comportamento.
+Resposta provavel: alternativa C.
+Fonte: MAD3, p. 22.
+
+QUESTÃO 12 - imagens 04-05
+Tema: ponto de operacao acima do SLA.
+Reduzir portas reduz carga e resposta, mas pode gerar insatisfacao; escalonar Jobs
+reduz a carga no pico; otimizar curvas e recursos pode trazer o ponto abaixo do
+SLA; aumentar o SLA e possível, mas e uma decisao de negocio e não uma melhoria
+técnica prática quando o problema e degradacao.
+Fonte: MAD6, p. 2-9; MAD11, p. 5-8.
+
+QUESTÃO 13 - imagem 05
+Tema: previsão L(t)=5*t+10, tempo de serviço 20 ms e disponibilidade de 70%.
+Conversao: D=0,02 s. Para U=70%, a carga correspondente e L=U/D=0,70/0,02=35
+req/s. O instante da carga 35 e t=(35-10)/5=5 meses. Como o histórico tem cinco
+meses, isso indica que o limite de 70% já foi alcancado no instante atual; a
+alternativa depende da convenção de “vida útil” adotada na questão.
+Fonte: MAD8, p. 2-12; MAD10, p. 4-8.
+
+QUESTÃO 14 - imagem 05
+Tema: início da super-utilização.
+Saturacao: L_sat=1/D=1/0,02=50 req/s. Igualando 5*t+10=50, obtem-se t=8 meses.
+Com histórico atual de 5 meses, restam 3 meses.
+Resposta: alternativa C, restam 3 meses.
+Fonte: MAD10, p. 4-8.
+
+QUESTÃO 15 - imagens 05-06
+Tema: ainda otimizar ou comprar infraestrutura.
+CPU ou discos próximos de 100% indicam gargalo, mas podem ser tratados por
+otimização; instalacao recente e equipe eficaz também favorecem otimizar. Tempo
+maior que quatro anos tende a favorecer renovacao.
+Resposta mais provavel: alternativa B, I, II, III e V.
+Fonte: MAD2, p. 17-18; MAD6, p. 2-17; MAD10, p. 9-12.
+
+QUESTÃO 16 - imagem 06
+Tema: conflito entre SLA de resposta e disponibilidade.
+O ponto central e que disponibilidade e tempo de resposta são objetivos distintos;
+deve-se ajustar a carga/configuração e negociar prioridades, em vez de simplesmente
+priorizar um indicador sem avaliar o outro.
+Fonte: MAD12a, p. 13-22; MAD10, p. 9-16.
+
+QUESTÃO 17 - imagem 06
+Tema: rejeicao de requisições para evitar derrubada.
+O padrao que justifica rejeicao e carga crescendo, CPU alta e tempo de resposta
+crescendo acima do SLA.
+Resposta: alternativa A.
+Fonte: MAD10, p. 2-8; MAD11, p. 5-8.
+
+QUESTÃO 18 - imagem 06
+Tema: ponto A, B ou C na curva teórica.
+Na regiao constante, pequenos aumentos da carga alteram pouco R; na regiao crítica,
+pequeno aumento altera muito R; na super-utilização o sistema esta próximo do limite.
+A resposta depende da posicao exata dos pontos na figura, que esta parcialmente
+cortada na fotografia. Use essa regra para conferir a alternativa.
+Fonte: MAD11, p. 5-8.
+
+QUESTÃO 19 - imagem 07
+Tema: servidores homogeneos e curvas carga-utilização.
+As retas mostram servidores com mesma caracteristica de resposta/disponibilidade,
+mas capacidades diferentes de carga. O servidor com reta mais inclinada atinge
+100% primeiro; portanto a afirmacao sobre mesmo tempo de resposta tende a ser a
+correta, conforme a leitura da figura.
+Fonte: MAD2, p. 9; MAD11, p. 5-8.
+
+QUESTÃO 20 - imagem 07
+Tema: identificacao de horário de pico.
+Para identificar pico e necessário conhecer o perfil da demanda on-line dos usuários
+e observar a utilização dos recursos, principalmente CPU. A alternativa esperada e
+A, pois disponibilidade isolada não identifica necessariamente o pico.
+Fonte: MAD3, p. 4-8; MAD4, p. 2-6.
+
+QUESTÃO 21 - imagem 07
+Tema: monitores RMF e SMF.
+RMF e preciso, mas pode causar impacto negativo; SMF e menos preciso e deve ter Ts
+ajustado. Para sistemas críticos, a amostragem pode ser preferivel para reduzir
+interferencia; RMF deve ser usado com cuidado. A imagem pede identificar as
+afirmações falsas, e a alternativa deve ser conferida com a legenda original.
+Fonte: MAD3, p. 15-20.
+
+QUESTÃO 22 - imagem 08
+Tema: afirmações gerais da metodologia.
+São corretos: atender requisitos e desempenho; a metodologia reunir ações
+corretivas e preventivas; conhecer o comportamento da carga; priorizar picos. A
+compra imediata sem avaliar impactos não e recomendada.
+Resposta: alternativa D, I, III, IV e V.
+Fonte: MAD3, p. 2-4; MAD4, p. 2.
+
+QUESTÃO 23 - imagem 09
+Dados: D=50 ms=0,05 s; SLA=200 ms=0,20 s.
+No ponto do SLA: U_cap=1-D/SLA=1-0,05/0,20=0,75.
+Carga de capacidade: L_cap=U_cap/D=0,75/0,05=15 req/s.
+Carga de saturação: L_sat=1/D=20 req/s.
+Resposta: carga no SLA/otima = 15 req/s; capacidade de saturação = 20 req/s.
+Fonte: MAD10, p. 5-10; MAD11, p. 8.
+
+QUESTÃO 24 - imagem 09
+Dados: D=80 ms=0,08 s; SLA=400 ms=0,40 s.
+U_cap=1-D/SLA=1-0,08/0,40=0,80.
+Disponibilidade/ociosidade na condição = 1-U=0,20, ou 20%.
+Resposta: 20% de disponibilidade/ociosidade, conforme a convenção usada na prova.
+Fonte: MAD10, p. 10; MAD11, p. 8.
+
+QUESTÃO 25 - imagem 09
+Carga de saturação atual: 450 req/min. Carga futura: 600 req/min. Disponibilidade
+desejada de 20% significa utilização alvo de 80%.
+Capacidade necessaria do novo servidor: 600/0,80=750 req/min.
+Velocidade relativa: 750/450=1,667. Logo, o novo servidor precisa ser cerca de
+66,7% mais rápido que o atual, ou ter capacidade de 750 req/min.
+Fonte: MAD10, p. 9-11; MAD11, p. 8.
+
+
+21. COMO ESTUDAR PARA A PROVA
+
+1) Memorize o ciclo de vida e as 11 etapas da metodologia.
+2) Saiba diferenciar diagnostico, pico, processos críticos e otimização.
+3) Treine conversao de ms para segundos e de minuto/hora para segundos.
+4) Resolva U=S*X, X=C/T, R=S/(1-U), L_sat=1/D e U_cap=D*L_cap.
+5) Interprete a curva: próximo de 100% de utilização, o tempo de resposta explode.
+6) Em problemas de vida útil, modele L(t), calcule o limite e igual as duas
+   equações para encontrar o mês de saturação.
+7) Em questões de graficos, procure o comportamento descrito nos slides: Batch
+   geralmente mais alto, pico concentrado, RMF mais preciso e mais intrusivo,
+   SMF menos intrusivo e menos preciso.
+8) Em qualquer proposta, primeiro medir e otimizar; depois modelar e negociar
+   nova configuração.
+
+Fontes de revisao: MAD3-MAD11, especialmente MAD8-MAD11 para fórmulas; MAD14 para
+técnicas de avaliação; MAD10a para formato das questões.
+
