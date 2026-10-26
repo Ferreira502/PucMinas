@@ -1,0 +1,842 @@
+MATERIAL DE ESTUDO — INTELIGÊNCIA ARTIFICIAL (P1)
+================================================
+
+Base: PDFs da pasta IA/Slides e assuntos presentes nas P1 disponíveis em
+IA/Provas/P1 (2023, 2024, 2025 e versões de 2026).
+
+Este texto explica a matéria e usa exemplos criados para estudo. Não contém
+enunciados nem resoluções das provas. A versão 2026/02 disponível na pasta
+termina na questão 7. O capítulo de pré-processamento usa os nove PDFs de
+"Etapas de pré-processamento". Detalhes adicionais de bibliotecas Python
+são assinalados como complemento quando necessário.
+
+SUMÁRIO
+1. O que é IA e como ela se relaciona com aprendizado de máquina
+2. Dados, KDD e tipos de aprendizado
+3. Etapas de pré-processamento de dados
+4. Árvores de decisão: estrutura e interpretação
+5. Entropia, ganho de informação, razão de ganho e índice Gini
+6. ID3, C4.5 e CART
+7. Avaliação de classificadores
+8. Naive Bayes
+9. Métodos ensemble e Random Forest
+10. Regras de associação e Apriori
+11. Hiperparâmetros, validação e cuidados experimentais
+12. Formulário e roteiro de estudo
+
+
+1. O QUE É IA E COMO ELA SE RELACIONA COM APRENDIZADO DE MÁQUINA
+----------------------------------------------------------------
+
+Inteligência Artificial (IA) estuda métodos para construir sistemas capazes
+de perceber, raciocinar, aprender ou agir em tarefas que associamos à
+inteligência. Os slides apresentam quatro perspectivas clássicas:
+
+* Pensar racionalmente: usar regras lógicas para chegar a conclusões.
+* Pensar humanamente: tentar compreender e reproduzir processos cognitivos.
+* Agir humanamente: produzir comportamento semelhante ao humano; o teste de
+  Turing é um exemplo de avaliação dessa perspectiva.
+* Agir racionalmente: escolher ações adequadas a um objetivo. Um agente
+  percebe o ambiente por sensores e age por atuadores.
+
+Aprendizado de máquina (AM ou ML) é uma área da IA na qual o sistema melhora
+seu desempenho em uma tarefa por meio de dados ou experiência. Em vez de
+escrever manualmente todas as regras de decisão, usamos exemplos para induzir
+um modelo. Deep learning é um conjunto de técnicas de AM baseado em redes
+neurais com várias camadas; portanto, não é sinônimo de toda a IA.
+
+Exemplo: num sistema que decide se uma mensagem é spam, os atributos podem
+ser palavras, remetente e número de links. A classe alvo é "spam" ou "não
+spam". O modelo aprende padrões a partir de mensagens já rotuladas.
+
+IA também envolve riscos práticos discutidos nos slides: vieses nos dados,
+falta de interpretabilidade, uso indevido de conteúdo gerado e avaliação
+inadequada dos modelos. Uma previsão correta em alguns exemplos não garante
+bom comportamento em situações novas ou em todos os grupos de pessoas.
+
+Slides: "Introdução à Inteligência Artificial.pdf" e
+"IA - passado - presente e futuro - 2024.pdf".
+
+
+2. DADOS, KDD E TIPOS DE APRENDIZADO
+-----------------------------------
+
+Uma base de dados contém instâncias (linhas) e atributos (colunas). Em AM
+supervisionado, a variável que queremos prever é o alvo, classe ou rótulo.
+Os outros atributos são preditores. Num registro de previsão de aprovação,
+"horas de estudo" pode ser preditor e "aprovado" pode ser o alvo.
+
+Tipos de problema:
+
+* Classificação: prevê uma categoria, como "sim/não" ou "baixo/médio/alto".
+  Mesmo que as categorias tenham códigos numéricos, a tarefa continua sendo
+  classificação quando os números representam classes.
+* Regressão: prevê um valor numérico, como preço ou temperatura.
+* Agrupamento (clustering): encontra grupos semelhantes sem rótulos prontos.
+* Regras de associação: identifica itens que costumam ocorrer juntos, como
+  produtos de uma compra. Não exige uma classe alvo.
+
+Tipos de aprendizado:
+
+* Supervisionado: os exemplos de treinamento incluem a resposta desejada.
+* Não supervisionado: procura padrões sem respostas rotuladas.
+* Semissupervisionado: usa dados rotulados e não rotulados.
+* Por reforço: um agente aprende a agir a partir das recompensas recebidas.
+
+KDD (Knowledge Discovery in Databases) é o processo de descoberta de
+conhecimento em dados. A mineração de dados, que procura padrões, é uma etapa
+do processo. De modo prático, o fluxo inclui selecionar os dados, limpar e
+transformar, aplicar algoritmos de mineração, avaliar os padrões e interpretar
+o resultado. A qualidade dos dados e a avaliação fazem parte do trabalho;
+executar um algoritmo sozinho não encerra o processo.
+
+Slides: "Introdução a aprendizado de Máquina.pdf" e
+"Introdução a KDD.pdf".
+
+
+3. ETAPAS DE PRÉ-PROCESSAMENTO DE DADOS
+--------------------------------------
+
+Pré-processar é examinar e preparar a base antes de induzir e avaliar um
+modelo. Os nove slides novos apresentam balanceamento, dados ausentes,
+inconsistência e redundância, conversões de atributos, normalização, redução
+de dimensionalidade, seleção de instâncias e outliers. Não existe uma
+sequência única para toda base: cada etapa deve responder a um problema real
+dos dados. Em qualquer método que aprende estatísticas ou escolhe exemplos,
+separe treino e teste antes do ajuste para evitar vazamento de dados.
+
+3.1 Valores ausentes
+
+Um valor ausente pode ocorrer por falha de coleta, campo não preenchido ou
+erro de integração. Não se deve substituí-lo sem considerar o significado da
+variável e o motivo da ausência.
+
+As alternativas apresentadas nos slides são: eliminar registros incompletos,
+preencher manualmente, imputar automaticamente ou usar um algoritmo capaz de
+lidar internamente com ausências. Excluir linhas pode desperdiçar muitos
+exemplos; preencher manualmente não escala bem. A escolha depende também de
+quanto falta e de qual atributo está ausente. Se falta o rótulo de treino,
+o registro geralmente não pode ser usado diretamente em aprendizado
+supervisionado.
+
+SimpleImputer (complemento de biblioteca Python) substitui valores ausentes
+por uma estatística da coluna:
+
+* strategy="mean": média dos valores observados; exige dado numérico.
+* strategy="median": mediana; costuma ser menos afetada por valores extremos.
+* strategy="most_frequent": valor mais frequente; pode servir para categorias.
+* strategy="constant": um valor fixo definido pelo usuário.
+
+Exemplo: rendas [2000, ausente, 3000, 4000] produzem 3000 para a posição
+ausente com a estratégia "mean". O cálculo usa somente 2000, 3000 e 4000.
+Em uma matriz, a média é calculada separadamente em cada coluna.
+
+KNNImputer usa registros próximos que possuam valor conhecido no atributo
+ausente. Com n_neighbors=1, usa o vizinho disponível mais próximo. Com
+n_neighbors=2, usa dois vizinhos e, por padrão, a média dos valores deles.
+As distâncias dependem das outras colunas observadas. Escalas muito diferentes
+podem alterar quem é considerado próximo; padronizar atributos numéricos pode
+ser necessário.
+
+Exemplo: idades [20, 21, 40] e rendas [2000, ausente, 5000]. Se a distância
+considerar apenas idade e k=1, a idade 20 é a mais próxima de 21 e a renda
+imputada será 2000. Com mais vizinhos, o resultado pode mudar.
+
+Para avaliar um modelo honestamente, separe treino e teste antes de calcular
+médias, escalas ou vizinhos. Ajuste o imputador no treino com fit e aplique
+transform ao treino e ao teste. Em KNNImputer, o conjunto de vizinhos
+disponível para preencher um novo registro deve vir do treino. Ajustar o
+imputador usando também o teste vaza informação para o treinamento.
+
+3.2 Codificação de categorias
+
+Modelos numéricos precisam de uma representação das categorias. Dois métodos
+comuns são:
+
+* Label encoding: transforma categorias em inteiros. Por exemplo,
+  "azul" -> 0, "verde" -> 1, "vermelho" -> 2. Os números são códigos;
+  não demonstram que verde esteja entre azul e vermelho.
+* One-hot encoding: cria uma coluna indicadora para cada categoria, como
+  cor_azul, cor_verde e cor_vermelho. Evita uma ordem numérica artificial,
+  mas aumenta o número de colunas.
+
+O LabelEncoder do scikit-learn ordena as classes e guarda essa ordem em
+classes_. A codificação pode prejudicar modelos baseados em distância, como
+KNN, porque o algoritmo interpreta diferenças entre códigos como distâncias.
+Também pode impor divisões artificiais numa árvore: o teste "cor_codigo <=
+1,5" agrupa categorias por ordem do código, não por semelhança real. Para
+preditores nominais com poucas categorias, OneHotEncoder costuma ser uma
+escolha mais apropriada; o custo é criar mais colunas. O slide chama essa
+representação de codificação "1-de-c" e mostra que quaisquer duas categorias
+distintas ficam à mesma distância de Hamming (2). Com muitas categorias,
+criar uma coluna para cada uma pode ser caro. LabelEncoder é frequentemente
+usado para codificar o alvo.
+
+Se as categorias têm ordem real, como baixo < médio < alto, a codificação
+deve preservar essa ordem. Para variáveis binárias que representam ausência
+ou presença, 0 e 1 podem ser suficientes. O slide também cita código cinza
+e código termômetro para representar categorias ordinais em bits.
+
+3.3 Duplicatas e inconsistências
+
+Uma duplicata exata repete todos os atributos e o rótulo. Sua remoção pode
+ser apropriada quando ela representa cópia indevida, mas repetições legítimas
+podem carregar frequência importante. Inspecione a origem antes de remover.
+
+Duas linhas com preditores iguais e rótulos diferentes são uma inconsistência
+potencial. Pode haver erro de rotulagem, variável relevante não registrada ou
+aleatoriedade do fenômeno. Remover linhas com drop_duplicates() usando apenas
+os preditores esconderia o conflito. Compare também os rótulos e investigue
+os casos. Inconsistências também podem resultar de unidades diferentes para
+a mesma medida, como metros e centímetros, ao integrar bases.
+
+Redundância pode ocorrer entre linhas ou colunas. Um atributo é redundante
+quando seu valor pode ser deduzido de outro ou de uma combinação de outros;
+por exemplo, "total da venda" pode ser o produto de "quantidade" e "preço
+unitário". Correlação alta pode indicar redundância, mas não a prova sozinha.
+Remover uma coluna exige verificar se ela tem significado próprio e se sua
+presença causaria vazamento de informação sobre o alvo.
+
+3.4 Desbalanceamento e SMOTE
+
+Uma base é desbalanceada quando uma classe tem muito mais exemplos que outra.
+Um classificador que sempre prevê a classe majoritária pode ter alta acurácia
+e ser inútil para a classe rara. Veja recall, precisão, F1 e a matriz de
+confusão por classe.
+
+Os slides apresentam três famílias de solução: alterar o número de exemplos
+por classe, atribuir custos diferentes a erros em classes diferentes ou
+induzir um modelo para uma única classe. Oversampling adiciona exemplos à
+classe minoritária; undersampling retira exemplos da majoritária. Ambos
+mudam os dados de treino. Exemplos de undersampling citados são Tomek Links
+e RandomUnderSampler.
+
+SMOTE (Synthetic Minority Over-sampling Technique) cria exemplos sintéticos
+da classe minoritária por interpolação entre seus exemplos próximos. Ele não
+duplica obrigatoriamente o tamanho total da base, e seus vizinhos pertencem
+à classe minoritária, não à majoritária. A quantidade criada depende da
+distribuição das classes e dos parâmetros. Oversampling pode introduzir
+exemplos pouco representativos; undersampling pode descartar informação.
+
+O procedimento correto é dividir treino/teste e aplicar SMOTE somente ao
+treino. Caso ele seja aplicado antes da divisão, exemplos relacionados podem
+aparecer nos dois conjuntos, produzindo avaliação otimista.
+
+3.5 Conversão numérico-simbólica (discretização)
+
+Alguns algoritmos, como o ID3 original, precisam de atributos categóricos.
+Discretizar transforma números em intervalos rotulados. Por exemplo, idade
+numérica pode se tornar "até 17", "18 a 59" e "60 ou mais". A escolha dos
+limites altera a informação preservada e a qualidade da divisão.
+
+Estratégias dos slides:
+
+* Larguras iguais: divide o intervalo do mínimo ao máximo em faixas com a
+  mesma amplitude. Um valor extremo pode esticar demais as faixas.
+* Frequências iguais: tenta distribuir uma quantidade semelhante de registros
+  por faixa; as amplitudes numéricas podem ser diferentes.
+* Supervisionada: usa os rótulos para escolher cortes que separem classes.
+  Na validação, os cortes devem ser aprendidos apenas nos dados de treino.
+
+O C4.5 e o CART podem procurar limiares durante a construção da árvore;
+assim, a discretização manual não é sempre necessária. O Apriori, por sua
+vez, trabalha com itens: para incluir uma variável numérica em regras de
+associação, geralmente é preciso criar categorias ou intervalos.
+
+3.6 Transformação de atributos numéricos
+
+Quando atributos estão em escalas muito diferentes, o de maior magnitude
+pode dominar cálculos de distância. Isso é relevante para KNN, métodos
+baseados em distância e vários outros modelos. Árvores que escolhem limiares
+por atributo costumam ser menos sensíveis a uma simples mudança de escala.
+
+Normalização min-max para a faixa [0,1]:
+
+    x_novo = (x - mínimo_treino) / (máximo_treino - mínimo_treino)
+
+Exemplo: com mínimo 10 e máximo 30 no treino, x=20 vira (20-10)/(30-10)=0,5.
+Se máximo e mínimo forem iguais, é preciso tratar o atributo constante.
+Um valor novo fora da faixa do treino pode ser transformado em número menor
+que 0 ou maior que 1; isso não indica erro na fórmula.
+
+Padronização por z-score:
+
+    z = (x - média_treino) / desvio_padrão_treino
+
+Um z-score igual a 2 indica valor dois desvios-padrão acima da média do
+treino. Padronização não força os resultados para [0,1]. Na terminologia
+dos slides, a transformação para [0,1] é uma normalização por reescala.
+MinMaxScaler é o exemplo em Python: ajuste (fit) somente no treino e use os
+mesmos mínimo e máximo para transformar o teste.
+
+3.7 Redução de dimensionalidade e seleção de atributos
+
+Com muitos atributos, o número de combinações possíveis cresce rapidamente:
+é a chamada maldição da dimensionalidade. Mais colunas podem elevar custo de
+memória e processamento, aumentar ruído e dificultar a interpretação.
+
+Há duas estratégias principais:
+
+* Seleção de atributos: mantém parte das colunas originais, descartando
+  atributos irrelevantes ou redundantes.
+* Agregação ou extração: cria novos atributos combinando os originais. PCA é
+  um exemplo citado nos slides. Essa transformação pode perder a interpretação
+  direta das colunas originais.
+
+Abordagens para selecionar atributos:
+
+* Filtro: avalia atributos antes do modelo, por critérios como correlação.
+* Wrapper: testa subconjuntos usando o desempenho do próprio modelo; pode
+  custar mais tempo.
+* Embutida: a seleção ocorre dentro do treinamento; árvores são exemplo.
+
+Qualquer seleção que use os rótulos ou estatísticas da base deve ocorrer
+apenas sobre o treino de cada validação. Selecionar com a base completa antes
+de medir desempenho no teste produz vazamento.
+
+3.8 Seleção de instâncias
+
+Aqui se escolhem linhas representativas, e não colunas. O objetivo pode ser
+reduzir custo computacional ou retirar exemplos ruidosos mantendo a
+capacidade de generalização. Diferencia-se de remover apenas duplicatas
+exatas e de balancear classes, embora algumas técnicas afetem mais de um
+desses aspectos.
+
+* Amostragem aleatória ou estratificada: escolhe parte da base; a
+  estratificada procura manter as proporções de classes.
+* Condensed Nearest Neighbor (CNN): começa com poucos exemplos e acrescenta
+  os que seriam classificados incorretamente pelo subconjunto atual.
+* Edited Nearest Neighbor (ENN): remove uma instância quando sua classe
+  diverge da maioria dos vizinhos próximos.
+* Tomek Links: pares de classes diferentes muito próximos que podem ajudar
+  a limpar a fronteira; também aparece como técnica de undersampling.
+
+Seleção de instâncias deve ser aplicada ao treino, preservando um conjunto
+de teste independente para avaliação. Retirar casos difíceis do teste
+produziria uma estimativa artificialmente otimista.
+
+3.9 Outliers (valores atípicos)
+
+Um outlier é um valor ou registro muito distante do padrão observado. Pode
+ser erro de digitação, medição ou integração; também pode ser um evento raro
+e real. Portanto, detectá-lo não implica eliminá-lo. É possível investigar,
+corrigir a fonte, manter o evento ou removê-lo com justificativa.
+
+Um outlier univariado é extremo em uma variável isolada; um multivariado tem
+uma combinação incomum de valores, mesmo que cada valor pareça normal
+separadamente. Sua interpretação também pode depender do contexto.
+
+Métodos citados nos slides:
+
+* Z-score: z=(x-média)/desvio-padrão. Um limiar comum é |z|>3, mas não é
+  uma regra universal e a média pode ser afetada pelos próprios outliers.
+* IQR: Q3-Q1. Um critério usual marca valores abaixo de Q1-1,5*IQR ou acima
+  de Q3+1,5*IQR.
+* Distância aos vizinhos, Local Outlier Factor (LOF) e Isolation Forest:
+  procuram isolamento ou baixa densidade em relação aos outros registros.
+* Gráficos como boxplot, histograma e dispersão ajudam na inspeção.
+
+Calcule limites de detecção usando somente o treino. Os slides recomendam
+manter o teste intacto para representar os dados reais. Preste especial
+atenção a eventos raros que são justamente o alvo de interesse, como fraude.
+
+Slides deste capítulo: "Parte 1 - Processsamento - Balanceamento.pdf" até
+"Parte 9 - Processamento - Eliminacão de outliers.pdf".
+
+
+4. ÁRVORES DE DECISÃO: ESTRUTURA E INTERPRETAÇÃO
+------------------------------------------------
+
+Uma árvore de decisão descreve uma sequência de testes. Seus nós internos
+testam atributos; seus ramos representam resultados dos testes; suas folhas
+contêm a decisão ou predição. A raiz é o primeiro teste. A profundidade é o
+número de divisões no caminho da raiz até um nó.
+
+Para classificar um novo registro, comece na raiz e siga os ramos de acordo
+com os atributos do registro até uma folha. Cada caminho completo pode ser
+escrito como uma regra "SE condições, ENTÃO classe".
+
+Exemplo de regra: SE temperatura <= 25 E vento = fraco, ENTÃO jogar. Se a
+folha contiver 8 exemplos de "jogar" e 2 de "não jogar", ela prediz "jogar",
+mas não é pura. Uma folha pura contém exemplos de uma única classe. A
+proporção 8/10 descreve a distribuição observada naquela folha; não prova
+certeza absoluta para futuros registros.
+
+Em diagramas gerados pelo scikit-learn:
+
+* samples: quantidade de exemplos de treinamento que chegaram ao nó.
+* value: quantidade de exemplos de cada classe, na ordem exibida pelo modelo.
+* class: classe mais frequente no nó.
+* entropy ou gini: impureza do nó. Valor zero indica pureza.
+
+O número de regras de uma árvore de classificação é o número de folhas. Uma
+folha com classes misturadas ainda gera uma regra, usando a classe prevista.
+
+Cobertura de uma regra para uma classe é, nas questões que utilizam essa
+convenção, a quantidade de exemplos daquela classe alcançados pela folha
+dividida pelo total de exemplos da mesma classe na base. Exemplo: se uma
+folha contém 6 exemplos da classe A e existem 15 exemplos A no total, a
+cobertura para A é 6/15 = 40%. Confira o denominador pedido no enunciado:
+"6/15" mede cobertura da classe, enquanto "6/total da base" mede alcance
+global, e "6/total da folha" mede a composição da folha.
+
+Árvores são interpretáveis, selecionam atributos durante a construção e
+podem representar decisões não lineares. Podem, porém, sofrer sobreajuste:
+uma árvore muito detalhada memoriza o treino e perde qualidade em novos
+dados. Limitar profundidade, exigir quantidade mínima de exemplos nas folhas
+ou podar ramos são maneiras de controlar a complexidade.
+
+Slides: "Parte 1 - Algoritmos de Indução de Árvore - Introdução geral a
+AD.pdf", "Parte 2 - Algoritmos de Indução de Árvore - Como gerar - entendimento
+geral.pdf" e "Parte 4 - Algoritmos de Indução de Árvore - Vantagens e
+desvantagens.pdf".
+
+
+5. ENTROPIA, GANHO DE INFORMAÇÃO, RAZÃO DE GANHO E ÍNDICE GINI
+------------------------------------------------------------
+
+Ao construir uma árvore, queremos divisões que separem melhor as classes.
+Para medir isso, calculamos a impureza antes e depois da divisão.
+
+5.1 Entropia
+
+Para classes c1, ..., ck com proporções p1, ..., pk:
+
+    H(S) = - soma[ pi * log2(pi) ]
+
+O termo correspondente a pi=0 vale zero. Uma classe única tem H=0. Em uma
+base binária com 50% de cada classe, H=1 bit, o máximo possível para duas
+classes. Quanto mais misturadas as classes, maior a entropia.
+
+Exemplos binários:
+
+    proporções 1 e 0       -> H = 0
+    proporções 1/2 e 1/2   -> H = 1
+    proporções 2/3 e 1/3   -> H aproximadamente 0,9183
+
+5.2 Entropia após dividir por um atributo
+
+Se o atributo A separa S nos grupos S1, ..., Sm, a entropia esperada é:
+
+    H(S | A) = soma[ (|Sj| / |S|) * H(Sj) ]
+
+Cada entropia de grupo é ponderada por seu tamanho. Não basta fazer a média
+simples das entropias se os grupos tiverem tamanhos diferentes.
+
+5.3 Ganho de informação
+
+    Ganho(S,A) = H(S) - H(S | A)
+
+O melhor atributo pelo critério do ID3 é aquele com maior ganho. Calcule o
+ganho de todos os atributos candidatos antes de escolher a raiz.
+
+Exemplo original:
+
+    Registro  Clima      Vento   Jogar?
+       1     sol        fraco     não
+       2     sol        forte     não
+       3     nublado    fraco     sim
+       4     nublado    forte     sim
+       5     chuva      fraco     sim
+       6     chuva      forte     não
+
+Há 3 "sim" e 3 "não"; logo H(S)=1.
+
+Divisão por Clima:
+    sol:      0 sim, 2 não -> H=0
+    nublado:  2 sim, 0 não -> H=0
+    chuva:    1 sim, 1 não -> H=1
+    H(S | Clima) = (2/6)*0 + (2/6)*0 + (2/6)*1 = 1/3
+    Ganho(S,Clima) = 1 - 1/3 = 2/3 aproximadamente 0,6667
+
+Divisão por Vento:
+    fraco: 2 sim, 1 não -> H aproximadamente 0,9183
+    forte: 1 sim, 2 não -> H aproximadamente 0,9183
+    H(S | Vento) = (3/6)*0,9183 + (3/6)*0,9183 = 0,9183
+    Ganho(S,Vento) = 1 - 0,9183 = 0,0817
+
+Portanto, Clima seria a raiz segundo o ganho de informação. Após escolher a
+raiz, repita o cálculo apenas nos ramos que ainda contêm classes misturadas.
+
+5.4 Razão de ganho (gain ratio)
+
+O ganho de informação favorece atributos com muitos valores distintos. Um
+identificador único pode criar uma folha pura para cada registro de treino,
+mas não costuma generalizar. O C4.5 reduz esse viés com a razão de ganho:
+
+    SplitInfo(S,A) = - soma[ (|Sj|/|S|) * log2(|Sj|/|S|) ]
+    GainRatio(S,A) = Ganho(S,A) / SplitInfo(S,A)
+
+O denominador mede quanto o atributo fragmenta a base. É preciso tratar o
+caso SplitInfo=0, em que não há divisão útil. A razão de ganho não dispensa
+analisar se a divisão faz sentido e se o modelo generaliza.
+
+5.5 Índice Gini
+
+Outra medida de impureza é:
+
+    Gini(S) = 1 - soma[ pi^2 ]
+
+Uma folha pura tem Gini=0. Num problema binário equilibrado,
+Gini=1-(1/2)^2-(1/2)^2=0,5. Para avaliar uma divisão, calcule o Gini
+ponderado dos filhos; uma divisão melhor reduz mais a impureza. O CART
+normalmente usa Gini para classificação. Entropia e Gini medem impureza, mas
+não são a mesma fórmula e podem ordenar divisões de forma diferente.
+
+Slides: "Parte 3 - Algoritmos de Indução de Árvore - Como gerar - como
+calcular.pdf", principalmente páginas 14-32 e 39-65.
+
+
+6. ID3, C4.5 E CART
+------------------
+
+ID3:
+* Escolhe o atributo por ganho de informação baseado em entropia.
+* Originalmente trabalha com atributos discretos e classes categóricas.
+* Atributos contínuos precisam ser discretizados previamente.
+* Não possui, em sua forma original, solução própria para valores ausentes
+  nem pós-poda.
+* Pode favorecer atributos com muitos valores distintos.
+
+C4.5:
+* É uma extensão do ID3.
+* Usa a razão de ganho para escolher divisões.
+* Lida com atributos discretos e contínuos; para um valor numérico, pode
+  encontrar um limiar e testar "valor <= limiar".
+* Possui mecanismos para dados ausentes e poda posterior da árvore.
+* Nos materiais da disciplina é apresentado como classificador; receber
+  atributos numéricos não significa prever uma classe numérica contínua.
+
+CART (Classification and Regression Trees):
+* Constrói divisões binárias: cada nó interno possui dois ramos.
+* Serve tanto para classificação quanto para regressão.
+* Em classificação, costuma usar índice Gini; em regressão, critérios como
+  erro quadrático.
+* A árvore implementada por DecisionTreeClassifier do scikit-learn segue a
+  família CART, mesmo quando o parâmetro criterion é "entropy".
+
+Não conclua que um algoritmo "sempre é melhor" que outro apenas por usar uma
+métrica diferente. Resultado depende da base, dos parâmetros e da avaliação
+em dados separados do treino.
+
+Slide principal: "Parte 3 - Algoritmos de Indução de Árvore - Como gerar -
+como calcular.pdf", páginas 39-65.
+
+
+7. AVALIAÇÃO DE CLASSIFICADORES
+------------------------------
+
+Separe dados de treino e teste. O modelo aprende no treino; o teste estima
+seu desempenho em exemplos que não participaram do ajuste. Uma matriz de
+confusão mostra quantos exemplos de cada classe real receberam cada classe
+prevista. Sempre identifique qual eixo contém classes reais e qual contém
+classes previstas: essa convenção pode mudar entre gráficos.
+
+Para uma classe positiva escolhida, numa classificação binária:
+
+                         Previsto positivo   Previsto negativo
+    Real positivo               VP                  FN
+    Real negativo               FP                  VN
+
+VP = verdadeiro positivo; FN = falso negativo; FP = falso positivo;
+VN = verdadeiro negativo.
+
+    Precisão             = VP / (VP + FP)
+    Recall/Sensibilidade  = VP / (VP + FN)
+    Taxa de FN (TFN)      = FN / (VP + FN) = 1 - recall
+    Especificidade (TVN)  = VN / (VN + FP)
+    Taxa de FP (TFP)      = FP / (VN + FP) = 1 - especificidade
+    Acurácia             = (VP + VN) / (VP + VN + FP + FN)
+    F1                   = 2 * precisão * recall / (precisão + recall)
+
+Precisão responde: dos classificados como positivos, quantos eram positivos?
+Recall responde: dos positivos reais, quantos foram encontrados? Acurácia
+mede a proporção total de acertos. F1 é a média harmônica de precisão e
+recall; cai bastante quando uma das duas é baixa.
+
+Exemplo original:
+
+                         Previsto sim   Previsto não
+    Real sim                   18              2
+    Real não                    6             24
+
+Considerando "sim" como classe positiva:
+    VP=18, FN=2, FP=6, VN=24.
+    Precisão = 18/24 = 75%.
+    Recall = 18/20 = 90%; TFN = 2/20 = 10%.
+    Especificidade = 24/30 = 80%; TFP = 6/30 = 20%.
+    Acurácia = (18+24)/50 = 84%.
+    F1 = 2*(0,75*0,90)/(0,75+0,90) aproximadamente 81,82%.
+
+Em uma matriz com várias classes, escolha uma classe por vez. Ela é a classe
+"positiva"; todas as demais são agrupadas como "negativas". Para a classe B,
+por exemplo, VP fica na diagonal B-B; FN são os elementos da linha real B
+fora da diagonal; FP são os elementos da coluna prevista B fora da diagonal.
+VN é a soma das células fora da linha B e fora da coluna B.
+
+Em bases desbalanceadas, avalie cada classe separadamente. Uma boa acurácia
+global pode ocultar muitos falsos negativos na classe rara.
+
+Slides: "Parte 5 - Algoritmos de Indução de Árvore - métricas de
+avaliação.pdf", páginas 2-15.
+
+
+8. NAIVE BAYES
+--------------
+
+Naive Bayes é um classificador probabilístico. Ele estima a probabilidade de
+cada classe a partir dos atributos de um novo registro. Sua hipótese
+"ingênua" é que os atributos sejam condicionalmente independentes quando a
+classe é conhecida. Essa hipótese simplifica o cálculo e pode funcionar bem
+mesmo quando a independência não é perfeita.
+
+Para classe C e atributos x1, ..., xn:
+
+    P(C | x1,...,xn) proporcional a P(C) * produto[P(xi | C)]
+
+P(C) é a probabilidade prévia da classe. P(xi | C) é a probabilidade do valor
+do atributo entre os exemplos daquela classe. Calcule um produto para cada
+classe. Para obter porcentagens que somam 100%, normalize:
+
+    P(C | x) = escore(C) / soma[escore(todas as classes)]
+
+Exemplo original, usando os oito registros abaixo:
+
+    Clima      Vento    Jogar?
+    sol        fraco      não
+    sol        forte      não
+    nublado    fraco      sim
+    nublado    forte      sim
+    chuva      fraco      sim
+    chuva      forte      não
+    nublado    fraco      sim
+    sol        forte      não
+
+Para um registro com Clima=chuva e Vento=forte:
+
+    P(sim)=4/8; P(chuva|sim)=1/4; P(forte|sim)=1/4.
+    escore(sim)=(4/8)*(1/4)*(1/4)=1/32.
+
+    P(não)=4/8; P(chuva|não)=1/4; P(forte|não)=3/4.
+    escore(não)=(4/8)*(1/4)*(3/4)=3/32.
+
+Normalizando, P(sim|x)=25% e P(não|x)=75%. A classe prevista é "não".
+
+Se um valor nunca foi visto numa classe, sua probabilidade estimada pode ser
+zero e zerar todo o produto. A suavização de Laplace resolve esse problema
+somando contagens fictícias. Use-a somente quando o método ou exercício
+indicar essa convenção, pois ela altera o resultado numérico.
+
+Slides: "Naïve Bayes.pdf", páginas 3-9.
+
+
+9. MÉTODOS ENSEMBLE E RANDOM FOREST
+-----------------------------------
+
+Um ensemble combina vários modelos. A ideia é que modelos diferentes podem
+cometer erros diferentes e, em conjunto, produzir previsões mais estáveis.
+Essa vantagem depende de diversidade entre os modelos; repetir exatamente o
+mesmo classificador não acrescenta informação.
+
+Bagging treina modelos em amostras diferentes obtidas do conjunto de treino.
+Bootstrap é a amostragem com reposição: um registro pode ser escolhido mais
+de uma vez para uma árvore, enquanto outro pode ficar fora daquela amostra.
+
+Random Forest é um ensemble de árvores. Em geral, cada árvore usa uma amostra
+bootstrap e, em cada nó, avalia somente um subconjunto aleatório dos atributos
+candidatos. Isso reduz a correlação entre as árvores. Na classificação, a
+predição final costuma ser o voto majoritário; na regressão, a média das
+predições. Uma floresta grande não tem desempenho garantidamente superior em
+toda base: é necessário medir no teste.
+
+Parâmetros frequentes em RandomForestClassifier:
+
+* n_estimators: número de árvores.
+* max_features: número de atributos considerados como candidatos em cada
+  divisão. A seleção ocorre novamente em cada nó, não uma única vez para a
+  árvore inteira. Com "sqrt" e 36 atributos, são cerca de 6 candidatos por
+  divisão. Com None, todos os atributos são candidatos.
+* bootstrap: se True, usa amostras com reposição; se False, cada árvore pode
+  receber todos os registros do treino. Mesmo com bootstrap=False, a escolha
+  aleatória de atributos ainda pode produzir árvores diferentes.
+* max_depth: profundidade máxima da árvore; None não impõe esse limite.
+* random_state: fixa a semente dos sorteios para reproduzir resultados, sem
+  eliminar a lógica aleatória do método.
+
+Uma árvore única é fácil de interpretar, mas pode variar bastante diante de
+pequenas mudanças nos dados. A floresta costuma ser mais estável, porém é
+mais difícil explicar uma predição como uma regra única.
+
+Outras abordagens dos slides:
+
+* Boosting: constrói modelos sequencialmente e procura corrigir erros dos
+  modelos anteriores. AdaBoost e XGBoost são exemplos discutidos.
+* Stacking: aprende um modelo adicional para combinar as predições de
+  modelos de base.
+
+Slides: "Métodos Ensemble.pdf", especialmente páginas 3-18 e 21-30.
+
+
+10. REGRAS DE ASSOCIAÇÃO E APRIORI
+---------------------------------
+
+Uma transação é um conjunto de itens. Um itemset é um conjunto de itens cuja
+ocorrência conjunta queremos contar. Uma regra A -> B indica que B aparece
+frequentemente em transações que contêm A. Associação estatística não implica
+causalidade: comprar pão não causa necessariamente a compra de leite.
+
+Medidas principais:
+
+    suporte(A)    = transações com A / total de transações
+    suporte(A U B) = transações com todos os itens de A e B / total
+    confiança(A -> B) = suporte(A U B) / suporte(A)
+    lift(A -> B) = confiança(A -> B) / suporte(B)
+                 = suporte(A U B) / (suporte(A)*suporte(B))
+
+O suporte mede frequência conjunta. A confiança mede a proporção de casos
+com A que também têm B. Lift compara essa confiança com a frequência normal
+de B: lift > 1 sugere associação positiva; lift = 1, independência segundo
+essa medida; lift < 1, associação negativa. Suporte e lift são simétricos
+entre A e B; as confianças de A -> B e B -> A podem ser diferentes.
+
+Exemplo original com cinco compras:
+
+    T1: {Pão, Leite}
+    T2: {Pão, Café}
+    T3: {Pão, Leite, Café}
+    T4: {Leite, Café}
+    T5: {Pão, Leite}
+
+    suporte(Pão) = 4/5 = 0,8
+    suporte(Leite) = 4/5 = 0,8
+    suporte({Pão,Leite}) = 3/5 = 0,6
+    confiança(Pão -> Leite) = (3/5)/(4/5) = 3/4 = 0,75
+    lift(Pão -> Leite) = 0,75/0,8 = 0,9375
+
+Com suporte mínimo 0,6 e confiança mínima 0,7, os dois itens são frequentes
+e as regras Pão -> Leite e Leite -> Pão passam o limite de confiança. O lift
+é menor que 1: embora 75% pareça uma confiança alta, Leite já ocorre em 80%
+das compras. Por isso, compare sempre as três medidas.
+
+O algoritmo Apriori tem duas etapas:
+
+1. Encontrar itemsets frequentes: primeiro os itens individuais; depois pares,
+   trios etc., descartando os que não alcançam o suporte mínimo.
+2. Gerar regras a partir dos itemsets frequentes e manter as que atingem a
+   confiança mínima. O lift ajuda a interpretar as regras geradas.
+
+A poda do Apriori usa a propriedade antimonotônica do suporte: acrescentar
+itens nunca aumenta o suporte. Se {A,B} está abaixo do suporte mínimo, todo
+superconjunto que contém A e B também estará abaixo do mínimo. A propriedade
+não diz que o suporte do superconjunto será zero; diz apenas que será menor
+ou igual ao suporte de {A,B}.
+
+Slides: "Parte 1 - Regras de associação.pdf", páginas 6-16, e
+"Parte 2 - Algoritmo Apriori.pdf", páginas 2-24.
+
+
+11. HIPERPARÂMETROS, VALIDAÇÃO E CUIDADOS EXPERIMENTAIS
+-------------------------------------------------------
+
+Parâmetros são aprendidos a partir dos dados; hiperparâmetros são escolhas
+feitas antes do treinamento, como max_depth, n_estimators e max_features.
+Seus valores influenciam o grau de ajuste e a capacidade de generalização.
+
+GridSearch avalia combinações de valores de uma grade definida pelo usuário.
+RandomizedSearch sorteia combinações de distribuições ou listas definidas
+pelo usuário, limitado por um número de tentativas. Ambos procuram bons
+hiperparâmetros para um estimador escolhido; não descobrem automaticamente o
+melhor algoritmo possível nem inventam intervalos que não foram fornecidos.
+
+Validação cruzada divide o treino em partes: treina em algumas e valida na
+parte restante, repetindo o processo. Assim, a escolha de hiperparâmetros
+depende menos de uma única divisão. Se houver uma base de teste final, ela
+deve ficar reservada até a escolha do modelo terminar.
+
+Fluxo recomendado:
+
+1. Entender a tarefa, a classe alvo e as métricas relevantes.
+2. Separar teste e treino. Em classificação, uma divisão estratificada pode
+   preservar aproximadamente a proporção de classes.
+3. Ajustar limpeza, imputação, codificação e eventuais escalas usando apenas
+   cada parte de treino. Pipelines ajudam a manter essa ordem.
+4. Aplicar SMOTE apenas dentro dos dados de treino, se necessário.
+5. Escolher modelo e hiperparâmetros com validação apropriada.
+6. Avaliar uma vez no teste reservado e inspecionar a matriz de confusão.
+
+Os slides de ensembles mencionam o ajuste de hiperparâmetros, e os slides de
+pré-processamento insistem na separação treino/teste. A descrição específica
+de GridSearch e RandomizedSearch é complemento para P1.
+
+
+12. FORMULÁRIO E ROTEIRO DE ESTUDO
+---------------------------------
+
+Fórmulas essenciais:
+
+    Entropia(S)       = - soma[pi * log2(pi)]
+    Entropia(S | A)   = soma[(|Sj|/|S|) * Entropia(Sj)]
+    Ganho(S,A)        = Entropia(S) - Entropia(S | A)
+    GainRatio(S,A)    = Ganho(S,A) / SplitInfo(S,A)
+    Gini(S)           = 1 - soma[pi^2]
+
+    Precisão          = VP / (VP + FP)
+    Recall            = VP / (VP + FN)
+    TFN               = FN / (VP + FN)
+    TFP               = FP / (VN + FP)
+    TVN               = VN / (VN + FP)
+    Acurácia          = (VP + VN) / total
+    F1                = 2 * precisão * recall / (precisão + recall)
+
+    Naive Bayes: escore(C) = P(C) * produto[P(xi | C)]
+    P(C | x) = escore(C) / soma[escores]
+
+    Suporte(A U B)    = frequência(A U B) / total de transações
+    Confiança(A -> B) = suporte(A U B) / suporte(A)
+    Lift(A -> B)      = confiança(A -> B) / suporte(B)
+
+Ordem de estudo sugerida pela recorrência nas P1:
+
+1. Árvores: ler uma árvore, escrever suas regras, identificar pureza e
+   calcular a raiz por entropia e ganho.
+2. Matriz de confusão: saber localizar VP, FN, FP e VN para qualquer classe
+   e calcular as métricas sem trocar os denominadores.
+3. Naive Bayes: montar contagens condicionais, multiplicar e normalizar.
+4. Random Forest: entender bootstrap, atributos por nó e parâmetros de código.
+5. Apriori: contar itemsets, podar por suporte, gerar regras e calcular
+   confiança e lift.
+6. Pré-processamento: balanceamento, ausências, inconsistências, codificação,
+   discretização e normalização. Depois, estude seleção de atributos e de
+   instâncias e detecção de outliers.
+7. Conceitos gerais de IA, KDD e tipos de aprendizado.
+
+Ao estudar exemplos numéricos, apresente as contagens, a fórmula substituída
+e o resultado. Esse hábito ajuda a detectar denominadores errados e torna o
+raciocínio verificável.
+
+
+MAPA DOS SLIDES UTILIZADOS
+-------------------------
+
+IA/Slides/01 - Fundamentos/Introdução à Inteligência Artificial.pdf
+IA/Slides/01 - Fundamentos/IA - passado - presente e futuro - 2024.pdf
+IA/Slides/01 - Fundamentos/Introdução a aprendizado de Máquina.pdf
+IA/Slides/01 - Fundamentos/Introdução a KDD.pdf
+IA/Slides/02 - Pré-processamento/Parte 1 - Processsamento - Balanceamento.pdf
+IA/Slides/02 - Pré-processamento/Parte 2 - Processamento - Dados ausentes.pdf
+IA/Slides/02 - Pré-processamento/Parte 3 - Processamento - Dados inconsistentes e redundantes.pdf
+IA/Slides/02 - Pré-processamento/Parte 4 - Processamento - Conversão simbólica-numérica.pdf
+IA/Slides/02 - Pré-processamento/Parte 5 - Processamento - Conversão numérico-simbólica.pdf
+IA/Slides/02 - Pré-processamento/Parte 6 - Processamento - transformação de atributos numéricos.pdf
+IA/Slides/02 - Pré-processamento/Parte 7 - Processamento - Redução de dimensionalidade.pdf
+IA/Slides/02 - Pré-processamento/Parte 8 - Processamento - Seleção de Instâncias.pdf
+IA/Slides/02 - Pré-processamento/Parte 9 - Processamento - Eliminacão de outliers.pdf
+IA/Slides/03 - Árvores de decisão/Parte 1 - Algoritmos de Indução de Árvore - Introdução geral a AD.pdf
+IA/Slides/03 - Árvores de decisão/Parte 2 - Algoritmos de Indução de Árvore - Como gerar - entendimento geral.pdf
+IA/Slides/03 - Árvores de decisão/Parte 3 - Algoritmos de Indução de Árvore - Como gerar - como calcular.pdf
+IA/Slides/03 - Árvores de decisão/Parte 4 - Algoritmos de Indução de Árvore - Vantagens e desvantagens.pdf
+IA/Slides/04 - Avaliação de modelos/Parte 5 - Algoritmos de Indução de Árvore - métricas de avaliação.pdf
+IA/Slides/05 - Naive Bayes/Naïve Bayes.pdf
+IA/Slides/06 - Métodos Ensemble/Métodos Ensemble.pdf
+IA/Slides/07 - Regras de associação/Parte 1 - Regras de associação.pdf
+IA/Slides/07 - Regras de associação/Parte 2 - Algoritmo Apriori.pdf
