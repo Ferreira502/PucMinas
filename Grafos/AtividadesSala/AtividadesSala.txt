@@ -1,3 +1,5 @@
+Questões de sala ate a P1
+
 Questão 01) Prove que: se G um grafo simples não-direcionado. Mostra que a soma dos graus de todos os vértices é par.
 Questão 02) Mostre que o número de vértices de um grau ímpar de um grafo G não-direcionado é sempre par.
 Questão 03) Projete um algoritmo para encontrar o número de componentes conexos de um grafo não-direcionado.
@@ -26,3 +28,30 @@ Questão 24) Seja G = (v, e) um grafo direcionado acíclico. Faça:
             2) Dê números para os vértices entre [1, |v|] de forma que:
                * f(u) = F(v) se u = V
                * Se F(u) < F(v) existe (v, u) pertence E
+
+Questões de sala ate a P2
+
+Questão 01) Seja G = (v, e) um grafo direcionado, e sejam u, v pertence V dois vértices quaisquer. Projete uma solução para encontrar um caminho de u para v, com menor quantidade de arestas.
+Questão 02) Seja G - (v, e) um grafo direcionado, e sejam u, v pertence V dois vértices quaisquer. Seja ( G, W) em que w: E -> Z+. Projete uma solução para encontrar um caminho de u para v, com menor soma de pesos. 
+Questão 03) Seja G = (v, e) um grafo direcionado, e sejam u, v pertence V dois vértices quaisquer. Seja ( G, W). Em que w: E -> R+. Projete uma solução para encontrar um caminho de u para v, com menor soma de pesos.
+Questão 04) Seja G = (v, e) um grafo direcionado, seja (G, v) um grafo ponderado em que w: E -> R. Sejam u, v pertence V dois vértices quaisquer, projete uma solução para encotrar o menor caminho entre u e v
+Questão 05) Seja G = (v, e) um grafo direcionado. Seja ( G, w) um grafo ponderado em que W: E -> z+. Um caminho é dito crescente se todos os pesos deste caminho crescem monotomicamente do inicio ao Final. Encontre o menor caminho crescente entre dois vértices quaisquer caso exista.
+Questão 06) Encotre o menor caminho de A para todos os vértices, fazendo passo a passo
+Questão 07) Em uma rede, uma mensagem é enviada de um ponto A para um ponto B. Em cada aresta da rede, há a possibilidade de perda da mensagem naquela aresta. As probabilidades são constantes e independentes. Como escolher uma "rota" para minizar a chance de perda da mensagem?
+Questão 08) Seja A = {ak} um conjunto com n alunos de TGC. Considere que é possivel mensurar o quão próximo são dois alunos em termos de afinidade para fazer trabalho em conjunto. Seu objetivo é criar K grupos de trabalho maximizando afinidade no grupo. Ache uma arvore geradora removendo K - 1 arestas. 
+Questão 09) Seja G = (v,e) um grafo conexo e não direcionado. Altere o algoritmo de Dijikstra para encontrar a árvore geradora mínima de (G,w) em que w: E -> Z+
+Questão 10) Seja G = (v,e) um grafo conexo e não direcionado. Faça 2 algoritmos para encontrar árvore geradora minima de (G,W) em que w: E -> Z+
+Questão 11) Seja G - (v,e) um grafo não direcionado, seja (G,v) um grafo ponderado em n: E -> R
+            i)   Apresente algoritmos para encontrar árvores geradora mínima. Ilustre os algoritmos por meio de um exemplo.
+            ii)  É possível afirmar se a árvore geradora por "Dijikstra" é diferente da AGM? Mostre.
+            iii) Considere que T = (v,E'), seja uma árvore geradora mínima de G, e a partir de T encontramos K grupos de vértices. Como garantir que os K grupos tenham um números de vértices maior ou igual a s?
+Questão 12) Seja G = ( v,e) um grafo direcionado. Seja (G, W) um grafo ponderado em qye w: E -> R+. Sejam u, v pertence V dois vértices quaisquer. Considere que você deseja "zerar" o valor de uma aresta e encontrar o menor caminho de u para v sem "reaplicar" um algoritmo de caminho mínimo. Como fazer?
+Questão 13) G é não direcionado. Seja T = (v, e) uma árvore geradora mínima de G. Seja E uma aresta de qualquer de G. Como alterar, caso possível o grafo de forma que G = (v, E - {e}). Seja uma floresta geradora mínima? Não é "autorizado" mudar os métodos de AGM.
+Questão 14) Seja E uma aresta com peso mínimo "e" estará na AGM?
+Questão 15) Seja G = (v, E) um grafo não direcionado. Considerando que G seja Euleriano, projete uma solução para fazer o caminhamento em G de forma a produzir o ciclo Euleriano.
+Questão 16) Seja G = (v,E) um grafo não direcionado
+            1) Se G é Euleriano então G é Hamiltoniano?
+            2) Se G é Hamiltoniano então G é Euleriano?
+            3) Se G é Euleriano então L (G) é Hamiltoniano?
+            4) L(L(G)) = G?
+            5) Se G é Hamiltoniano então L(G) é Euleriano?
