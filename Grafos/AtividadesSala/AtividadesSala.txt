@@ -55,3 +55,7 @@ Questão 16) Seja G = (v,E) um grafo não direcionado
             3) Se G é Euleriano então L (G) é Hamiltoniano?
             4) L(L(G)) = G?
             5) Se G é Hamiltoniano então L(G) é Euleriano?
+Questão 17) Seja G = (v,E) e L(G) um grafo não-direcionado e um grafo de linha de G, respectivamente.
+            a) Para que L(G) seja Euleriano, como deve ser G?
+            b) Para que L(G) seja hamiltoniano, como deve ser G?
+Questão 18) Seja G= (v,E) um grafo não-direcionado. Cite exemplos de aplicações que podem ser modeladas em G de forma que grafos eulerianos sejam necessários para resolver o problema.
