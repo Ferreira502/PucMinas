@@ -1,0 +1,514 @@
+[
+  [
+    1,
+    "d(e)=d(u)+d(v)-2"
+  ],
+  [
+    3,
+    "n=|V|,\\qquad m=|E|"
+  ],
+  [
+    3,
+    "d(v)=\\left|\\{e\\in E:\\ v\\in e\\}\\right|"
+  ],
+  [
+    4,
+    "a\\to b\\to c\\to a\\to d\\to e\\to a"
+  ],
+  [
+    5,
+    "\\sum_{v\\in V}d(v)=2|E|"
+  ],
+  [
+    5,
+    "\\left|\\{v\\in V:\\ d(v)\\ \\mathrm{impar}\\}\\right|\\ \\mathrm{e\\ par}"
+  ],
+  [
+    6,
+    "V(L(G))=E"
+  ],
+  [
+    6,
+    "\\{e,f\\}\\in E(L(G))\\ \\Longleftrightarrow\\ e\\ne f\\ \\mathrm{e}\\ e\\cap f\\ne\\varnothing"
+  ],
+  [
+    7,
+    "e=\\{u,v\\}\\in E"
+  ],
+  [
+    7,
+    "d(e)=(d(u)-1)+(d(v)-1)=d(u)+d(v)-2"
+  ],
+  [
+    7,
+    "d(ab)=3+3-2=4"
+  ],
+  [
+    7,
+    "d(ac)=3+2-2=3"
+  ],
+  [
+    8,
+    "d(e)=d(u)+d(v)-2"
+  ],
+  [
+    8,
+    "d(u)=2k,\\ d(v)=2\\ell\\ \\Longrightarrow\\ d(e)=2(k+\\ell-1)"
+  ],
+  [
+    8,
+    "d(u)=2k+1,\\ d(v)=2\\ell+1\\ \\Longrightarrow\\ d(e)=2(k+\\ell)"
+  ],
+  [
+    9,
+    "d(e)=d(u)+d(v)-2"
+  ],
+  [
+    9,
+    "q=2\\ \\Longleftrightarrow\\ L(G)\\ \\mathrm{semieuleriano\\ aberto}"
+  ],
+  [
+    9,
+    "q=d(a)+d(b)-2=3+3-2=4"
+  ],
+  [
+    10,
+    "H\\subseteq G,\\qquad H\\ \\mathrm{conexo}"
+  ],
+  [
+    10,
+    "\\forall v\\in V(H),\\quad d(v)\\in\\{0,2,4,\\ldots\\}\\quad\\mathrm{em}\\ H"
+  ],
+  [
+    10,
+    "\\forall\\{u,v\\}\\in E,\\quad u\\in V(H)\\ \\mathrm{ou}\\ v\\in V(H)"
+  ],
+  [
+    11,
+    "ab\\to bc\\to ac\\to ad\\to ab"
+  ],
+  [
+    12,
+    "G:\\quad d(a)=4,\\quad d(b)=2,\\quad d(c)=2,\\quad d(d)=2,\\quad d(e)=2"
+  ],
+  [
+    12,
+    "L(G):\\quad d(ab)=4,\\quad d(ac)=4,\\quad d(ad)=4,\\quad d(ae)=4,\\quad d(bc)=2,\\quad d(de)=2"
+  ],
+  [
+    13,
+    "G:\\quad d(a)=3,\\quad d(b)=3,\\quad d(c)=3,\\quad d(d)=3"
+  ],
+  [
+    13,
+    "L(G):\\quad d(ab)=4,\\quad d(ac)=4,\\quad d(ad)=4,\\quad d(bc)=4,\\quad d(bd)=4,\\quad d(cd)=4"
+  ],
+  [
+    14,
+    "G:\\quad d(a)=d(b)=d(c)=2"
+  ],
+  [
+    14,
+    "L(G):\\quad d(ab)=d(ac)=d(bc)=2"
+  ],
+  [
+    15,
+    "G:\\quad d(a)=d(d)=1,\\quad d(b)=d(c)=2"
+  ],
+  [
+    15,
+    "L(G):\\quad d(ab)=d(cd)=1,\\quad d(bc)=2"
+  ],
+  [
+    16,
+    "G:\\quad d(a)=d(d)=1,\\quad d(b)=d(c)=2"
+  ],
+  [
+    16,
+    "L(G):\\quad d(ab)=d(cd)=1,\\quad d(bc)=2"
+  ],
+  [
+    17,
+    "G:\\quad d(a)=d(b)=d(c)=2"
+  ],
+  [
+    17,
+    "L(G):\\quad d(ab)=d(ac)=d(bc)=2"
+  ],
+  [
+    18,
+    "d(e)=d(u)+d(v)-2"
+  ],
+  [
+    18,
+    "d(e)=2k+2\\ell-2=2(k+\\ell-1)"
+  ],
+  [
+    19,
+    "G:\\quad d(a)=d(b)=d(c)=2"
+  ],
+  [
+    19,
+    "L(G):\\quad d(ab)=d(ac)=d(bc)=2"
+  ],
+  [
+    20,
+    "e_1\\to e_2\\to\\cdots\\to e_m\\to e_1"
+  ],
+  [
+    20,
+    "V(L(G))=E=\\{e_1,\\ldots,e_m\\}"
+  ],
+  [
+    21,
+    "G:\\quad d(a)=d(d)=1,\\quad d(b)=d(c)=2"
+  ],
+  [
+    21,
+    "L(G):\\quad d(ab)=d(cd)=1,\\quad d(bc)=2"
+  ],
+  [
+    22,
+    "G:\\quad d(a)=d(b)=3,\\quad d(c)=d(d)=2"
+  ],
+  [
+    22,
+    "L(G):\\quad d(ab)=4,\\quad d(ac)=d(ad)=d(bc)=d(bd)=3"
+  ],
+  [
+    23,
+    "G:\\quad d(a)=d(d)=1,\\quad d(b)=d(c)=2"
+  ],
+  [
+    23,
+    "L(G):\\quad d(ab)=d(cd)=1,\\quad d(bc)=2"
+  ],
+  [
+    24,
+    "G:\\quad d(a)=d(b)=3,\\quad d(c)=d(d)=2"
+  ],
+  [
+    24,
+    "L(G):\\quad d(ab)=4,\\quad d(ac)=d(ad)=d(bc)=d(bd)=3"
+  ],
+  [
+    25,
+    "G:\\quad d(a)=d(b)=d(c)=2"
+  ],
+  [
+    25,
+    "L(G):\\quad d(ab)=d(ac)=d(bc)=2"
+  ],
+  [
+    26,
+    "C\\subseteq G,\\qquad V(C)=V,\\qquad d(v)=2\\ \\mathrm{em}\\ C"
+  ],
+  [
+    27,
+    "G:\\quad d(a)=3,\\quad d(b)=d(c)=d(d)=1"
+  ],
+  [
+    27,
+    "L(G):\\quad d(ab)=d(ac)=d(ad)=2"
+  ],
+  [
+    28,
+    "G:\\quad d(a)=3,\\quad d(b)=d(c)=d(d)=1"
+  ],
+  [
+    28,
+    "L(G):\\quad d(ab)=d(ac)=d(ad)=2"
+  ],
+  [
+    29,
+    "G:\\quad d(a)=3,\\quad d(b)=d(c)=d(d)=1"
+  ],
+  [
+    29,
+    "L(G):\\quad d(ab)=d(ac)=d(ad)=2"
+  ],
+  [
+    30,
+    "G:\\quad d(a)=d(d)=1,\\quad d(b)=d(c)=2"
+  ],
+  [
+    30,
+    "L(G):\\quad d(ab)=d(cd)=1,\\quad d(bc)=2"
+  ],
+  [
+    31,
+    "G:\\quad d(a)=3,\\quad d(b)=1,\\quad d(c)=1,\\quad d(d)=2,\\quad d(e)=1"
+  ],
+  [
+    31,
+    "L(G):\\quad d(ab)=2,\\quad d(ac)=2,\\quad d(ad)=3,\\quad d(de)=1"
+  ],
+  [
+    32,
+    "G:\\quad d(a)=d(d)=1,\\quad d(b)=d(c)=2"
+  ],
+  [
+    32,
+    "L(G):\\quad d(ab)=d(cd)=1,\\quad d(bc)=2"
+  ],
+  [
+    33,
+    "G:\\quad d(a)=3,\\quad d(b)=d(c)=d(d)=1"
+  ],
+  [
+    33,
+    "L(G):\\quad d(ab)=d(ac)=d(ad)=2"
+  ],
+  [
+    34,
+    "G:\\quad d(a)=3,\\quad d(b)=d(c)=d(d)=1"
+  ],
+  [
+    34,
+    "L(G):\\quad d(ab)=d(ac)=d(ad)=2"
+  ],
+  [
+    35,
+    "G:\\quad d(a)=3,\\quad d(b)=d(c)=d(d)=1"
+  ],
+  [
+    35,
+    "L(G):\\quad d(ab)=d(ac)=d(ad)=2"
+  ],
+  [
+    36,
+    "G:\\quad d(a)=3,\\quad d(b)=3,\\quad d(c)=1,\\quad d(d)=1,\\quad d(e)=1,\\quad d(f)=1"
+  ],
+  [
+    36,
+    "L(G):\\quad d(ab)=4,\\quad d(ac)=2,\\quad d(ad)=2,\\quad d(be)=2,\\quad d(bf)=2"
+  ],
+  [
+    37,
+    "G:\\quad d(a)=3,\\quad d(b)=2,\\quad d(c)=2,\\quad d(d)=1"
+  ],
+  [
+    37,
+    "L(G):\\quad d(ab)=3,\\quad d(ac)=3,\\quad d(ad)=2,\\quad d(bc)=2"
+  ],
+  [
+    38,
+    "G:\\quad d(a)=3,\\quad d(b)=d(c)=d(d)=1"
+  ],
+  [
+    38,
+    "L(G):\\quad d(ab)=d(ac)=d(ad)=2"
+  ],
+  [
+    39,
+    "G:\\quad d(a)=d(d)=1,\\quad d(b)=d(c)=2"
+  ],
+  [
+    39,
+    "L(G):\\quad d(ab)=d(cd)=1,\\quad d(bc)=2"
+  ],
+  [
+    40,
+    "G:\\quad d(a)=d(d)=1,\\quad d(b)=d(c)=2"
+  ],
+  [
+    40,
+    "L(G):\\quad d(ab)=d(cd)=1,\\quad d(bc)=2"
+  ],
+  [
+    41,
+    "G:\\quad d(a)=3,\\quad d(b)=d(c)=d(d)=1"
+  ],
+  [
+    41,
+    "L(G):\\quad d(ab)=d(ac)=d(ad)=2"
+  ],
+  [
+    47,
+    "q\\ge d(u)+d(v)-2\\ge 3+3-2=4"
+  ],
+  [
+    48,
+    "G:\\quad d(a)=2,\\quad d(b)=2,\\quad d(c)=2"
+  ],
+  [
+    48,
+    "L(G):\\quad d(ab)=2,\\quad d(ac)=2,\\quad d(bc)=2"
+  ],
+  [
+    49,
+    "G:\\quad d(a)=4,\\quad d(b)=2,\\quad d(c)=2,\\quad d(d)=2,\\quad d(e)=2"
+  ],
+  [
+    49,
+    "L(G):\\quad d(ab)=4,\\quad d(ac)=4,\\quad d(ad)=4,\\quad d(ae)=4,\\quad d(bc)=2,\\quad d(de)=2"
+  ],
+  [
+    50,
+    "G:\\quad d(a)=3,\\quad d(b)=3,\\quad d(c)=2,\\quad d(d)=2"
+  ],
+  [
+    50,
+    "L(G):\\quad d(ab)=4,\\quad d(ac)=3,\\quad d(ad)=3,\\quad d(bc)=3,\\quad d(bd)=3"
+  ],
+  [
+    51,
+    "G:\\quad d(a)=3,\\quad d(b)=2,\\quad d(c)=2,\\quad d(d)=1"
+  ],
+  [
+    51,
+    "L(G):\\quad d(ab)=3,\\quad d(ac)=3,\\quad d(ad)=2,\\quad d(bc)=2"
+  ],
+  [
+    52,
+    "G:\\quad d(a)=1,\\quad d(b)=2,\\quad d(c)=2,\\quad d(d)=1"
+  ],
+  [
+    52,
+    "L(G):\\quad d(ab)=1,\\quad d(bc)=2,\\quad d(cd)=1"
+  ],
+  [
+    53,
+    "G:\\quad d(a)=5,\\quad d(b)=2,\\quad d(c)=2,\\quad d(d)=2,\\quad d(e)=2,\\quad d(f)=1"
+  ],
+  [
+    53,
+    "L(G):\\quad d(ab)=5,\\quad d(ac)=5,\\quad d(ad)=5,\\quad d(ae)=5,\\quad d(af)=4,\\quad d(bc)=2,\\quad d(de)=2"
+  ],
+  [
+    54,
+    "G:\\quad d(a)=2,\\quad d(b)=2,\\quad d(c)=3,\\quad d(d)=3,\\quad d(e)=2,\\quad d(f)=2"
+  ],
+  [
+    54,
+    "L(G):\\quad d(ab)=2,\\quad d(ac)=3,\\quad d(bc)=3,\\quad d(cd)=4,\\quad d(de)=3,\\quad d(df)=3,\\quad d(ef)=2"
+  ],
+  [
+    55,
+    "G:\\quad d(a)=3,\\quad d(b)=3,\\quad d(c)=3,\\quad d(d)=3"
+  ],
+  [
+    55,
+    "L(G):\\quad d(ab)=4,\\quad d(ac)=4,\\quad d(ad)=4,\\quad d(bc)=4,\\quad d(bd)=4,\\quad d(cd)=4"
+  ],
+  [
+    56,
+    "G:\\quad d(a)=3,\\quad d(b)=3,\\quad d(c)=3,\\quad d(d)=3,\\quad d(x)=2"
+  ],
+  [
+    56,
+    "L(G):\\quad d(ac)=4,\\quad d(ad)=4,\\quad d(ax)=3,\\quad d(bc)=4,\\quad d(bd)=4,\\quad d(bx)=3,\\quad d(cd)=4"
+  ],
+  [
+    57,
+    "G:\\quad d(a)=3,\\quad d(b)=2,\\quad d(c)=3,\\quad d(d)=3,\\quad d(e)=2,\\quad d(f)=3"
+  ],
+  [
+    57,
+    "L(G):\\quad d(ab)=3,\\quad d(ac)=4,\\quad d(af)=4,\\quad d(bc)=3,\\quad d(cd)=4,\\quad d(de)=3,\\quad d(df)=4,\\quad d(ef)=3"
+  ],
+  [
+    58,
+    "G:\\quad d(a)=3,\\quad d(b)=1,\\quad d(c)=1,\\quad d(d)=1"
+  ],
+  [
+    58,
+    "L(G):\\quad d(ab)=2,\\quad d(ac)=2,\\quad d(ad)=2"
+  ],
+  [
+    59,
+    "G:\\quad d(a)=3,\\quad d(b)=3,\\quad d(c)=1,\\quad d(d)=1,\\quad d(e)=1,\\quad d(f)=1"
+  ],
+  [
+    59,
+    "L(G):\\quad d(ab)=4,\\quad d(ac)=2,\\quad d(ad)=2,\\quad d(be)=2,\\quad d(bf)=2"
+  ],
+  [
+    60,
+    "G:\\quad d(a)=3,\\quad d(b)=3,\\quad d(c)=2,\\quad d(d)=1,\\quad d(e)=1"
+  ],
+  [
+    60,
+    "L(G):\\quad d(ab)=4,\\quad d(ac)=3,\\quad d(ad)=2,\\quad d(bc)=3,\\quad d(be)=2"
+  ],
+  [
+    61,
+    "G:\\quad d(a)=3,\\quad d(b)=1,\\quad d(c)=1,\\quad d(d)=2,\\quad d(e)=1"
+  ],
+  [
+    61,
+    "L(G):\\quad d(ab)=2,\\quad d(ac)=2,\\quad d(ad)=3,\\quad d(de)=1"
+  ],
+  [
+    62,
+    "G:\\quad d(a)=4,\\quad d(b)=1,\\quad d(c)=1,\\quad d(d)=1,\\quad d(e)=1"
+  ],
+  [
+    62,
+    "L(G):\\quad d(ab)=3,\\quad d(ac)=3,\\quad d(ad)=3,\\quad d(ae)=3"
+  ],
+  [
+    63,
+    "G:\\quad d(a)=3,\\quad d(b)=1,\\quad d(c)=2,\\quad d(d)=1,\\quad d(e)=2,\\quad d(f)=1"
+  ],
+  [
+    63,
+    "L(G):\\quad d(ab)=2,\\quad d(ac)=3,\\quad d(ae)=3,\\quad d(cd)=1,\\quad d(ef)=1"
+  ],
+  [
+    65,
+    "G=P_4,\\qquad L(G)=P_3,\\qquad L^2(G)=P_2"
+  ],
+  [
+    65,
+    "|V|=4,\\quad |V(L(G))|=3,\\quad |V(L^2(G))|=2"
+  ],
+  [
+    66,
+    "e_1\\to e_2\\to\\cdots\\to e_m"
+  ],
+  [
+    66,
+    "P_4:\\ a\\to b\\to c\\to d\\quad\\longmapsto\\quad ab\\to bc\\to cd"
+  ],
+  [
+    67,
+    "\\forall\\{u,v\\}\\in E,\\quad d(u)+d(v)\\ge\\frac{m}{2}+2"
+  ],
+  [
+    67,
+    "d(u)+d(v)+d(x)+d(y)\\ge m+4"
+  ],
+  [
+    67,
+    "\\mathrm{para\\ todo\\ par\\ de\\ arestas}\\ uv,xy\\ \\mathrm{disjuntas}"
+  ],
+  [
+    68,
+    "G\\ \\mathrm{hamiltoniano}\\quad\\Longrightarrow\\quad\\delta(G)\\ge2"
+  ],
+  [
+    68,
+    "\\mathrm{numero\\ de\\ componentes\\ de}\\ (G-S)\\le |S|\\quad(S\\ne\\varnothing)"
+  ],
+  [
+    69,
+    "\\neg\\bigl(\\forall G,\\ P(G)\\Rightarrow Q(G)\\bigr)"
+  ],
+  [
+    69,
+    "\\Longleftrightarrow\\ \\exists G:\\ P(G)\\land\\neg Q(G)"
+  ],
+  [
+    70,
+    "\\mathrm{sentido\\ aberto}:\\quad 2\\ \\mathrm{vertices\\ impares}"
+  ],
+  [
+    70,
+    "\\mathrm{sentido\\ inclusivo}:\\quad 0\\ \\mathrm{ou}\\ 2\\ \\mathrm{vertices\\ impares}"
+  ],
+  [
+    71,
+    "d(v)=2\\quad\\mathrm{para\\ todo}\\ v\\in V"
+  ]
+]
